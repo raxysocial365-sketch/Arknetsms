@@ -168,29 +168,20 @@
   .code-pill.pending { background: #fef3c7; color: #92400e; }
 
   .btn-cancel-row {
-    background: #fee2e2;
-    color: #991b1b;
+    background: #fee2e2; color: #991b1b;
     border: 1px solid #fca5a5;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: 0.2s;
-    white-space: nowrap;
-    margin-top: 6px;
+    padding: 6px 12px; border-radius: 8px;
+    font-size: 11px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    transition: 0.2s; white-space: nowrap; margin-top: 6px;
   }
   .btn-cancel-row:hover { background: #dc2626; color: white; border-color: #dc2626; }
   .btn-cancel-row:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .refund-pill {
-    background: #dbeafe;
-    color: #1e40af;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 12px;
+    background: #dbeafe; color: #1e40af;
+    padding: 4px 10px; border-radius: 8px;
+    font-weight: 800; font-size: 12px;
   }
 
   .empty { text-align: center; padding: 40px 20px; border: 2px dashed #f0dcd4; border-radius: 12px; }
@@ -224,31 +215,24 @@
   /* SEARCH */
   .search-wrap { position: relative; }
   .search-results {
-    position: absolute;
-    top: calc(100% + 6px);
+    position: absolute; top: calc(100% + 6px);
     left: 0; right: 0;
     background: var(--white);
     border: 1.5px solid var(--pink);
     border-radius: 12px;
     box-shadow: 0 12px 30px rgba(236,72,153,0.18);
-    max-height: 300px;
-    overflow-y: auto;
-    z-index: 100;
-    display: none;
+    max-height: 300px; overflow-y: auto;
+    z-index: 100; display: none;
   }
   .search-results.show { display: block; }
 
   .search-item {
-    width: 100%;
-    padding: 13px 16px;
+    width: 100%; padding: 13px 16px;
     display: flex; align-items: center; justify-content: space-between;
-    gap: 10px;
-    cursor: pointer;
+    gap: 10px; cursor: pointer;
     border-bottom: 1px solid #f0dcd4;
     background: var(--white);
-    text-align: left;
-    transition: 0.15s;
-    font-family: inherit;
+    text-align: left; transition: 0.15s; font-family: inherit;
     border-left: none; border-right: none; border-top: none;
   }
   .search-item:last-child { border-bottom: none; }
@@ -262,23 +246,18 @@
   .search-empty-icon { font-size: 26px; margin-bottom: 6px; opacity: 0.6; }
 
   .selected-chip {
-    background: var(--pink-soft);
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-top: 12px;
+    background: var(--pink-soft); border-radius: 12px;
+    padding: 12px 16px; margin-top: 12px;
     display: flex; align-items: center; gap: 8px;
-    font-size: 13px;
-    border: 1px solid var(--pink-light);
+    font-size: 13px; border: 1px solid var(--pink-light);
   }
   .selected-chip .lbl { color: var(--brown-light); font-weight: 600; }
   .selected-chip .val { font-weight: 800; color: var(--brown-dark); }
 
   .price-card {
     background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
-    border-radius: 14px;
-    padding: 20px 16px;
-    text-align: center;
-    margin-top: 14px;
+    border-radius: 14px; padding: 20px 16px;
+    text-align: center; margin-top: 14px;
   }
   .price-card .price { font-size: 26px; font-weight: 800; color: var(--pink); }
   .price-card .price-note { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
@@ -314,53 +293,9 @@
   .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
   .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; word-break: break-word; text-align: right; }
 
-  /* PROFIT PAGE */
-  .profit-hero {
-    background: linear-gradient(135deg, var(--brown-dark), var(--brown));
-    color: white;
-    border-radius: 18px;
-    padding: 30px 24px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .profit-hero .ph-label {
-    font-size: 13px; font-weight: 700; letter-spacing: 1.2px;
-    text-transform: uppercase; color: var(--pink-light);
-    margin-bottom: 10px;
-  }
-  .profit-hero .ph-value {
-    font-size: 42px; font-weight: 800;
-    color: white; letter-spacing: -1px;
-  }
-  .profit-hero .ph-sub {
-    font-size: 13px; color: #e8d5cc; margin-top: 8px;
-  }
-
-  .profit-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px; margin-bottom: 20px;
-  }
-  .profit-box {
-    background: var(--white); border: 1px solid #f5e6e0;
-    border-radius: 14px; padding: 18px;
-  }
-  .profit-box .pb-label {
-    font-size: 12px; color: var(--brown-light); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.6px;
-  }
-  .profit-box .pb-value {
-    font-size: 22px; font-weight: 800; color: var(--brown-dark);
-    margin-top: 4px;
-  }
-  .profit-box .pb-value.pink { color: var(--pink); }
-  .profit-box .pb-value.green { color: var(--green); }
-  .profit-box .pb-value.red { color: var(--red); }
-
   /* TOAST */
   .toast {
-    position: fixed;
-    bottom: 100px;
-    left: 50%;
+    position: fixed; bottom: 100px; left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: var(--brown-dark); color: white;
     padding: 13px 22px; border-radius: 10px;
@@ -378,8 +313,7 @@
     position: fixed; inset: 0;
     background: rgba(74,44,42,0.7);
     backdrop-filter: blur(4px);
-    display: none;
-    align-items: center; justify-content: center;
+    display: none; align-items: center; justify-content: center;
     z-index: 998; padding: 20px;
   }
   .modal-overlay.show { display: flex; animation: fadeIn 0.25s ease; }
@@ -469,8 +403,7 @@
   }
 
   .bn-item .bn-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 20px; height: 20px;
     stroke: currentColor;
     stroke-width: 2;
     fill: none;
@@ -515,7 +448,6 @@
     .action-card .ac-title { font-size: 12px; }
     .action-card .ac-sub { font-size: 10px; }
     .price-card .price { font-size: 22px; }
-    .profit-hero .ph-value { font-size: 32px; }
     .bn-item { font-size: 9px; }
     .bn-item .bn-icon { width: 30px; height: 30px; }
     .bn-item .bn-icon svg { width: 18px; height: 18px; }
@@ -562,7 +494,6 @@
     <div class="side-item" data-page="profile"><span class="si-icon">👤</span> Profile</div>
     <div class="side-item" data-page="deposit"><span class="si-icon">💰</span> Deposit Funds</div>
     <div class="side-item" data-page="history"><span class="si-icon">📜</span> Transaction History</div>
-    <div class="side-item" data-page="profits"><span class="si-icon">📈</span> Profits</div>
     <div class="side-item" data-page="password"><span class="si-icon">🔒</span> Change Password</div>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
@@ -932,50 +863,6 @@
     </div>
   </div>
 
-  <!-- ========== PROFITS ========== -->
-  <div class="page" id="page-profits">
-    <div class="greeting">
-      <h1>📈 Your <span>Profits</span></h1>
-      <p>How much you've earned from reselling AutoFications numbers.</p>
-    </div>
-
-    <div class="profit-hero">
-      <div class="ph-label">Total Profit Earned</div>
-      <div class="ph-value" id="totalProfit">₦0</div>
-      <div class="ph-sub" id="totalProfitSub">From 0 successful sales</div>
-    </div>
-
-    <div class="profit-grid">
-      <div class="profit-box">
-        <div class="pb-label">Total Sales</div>
-        <div class="pb-value pink" id="totalSales">₦0</div>
-      </div>
-      <div class="profit-box">
-        <div class="pb-label">Provider Cost</div>
-        <div class="pb-value red" id="totalCost">₦0</div>
-      </div>
-      <div class="profit-box">
-        <div class="pb-label">Total Orders</div>
-        <div class="pb-value" id="totalOrders">0</div>
-      </div>
-      <div class="profit-box">
-        <div class="pb-label">Cancelled</div>
-        <div class="pb-value" id="totalCancelled">0</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title" style="margin-bottom: 14px;">Profit Breakdown</div>
-      <div id="profitList">
-        <div class="empty">
-          <div class="empty-icon">📈</div>
-          <h3>No profit yet</h3>
-          <p>Your earnings will appear here once customers buy numbers.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- ========== CHANGE PASSWORD ========== -->
   <div class="page" id="page-password">
     <div class="greeting">
@@ -1035,14 +922,14 @@
       <span>Deposit</span>
     </button>
 
-    <button class="bn-item" data-goto="profits">
+    <button class="bn-item" data-goto="profile">
       <span class="bn-icon">
         <svg viewBox="0 0 24 24">
-          <path d="M3 17l6-6 4 4 8-8"/>
-          <path d="M14 7h7v7"/>
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
         </svg>
       </span>
-      <span>Profit</span>
+      <span>Profile</span>
     </button>
 
     <button class="bn-item logout" id="bnLogout">
@@ -1110,7 +997,7 @@
   let currentUser = null;
   let currentBalance = 0;
 
-  /* SHARED PAGE SWITCHER (sidebar + bottom nav) */
+  /* PAGE SWITCHER */
   function gotoPage(page){
     document.querySelectorAll('.side-item').forEach(i => i.classList.toggle('active', i.dataset.page === page));
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1120,7 +1007,6 @@
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').classList.remove('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (page === 'profits') loadProfits();
   }
 
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
@@ -1242,7 +1128,6 @@
     return Math.ceil(usd * USD_TO_NGN);
   }
 
-  /* COUNTRY SEARCH */
   countryInput.addEventListener('input', () => {
     const q = countryInput.value.trim().toLowerCase();
     if (!q) { countryDropdown.classList.remove('show'); return; }
@@ -1329,7 +1214,6 @@
     }
   }
 
-  /* SERVICE SEARCH */
   serviceInput.addEventListener('input', () => {
     if (!selectedCountry) return;
     const q = serviceInput.value.trim().toLowerCase();
@@ -1383,7 +1267,6 @@
     actionBtn.disabled = false;
   }
 
-  /* BUY BUTTON */
   actionBtn.addEventListener('click', () => {
     if (!currentUser || !selectedCountry || !selectedService) return;
     const price = calculateCustomerPrice(selectedService.price);
@@ -1762,65 +1645,6 @@
     }
   }
 
-  /* PROFITS PAGE */
-  async function loadProfits(){
-    if (!currentUser) return;
-    try {
-      const snap = await getDocs(collection(db, 'users', currentUser.uid, 'activations'));
-      let totalSales = 0, totalCost = 0, totalProfit = 0, orders = 0, cancelled = 0;
-      let rows = [];
-      snap.forEach(d => {
-        const a = d.data();
-        if (a.status === 'cancelled') { cancelled++; return; }
-        if (a.provider === 'autofications') {
-          orders++;
-          totalSales += Number(a.price || 0);
-          totalCost += Number(a.providerCost || 0);
-          totalProfit += Number(a.profit || 0);
-          rows.push(a);
-        }
-      });
-
-      document.getElementById('totalProfit').textContent = formatNGNshort(totalProfit);
-      document.getElementById('totalProfitSub').textContent = `From ${orders} successful sale${orders === 1 ? '' : 's'}`;
-      document.getElementById('totalSales').textContent = formatNGNshort(totalSales);
-      document.getElementById('totalCost').textContent = formatNGNshort(totalCost);
-      document.getElementById('totalOrders').textContent = orders;
-      document.getElementById('totalCancelled').textContent = cancelled;
-
-      const list = document.getElementById('profitList');
-      if (!rows.length) {
-        list.innerHTML = `<div class="empty"><div class="empty-icon">📈</div><h3>No profit yet</h3><p>Your earnings will appear here once customers buy numbers.</p></div>`;
-        return;
-      }
-
-      rows.sort((a,b) => (b.createdAt?.toDate?.() || 0) - (a.createdAt?.toDate?.() || 0));
-      let html = '';
-      rows.slice(0, 50).forEach(a => {
-        const date = a.createdAt?.toDate
-          ? a.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
-          : 'Just now';
-        html += `
-          <div class="list-row">
-            <div class="lr-left">
-              <div class="lr-icon">${a.flag || '🌍'}</div>
-              <div>
-                <div class="lr-title">${a.service || '—'} • ${a.country || ''}</div>
-                <div class="lr-sub">${date}</div>
-              </div>
-            </div>
-            <div class="lr-right">
-              <div class="lr-amount plus">+${formatNGNshort(a.profit || 0)}</div>
-              <div class="lr-date">Sale: ${formatNGNshort(a.price)} • Cost: ${formatNGNshort(a.providerCost)}</div>
-            </div>
-          </div>`;
-      });
-      list.innerHTML = html;
-    } catch (e) {
-      console.warn('profits error:', e);
-    }
-  }
-
   document.getElementById('refreshBtn').addEventListener('click', async (e) => {
     const btn = e.currentTarget;
     btn.classList.add('spinning');
@@ -1973,4 +1797,4 @@
 </script>
 
 </body>
-     </html>
+</html>
