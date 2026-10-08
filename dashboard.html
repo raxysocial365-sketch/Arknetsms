@@ -190,19 +190,43 @@
     background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
 
-  /* PICKERS */
-  .country-picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
-  .country-pick {
-    background: var(--white); border: 1.5px solid #f5e6e0; border-radius: 14px;
-    padding: 14px 12px; cursor: pointer; transition: 0.25s;
-    display: flex; align-items: center; gap: 10px;
+  /* SEARCH RESULTS DROPDOWN */
+  .search-results {
+    margin-top: 12px;
+    max-height: 320px;
+    overflow-y: auto;
+    border-radius: 12px;
+    display: none;
   }
-  .country-pick:hover { border-color: var(--pink); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(236,72,153,0.12); }
-  .country-pick.selected { border-color: var(--pink); background: var(--pink-soft); box-shadow: 0 0 0 4px rgba(236,72,153,0.1); }
-  .country-pick .cp-flag { font-size: 26px; }
-  .country-pick .cp-name { font-weight: 700; font-size: 13px; color: var(--brown-dark); }
-  .country-pick .cp-price { font-size: 11px; color: var(--pink); font-weight: 700; margin-top: 2px; }
+  .search-results.show { display: block; }
 
+  .search-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 16px;
+    background: var(--cream);
+    border: 1px solid #f0dcd4;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .search-item:hover {
+    background: var(--pink-soft);
+    border-color: var(--pink);
+    transform: translateX(3px);
+  }
+  .search-item .si-left { display: flex; align-items: center; gap: 12px; }
+  .search-item .si-flag, .search-item .si-icon { font-size: 24px; }
+  .search-item .si-name { font-weight: 700; font-size: 14px; color: var(--brown-dark); }
+  .search-item .si-price { font-weight: 800; font-size: 14px; color: var(--pink); }
+
+  .search-empty {
+    text-align: center; padding: 22px 14px;
+    color: var(--brown-light); font-size: 13px;
+  }
+  .search-empty-icon { font-size: 30px; margin-bottom: 6px; opacity: 0.6; }
+
+  /* PICKERS */
   .service-picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
   .service-pick {
     background: var(--white); border: 1.5px solid #f5e6e0; border-radius: 14px;
@@ -459,7 +483,7 @@
     </div>
 
     <!-- STEP 1 -->
-    <div class="section" id="step1">
+    <div class="section">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
         Search Country
@@ -467,7 +491,7 @@
       <div class="form-field">
         <input type="text" id="countrySearch" placeholder="🔍 Search country... (e.g. Poland, USA, Nigeria)" autocomplete="off">
       </div>
-      <div class="country-picker" id="countryResults" style="margin-top: 14px;"></div>
+      <div id="countryResults" class="search-results"></div>
     </div>
 
     <!-- STEP 2 -->
@@ -479,7 +503,7 @@
       <div class="form-field">
         <input type="text" id="serviceSearch" placeholder="🔍 Search service... (e.g. WhatsApp, Gmail)" autocomplete="off">
       </div>
-      <div class="service-picker" id="serviceResults" style="margin-top: 14px;"></div>
+      <div id="serviceResults" class="search-results"></div>
     </div>
 
     <!-- STEP 3 -->
@@ -846,7 +870,7 @@
   });
 
   // ============================================================
-  //          ALL COUNTRIES — 3-STEP FLOW
+  //          ALL COUNTRIES — SEARCH-ONLY FLOW
   // ============================================================
   const COUNTRIES_DB = [
     { code: 'PL', name: 'Poland', flag: '🇵🇱', markup: 1.0 },
@@ -892,82 +916,137 @@
   let selectedService = null;
   let selectedPrice = 0;
 
-  function renderCountries(filter = '') {
-    const container = document.getElementById('countryResults');
-    const term = filter.trim().toLowerCase();
-    const list = term
-      ? COUNTRIES_DB.filter(c => c.name.toLowerCase().includes(term) || c.code.toLowerCase().includes(term))
-      : COUNTRIES_DB;
+  const countrySearchEl = document.getElementById('countrySearch');
+  const countryResultsEl = document.getElementById('countryResults');
+  const serviceSearchEl = document.getElementById('serviceSearch');
+  const serviceResultsEl = document.getElementById('serviceResults');
 
-    if (!list.length) {
-      container.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><div class="empty-icon">🔍</div><h3>No country found</h3><p>Try another search term.</p></div>`;
+  // COUNTRY SEARCH
+  countrySearchEl.addEventListener('input', (e) => {
+    const term = e.target.value.trim().toLowerCase();
+
+    if (selectedCountry && !countrySearchEl.value.includes(selectedCountry.name)) {
+      selectedCountry = null;
+      selectedService = null;
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step3').style.display = 'none';
+    }
+
+    if (!term) {
+      countryResultsEl.classList.remove('show');
+      countryResultsEl.innerHTML = '';
       return;
     }
 
-    container.innerHTML = list.map(c => `
-      <div class="country-pick" data-code="${c.code}" data-name="${c.name}" data-flag="${c.flag}" data-markup="${c.markup}">
-        <div class="cp-flag">${c.flag}</div>
-        <div>
-          <div class="cp-name">${c.name}</div>
-          <div class="cp-price">Tap to select</div>
+    const matches = COUNTRIES_DB.filter(c =>
+      c.name.toLowerCase().includes(term) || c.code.toLowerCase().includes(term)
+    );
+
+    if (!matches.length) {
+      countryResultsEl.innerHTML = `
+        <div class="search-empty">
+          <div class="search-empty-icon">🔍</div>
+          No country found for "<b>${term}</b>"
+        </div>`;
+      countryResultsEl.classList.add('show');
+      return;
+    }
+
+    countryResultsEl.innerHTML = matches.map(c => `
+      <div class="search-item" data-code="${c.code}" data-name="${c.name}" data-flag="${c.flag}" data-markup="${c.markup}">
+        <div class="si-left">
+          <span class="si-flag">${c.flag}</span>
+          <span class="si-name">${c.name}</span>
         </div>
+        <span class="si-price">›</span>
       </div>
     `).join('');
+    countryResultsEl.classList.add('show');
 
-    container.querySelectorAll('.country-pick').forEach(el => {
+    countryResultsEl.querySelectorAll('.search-item').forEach(el => {
       el.addEventListener('click', () => {
-        container.querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
-        el.classList.add('selected');
-
         selectedCountry = {
           code: el.dataset.code,
           name: el.dataset.name,
           flag: el.dataset.flag,
           markup: parseFloat(el.dataset.markup)
         };
+
+        countrySearchEl.value = `${selectedCountry.flag}  ${selectedCountry.name}`;
+        countryResultsEl.classList.remove('show');
+        countryResultsEl.innerHTML = '';
+
         selectedService = null;
         selectedPrice = 0;
+        serviceSearchEl.value = '';
+        serviceResultsEl.classList.remove('show');
+        serviceResultsEl.innerHTML = '';
+        document.getElementById('step3').style.display = 'none';
 
         document.getElementById('step2').style.display = 'block';
-        document.getElementById('step3').style.display = 'none';
-        document.getElementById('serviceSearch').value = '';
-        renderServices('');
-
-        document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+          document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          serviceSearchEl.focus();
+        }, 200);
       });
     });
-  }
+  });
 
-  function renderServices(filter = '') {
-    const container = document.getElementById('serviceResults');
-    const term = filter.trim().toLowerCase();
-    const list = term
-      ? SERVICES_DB.filter(s => s.name.toLowerCase().includes(term))
-      : SERVICES_DB;
+  // SERVICE SEARCH
+  serviceSearchEl.addEventListener('input', (e) => {
+    if (!selectedCountry) return;
+    const term = e.target.value.trim().toLowerCase();
 
-    if (!list.length) {
-      container.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><div class="empty-icon">🔍</div><h3>No service found</h3><p>Try another search term.</p></div>`;
+    if (selectedService && !serviceSearchEl.value.includes(selectedService.name)) {
+      selectedService = null;
+      selectedPrice = 0;
+      document.getElementById('step3').style.display = 'none';
+    }
+
+    if (!term) {
+      serviceResultsEl.classList.remove('show');
+      serviceResultsEl.innerHTML = '';
       return;
     }
 
-    container.innerHTML = list.map(s => {
-      const price = Math.round(s.base * (selectedCountry?.markup || 1));
+    const matches = SERVICES_DB.filter(s => s.name.toLowerCase().includes(term));
+
+    if (!matches.length) {
+      serviceResultsEl.innerHTML = `
+        <div class="search-empty">
+          <div class="search-empty-icon">🔍</div>
+          No service found for "<b>${term}</b>"
+        </div>`;
+      serviceResultsEl.classList.add('show');
+      return;
+    }
+
+    serviceResultsEl.innerHTML = matches.map(s => {
+      const price = Math.round(s.base * (selectedCountry.markup || 1));
       return `
-        <div class="service-pick" data-id="${s.id}" data-name="${s.name}" data-icon="${s.icon}" data-price="${price}">
-          <div class="sp-icon">${s.icon}</div>
-          <div class="sp-name">${s.name}</div>
-          <div class="sp-price">${formatNGNshort(price)}</div>
+        <div class="search-item" data-id="${s.id}" data-name="${s.name}" data-icon="${s.icon}" data-price="${price}">
+          <div class="si-left">
+            <span class="si-icon">${s.icon}</span>
+            <span class="si-name">${s.name}</span>
+          </div>
+          <span class="si-price">${formatNGNshort(price)}</span>
         </div>
       `;
     }).join('');
+    serviceResultsEl.classList.add('show');
 
-    container.querySelectorAll('.service-pick').forEach(el => {
+    serviceResultsEl.querySelectorAll('.search-item').forEach(el => {
       el.addEventListener('click', () => {
-        container.querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
-        el.classList.add('selected');
-
-        selectedService = { id: el.dataset.id, name: el.dataset.name, icon: el.dataset.icon };
+        selectedService = {
+          id: el.dataset.id,
+          name: el.dataset.name,
+          icon: el.dataset.icon
+        };
         selectedPrice = parseFloat(el.dataset.price);
+
+        serviceSearchEl.value = `${selectedService.icon}  ${selectedService.name}`;
+        serviceResultsEl.classList.remove('show');
+        serviceResultsEl.innerHTML = '';
 
         document.getElementById('sumCountry').textContent = `${selectedCountry.flag} ${selectedCountry.name}`;
         document.getElementById('sumService').textContent = `${selectedService.icon} ${selectedService.name}`;
@@ -975,23 +1054,26 @@
         document.getElementById('sumBalance').textContent = formatNGN(currentBalance);
 
         document.getElementById('step3').style.display = 'block';
-        document.getElementById('step3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+          document.getElementById('step3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 200);
       });
     });
-  }
-
-  document.getElementById('countrySearch').addEventListener('input', (e) => renderCountries(e.target.value));
-  document.getElementById('serviceSearch').addEventListener('input', (e) => renderServices(e.target.value));
-
-  renderCountries('');
-
-  document.getElementById('cancelBtn').addEventListener('click', () => {
-    selectedService = null; selectedPrice = 0;
-    document.querySelectorAll('#serviceResults .selected').forEach(s => s.classList.remove('selected'));
-    document.getElementById('step3').style.display = 'none';
-    document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
+  // CANCEL
+  document.getElementById('cancelBtn').addEventListener('click', () => {
+    selectedService = null;
+    selectedPrice = 0;
+    serviceSearchEl.value = '';
+    serviceResultsEl.classList.remove('show');
+    serviceResultsEl.innerHTML = '';
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => serviceSearchEl.focus(), 200);
+  });
+
+  // PURCHASE NOW → modal
   document.getElementById('purchaseNowBtn').addEventListener('click', () => {
     if (!selectedCountry || !selectedService) return showToast('Please pick country and service.', 'error');
     if (currentBalance < selectedPrice) return showToast('Insufficient balance. Deposit funds first.', 'error');
@@ -1016,8 +1098,6 @@
     const countryFlag = selectedCountry.flag;
     const serviceName = selectedService.name;
     const price = selectedPrice;
-    const countryCode = selectedCountry.code;
-    const serviceId = selectedService.id;
 
     try {
       currentBalance -= price;
@@ -1029,11 +1109,6 @@
         subtitle: 'Virtual number',
         amount: price
       });
-
-      // ⚠️ When AutoFications backend is ready, call your Cloud Function here:
-      // const buyFn = httpsCallable(getFunctions(), 'buyAllCountries');
-      // const result = await buyFn({ country: countryCode, service: serviceId });
-      // const realNumber = result.data.number;
 
       const fakeNumber = '+' + Math.floor(1000000000 + Math.random() * 8999999999);
       await addActivation({
@@ -1048,14 +1123,14 @@
       document.getElementById('purchaseModal').classList.remove('show');
       showToast(`✅ ${serviceName} purchased! Redirecting…`, 'success');
 
-      // Reset
-      selectedCountry = null; selectedService = null; selectedPrice = 0;
+      selectedCountry = null;
+      selectedService = null;
+      selectedPrice = 0;
+      countrySearchEl.value = '';
+      serviceSearchEl.value = '';
       document.getElementById('step2').style.display = 'none';
       document.getElementById('step3').style.display = 'none';
-      document.getElementById('countrySearch').value = '';
-      renderCountries('');
 
-      // Redirect to dashboard
       setTimeout(() => {
         document.querySelector('.side-item[data-page="dashboard"]').click();
         loadTransactions();
