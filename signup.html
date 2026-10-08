@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arknet SMS — Create Account</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+  :root {
+    --brown-dark: #4a2c2a;
+    --brown: #6b4423;
+    --brown-light: #8b5e3c;
+    --pink: #ec4899;
+    --pink-light: #f9a8d4;
+    --pink-soft: #fdf2f8;
+    --white: #ffffff;
+    --cream: #fef9f5;
+  }
+  body {
+    background: var(--cream);
+    color: var(--brown-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 16px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Background blobs */
+  .bg-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob-1 { width: 320px; height: 320px; background: var(--pink); top: -80px; left: -80px; }
+  .blob-2 { width: 280px; height: 280px; background: var(--brown-light); bottom: -60px; right: -60px; }
+
+  /* Card */
+  .auth-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 40px 34px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 25px 60px rgba(74,44,42,0.18);
+    border: 1px solid #f5e6e0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .brand {
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .logo {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--pink); }
+  .brand p {
+    font-size: 13px;
+    color: var(--brown-light);
+    margin-top: 6px;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    background: var(--pink-soft);
+    border-radius: 12px;
+    padding: 5px;
+    margin-bottom: 26px;
+    border: 1px solid #f5e6e0;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brown);
+    cursor: pointer;
+    border-radius: 9px;
+    transition: 0.25s;
+    user-select: none;
+  }
+  .tab.active {
+    background: var(--pink);
+    color: white;
+    box-shadow: 0 4px 12px rgba(236,72,153,0.35);
+  }
+
+  /* Form */
+  .form { display: none; }
+  .form.active { display: block; animation: fade 0.3s ease; }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown-dark);
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1.5px solid #f0dcd4;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--brown-dark);
+    background: var(--cream);
+    transition: 0.2s;
+    font-family: inherit;
+  }
+  .field input:focus {
+    outline: none;
+    border-color: var(--pink);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
+  }
+  .field input::placeholder { color: #b89b8f; }
+
+  /* Password toggle wrapper */
+  .pass-wrap { position: relative; }
+  .pass-wrap input { padding-right: 44px; }
+  .toggle-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--brown-light);
+    user-select: none;
+    padding: 4px;
+  }
+
+  /* Row 2 cols */
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* Submit */
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--pink);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+    font-family: inherit;
+    margin-top: 8px;
+  }
+  .btn-submit:hover { background: var(--brown-dark); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* Messages */
+  .msg {
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: none;
+    text-align: center;
+  }
+  .msg.error { background: #fee2e2; color: #991b1b; display: block; }
+  .msg.success { background: #dcfce7; color: #166534; display: block; }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 14px;
+    color: #b89b8f;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #f0dcd4;
+  }
+
+  /* Bottom text */
+  .bottom-text {
+    text-align: center;
+    font-size: 13px;
+    color: var(--brown-light);
+    margin-top: 18px;
+  }
+  .bottom-text a {
+    color: var(--pink);
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .bottom-text a:hover { text-decoration: underline; }
+
+  /* Terms */
+  .terms {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--brown-light);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .terms input { margin-top: 2px; accent-color: var(--pink); }
+  .terms a { color: var(--pink); font-weight: 700; text-decoration: none; }
+
+  /* Loading spinner */
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 480px) {
+    .auth-card { padding: 30px 22px; border-radius: 20px; }
+    .logo { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blob blob-1"></div>
+<div class="bg-blob blob-2"></div>
+
+<div class="auth-card">
+  <div class="brand">
+    <div class="logo">Arknet<span>SMS</span></div>
+    <p>Virtual numbers for SMS verification</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-tab="signup">Create Account</div>
+    <div class="tab" data-tab="login">Login</div>
+  </div>
+
+  <!-- Message box -->
+  <div class="msg" id="msg"></div>
+
+  <!-- ===== SIGNUP FORM ===== -->
+  <form class="form active" id="signupForm" novalidate>
+    <div class="field">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" placeholder="John Doe" required>
+    </div>
+
+    <div class="field">
+      <label for="email">Gmail Address</label>
+      <input type="email" id="email" placeholder="you@gmail.com" required>
+    </div>
+
+    <div class="field">
+      <label for="number">Phone Number</label>
+      <input type="tel" id="number" placeholder="+234 801 234 5678" required>
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="password" placeholder="••••••••" required>
+          <span class="toggle-eye" data-target="password">👁️</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="confirm">Confirm</label>
+        <div class="pass-wrap">
+          <input type="password" id="confirm" placeholder="••••••••" required>
+          <span class="toggle-eye" data-target="confirm">👁️</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="terms">
+      <input type="checkbox" id="terms" required>
+      <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+    </div>
+
+    <button type="submit" class="btn-submit" id="signupBtn">Create Account</button>
+
+    <div class="bottom-text">
+      Already have an account? <a data-switch="login">Login</a>
+    </div>
+  </form>
+
+  <!-- ===== LOGIN FORM ===== -->
+  <form class="form" id="loginForm" novalidate>
+    <div class="field">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" placeholder="you@gmail.com" required>
+    </div>
+
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <div class="pass-wrap">
+        <input type="password" id="loginPassword" placeholder="••••••••" required>
+        <span class="toggle-eye" data-target="loginPassword">👁️</span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit" id="loginBtn">Login</button>
+
+    <div class="bottom-text">
+      Don't have an account? <a data-switch="signup">Create Account</a>
+    </div>
+  </form>
+</div>
+
+<!-- ================= FIREBASE ================= -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    setDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
+    authDomain: "arknetsms-430ee.firebaseapp.com",
+    projectId: "arknetsms-430ee",
+    storageBucket: "arknetsms-430ee.firebasestorage.app",
+    messagingSenderId: "961504742152",
+    appId: "1:961504742152:web:a9ade98d13465bb3b8babd",
+    measurementId: "G-48V2T4CBJF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // ---------- UI helpers ----------
+  const msg = document.getElementById('msg');
+  const showMsg = (text, type = 'error') => {
+    msg.textContent = text;
+    msg.className = 'msg ' + type;
+    if (type === 'success') setTimeout(() => msg.className = 'msg', 4000);
+  };
+  const setLoading = (btn, loading, text = '') => {
+    btn.disabled = loading;
+    btn.innerHTML = loading ? `<span class="spinner"></span>${text}` : text;
+  };
+
+  // ---------- Tab switching ----------
+  const tabs = document.querySelectorAll('.tab');
+  const signupForm = document.getElementById('signupForm');
+  const loginForm = document.getElementById('loginForm');
+
+  const switchTab = (name) => {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    signupForm.classList.toggle('active', name === 'signup');
+    loginForm.classList.toggle('active', name === 'login');
+    msg.className = 'msg';
+  };
+  tabs.forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+  document.querySelectorAll('[data-switch]').forEach(a =>
+    a.addEventListener('click', () => switchTab(a.dataset.switch))
+  );
+
+  // ---------- Password toggle ----------
+  document.querySelectorAll('.toggle-eye').forEach(eye => {
+    eye.addEventListener('click', () => {
+      const input = document.getElementById(eye.dataset.target);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      eye.textContent = input.type === 'password' ? '👁️' : '🙈';
+    });
+  });
+
+  // ---------- SIGNUP ----------
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('signupBtn');
+    const fullname = document.getElementById('fullname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const number = document.getElementById('number').value.trim();
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm').value;
+    const terms = document.getElementById('terms').checked;
+
+    // Validation
+    if (!fullname || !email || !number || !password || !confirm) return showMsg('Please fill in all fields.');
+    if (!/^\S+@\S+\.\S+$/.test(email)) return showMsg('Please enter a valid email.');
+    if (password.length < 6) return showMsg('Password must be at least 6 characters.');
+    if (password !== confirm) return showMsg('Passwords do not match.');
+    if (!terms) return showMsg('Please accept the Terms & Privacy Policy.');
+
+    setLoading(btn, true, 'Creating account...');
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(cred.user, { displayName: fullname });
+
+      // Save extra info in Firestore
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        fullname,
+        email,
+        number,
+        createdAt: new Date().toISOString()
+      });
+
+      showMsg('Account created! Redirecting...', 'success');
+      setTimeout(() => window.location.href = 'dashboard.html', 1200);
+    } catch (err) {
+      console.error(err);
+      const map = {
+        'auth/email-already-in-use': 'This email is already registered. Try logging in.',
+        'auth/invalid-email': 'Invalid email address.',
+        'auth/weak-password': 'Password is too weak. Use at least 6 characters.',
+        'auth/network-request-failed': 'Network error. Check your connection.'
+      };
+      showMsg(map[err.code] || err.message);
+      setLoading(btn, false, 'Create Account');
+    }
+  });
+
+  // ---------- LOGIN ----------
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    if (!email || !password) return showMsg('Please enter your email and password.');
+
+    setLoading(btn, true, 'Logging in...');
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      showMsg('Login successful! Redirecting...', 'success');
+      setTimeout(() => window.location.href = 'dashboard.html', 1000);
+    } catch (err) {
+      console.error(err);
+      const map = {
+        'auth/invalid-credential': 'Wrong email or password.',
+        'auth/user-not-found': 'No account found with this email.',
+        'auth/wrong-password': 'Incorrect password.',
+        'auth/too-many-requests': 'Too many attempts. Try again later.'
+      };
+      showMsg(map[err.code] || err.message);
+      setLoading(btn, false, 'Login');
+    }
+  });
+
+  // ---------- Auto redirect if already logged in ----------
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // Uncomment if you want auto-redirect when session exists:
+      // window.location.href = 'dashboard.html';
+    }
+  });
+</script>
+
+</body>
+  </html>
