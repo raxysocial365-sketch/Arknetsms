@@ -85,38 +85,48 @@
     box-shadow: 0 4px 14px rgba(236,72,153,0.4);
   }
   .side-item .si-icon { font-size: 17px; width: 20px; text-align: center; }
-
-  .side-divider {
-    height: 1px; background: rgba(249,168,212,0.15);
-    margin: 10px 14px;
-  }
+  .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 10px 14px; }
   .side-logout { color: #fca5a5 !important; }
   .side-logout:hover { background: rgba(220,38,38,0.15) !important; }
 
-  /* ========== TOPBAR ========== */
+  /* ========== TOPBAR (brown, always visible) ========== */
   .topbar {
     display: flex;
     background: var(--brown-dark);
-    padding: 14px 18px;
+    padding: 14px 20px;
     align-items: center; justify-content: space-between;
     position: sticky; top: 0; z-index: 150;
+    gap: 12px;
   }
-  .topbar .logo { font-size: 20px; font-weight: 800; color: white; }
-  .topbar .logo span { color: var(--pink-light); }
+  .topbar-left { display: flex; align-items: center; gap: 14px; }
   .menu-btn {
     background: transparent; border: none;
     color: white; font-size: 24px; cursor: pointer;
+    display: none; /* desktop hides */
   }
-  /* Desktop: hide menu button, show full topbar with balance */
-  @media (min-width: 901px) {
-    .topbar { display: none; }
+  .topbar .logo { font-size: 20px; font-weight: 800; color: white; letter-spacing: -0.5px; }
+  .topbar .logo span { color: var(--pink-light); }
+
+  .topbar-balance {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1.5px solid var(--pink);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-weight: 800;
+    font-size: 15px;
+    color: white;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(236,72,153,0.25);
   }
+  .topbar-balance .b-icon { font-size: 16px; }
+  .topbar-balance .b-val { color: var(--pink-light); }
 
   /* ========== MAIN ========== */
   .main {
     margin-left: var(--sidebar-w);
     padding: 26px 4% 60px;
-    min-height: 100vh;
+    min-height: calc(100vh - 60px);
   }
   .page { display: none; animation: fade 0.3s ease; }
   .page.active { display: block; }
@@ -125,10 +135,9 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ========== TOP ROW: greeting + balance chip ========== */
-  .top-row {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    gap: 14px; margin-bottom: 26px; flex-wrap: wrap;
+  /* ========== GREETING ========== */
+  .greeting {
+    margin-bottom: 26px;
   }
   .greeting h1 {
     font-size: 26px; font-weight: 800; color: var(--brown-dark);
@@ -137,59 +146,46 @@
   .greeting h1 span { color: var(--pink); }
   .greeting p { color: var(--brown); font-size: 14px; }
 
-  .balance-chip {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--white);
-    border: 2px solid var(--pink);
-    border-radius: 999px;
-    padding: 10px 20px;
-    font-weight: 800;
-    font-size: 18px;
-    color: var(--brown-dark);
-    box-shadow: 0 6px 18px rgba(236,72,153,0.15);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .balance-chip .b-icon { font-size: 20px; }
-  .balance-chip small {
-    display: block; font-size: 10px; color: var(--brown-light);
-    font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-    line-height: 1;
-  }
-  .balance-chip .b-val {
-    font-size: 18px; font-weight: 800; color: var(--pink);
-    line-height: 1;
-  }
-
-  /* ========== ACTION CARDS GRID ========== */
-  .actions-grid {
+  /* ========== ACTION CARDS (matches reference) ========== */
+  .actions-top {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    margin-bottom: 30px;
+    margin-bottom: 14px;
   }
+  .actions-bottom {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    max-width: 66%;
+    margin: 0 auto 30px;
+  }
+
   .action-card {
     background: var(--white);
-    border: 1.5px solid #f5e6e0;
-    border-radius: 16px;
-    padding: 22px 18px;
+    border: 1px solid #f5e6e0;
+    border-radius: 22px;
+    padding: 26px 16px 22px;
     cursor: pointer;
-    transition: 0.25s;
-    display: flex; flex-direction: column; gap: 10px;
-    min-height: 130px;
-    justify-content: space-between;
+    transition: 0.28s;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    gap: 14px;
+    min-height: 150px;
   }
   .action-card:hover {
     transform: translateY(-4px);
-    border-color: var(--pink);
-    box-shadow: 0 12px 28px rgba(236,72,153,0.15);
+    border-color: var(--pink-light);
+    box-shadow: 0 16px 34px rgba(236,72,153,0.14);
   }
   .action-card .ac-icon {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    background: var(--pink-soft);
+    width: 62px; height: 62px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
+    font-size: 28px;
+    box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08);
   }
   .action-card .ac-title {
     font-size: 15px; font-weight: 800; color: var(--brown-dark);
@@ -197,14 +193,7 @@
   }
   .action-card .ac-sub {
     font-size: 12px; color: var(--brown-light); font-weight: 500;
-  }
-
-  /* Row 2 has 2 cards centered */
-  .actions-row-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    margin-bottom: 30px;
+    margin-top: -8px;
   }
 
   /* ========== SECTION ========== */
@@ -217,9 +206,7 @@
   }
   .section-head {
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 16px;
-    gap: 10px;
-    flex-wrap: wrap;
+    margin-bottom: 16px; gap: 10px; flex-wrap: wrap;
   }
   .section-title {
     font-size: 16px; font-weight: 800; color: var(--brown-dark);
@@ -231,10 +218,8 @@
     border: 1px solid var(--pink-light);
     padding: 8px 14px;
     border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer; transition: 0.2s;
     font-family: inherit;
     display: flex; align-items: center; gap: 6px;
   }
@@ -242,41 +227,27 @@
   .btn-refresh.spinning span { display: inline-block; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ========== ACTIVATIONS TABLE ========== */
+  /* ========== TABLE ========== */
   .table-wrap { overflow-x: auto; }
-  table.act-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 640px;
-  }
+  table.act-table { width: 100%; border-collapse: collapse; min-width: 620px; }
   table.act-table th {
-    text-align: left;
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--brown-light);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 10px 12px;
+    text-align: left; font-size: 11px; font-weight: 800;
+    color: var(--brown-light); text-transform: uppercase;
+    letter-spacing: 0.6px; padding: 10px 12px;
     border-bottom: 2px solid #f5e6e0;
   }
   table.act-table td {
-    padding: 14px 12px;
-    font-size: 13px;
+    padding: 14px 12px; font-size: 13px;
     color: var(--brown-dark);
-    border-bottom: 1px solid #f5e6e0;
-    font-weight: 500;
+    border-bottom: 1px solid #f5e6e0; font-weight: 500;
   }
   table.act-table tr:last-child td { border-bottom: none; }
   table.act-table tr:hover td { background: var(--pink-soft); }
 
   .status-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+    display: inline-block; padding: 4px 10px;
+    border-radius: 20px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.4px;
   }
   .status-active { background: #dcfce7; color: #166534; }
   .status-pending { background: #fef3c7; color: #92400e; }
@@ -284,21 +255,16 @@
   .status-completed { background: #dbeafe; color: #1e40af; }
 
   .code-pill {
-    background: var(--pink-soft);
-    color: var(--pink);
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 1px;
+    background: var(--pink-soft); color: var(--pink);
+    padding: 4px 10px; border-radius: 8px;
+    font-weight: 800; font-size: 13px; letter-spacing: 1px;
     font-family: 'Consolas', monospace;
   }
   .code-pill.pending { background: #fef3c7; color: #92400e; }
 
   .empty {
     text-align: center; padding: 40px 20px;
-    border: 2px dashed #f0dcd4;
-    border-radius: 12px;
+    border: 2px dashed #f0dcd4; border-radius: 12px;
   }
   .empty-icon { font-size: 46px; margin-bottom: 12px; }
   .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
@@ -312,13 +278,6 @@
     transition: 0.25s; font-family: inherit;
   }
   .btn-pink:hover { background: var(--brown-dark); transform: translateY(-1px); }
-  .btn-outline {
-    background: white; color: var(--brown-dark);
-    padding: 13px 24px; border: 2px solid var(--brown-light);
-    border-radius: 10px; font-size: 14px; font-weight: 700;
-    cursor: pointer; transition: 0.25s; font-family: inherit;
-  }
-  .btn-outline:hover { background: var(--brown-dark); color: white; border-color: var(--brown-dark); }
   .btn-full { width: 100%; }
 
   /* ========== FORMS ========== */
@@ -327,21 +286,18 @@
     display: block; font-size: 13px; font-weight: 700;
     color: var(--brown-dark); margin-bottom: 6px;
   }
-  .form-field input,
-  .form-field select {
+  .form-field input, .form-field select {
     width: 100%; padding: 13px 14px;
     border: 1.5px solid #f0dcd4; border-radius: 10px;
     font-size: 14px; color: var(--brown-dark);
-    background: var(--cream); transition: 0.2s;
-    font-family: inherit;
+    background: var(--cream); transition: 0.2s; font-family: inherit;
   }
-  .form-field input:focus,
-  .form-field select:focus {
+  .form-field input:focus, .form-field select:focus {
     outline: none; border-color: var(--pink);
     background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
 
-  /* ========== COUNTRY / SERVICE / AMOUNT PICKERS ========== */
+  /* ========== PICKERS ========== */
   .country-picker {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -350,20 +306,16 @@
   .country-pick {
     background: var(--white);
     border: 1.5px solid #f5e6e0;
-    border-radius: 14px;
-    padding: 14px 12px;
-    cursor: pointer;
-    transition: 0.25s;
+    border-radius: 14px; padding: 14px 12px;
+    cursor: pointer; transition: 0.25s;
     display: flex; align-items: center; gap: 10px;
   }
   .country-pick:hover {
-    border-color: var(--pink);
-    transform: translateY(-3px);
+    border-color: var(--pink); transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(236,72,153,0.12);
   }
   .country-pick.selected {
-    border-color: var(--pink);
-    background: var(--pink-soft);
+    border-color: var(--pink); background: var(--pink-soft);
     box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
   .country-pick .cp-flag { font-size: 26px; }
@@ -378,20 +330,16 @@
   .service-pick {
     background: var(--white);
     border: 1.5px solid #f5e6e0;
-    border-radius: 14px;
-    padding: 16px 10px;
-    text-align: center;
-    cursor: pointer;
+    border-radius: 14px; padding: 16px 10px;
+    text-align: center; cursor: pointer;
     transition: 0.25s;
   }
   .service-pick:hover {
-    border-color: var(--pink);
-    transform: translateY(-3px);
+    border-color: var(--pink); transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(236,72,153,0.12);
   }
   .service-pick.selected {
-    border-color: var(--pink);
-    background: var(--pink-soft);
+    border-color: var(--pink); background: var(--pink-soft);
     box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
   .service-pick .sp-icon { font-size: 28px; margin-bottom: 6px; }
@@ -401,8 +349,7 @@
   /* ========== LIST ROWS ========== */
   .list-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 0; border-bottom: 1px solid #f5e6e0;
-    gap: 12px;
+    padding: 14px 0; border-bottom: 1px solid #f5e6e0; gap: 12px;
   }
   .list-row:last-child { border-bottom: none; }
   .lr-left { display: flex; align-items: center; gap: 12px; }
@@ -423,8 +370,7 @@
   /* ========== PROFILE ROWS ========== */
   .profile-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 0; border-bottom: 1px solid #f5e6e0;
-    gap: 10px;
+    padding: 14px 0; border-bottom: 1px solid #f5e6e0; gap: 10px;
   }
   .profile-row:last-child { border-bottom: none; }
   .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
@@ -459,23 +405,24 @@
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
     .main { margin-left: 0; padding: 20px 4% 60px; }
-
-    .top-row { flex-direction: column; align-items: stretch; }
-    .balance-chip { align-self: flex-start; }
+    .menu-btn { display: block; }
 
     .greeting h1 { font-size: 22px; }
 
-    .actions-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .actions-row-2 {
-      grid-template-columns: 1fr;
-    }
+    .actions-top { grid-template-columns: repeat(3, 1fr); }
+    .actions-bottom { max-width: 100%; }
   }
-  @media (max-width: 480px) {
-    .actions-grid { grid-template-columns: 1fr; }
-    .action-card { min-height: auto; padding: 18px 14px; }
-    .action-card .ac-icon { width: 38px; height: 38px; font-size: 18px; }
+  @media (max-width: 600px) {
+    .actions-top { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .actions-bottom { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .action-card { padding: 18px 8px 16px; border-radius: 18px; min-height: 120px; gap: 10px; }
+    .action-card .ac-icon { width: 48px; height: 48px; font-size: 22px; border-radius: 14px; }
+    .action-card .ac-title { font-size: 12px; }
+    .action-card .ac-sub { font-size: 10px; }
+  }
+  @media (max-width: 380px) {
+    .action-card .ac-title { font-size: 11px; }
+    .action-card .ac-icon { width: 42px; height: 42px; font-size: 20px; }
   }
 </style>
 </head>
@@ -542,10 +489,16 @@
   </nav>
 </aside>
 
-<!-- ===== TOPBAR (mobile) ===== -->
+<!-- ===== TOPBAR (brown, balance inside) ===== -->
 <div class="topbar">
-  <div class="logo">Arknet<span>SMS</span></div>
-  <button class="menu-btn" id="menuBtn">☰</button>
+  <div class="topbar-left">
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="logo">Arknet<span>SMS</span></div>
+  </div>
+  <div class="topbar-balance">
+    <span class="b-icon">💰</span>
+    <span class="b-val" id="topBalance">₦0.00</span>
+  </div>
 </div>
 
 <!-- ===== MAIN CONTENT ===== -->
@@ -553,66 +506,44 @@
 
   <!-- ============ DASHBOARD ============ -->
   <div class="page active" id="page-dashboard">
-
-    <!-- Top row: greeting + balance -->
-    <div class="top-row">
-      <div class="greeting">
-        <h1>Hi <span id="welcomeName">User</span> 👋</h1>
-        <p>Here's a quick overview of your Arknet SMS account.</p>
-      </div>
-
-      <div class="balance-chip">
-        <span class="b-icon">💰</span>
-        <div>
-          <small>Balance</small>
-          <div class="b-val" id="balanceVal">$0.00</div>
-        </div>
-      </div>
+    <div class="greeting">
+      <h1>Hi <span id="welcomeName">User</span> 👋</h1>
+      <p>Here's a quick overview of your Arknet SMS account.</p>
     </div>
 
-    <!-- Row 1: 3 action cards -->
-    <div class="actions-grid">
+    <!-- Row 1: 3 cards (Gmail, Social, Boost) -->
+    <div class="actions-top">
       <div class="action-card" data-goto="gmail">
         <div class="ac-icon">📧</div>
-        <div>
-          <div class="ac-title">Buy Gmail Account</div>
-          <div class="ac-sub">Fresh & aged Gmail accounts</div>
-        </div>
+        <div class="ac-title">Buy Gmail</div>
+        <div class="ac-sub">Fresh & aged accounts</div>
       </div>
 
       <div class="action-card" data-goto="social">
         <div class="ac-icon">📱</div>
-        <div>
-          <div class="ac-title">Buy Social Media</div>
-          <div class="ac-sub">Verified social accounts</div>
-        </div>
+        <div class="ac-title">Social Media</div>
+        <div class="ac-sub">Verified accounts</div>
       </div>
 
       <div class="action-card" data-goto="boost">
         <div class="ac-icon">🚀</div>
-        <div>
-          <div class="ac-title">Boost Your Social Media</div>
-          <div class="ac-sub">Followers, likes & views</div>
-        </div>
+        <div class="ac-title">Boost Social</div>
+        <div class="ac-sub">Followers & likes</div>
       </div>
     </div>
 
-    <!-- Row 2: 2 action cards -->
-    <div class="actions-row-2">
+    <!-- Row 2: 2 cards (USA, All Countries) -->
+    <div class="actions-bottom">
       <div class="action-card" data-goto="usa">
         <div class="ac-icon">🇺🇸</div>
-        <div>
-          <div class="ac-title">Buy Only USA Number</div>
-          <div class="ac-sub">US virtual numbers for SMS</div>
-        </div>
+        <div class="ac-title">USA Numbers</div>
+        <div class="ac-sub">High quality</div>
       </div>
 
       <div class="action-card" data-goto="countries">
         <div class="ac-icon">🌍</div>
-        <div>
-          <div class="ac-title">Buy All Countries Number</div>
-          <div class="ac-sub">175+ countries available</div>
-        </div>
+        <div class="ac-title">All Countries</div>
+        <div class="ac-sub">Global coverage</div>
       </div>
     </div>
 
@@ -653,38 +584,20 @@
 
   <!-- ============ BUY USA NUMBER ============ -->
   <div class="page" id="page-usa">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>🇺🇸 Buy <span>USA Number</span></h1>
-        <p>Get a US virtual number for SMS verification.</p>
-      </div>
-      <div class="balance-chip">
-        <span class="b-icon">💰</span>
-        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
-      </div>
+    <div class="greeting">
+      <h1>🇺🇸 Buy <span>USA Number</span></h1>
+      <p>Get a US virtual number for SMS verification.</p>
     </div>
 
     <div class="section">
       <div class="section-title" style="margin-bottom: 14px;">Select Service</div>
       <div class="service-picker" id="usaServices">
-        <div class="service-pick selected" data-service="whatsapp">
-          <div class="sp-icon">💬</div><div class="sp-name">WhatsApp</div><div class="sp-price">$0.50</div>
-        </div>
-        <div class="service-pick" data-service="telegram">
-          <div class="sp-icon">✈️</div><div class="sp-name">Telegram</div><div class="sp-price">$0.50</div>
-        </div>
-        <div class="service-pick" data-service="instagram">
-          <div class="sp-icon">📸</div><div class="sp-name">Instagram</div><div class="sp-price">$0.55</div>
-        </div>
-        <div class="service-pick" data-service="facebook">
-          <div class="sp-icon">📘</div><div class="sp-name">Facebook</div><div class="sp-price">$0.50</div>
-        </div>
-        <div class="service-pick" data-service="google">
-          <div class="sp-icon">🔵</div><div class="sp-name">Google</div><div class="sp-price">$0.60</div>
-        </div>
-        <div class="service-pick" data-service="discord">
-          <div class="sp-icon">💻</div><div class="sp-name">Discord</div><div class="sp-price">$0.55</div>
-        </div>
+        <div class="service-pick selected" data-service="whatsapp"><div class="sp-icon">💬</div><div class="sp-name">WhatsApp</div><div class="sp-price">₦750</div></div>
+        <div class="service-pick" data-service="telegram"><div class="sp-icon">✈️</div><div class="sp-name">Telegram</div><div class="sp-price">₦750</div></div>
+        <div class="service-pick" data-service="instagram"><div class="sp-icon">📸</div><div class="sp-name">Instagram</div><div class="sp-price">₦850</div></div>
+        <div class="service-pick" data-service="facebook"><div class="sp-icon">📘</div><div class="sp-name">Facebook</div><div class="sp-price">₦750</div></div>
+        <div class="service-pick" data-service="google"><div class="sp-icon">🔵</div><div class="sp-name">Google</div><div class="sp-price">₦900</div></div>
+        <div class="service-pick" data-service="discord"><div class="sp-icon">💻</div><div class="sp-name">Discord</div><div class="sp-price">₦850</div></div>
       </div>
     </div>
 
@@ -692,57 +605,31 @@
       <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
       <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val">🇺🇸 United States</span></div>
       <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="usaServiceName">WhatsApp</span></div>
-      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="usaPrice">$0.50</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="usaPrice">₦750</span></div>
       <button class="btn-pink btn-full" style="margin-top: 18px;" id="usaBuyBtn">Buy Now →</button>
     </div>
   </div>
 
   <!-- ============ BUY ALL COUNTRIES ============ -->
   <div class="page" id="page-countries">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>🌍 Buy <span>All Countries</span></h1>
-        <p>Pick any country from our global network of virtual numbers.</p>
-      </div>
-      <div class="balance-chip">
-        <span class="b-icon">💰</span>
-        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
-      </div>
+    <div class="greeting">
+      <h1>🌍 Buy <span>All Countries</span></h1>
+      <p>Pick any country from our global network of virtual numbers.</p>
     </div>
 
     <div class="section">
       <div class="section-title" style="margin-bottom: 14px;">Select Country</div>
       <div class="country-picker" id="countryPicker">
-        <div class="country-pick selected" data-country="US" data-price="0.50">
-          <div class="cp-flag">🇺🇸</div><div><div class="cp-name">United States</div><div class="cp-price">From $0.50</div></div>
-        </div>
-        <div class="country-pick" data-country="GB" data-price="0.60">
-          <div class="cp-flag">🇬🇧</div><div><div class="cp-name">United Kingdom</div><div class="cp-price">From $0.60</div></div>
-        </div>
-        <div class="country-pick" data-country="CA" data-price="0.55">
-          <div class="cp-flag">🇨🇦</div><div><div class="cp-name">Canada</div><div class="cp-price">From $0.55</div></div>
-        </div>
-        <div class="country-pick" data-country="DE" data-price="0.70">
-          <div class="cp-flag">🇩🇪</div><div><div class="cp-name">Germany</div><div class="cp-price">From $0.70</div></div>
-        </div>
-        <div class="country-pick" data-country="FR" data-price="0.70">
-          <div class="cp-flag">🇫🇷</div><div><div class="cp-name">France</div><div class="cp-price">From $0.70</div></div>
-        </div>
-        <div class="country-pick" data-country="NG" data-price="0.40">
-          <div class="cp-flag">🇳🇬</div><div><div class="cp-name">Nigeria</div><div class="cp-price">From $0.40</div></div>
-        </div>
-        <div class="country-pick" data-country="IN" data-price="0.35">
-          <div class="cp-flag">🇮🇳</div><div><div class="cp-name">India</div><div class="cp-price">From $0.35</div></div>
-        </div>
-        <div class="country-pick" data-country="PH" data-price="0.45">
-          <div class="cp-flag">🇵🇭</div><div><div class="cp-name">Philippines</div><div class="cp-price">From $0.45</div></div>
-        </div>
-        <div class="country-pick" data-country="ID" data-price="0.45">
-          <div class="cp-flag">🇮🇩</div><div><div class="cp-name">Indonesia</div><div class="cp-price">From $0.45</div></div>
-        </div>
-        <div class="country-pick" data-country="BR" data-price="0.65">
-          <div class="cp-flag">🇧🇷</div><div><div class="cp-name">Brazil</div><div class="cp-price">From $0.65</div></div>
-        </div>
+        <div class="country-pick selected" data-country="US" data-price="750"><div class="cp-flag">🇺🇸</div><div><div class="cp-name">United States</div><div class="cp-price">From ₦750</div></div></div>
+        <div class="country-pick" data-country="GB" data-price="900"><div class="cp-flag">🇬🇧</div><div><div class="cp-name">United Kingdom</div><div class="cp-price">From ₦900</div></div></div>
+        <div class="country-pick" data-country="CA" data-price="850"><div class="cp-flag">🇨🇦</div><div><div class="cp-name">Canada</div><div class="cp-price">From ₦850</div></div></div>
+        <div class="country-pick" data-country="DE" data-price="1050"><div class="cp-flag">🇩🇪</div><div><div class="cp-name">Germany</div><div class="cp-price">From ₦1,050</div></div></div>
+        <div class="country-pick" data-country="FR" data-price="1050"><div class="cp-flag">🇫🇷</div><div><div class="cp-name">France</div><div class="cp-price">From ₦1,050</div></div></div>
+        <div class="country-pick" data-country="NG" data-price="600"><div class="cp-flag">🇳🇬</div><div><div class="cp-name">Nigeria</div><div class="cp-price">From ₦600</div></div></div>
+        <div class="country-pick" data-country="IN" data-price="500"><div class="cp-flag">🇮🇳</div><div><div class="cp-name">India</div><div class="cp-price">From ₦500</div></div></div>
+        <div class="country-pick" data-country="PH" data-price="650"><div class="cp-flag">🇵🇭</div><div><div class="cp-name">Philippines</div><div class="cp-price">From ₦650</div></div></div>
+        <div class="country-pick" data-country="ID" data-price="650"><div class="cp-flag">🇮🇩</div><div><div class="cp-name">Indonesia</div><div class="cp-price">From ₦650</div></div></div>
+        <div class="country-pick" data-country="BR" data-price="950"><div class="cp-flag">🇧🇷</div><div><div class="cp-name">Brazil</div><div class="cp-price">From ₦950</div></div></div>
       </div>
     </div>
 
@@ -761,22 +648,16 @@
       <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
       <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val" id="gCountry">🇺🇸 United States</span></div>
       <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="gService">WhatsApp</span></div>
-      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="gPrice">$0.50</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="gPrice">₦750</span></div>
       <button class="btn-pink btn-full" style="margin-top: 18px;" id="globalBuyBtn">Buy Now →</button>
     </div>
   </div>
 
   <!-- ============ BUY GMAIL ============ -->
   <div class="page" id="page-gmail">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>📧 Buy <span>Gmail Account</span></h1>
-        <p>Fresh, verified Gmail accounts ready to use.</p>
-      </div>
-      <div class="balance-chip">
-        <span class="b-icon">💰</span>
-        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
-      </div>
+    <div class="greeting">
+      <h1>📧 Buy <span>Gmail Account</span></h1>
+      <p>Fresh, verified Gmail accounts ready to use.</p>
     </div>
 
     <div class="section">
@@ -784,29 +665,29 @@
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Fresh Gmail Account</div><div class="lr-sub">New account • Full access</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$1.20</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Fresh" data-buy-price="1.20">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦1,800</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Fresh" data-buy-price="1800">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Aged Gmail (3+ Months)</div><div class="lr-sub">Trusted • Recovery email</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$3.50</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Aged" data-buy-price="3.50">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦5,250</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Aged" data-buy-price="5250">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">USA Gmail Account</div><div class="lr-sub">US-based • Verified phone</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$2.00</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail USA" data-buy-price="2.00">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦3,000</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail USA" data-buy-price="3000">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Bulk Gmail (10 pcs)</div><div class="lr-sub">Wholesale • Discounted rate</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$9.00</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Bulk x10" data-buy-price="9.00">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦13,500</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Bulk x10" data-buy-price="13500">Buy</button>
         </div>
       </div>
     </div>
@@ -814,15 +695,9 @@
 
   <!-- ============ BUY SOCIAL ============ -->
   <div class="page" id="page-social">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>📱 Buy <span>Social Media Accounts</span></h1>
-        <p>Verified social media accounts for your needs.</p>
-      </div>
-      <div class="balance-chip">
-        <span class="b-icon">💰</span>
-        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
-      </div>
+    <div class="greeting">
+      <h1>📱 Buy <span>Social Media Accounts</span></h1>
+      <p>Verified social media accounts for your needs.</p>
     </div>
 
     <div class="section">
@@ -830,43 +705,43 @@
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">📘</div><div><div class="lr-title">Facebook Account</div><div class="lr-sub">Aged • Verified</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$2.50</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Facebook Account" data-buy-price="2.50">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦3,750</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Facebook Account" data-buy-price="3750">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">📸</div><div><div class="lr-title">Instagram Account</div><div class="lr-sub">Real followers • Aged</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$3.00</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Instagram Account" data-buy-price="3.00">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦4,500</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Instagram Account" data-buy-price="4500">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">✈️</div><div><div class="lr-title">Telegram Account</div><div class="lr-sub">Verified • Ready</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$1.50</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Telegram Account" data-buy-price="1.50">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦2,250</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Telegram Account" data-buy-price="2250">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">🎵</div><div><div class="lr-title">TikTok Account</div><div class="lr-sub">Fresh • Clean</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$2.00</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="TikTok Account" data-buy-price="2.00">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦3,000</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="TikTok Account" data-buy-price="3000">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">🐦</div><div><div class="lr-title">Twitter / X Account</div><div class="lr-sub">Aged • Verified</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$2.50</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Twitter X Account" data-buy-price="2.50">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦3,750</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Twitter X Account" data-buy-price="3750">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
         <div class="lr-left"><div class="lr-icon">💻</div><div><div class="lr-title">Discord Account</div><div class="lr-sub">Verified email attached</div></div></div>
-        <div class="lr-right"><div class="lr-amount">$1.80</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Discord Account" data-buy-price="1.80">Buy</button>
+        <div class="lr-right"><div class="lr-amount">₦2,700</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Discord Account" data-buy-price="2700">Buy</button>
         </div>
       </div>
     </div>
@@ -874,15 +749,9 @@
 
   <!-- ============ BOOST SOCIAL MEDIA ============ -->
   <div class="page" id="page-boost">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>🚀 Boost <span>Your Social Media</span></h1>
-        <p>Buy followers, likes, views & engagement for any platform.</p>
-      </div>
-      <div class="balance-chip">
-        <span class="b-icon">💰</span>
-        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
-      </div>
+    <div class="greeting">
+      <h1>🚀 Boost <span>Your Social Media</span></h1>
+      <p>Buy followers, likes, views & engagement for any platform.</p>
     </div>
 
     <div class="section">
@@ -900,12 +769,12 @@
     <div class="section">
       <div class="section-title" style="margin-bottom: 14px;">Choose Service</div>
       <div class="service-picker" id="boostService">
-        <div class="service-pick selected" data-service="followers" data-price="3.00"><div class="sp-icon">👥</div><div class="sp-name">Followers</div><div class="sp-price">From $3</div></div>
-        <div class="service-pick" data-service="likes" data-price="2.00"><div class="sp-icon">❤️</div><div class="sp-name">Likes</div><div class="sp-price">From $2</div></div>
-        <div class="service-pick" data-service="views" data-price="1.50"><div class="sp-icon">👁️</div><div class="sp-name">Views</div><div class="sp-price">From $1.50</div></div>
-        <div class="service-pick" data-service="comments" data-price="4.00"><div class="sp-icon">💬</div><div class="sp-name">Comments</div><div class="sp-price">From $4</div></div>
-        <div class="service-pick" data-service="shares" data-price="2.50"><div class="sp-icon">🔁</div><div class="sp-name">Shares</div><div class="sp-price">From $2.50</div></div>
-        <div class="service-pick" data-service="subscribers" data-price="5.00"><div class="sp-icon">🔔</div><div class="sp-name">Subscribers</div><div class="sp-price">From $5</div></div>
+        <div class="service-pick selected" data-service="followers" data-price="4500"><div class="sp-icon">👥</div><div class="sp-name">Followers</div><div class="sp-price">From ₦4,500</div></div>
+        <div class="service-pick" data-service="likes" data-price="3000"><div class="sp-icon">❤️</div><div class="sp-name">Likes</div><div class="sp-price">From ₦3,000</div></div>
+        <div class="service-pick" data-service="views" data-price="2250"><div class="sp-icon">👁️</div><div class="sp-name">Views</div><div class="sp-price">From ₦2,250</div></div>
+        <div class="service-pick" data-service="comments" data-price="6000"><div class="sp-icon">💬</div><div class="sp-name">Comments</div><div class="sp-price">From ₦6,000</div></div>
+        <div class="service-pick" data-service="shares" data-price="3750"><div class="sp-icon">🔁</div><div class="sp-name">Shares</div><div class="sp-price">From ₦3,750</div></div>
+        <div class="service-pick" data-service="subscribers" data-price="7500"><div class="sp-icon">🔔</div><div class="sp-name">Subscribers</div><div class="sp-price">From ₦7,500</div></div>
       </div>
     </div>
 
@@ -914,18 +783,16 @@
       <div class="profile-row"><span class="pr-label">Platform</span><span class="pr-val" id="boostPlatformVal">Instagram</span></div>
       <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="boostServiceVal">Followers</span></div>
       <div class="profile-row"><span class="pr-label">Quantity</span><span class="pr-val">1,000</span></div>
-      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="boostPrice">$3.00</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="boostPrice">₦4,500</span></div>
       <button class="btn-pink btn-full" style="margin-top: 18px;" id="boostBuyBtn">Boost Now →</button>
     </div>
   </div>
 
   <!-- ============ PROFILE ============ -->
   <div class="page" id="page-profile">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>👤 My <span>Profile</span></h1>
-        <p>Your account details.</p>
-      </div>
+    <div class="greeting">
+      <h1>👤 My <span>Profile</span></h1>
+      <p>Your account details.</p>
     </div>
 
     <div class="section">
@@ -941,37 +808,31 @@
 
   <!-- ============ DEPOSIT ============ -->
   <div class="page" id="page-deposit">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>💰 Deposit <span>Funds</span></h1>
-        <p>Add money to your Arknet SMS wallet.</p>
-      </div>
-      <div class="balance-chip">
-        <span class="b-icon">💰</span>
-        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
-      </div>
+    <div class="greeting">
+      <h1>💰 Deposit <span>Funds</span></h1>
+      <p>Add money to your Arknet SMS wallet.</p>
     </div>
 
     <div class="section" style="text-align: center;">
       <div class="section-title" style="justify-content: center;">Current Balance</div>
       <div style="font-size: 40px; font-weight: 800; color: var(--pink); padding: 12px 0;">
-        <span id="depositBalance">$0.00</span>
+        <span id="depositBalance">₦0.00</span>
       </div>
     </div>
 
     <div class="section">
       <div class="section-title" style="margin-bottom: 14px;">Choose Amount</div>
       <div class="service-picker" id="amountPicker">
-        <div class="service-pick" data-amount="5"><div class="sp-icon">💵</div><div class="sp-name">$5</div></div>
-        <div class="service-pick selected" data-amount="10"><div class="sp-icon">💵</div><div class="sp-name">$10</div></div>
-        <div class="service-pick" data-amount="25"><div class="sp-icon">💵</div><div class="sp-name">$25</div></div>
-        <div class="service-pick" data-amount="50"><div class="sp-icon">💵</div><div class="sp-name">$50</div></div>
-        <div class="service-pick" data-amount="100"><div class="sp-icon">💵</div><div class="sp-name">$100</div></div>
+        <div class="service-pick" data-amount="1000"><div class="sp-icon">💵</div><div class="sp-name">₦1,000</div></div>
+        <div class="service-pick selected" data-amount="5000"><div class="sp-icon">💵</div><div class="sp-name">₦5,000</div></div>
+        <div class="service-pick" data-amount="10000"><div class="sp-icon">💵</div><div class="sp-name">₦10,000</div></div>
+        <div class="service-pick" data-amount="25000"><div class="sp-icon">💵</div><div class="sp-name">₦25,000</div></div>
+        <div class="service-pick" data-amount="50000"><div class="sp-icon">💵</div><div class="sp-name">₦50,000</div></div>
       </div>
 
       <div class="form-field" style="margin-top: 16px;">
-        <label for="customAmount">Or enter custom amount ($)</label>
-        <input type="number" id="customAmount" placeholder="e.g. 20" min="1">
+        <label for="customAmount">Or enter custom amount (₦)</label>
+        <input type="number" id="customAmount" placeholder="e.g. 20000" min="100">
       </div>
     </div>
 
@@ -979,9 +840,9 @@
       <div class="section-title" style="margin-bottom: 14px;">Payment Method</div>
       <div class="service-picker" id="paymentPicker">
         <div class="service-pick selected" data-method="card"><div class="sp-icon">💳</div><div class="sp-name">Card</div></div>
-        <div class="service-pick" data-method="paypal"><div class="sp-icon">🅿️</div><div class="sp-name">PayPal</div></div>
-        <div class="service-pick" data-method="crypto"><div class="sp-icon">₿</div><div class="sp-name">Crypto</div></div>
         <div class="service-pick" data-method="bank"><div class="sp-icon">🏦</div><div class="sp-name">Bank Transfer</div></div>
+        <div class="service-pick" data-method="ussd"><div class="sp-icon">📲</div><div class="sp-name">USSD</div></div>
+        <div class="service-pick" data-method="crypto"><div class="sp-icon">₿</div><div class="sp-name">Crypto</div></div>
       </div>
 
       <button class="btn-pink btn-full" style="margin-top: 18px;" id="depositBtn">Deposit Now →</button>
@@ -990,11 +851,9 @@
 
   <!-- ============ TRANSACTION HISTORY ============ -->
   <div class="page" id="page-history">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>📜 Transaction <span>History</span></h1>
-        <p>All your deposits and purchases.</p>
-      </div>
+    <div class="greeting">
+      <h1>📜 Transaction <span>History</span></h1>
+      <p>All your deposits and purchases.</p>
     </div>
 
     <div class="section">
@@ -1010,11 +869,9 @@
 
   <!-- ============ CHANGE PASSWORD ============ -->
   <div class="page" id="page-password">
-    <div class="top-row">
-      <div class="greeting">
-        <h1>🔒 Change <span>Password</span></h1>
-        <p>Keep your account secure with a strong password.</p>
-      </div>
+    <div class="greeting">
+      <h1>🔒 Change <span>Password</span></h1>
+      <p>Keep your account secure with a strong password.</p>
     </div>
 
     <div class="section" style="max-width: 520px;">
@@ -1077,6 +934,9 @@
   let currentUser = null;
   let currentBalance = 0;
 
+  // ---------- Format NGN ----------
+  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   // ---------- Sidebar page switching ----------
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
     item.addEventListener('click', () => {
@@ -1136,7 +996,7 @@
         el.classList.add('selected');
         document.getElementById('gCountry').textContent =
           el.querySelector('.cp-flag').textContent + ' ' + el.querySelector('.cp-name').textContent;
-        document.getElementById('gPrice').textContent = '$' + el.dataset.price;
+        document.getElementById('gPrice').textContent = '₦' + Number(el.dataset.price).toLocaleString('en-NG');
       });
     });
   }
@@ -1154,15 +1014,13 @@
 
   wirePicker('paymentPicker');
 
-  // Boost platform
   wirePicker('boostPlatform', el => {
     document.getElementById('boostPlatformVal').textContent = el.querySelector('.sp-name').textContent;
   });
 
-  // Boost service
   wirePicker('boostService', el => {
     document.getElementById('boostServiceVal').textContent = el.querySelector('.sp-name').textContent;
-    document.getElementById('boostPrice').textContent = '$' + el.dataset.price;
+    document.getElementById('boostPrice').textContent = '₦' + Number(el.dataset.price).toLocaleString('en-NG');
   });
 
   // ---------- AUTH GUARD ----------
@@ -1199,10 +1057,9 @@
   });
 
   const updateBalanceUI = () => {
-    const txt = '$' + currentBalance.toFixed(2);
-    document.getElementById('balanceVal').textContent = txt;
+    const txt = formatNGN(currentBalance);
+    document.getElementById('topBalance').textContent = txt;
     document.getElementById('depositBalance').textContent = txt;
-    document.querySelectorAll('.bal-ref').forEach(el => el.textContent = txt);
   };
 
   // ---------- LOAD TRANSACTIONS ----------
@@ -1240,7 +1097,7 @@
               </div>
             </div>
             <div class="lr-right">
-              <div class="lr-amount ${isPlus ? 'plus' : 'minus'}">${isPlus ? '+' : '-'}$${Number(t.amount || 0).toFixed(2)}</div>
+              <div class="lr-amount ${isPlus ? 'plus' : 'minus'}">${isPlus ? '+' : '-'}${formatNGN(t.amount)}</div>
               <div class="lr-date">${date}</div>
             </div>
           </div>`;
@@ -1285,19 +1142,19 @@
             <td>${a.service || '—'}</td>
             <td>${a.number || '—'}</td>
             <td>${a.code ? `<span class="code-pill">${a.code}</span>` : `<span class="code-pill pending">Waiting…</span>`}</td>
-            <td>$${Number(a.price || 0).toFixed(2)}</td>
+            <td>${formatNGN(a.price)}</td>
             <td><span class="status-badge ${statusClass}">${a.status || 'pending'}</span></td>
             <td>${date}</td>
           </tr>`;
       });
       tbody.innerHTML = html;
     } catch (e) {
-      console.warn('Activations error:', e);
+      console.warn(e);
       tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
     }
   }
 
-  // Refresh button
+  // Refresh
   document.getElementById('refreshBtn').addEventListener('click', async (e) => {
     const btn = e.currentTarget;
     btn.classList.add('spinning');
@@ -1307,30 +1164,32 @@
     setTimeout(() => btn.classList.remove('spinning'), 600);
   });
 
-  // ---------- ADD TRANSACTION ----------
+  // ---------- ADD DATA ----------
   async function addTransaction(data) {
     if (!currentUser) return;
     await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
       ...data, createdAt: serverTimestamp()
     });
   }
-
   async function addActivation(data) {
     if (!currentUser) return;
     await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
       ...data, createdAt: serverTimestamp()
     });
   }
+  async function saveBalance() {
+    await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
+    updateBalanceUI();
+  }
 
   // ---------- BUY USA ----------
   document.getElementById('usaBuyBtn').addEventListener('click', async () => {
     const service = document.getElementById('usaServiceName').textContent;
-    const price = parseFloat(document.getElementById('usaPrice').textContent.replace('$', ''));
+    const price = Number(document.getElementById('usaPrice').textContent.replace(/[₦,]/g, ''));
     if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
 
     currentBalance -= price;
-    await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
-    updateBalanceUI();
+    await saveBalance();
 
     const fakeNumber = '+1' + Math.floor(2000000000 + Math.random() * 7999999999);
     await addTransaction({ type: 'purchase', icon: '🇺🇸', title: `USA Number — ${service}`, subtitle: 'United States virtual number', amount: price });
@@ -1345,12 +1204,11 @@
   document.getElementById('globalBuyBtn').addEventListener('click', async () => {
     const countryText = document.getElementById('gCountry').textContent.trim();
     const service = document.getElementById('gService').textContent;
-    const price = parseFloat(document.getElementById('gPrice').textContent.replace('$', ''));
+    const price = Number(document.getElementById('gPrice').textContent.replace(/[₦,]/g, ''));
     if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
 
     currentBalance -= price;
-    await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
-    updateBalanceUI();
+    await saveBalance();
 
     const fakeNumber = '+' + Math.floor(1000000000 + Math.random() * 8999999999);
     await addTransaction({ type: 'purchase', icon: '🌍', title: `${countryText} — ${service}`, subtitle: 'Virtual number', amount: price });
@@ -1361,16 +1219,15 @@
     loadActivations();
   });
 
-  // ---------- BUY ITEM (Gmail / Social) ----------
+  // ---------- BUY ITEM ----------
   document.querySelectorAll('[data-buy-item]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const item = btn.dataset.buyItem;
-      const price = parseFloat(btn.dataset.buyPrice);
+      const price = Number(btn.dataset.buyPrice);
       if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
 
       currentBalance -= price;
-      await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
-      updateBalanceUI();
+      await saveBalance();
 
       await addTransaction({ type: 'purchase', icon: '🛒', title: item, subtitle: 'Account purchase', amount: price });
       showToast(`✅ ${item} purchased!`, 'success');
@@ -1382,12 +1239,11 @@
   document.getElementById('boostBuyBtn').addEventListener('click', async () => {
     const platform = document.getElementById('boostPlatformVal').textContent;
     const service = document.getElementById('boostServiceVal').textContent;
-    const price = parseFloat(document.getElementById('boostPrice').textContent.replace('$', ''));
+    const price = Number(document.getElementById('boostPrice').textContent.replace(/[₦,]/g, ''));
     if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
 
     currentBalance -= price;
-    await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
-    updateBalanceUI();
+    await saveBalance();
 
     await addTransaction({ type: 'purchase', icon: '🚀', title: `${platform} ${service}`, subtitle: 'Boost order', amount: price });
     showToast(`✅ ${platform} ${service} boost ordered!`, 'success');
@@ -1396,20 +1252,19 @@
 
   // ---------- DEPOSIT ----------
   document.getElementById('depositBtn').addEventListener('click', async () => {
-    let amount = parseFloat(document.getElementById('customAmount').value);
+    let amount = Number(document.getElementById('customAmount').value);
     if (!amount || amount <= 0) {
       const sel = document.querySelector('#amountPicker .selected');
-      amount = sel ? parseFloat(sel.dataset.amount) : 10;
+      amount = sel ? Number(sel.dataset.amount) : 5000;
     }
     const method = document.querySelector('#paymentPicker .selected')?.dataset.method || 'card';
 
     currentBalance += amount;
-    await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
-    updateBalanceUI();
+    await saveBalance();
 
     await addTransaction({ type: 'deposit', icon: '💰', title: `Deposit via ${method}`, subtitle: 'Funds added', amount });
 
-    showToast(`✅ $${amount.toFixed(2)} deposited via ${method}!`, 'success');
+    showToast(`✅ ${formatNGN(amount)} deposited via ${method}!`, 'success');
     document.getElementById('customAmount').value = '';
     loadTransactions();
   });
@@ -1450,4 +1305,4 @@
 </script>
 
 </body>
-       </html>
+     </html>
