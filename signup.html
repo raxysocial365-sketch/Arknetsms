@@ -27,20 +27,10 @@
     position: relative;
     overflow-x: hidden;
   }
-
-  /* Background blobs */
-  .bg-blob {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
-    z-index: 0;
-    pointer-events: none;
-  }
+  .bg-blob { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.4; z-index: 0; pointer-events: none; }
   .blob-1 { width: 320px; height: 320px; background: var(--pink); top: -80px; left: -80px; }
   .blob-2 { width: 280px; height: 280px; background: var(--brown-light); bottom: -60px; right: -60px; }
 
-  /* Card */
   .auth-card {
     background: var(--white);
     border-radius: 24px;
@@ -53,196 +43,102 @@
     z-index: 2;
   }
 
-  .brand {
-    text-align: center;
-    margin-bottom: 26px;
-  }
-  .logo {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--brown-dark);
-    letter-spacing: -0.5px;
-  }
+  .brand { text-align: center; margin-bottom: 26px; }
+  .logo { font-size: 26px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; }
   .logo span { color: var(--pink); }
-  .brand p {
-    font-size: 13px;
-    color: var(--brown-light);
-    margin-top: 6px;
-  }
+  .brand p { font-size: 13px; color: var(--brown-light); margin-top: 6px; }
 
-  /* Tabs */
   .tabs {
-    display: flex;
-    background: var(--pink-soft);
-    border-radius: 12px;
-    padding: 5px;
-    margin-bottom: 26px;
+    display: flex; background: var(--pink-soft);
+    border-radius: 12px; padding: 5px; margin-bottom: 26px;
     border: 1px solid #f5e6e0;
   }
   .tab {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--brown);
-    cursor: pointer;
-    border-radius: 9px;
-    transition: 0.25s;
-    user-select: none;
+    flex: 1; text-align: center; padding: 10px;
+    font-size: 14px; font-weight: 700; color: var(--brown);
+    cursor: pointer; border-radius: 9px;
+    transition: 0.25s; user-select: none;
   }
   .tab.active {
-    background: var(--pink);
-    color: white;
+    background: var(--pink); color: white;
     box-shadow: 0 4px 12px rgba(236,72,153,0.35);
   }
 
-  /* Form */
   .form { display: none; }
   .form.active { display: block; animation: fade 0.3s ease; }
-  @keyframes fade {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-  .field {
-    margin-bottom: 16px;
-  }
+  .field { margin-bottom: 16px; }
   .field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--brown-dark);
-    margin-bottom: 6px;
+    display: block; font-size: 13px; font-weight: 700;
+    color: var(--brown-dark); margin-bottom: 6px;
   }
   .field input {
-    width: 100%;
-    padding: 13px 14px;
-    border: 1.5px solid #f0dcd4;
-    border-radius: 10px;
-    font-size: 14px;
-    color: var(--brown-dark);
-    background: var(--cream);
-    transition: 0.2s;
-    font-family: inherit;
+    width: 100%; padding: 13px 14px;
+    border: 1.5px solid #f0dcd4; border-radius: 10px;
+    font-size: 14px; color: var(--brown-dark); background: var(--cream);
+    transition: 0.2s; font-family: inherit;
   }
   .field input:focus {
-    outline: none;
-    border-color: var(--pink);
-    background: var(--white);
-    box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
+    outline: none; border-color: var(--pink);
+    background: var(--white); box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
   .field input::placeholder { color: #b89b8f; }
 
-  /* Password toggle wrapper */
   .pass-wrap { position: relative; }
   .pass-wrap input { padding-right: 44px; }
   .toggle-eye {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--brown-light);
-    user-select: none;
-    padding: 4px;
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    cursor: pointer; font-size: 16px; color: var(--brown-light);
+    user-select: none; padding: 4px;
   }
 
-  /* Row 2 cols */
-  .row-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  /* Submit */
   .btn-submit {
-    width: 100%;
-    padding: 14px;
-    background: var(--pink);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.25s;
-    font-family: inherit;
-    margin-top: 8px;
+    width: 100%; padding: 14px;
+    background: var(--pink); color: white;
+    border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: 0.25s;
+    font-family: inherit; margin-top: 8px;
   }
   .btn-submit:hover { background: var(--brown-dark); transform: translateY(-1px); }
   .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  /* Messages */
   .msg {
-    padding: 11px 14px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 14px;
-    display: none;
-    text-align: center;
+    padding: 11px 14px; border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 14px; display: none; text-align: center;
   }
   .msg.error { background: #fee2e2; color: #991b1b; display: block; }
   .msg.success { background: #dcfce7; color: #166534; display: block; }
 
-  /* Divider */
   .divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 20px 0 14px;
-    color: #b89b8f;
-    font-size: 12px;
-    font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+    margin: 20px 0 14px; color: #b89b8f;
+    font-size: 12px; font-weight: 600;
   }
-  .divider::before, .divider::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: #f0dcd4;
-  }
+  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #f0dcd4; }
 
-  /* Bottom text */
-  .bottom-text {
-    text-align: center;
-    font-size: 13px;
-    color: var(--brown-light);
-    margin-top: 18px;
-  }
-  .bottom-text a {
-    color: var(--pink);
-    font-weight: 700;
-    text-decoration: none;
-    cursor: pointer;
-  }
+  .bottom-text { text-align: center; font-size: 13px; color: var(--brown-light); margin-top: 18px; }
+  .bottom-text a { color: var(--pink); font-weight: 700; text-decoration: none; cursor: pointer; }
   .bottom-text a:hover { text-decoration: underline; }
 
-  /* Terms */
   .terms {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--brown-light);
-    margin-bottom: 14px;
-    line-height: 1.5;
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px; color: var(--brown-light);
+    margin-bottom: 14px; line-height: 1.5;
   }
   .terms input { margin-top: 2px; accent-color: var(--pink); }
   .terms a { color: var(--pink); font-weight: 700; text-decoration: none; }
 
-  /* Loading spinner */
   .spinner {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
+    display: inline-block; width: 14px; height: 14px;
     border: 2px solid rgba(255,255,255,0.4);
-    border-top-color: white;
-    border-radius: 50%;
+    border-top-color: white; border-radius: 50%;
     animation: spin 0.7s linear infinite;
-    margin-right: 8px;
-    vertical-align: middle;
+    margin-right: 8px; vertical-align: middle;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -263,16 +159,14 @@
     <p>Virtual numbers for SMS verification</p>
   </div>
 
-  <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" data-tab="signup">Create Account</div>
     <div class="tab" data-tab="login">Login</div>
   </div>
 
-  <!-- Message box -->
   <div class="msg" id="msg"></div>
 
-  <!-- ===== SIGNUP FORM ===== -->
+  <!-- SIGNUP FORM -->
   <form class="form active" id="signupForm" novalidate>
     <div class="field">
       <label for="fullname">Full Name</label>
@@ -314,11 +208,11 @@
     <button type="submit" class="btn-submit" id="signupBtn">Create Account</button>
 
     <div class="bottom-text">
-      Already have an account? <a data-switch="login">Login</a>
+      Already have an account? <a href="login.html">Login</a>
     </div>
   </form>
 
-  <!-- ===== LOGIN FORM ===== -->
+  <!-- LOGIN FORM -->
   <form class="form" id="loginForm" novalidate>
     <div class="field">
       <label for="loginEmail">Email</label>
@@ -341,7 +235,6 @@
   </form>
 </div>
 
-<!-- ================= FIREBASE ================= -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
@@ -371,7 +264,6 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // ---------- UI helpers ----------
   const msg = document.getElementById('msg');
   const showMsg = (text, type = 'error') => {
     msg.textContent = text;
@@ -383,7 +275,7 @@
     btn.innerHTML = loading ? `<span class="spinner"></span>${text}` : text;
   };
 
-  // ---------- Tab switching ----------
+  // Tabs
   const tabs = document.querySelectorAll('.tab');
   const signupForm = document.getElementById('signupForm');
   const loginForm = document.getElementById('loginForm');
@@ -399,7 +291,7 @@
     a.addEventListener('click', () => switchTab(a.dataset.switch))
   );
 
-  // ---------- Password toggle ----------
+  // Password toggle
   document.querySelectorAll('.toggle-eye').forEach(eye => {
     eye.addEventListener('click', () => {
       const input = document.getElementById(eye.dataset.target);
@@ -408,7 +300,7 @@
     });
   });
 
-  // ---------- SIGNUP ----------
+  // SIGNUP
   signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('signupBtn');
@@ -419,7 +311,6 @@
     const confirm = document.getElementById('confirm').value;
     const terms = document.getElementById('terms').checked;
 
-    // Validation
     if (!fullname || !email || !number || !password || !confirm) return showMsg('Please fill in all fields.');
     if (!/^\S+@\S+\.\S+$/.test(email)) return showMsg('Please enter a valid email.');
     if (password.length < 6) return showMsg('Password must be at least 6 characters.');
@@ -431,7 +322,6 @@
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(cred.user, { displayName: fullname });
 
-      // Save extra info in Firestore
       await setDoc(doc(db, 'users', cred.user.uid), {
         fullname,
         email,
@@ -454,7 +344,7 @@
     }
   });
 
-  // ---------- LOGIN ----------
+  // LOGIN
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('loginBtn');
@@ -481,14 +371,13 @@
     }
   });
 
-  // ---------- Auto redirect if already logged in ----------
+  // Auto-redirect if logged in
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // Uncomment if you want auto-redirect when session exists:
-      // window.location.href = 'dashboard.html';
+      // Optional: window.location.href = 'dashboard.html';
     }
   });
 </script>
 
 </body>
-  </html>
+</html>
