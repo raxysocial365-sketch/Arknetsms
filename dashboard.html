@@ -90,15 +90,12 @@
     height: 1px; background: rgba(249,168,212,0.15);
     margin: 10px 14px;
   }
-
-  .side-logout {
-    color: #fca5a5 !important;
-  }
+  .side-logout { color: #fca5a5 !important; }
   .side-logout:hover { background: rgba(220,38,38,0.15) !important; }
 
-  /* ========== TOPBAR (mobile) ========== */
+  /* ========== TOPBAR ========== */
   .topbar {
-    display: none;
+    display: flex;
     background: var(--brown-dark);
     padding: 14px 18px;
     align-items: center; justify-content: space-between;
@@ -110,11 +107,15 @@
     background: transparent; border: none;
     color: white; font-size: 24px; cursor: pointer;
   }
+  /* Desktop: hide menu button, show full topbar with balance */
+  @media (min-width: 901px) {
+    .topbar { display: none; }
+  }
 
   /* ========== MAIN ========== */
   .main {
     margin-left: var(--sidebar-w);
-    padding: 30px 4% 60px;
+    padding: 26px 4% 60px;
     min-height: 100vh;
   }
   .page { display: none; animation: fade 0.3s ease; }
@@ -124,51 +125,184 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .page-head {
-    margin-bottom: 26px;
+  /* ========== TOP ROW: greeting + balance chip ========== */
+  .top-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 14px; margin-bottom: 26px; flex-wrap: wrap;
   }
-  .page-head h1 {
-    font-size: 28px; font-weight: 800; color: var(--brown-dark);
+  .greeting h1 {
+    font-size: 26px; font-weight: 800; color: var(--brown-dark);
     letter-spacing: -0.5px; margin-bottom: 4px;
   }
-  .page-head h1 span { color: var(--pink); }
-  .page-head p { color: var(--brown); font-size: 15px; }
+  .greeting h1 span { color: var(--pink); }
+  .greeting p { color: var(--brown); font-size: 14px; }
 
-  /* ========== CARD ========== */
-  .card {
+  .balance-chip {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--white);
+    border: 2px solid var(--pink);
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--brown-dark);
+    box-shadow: 0 6px 18px rgba(236,72,153,0.15);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .balance-chip .b-icon { font-size: 20px; }
+  .balance-chip small {
+    display: block; font-size: 10px; color: var(--brown-light);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    line-height: 1;
+  }
+  .balance-chip .b-val {
+    font-size: 18px; font-weight: 800; color: var(--pink);
+    line-height: 1;
+  }
+
+  /* ========== ACTION CARDS GRID ========== */
+  .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+  .action-card {
+    background: var(--white);
+    border: 1.5px solid #f5e6e0;
+    border-radius: 16px;
+    padding: 22px 18px;
+    cursor: pointer;
+    transition: 0.25s;
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 130px;
+    justify-content: space-between;
+  }
+  .action-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--pink);
+    box-shadow: 0 12px 28px rgba(236,72,153,0.15);
+  }
+  .action-card .ac-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--pink-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .action-card .ac-title {
+    font-size: 15px; font-weight: 800; color: var(--brown-dark);
+    line-height: 1.25;
+  }
+  .action-card .ac-sub {
+    font-size: 12px; color: var(--brown-light); font-weight: 500;
+  }
+
+  /* Row 2 has 2 cards centered */
+  .actions-row-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+
+  /* ========== SECTION ========== */
+  .section {
     background: var(--white);
     border: 1px solid #f5e6e0;
     border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 20px;
+    padding: 22px;
+    margin-bottom: 22px;
   }
-  .card-title {
-    font-size: 16px; font-weight: 800; color: var(--brown-dark);
+  .section-head {
+    display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .section-title {
+    font-size: 16px; font-weight: 800; color: var(--brown-dark);
     display: flex; align-items: center; gap: 8px;
   }
-
-  /* ========== STATS ========== */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px; margin-bottom: 24px;
-  }
-  .stat-box {
-    background: var(--white); border: 1px solid #f5e6e0;
-    border-radius: 14px; padding: 20px;
-    display: flex; align-items: center; gap: 14px;
-    transition: 0.25s;
-  }
-  .stat-box:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(236,72,153,0.1); border-color: var(--pink-light); }
-  .stat-icon {
-    width: 48px; height: 48px; border-radius: 12px;
+  .btn-refresh {
     background: var(--pink-soft);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; flex-shrink: 0;
+    color: var(--pink);
+    border: 1px solid var(--pink-light);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: inherit;
+    display: flex; align-items: center; gap: 6px;
   }
-  .stat-info .stat-label { font-size: 12px; color: var(--brown-light); font-weight: 600; }
-  .stat-info .stat-val { font-size: 22px; font-weight: 800; color: var(--brown-dark); line-height: 1.2; }
+  .btn-refresh:hover { background: var(--pink); color: white; border-color: var(--pink); }
+  .btn-refresh.spinning span { display: inline-block; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ========== ACTIVATIONS TABLE ========== */
+  .table-wrap { overflow-x: auto; }
+  table.act-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
+  }
+  table.act-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--brown-light);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 10px 12px;
+    border-bottom: 2px solid #f5e6e0;
+  }
+  table.act-table td {
+    padding: 14px 12px;
+    font-size: 13px;
+    color: var(--brown-dark);
+    border-bottom: 1px solid #f5e6e0;
+    font-weight: 500;
+  }
+  table.act-table tr:last-child td { border-bottom: none; }
+  table.act-table tr:hover td { background: var(--pink-soft); }
+
+  .status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .status-active { background: #dcfce7; color: #166534; }
+  .status-pending { background: #fef3c7; color: #92400e; }
+  .status-expired { background: #fee2e2; color: #991b1b; }
+  .status-completed { background: #dbeafe; color: #1e40af; }
+
+  .code-pill {
+    background: var(--pink-soft);
+    color: var(--pink);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-family: 'Consolas', monospace;
+  }
+  .code-pill.pending { background: #fef3c7; color: #92400e; }
+
+  .empty {
+    text-align: center; padding: 40px 20px;
+    border: 2px dashed #f0dcd4;
+    border-radius: 12px;
+  }
+  .empty-icon { font-size: 46px; margin-bottom: 12px; }
+  .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
+  .empty p { color: var(--brown-light); font-size: 14px; }
 
   /* ========== BUTTONS ========== */
   .btn-pink {
@@ -178,8 +312,6 @@
     transition: 0.25s; font-family: inherit;
   }
   .btn-pink:hover { background: var(--brown-dark); transform: translateY(-1px); }
-  .btn-pink:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
   .btn-outline {
     background: white; color: var(--brown-dark);
     padding: 13px 24px; border: 2px solid var(--brown-light);
@@ -187,12 +319,10 @@
     cursor: pointer; transition: 0.25s; font-family: inherit;
   }
   .btn-outline:hover { background: var(--brown-dark); color: white; border-color: var(--brown-dark); }
-
   .btn-full { width: 100%; }
 
-  /* ========== FORM ========== */
+  /* ========== FORMS ========== */
   .form-grid { display: grid; gap: 14px; }
-  .form-grid.two { grid-template-columns: 1fr 1fr; }
   .form-field label {
     display: block; font-size: 13px; font-weight: 700;
     color: var(--brown-dark); margin-bottom: 6px;
@@ -211,20 +341,20 @@
     background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
 
-  /* ========== COUNTRY CARDS ========== */
+  /* ========== COUNTRY / SERVICE / AMOUNT PICKERS ========== */
   .country-picker {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
   }
   .country-pick {
     background: var(--white);
     border: 1.5px solid #f5e6e0;
     border-radius: 14px;
-    padding: 18px 16px;
+    padding: 14px 12px;
     cursor: pointer;
     transition: 0.25s;
-    display: flex; align-items: center; gap: 12px;
+    display: flex; align-items: center; gap: 10px;
   }
   .country-pick:hover {
     border-color: var(--pink);
@@ -236,21 +366,20 @@
     background: var(--pink-soft);
     box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
-  .country-pick .cp-flag { font-size: 30px; }
-  .country-pick .cp-name { font-weight: 700; font-size: 14px; color: var(--brown-dark); }
-  .country-pick .cp-price { font-size: 12px; color: var(--pink); font-weight: 700; margin-top: 2px; }
+  .country-pick .cp-flag { font-size: 26px; }
+  .country-pick .cp-name { font-weight: 700; font-size: 13px; color: var(--brown-dark); }
+  .country-pick .cp-price { font-size: 11px; color: var(--pink); font-weight: 700; margin-top: 2px; }
 
-  /* ========== SERVICE CARDS ========== */
   .service-picker {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
   }
   .service-pick {
     background: var(--white);
     border: 1.5px solid #f5e6e0;
     border-radius: 14px;
-    padding: 18px 12px;
+    padding: 16px 10px;
     text-align: center;
     cursor: pointer;
     transition: 0.25s;
@@ -265,7 +394,7 @@
     background: var(--pink-soft);
     box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
-  .service-pick .sp-icon { font-size: 32px; margin-bottom: 8px; }
+  .service-pick .sp-icon { font-size: 28px; margin-bottom: 6px; }
   .service-pick .sp-name { font-weight: 700; font-size: 13px; color: var(--brown-dark); }
   .service-pick .sp-price { font-size: 11px; color: var(--pink); font-weight: 700; margin-top: 3px; }
 
@@ -291,24 +420,15 @@
   .lr-amount.minus { color: var(--red); }
   .lr-date { font-size: 11px; color: var(--brown-light); margin-top: 2px; }
 
-  /* ========== EMPTY ========== */
-  .empty {
-    text-align: center; padding: 40px 20px;
-    background: var(--white); border-radius: 16px;
-    border: 2px dashed #f0dcd4;
-  }
-  .empty-icon { font-size: 46px; margin-bottom: 12px; }
-  .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
-  .empty p { color: var(--brown-light); font-size: 14px; }
-
-  /* ========== PROFILE ========== */
+  /* ========== PROFILE ROWS ========== */
   .profile-row {
     display: flex; justify-content: space-between; align-items: center;
     padding: 14px 0; border-bottom: 1px solid #f5e6e0;
+    gap: 10px;
   }
   .profile-row:last-child { border-bottom: none; }
   .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
-  .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; }
+  .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; word-break: break-word; text-align: right; }
 
   /* ========== TOAST ========== */
   .toast {
@@ -325,7 +445,7 @@
   .toast.success { background: var(--green); }
   .toast.error { background: var(--red); }
 
-  /* ========== OVERLAY (mobile menu) ========== */
+  /* ========== OVERLAY ========== */
   .overlay {
     display: none;
     position: fixed; inset: 0;
@@ -336,15 +456,26 @@
 
   /* ========== RESPONSIVE ========== */
   @media (max-width: 900px) {
-    .topbar { display: flex; }
-    .sidebar {
-      transform: translateX(-100%);
-      width: 280px;
-    }
+    .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 22px 4% 60px; }
-    .page-head h1 { font-size: 22px; }
-    .form-grid.two { grid-template-columns: 1fr; }
+    .main { margin-left: 0; padding: 20px 4% 60px; }
+
+    .top-row { flex-direction: column; align-items: stretch; }
+    .balance-chip { align-self: flex-start; }
+
+    .greeting h1 { font-size: 22px; }
+
+    .actions-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .actions-row-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 480px) {
+    .actions-grid { grid-template-columns: 1fr; }
+    .action-card { min-height: auto; padding: 18px 14px; }
+    .action-card .ac-icon { width: 38px; height: 38px; font-size: 18px; }
   }
 </style>
 </head>
@@ -386,6 +517,9 @@
     <div class="side-item" data-page="social">
       <span class="si-icon">📱</span> Buy Social Media
     </div>
+    <div class="side-item" data-page="boost">
+      <span class="si-icon">🚀</span> Boost Your Social Media
+    </div>
 
     <div class="side-divider"></div>
     <div class="side-label">Account</div>
@@ -419,493 +553,420 @@
 
   <!-- ============ DASHBOARD ============ -->
   <div class="page active" id="page-dashboard">
-    <div class="page-head">
-      <h1>Welcome back, <span id="welcomeName">User</span> 👋</h1>
-      <p>Here's a quick overview of your Arknet SMS account.</p>
-    </div>
 
-    <div class="stats-row">
-      <div class="stat-box">
-        <div class="stat-icon">💰</div>
-        <div class="stat-info">
-          <div class="stat-label">Balance</div>
-          <div class="stat-val" id="balanceVal">$0.00</div>
-        </div>
+    <!-- Top row: greeting + balance -->
+    <div class="top-row">
+      <div class="greeting">
+        <h1>Hi <span id="welcomeName">User</span> 👋</h1>
+        <p>Here's a quick overview of your Arknet SMS account.</p>
       </div>
-      <div class="stat-box">
-        <div class="stat-icon">📱</div>
-        <div class="stat-info">
-          <div class="stat-label">Active Numbers</div>
-          <div class="stat-val" id="activeNumVal">0</div>
-        </div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-icon">🧾</div>
-        <div class="stat-info">
-          <div class="stat-label">Total Orders</div>
-          <div class="stat-val" id="ordersVal">0</div>
-        </div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-icon">💬</div>
-        <div class="stat-info">
-          <div class="stat-label">SMS Received</div>
-          <div class="stat-val" id="smsVal">0</div>
+
+      <div class="balance-chip">
+        <span class="b-icon">💰</span>
+        <div>
+          <small>Balance</small>
+          <div class="b-val" id="balanceVal">$0.00</div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">⚡ Quick Actions</div>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <button class="btn-pink" data-goto="usa">🇺🇸 Buy USA Number</button>
-        <button class="btn-outline" data-goto="countries">🌍 Buy Other Countries</button>
-        <button class="btn-outline" data-goto="deposit">💰 Deposit Funds</button>
+    <!-- Row 1: 3 action cards -->
+    <div class="actions-grid">
+      <div class="action-card" data-goto="gmail">
+        <div class="ac-icon">📧</div>
+        <div>
+          <div class="ac-title">Buy Gmail Account</div>
+          <div class="ac-sub">Fresh & aged Gmail accounts</div>
+        </div>
+      </div>
+
+      <div class="action-card" data-goto="social">
+        <div class="ac-icon">📱</div>
+        <div>
+          <div class="ac-title">Buy Social Media</div>
+          <div class="ac-sub">Verified social accounts</div>
+        </div>
+      </div>
+
+      <div class="action-card" data-goto="boost">
+        <div class="ac-icon">🚀</div>
+        <div>
+          <div class="ac-title">Boost Your Social Media</div>
+          <div class="ac-sub">Followers, likes & views</div>
+        </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">🕐 Recent Transactions</div>
-      <div id="recentTx">
-        <div class="empty">
-          <div class="empty-icon">🧾</div>
-          <h3>No transactions yet</h3>
-          <p>Your deposits and purchases will appear here.</p>
+    <!-- Row 2: 2 action cards -->
+    <div class="actions-row-2">
+      <div class="action-card" data-goto="usa">
+        <div class="ac-icon">🇺🇸</div>
+        <div>
+          <div class="ac-title">Buy Only USA Number</div>
+          <div class="ac-sub">US virtual numbers for SMS</div>
         </div>
+      </div>
+
+      <div class="action-card" data-goto="countries">
+        <div class="ac-icon">🌍</div>
+        <div>
+          <div class="ac-title">Buy All Countries Number</div>
+          <div class="ac-sub">175+ countries available</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activations -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">🕐 Recent Activations</div>
+        <button class="btn-refresh" id="refreshBtn"><span>🔄</span> Refresh</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="act-table">
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Number</th>
+              <th>SMS Code</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="activationsBody">
+            <tr>
+              <td colspan="6">
+                <div class="empty">
+                  <div class="empty-icon">📭</div>
+                  <h3>No activations yet</h3>
+                  <p>Your activated numbers will appear here.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
   <!-- ============ BUY USA NUMBER ============ -->
   <div class="page" id="page-usa">
-    <div class="page-head">
-      <h1>🇺🇸 Buy <span>USA Number</span></h1>
-      <p>Get a US virtual number for SMS verification.</p>
+    <div class="top-row">
+      <div class="greeting">
+        <h1>🇺🇸 Buy <span>USA Number</span></h1>
+        <p>Get a US virtual number for SMS verification.</p>
+      </div>
+      <div class="balance-chip">
+        <span class="b-icon">💰</span>
+        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Select Service</div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Select Service</div>
       <div class="service-picker" id="usaServices">
         <div class="service-pick selected" data-service="whatsapp">
-          <div class="sp-icon">💬</div>
-          <div class="sp-name">WhatsApp</div>
-          <div class="sp-price">$0.50</div>
+          <div class="sp-icon">💬</div><div class="sp-name">WhatsApp</div><div class="sp-price">$0.50</div>
         </div>
         <div class="service-pick" data-service="telegram">
-          <div class="sp-icon">✈️</div>
-          <div class="sp-name">Telegram</div>
-          <div class="sp-price">$0.50</div>
+          <div class="sp-icon">✈️</div><div class="sp-name">Telegram</div><div class="sp-price">$0.50</div>
         </div>
         <div class="service-pick" data-service="instagram">
-          <div class="sp-icon">📸</div>
-          <div class="sp-name">Instagram</div>
-          <div class="sp-price">$0.55</div>
+          <div class="sp-icon">📸</div><div class="sp-name">Instagram</div><div class="sp-price">$0.55</div>
         </div>
         <div class="service-pick" data-service="facebook">
-          <div class="sp-icon">📘</div>
-          <div class="sp-name">Facebook</div>
-          <div class="sp-price">$0.50</div>
+          <div class="sp-icon">📘</div><div class="sp-name">Facebook</div><div class="sp-price">$0.50</div>
         </div>
         <div class="service-pick" data-service="google">
-          <div class="sp-icon">🔵</div>
-          <div class="sp-name">Google</div>
-          <div class="sp-price">$0.60</div>
+          <div class="sp-icon">🔵</div><div class="sp-name">Google</div><div class="sp-price">$0.60</div>
         </div>
         <div class="service-pick" data-service="discord">
-          <div class="sp-icon">💻</div>
-          <div class="sp-name">Discord</div>
-          <div class="sp-price">$0.55</div>
+          <div class="sp-icon">💻</div><div class="sp-name">Discord</div><div class="sp-price">$0.55</div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">📋 Order Summary</div>
-      <div class="profile-row">
-        <span class="pr-label">Country</span>
-        <span class="pr-val">🇺🇸 United States</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">Service</span>
-        <span class="pr-val" id="usaServiceName">WhatsApp</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">Price</span>
-        <span class="pr-val" style="color: var(--pink);" id="usaPrice">$0.50</span>
-      </div>
-      <div style="margin-top: 18px;">
-        <button class="btn-pink btn-full" id="usaBuyBtn">Buy Now →</button>
-      </div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
+      <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val">🇺🇸 United States</span></div>
+      <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="usaServiceName">WhatsApp</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="usaPrice">$0.50</span></div>
+      <button class="btn-pink btn-full" style="margin-top: 18px;" id="usaBuyBtn">Buy Now →</button>
     </div>
   </div>
 
   <!-- ============ BUY ALL COUNTRIES ============ -->
   <div class="page" id="page-countries">
-    <div class="page-head">
-      <h1>🌍 Buy <span>All Countries</span></h1>
-      <p>Pick any country from our global network of virtual numbers.</p>
+    <div class="top-row">
+      <div class="greeting">
+        <h1>🌍 Buy <span>All Countries</span></h1>
+        <p>Pick any country from our global network of virtual numbers.</p>
+      </div>
+      <div class="balance-chip">
+        <span class="b-icon">💰</span>
+        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Select Country</div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Select Country</div>
       <div class="country-picker" id="countryPicker">
         <div class="country-pick selected" data-country="US" data-price="0.50">
-          <div class="cp-flag">🇺🇸</div>
-          <div>
-            <div class="cp-name">United States</div>
-            <div class="cp-price">From $0.50</div>
-          </div>
+          <div class="cp-flag">🇺🇸</div><div><div class="cp-name">United States</div><div class="cp-price">From $0.50</div></div>
         </div>
         <div class="country-pick" data-country="GB" data-price="0.60">
-          <div class="cp-flag">🇬🇧</div>
-          <div>
-            <div class="cp-name">United Kingdom</div>
-            <div class="cp-price">From $0.60</div>
-          </div>
+          <div class="cp-flag">🇬🇧</div><div><div class="cp-name">United Kingdom</div><div class="cp-price">From $0.60</div></div>
         </div>
         <div class="country-pick" data-country="CA" data-price="0.55">
-          <div class="cp-flag">🇨🇦</div>
-          <div>
-            <div class="cp-name">Canada</div>
-            <div class="cp-price">From $0.55</div>
-          </div>
+          <div class="cp-flag">🇨🇦</div><div><div class="cp-name">Canada</div><div class="cp-price">From $0.55</div></div>
         </div>
         <div class="country-pick" data-country="DE" data-price="0.70">
-          <div class="cp-flag">🇩🇪</div>
-          <div>
-            <div class="cp-name">Germany</div>
-            <div class="cp-price">From $0.70</div>
-          </div>
+          <div class="cp-flag">🇩🇪</div><div><div class="cp-name">Germany</div><div class="cp-price">From $0.70</div></div>
         </div>
         <div class="country-pick" data-country="FR" data-price="0.70">
-          <div class="cp-flag">🇫🇷</div>
-          <div>
-            <div class="cp-name">France</div>
-            <div class="cp-price">From $0.70</div>
-          </div>
+          <div class="cp-flag">🇫🇷</div><div><div class="cp-name">France</div><div class="cp-price">From $0.70</div></div>
         </div>
         <div class="country-pick" data-country="NG" data-price="0.40">
-          <div class="cp-flag">🇳🇬</div>
-          <div>
-            <div class="cp-name">Nigeria</div>
-            <div class="cp-price">From $0.40</div>
-          </div>
+          <div class="cp-flag">🇳🇬</div><div><div class="cp-name">Nigeria</div><div class="cp-price">From $0.40</div></div>
         </div>
         <div class="country-pick" data-country="IN" data-price="0.35">
-          <div class="cp-flag">🇮🇳</div>
-          <div>
-            <div class="cp-name">India</div>
-            <div class="cp-price">From $0.35</div>
-          </div>
+          <div class="cp-flag">🇮🇳</div><div><div class="cp-name">India</div><div class="cp-price">From $0.35</div></div>
         </div>
         <div class="country-pick" data-country="PH" data-price="0.45">
-          <div class="cp-flag">🇵🇭</div>
-          <div>
-            <div class="cp-name">Philippines</div>
-            <div class="cp-price">From $0.45</div>
-          </div>
+          <div class="cp-flag">🇵🇭</div><div><div class="cp-name">Philippines</div><div class="cp-price">From $0.45</div></div>
         </div>
         <div class="country-pick" data-country="ID" data-price="0.45">
-          <div class="cp-flag">🇮🇩</div>
-          <div>
-            <div class="cp-name">Indonesia</div>
-            <div class="cp-price">From $0.45</div>
-          </div>
+          <div class="cp-flag">🇮🇩</div><div><div class="cp-name">Indonesia</div><div class="cp-price">From $0.45</div></div>
         </div>
         <div class="country-pick" data-country="BR" data-price="0.65">
-          <div class="cp-flag">🇧🇷</div>
-          <div>
-            <div class="cp-name">Brazil</div>
-            <div class="cp-price">From $0.65</div>
-          </div>
+          <div class="cp-flag">🇧🇷</div><div><div class="cp-name">Brazil</div><div class="cp-price">From $0.65</div></div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Select Service</div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Select Service</div>
       <div class="service-picker" id="globalServices">
-        <div class="service-pick selected" data-service="whatsapp">
-          <div class="sp-icon">💬</div>
-          <div class="sp-name">WhatsApp</div>
-        </div>
-        <div class="service-pick" data-service="telegram">
-          <div class="sp-icon">✈️</div>
-          <div class="sp-name">Telegram</div>
-        </div>
-        <div class="service-pick" data-service="instagram">
-          <div class="sp-icon">📸</div>
-          <div class="sp-name">Instagram</div>
-        </div>
-        <div class="service-pick" data-service="facebook">
-          <div class="sp-icon">📘</div>
-          <div class="sp-name">Facebook</div>
-        </div>
-        <div class="service-pick" data-service="google">
-          <div class="sp-icon">🔵</div>
-          <div class="sp-name">Google</div>
-        </div>
+        <div class="service-pick selected" data-service="whatsapp"><div class="sp-icon">💬</div><div class="sp-name">WhatsApp</div></div>
+        <div class="service-pick" data-service="telegram"><div class="sp-icon">✈️</div><div class="sp-name">Telegram</div></div>
+        <div class="service-pick" data-service="instagram"><div class="sp-icon">📸</div><div class="sp-name">Instagram</div></div>
+        <div class="service-pick" data-service="facebook"><div class="sp-icon">📘</div><div class="sp-name">Facebook</div></div>
+        <div class="service-pick" data-service="google"><div class="sp-icon">🔵</div><div class="sp-name">Google</div></div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">📋 Order Summary</div>
-      <div class="profile-row">
-        <span class="pr-label">Country</span>
-        <span class="pr-val" id="gCountry">🇺🇸 United States</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">Service</span>
-        <span class="pr-val" id="gService">WhatsApp</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">Price</span>
-        <span class="pr-val" style="color: var(--pink);" id="gPrice">$0.50</span>
-      </div>
-      <div style="margin-top: 18px;">
-        <button class="btn-pink btn-full" id="globalBuyBtn">Buy Now →</button>
-      </div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
+      <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val" id="gCountry">🇺🇸 United States</span></div>
+      <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="gService">WhatsApp</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="gPrice">$0.50</span></div>
+      <button class="btn-pink btn-full" style="margin-top: 18px;" id="globalBuyBtn">Buy Now →</button>
     </div>
   </div>
 
-  <!-- ============ BUY GMAIL ACCOUNT ============ -->
+  <!-- ============ BUY GMAIL ============ -->
   <div class="page" id="page-gmail">
-    <div class="page-head">
-      <h1>📧 Buy <span>Gmail Account</span></h1>
-      <p>Fresh, verified Gmail accounts ready to use.</p>
+    <div class="top-row">
+      <div class="greeting">
+        <h1>📧 Buy <span>Gmail Account</span></h1>
+        <p>Fresh, verified Gmail accounts ready to use.</p>
+      </div>
+      <div class="balance-chip">
+        <span class="b-icon">💰</span>
+        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Available Gmail Accounts</div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Available Gmail Accounts</div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">📧</div>
-          <div>
-            <div class="lr-title">Fresh Gmail Account</div>
-            <div class="lr-sub">New account • Full access</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$1.20</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Gmail Fresh" data-buy-price="1.20">Buy</button>
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Fresh Gmail Account</div><div class="lr-sub">New account • Full access</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$1.20</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Fresh" data-buy-price="1.20">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">📧</div>
-          <div>
-            <div class="lr-title">Aged Gmail (3+ Months)</div>
-            <div class="lr-sub">Trusted account • Recovery email</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$3.50</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Gmail Aged" data-buy-price="3.50">Buy</button>
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Aged Gmail (3+ Months)</div><div class="lr-sub">Trusted • Recovery email</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$3.50</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Aged" data-buy-price="3.50">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">📧</div>
-          <div>
-            <div class="lr-title">USA Gmail Account</div>
-            <div class="lr-sub">US-based • Verified phone</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$2.00</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Gmail USA" data-buy-price="2.00">Buy</button>
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">USA Gmail Account</div><div class="lr-sub">US-based • Verified phone</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$2.00</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail USA" data-buy-price="2.00">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">📧</div>
-          <div>
-            <div class="lr-title">Bulk Gmail (10 pcs)</div>
-            <div class="lr-sub">Wholesale • Discounted rate</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$9.00</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Gmail Bulk x10" data-buy-price="9.00">Buy</button>
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Bulk Gmail (10 pcs)</div><div class="lr-sub">Wholesale • Discounted rate</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$9.00</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Bulk x10" data-buy-price="9.00">Buy</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ============ BUY SOCIAL MEDIA ============ -->
+  <!-- ============ BUY SOCIAL ============ -->
   <div class="page" id="page-social">
-    <div class="page-head">
-      <h1>📱 Buy <span>Social Media Accounts</span></h1>
-      <p>Verified social media accounts for your needs.</p>
+    <div class="top-row">
+      <div class="greeting">
+        <h1>📱 Buy <span>Social Media Accounts</span></h1>
+        <p>Verified social media accounts for your needs.</p>
+      </div>
+      <div class="balance-chip">
+        <span class="b-icon">💰</span>
+        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Available Accounts</div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Available Accounts</div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">📘</div>
-          <div>
-            <div class="lr-title">Facebook Account</div>
-            <div class="lr-sub">Aged • Verified</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$2.50</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Facebook Account" data-buy-price="2.50">Buy</button>
+        <div class="lr-left"><div class="lr-icon">📘</div><div><div class="lr-title">Facebook Account</div><div class="lr-sub">Aged • Verified</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$2.50</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Facebook Account" data-buy-price="2.50">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">📸</div>
-          <div>
-            <div class="lr-title">Instagram Account</div>
-            <div class="lr-sub">Real followers • Aged</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$3.00</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Instagram Account" data-buy-price="3.00">Buy</button>
+        <div class="lr-left"><div class="lr-icon">📸</div><div><div class="lr-title">Instagram Account</div><div class="lr-sub">Real followers • Aged</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$3.00</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Instagram Account" data-buy-price="3.00">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">✈️</div>
-          <div>
-            <div class="lr-title">Telegram Account</div>
-            <div class="lr-sub">Verified • Ready to use</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$1.50</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Telegram Account" data-buy-price="1.50">Buy</button>
+        <div class="lr-left"><div class="lr-icon">✈️</div><div><div class="lr-title">Telegram Account</div><div class="lr-sub">Verified • Ready</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$1.50</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Telegram Account" data-buy-price="1.50">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">🎵</div>
-          <div>
-            <div class="lr-title">TikTok Account</div>
-            <div class="lr-sub">Fresh • Clean</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$2.00</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="TikTok Account" data-buy-price="2.00">Buy</button>
+        <div class="lr-left"><div class="lr-icon">🎵</div><div><div class="lr-title">TikTok Account</div><div class="lr-sub">Fresh • Clean</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$2.00</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="TikTok Account" data-buy-price="2.00">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">🐦</div>
-          <div>
-            <div class="lr-title">Twitter / X Account</div>
-            <div class="lr-sub">Aged • Verified</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$2.50</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Twitter X Account" data-buy-price="2.50">Buy</button>
+        <div class="lr-left"><div class="lr-icon">🐦</div><div><div class="lr-title">Twitter / X Account</div><div class="lr-sub">Aged • Verified</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$2.50</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Twitter X Account" data-buy-price="2.50">Buy</button>
         </div>
       </div>
 
       <div class="list-row">
-        <div class="lr-left">
-          <div class="lr-icon">💻</div>
-          <div>
-            <div class="lr-title">Discord Account</div>
-            <div class="lr-sub">Verified email attached</div>
-          </div>
-        </div>
-        <div class="lr-right">
-          <div class="lr-amount">$1.80</div>
-          <button class="btn-pink" style="margin-top:6px; padding:8px 16px; font-size:12px;" data-buy-item="Discord Account" data-buy-price="1.80">Buy</button>
+        <div class="lr-left"><div class="lr-icon">💻</div><div><div class="lr-title">Discord Account</div><div class="lr-sub">Verified email attached</div></div></div>
+        <div class="lr-right"><div class="lr-amount">$1.80</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Discord Account" data-buy-price="1.80">Buy</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ============ BOOST SOCIAL MEDIA ============ -->
+  <div class="page" id="page-boost">
+    <div class="top-row">
+      <div class="greeting">
+        <h1>🚀 Boost <span>Your Social Media</span></h1>
+        <p>Buy followers, likes, views & engagement for any platform.</p>
+      </div>
+      <div class="balance-chip">
+        <span class="b-icon">💰</span>
+        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Choose Platform</div>
+      <div class="service-picker" id="boostPlatform">
+        <div class="service-pick selected" data-platform="instagram"><div class="sp-icon">📸</div><div class="sp-name">Instagram</div></div>
+        <div class="service-pick" data-platform="tiktok"><div class="sp-icon">🎵</div><div class="sp-name">TikTok</div></div>
+        <div class="service-pick" data-platform="facebook"><div class="sp-icon">📘</div><div class="sp-name">Facebook</div></div>
+        <div class="service-pick" data-platform="twitter"><div class="sp-icon">🐦</div><div class="sp-name">Twitter / X</div></div>
+        <div class="service-pick" data-platform="youtube"><div class="sp-icon">▶️</div><div class="sp-name">YouTube</div></div>
+        <div class="service-pick" data-platform="telegram"><div class="sp-icon">✈️</div><div class="sp-name">Telegram</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Choose Service</div>
+      <div class="service-picker" id="boostService">
+        <div class="service-pick selected" data-service="followers" data-price="3.00"><div class="sp-icon">👥</div><div class="sp-name">Followers</div><div class="sp-price">From $3</div></div>
+        <div class="service-pick" data-service="likes" data-price="2.00"><div class="sp-icon">❤️</div><div class="sp-name">Likes</div><div class="sp-price">From $2</div></div>
+        <div class="service-pick" data-service="views" data-price="1.50"><div class="sp-icon">👁️</div><div class="sp-name">Views</div><div class="sp-price">From $1.50</div></div>
+        <div class="service-pick" data-service="comments" data-price="4.00"><div class="sp-icon">💬</div><div class="sp-name">Comments</div><div class="sp-price">From $4</div></div>
+        <div class="service-pick" data-service="shares" data-price="2.50"><div class="sp-icon">🔁</div><div class="sp-name">Shares</div><div class="sp-price">From $2.50</div></div>
+        <div class="service-pick" data-service="subscribers" data-price="5.00"><div class="sp-icon">🔔</div><div class="sp-name">Subscribers</div><div class="sp-price">From $5</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
+      <div class="profile-row"><span class="pr-label">Platform</span><span class="pr-val" id="boostPlatformVal">Instagram</span></div>
+      <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="boostServiceVal">Followers</span></div>
+      <div class="profile-row"><span class="pr-label">Quantity</span><span class="pr-val">1,000</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="boostPrice">$3.00</span></div>
+      <button class="btn-pink btn-full" style="margin-top: 18px;" id="boostBuyBtn">Boost Now →</button>
     </div>
   </div>
 
   <!-- ============ PROFILE ============ -->
   <div class="page" id="page-profile">
-    <div class="page-head">
-      <h1>👤 My <span>Profile</span></h1>
-      <p>Your account details.</p>
+    <div class="top-row">
+      <div class="greeting">
+        <h1>👤 My <span>Profile</span></h1>
+        <p>Your account details.</p>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Account Information</div>
-
-      <div class="profile-row">
-        <span class="pr-label">Full Name</span>
-        <span class="pr-val" id="pName">—</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">Email</span>
-        <span class="pr-val" id="pEmail">—</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">Phone Number</span>
-        <span class="pr-val" id="pPhone">—</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">User ID</span>
-        <span class="pr-val" id="pUid" style="font-size: 11px;">—</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">Member Since</span>
-        <span class="pr-val" id="pSince">—</span>
-      </div>
-      <div class="profile-row">
-        <span class="pr-label">Account Status</span>
-        <span class="pr-val" style="color: var(--green);">● Active</span>
-      </div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Account Information</div>
+      <div class="profile-row"><span class="pr-label">Full Name</span><span class="pr-val" id="pName">—</span></div>
+      <div class="profile-row"><span class="pr-label">Email</span><span class="pr-val" id="pEmail">—</span></div>
+      <div class="profile-row"><span class="pr-label">Phone Number</span><span class="pr-val" id="pPhone">—</span></div>
+      <div class="profile-row"><span class="pr-label">User ID</span><span class="pr-val" id="pUid" style="font-size:11px;">—</span></div>
+      <div class="profile-row"><span class="pr-label">Member Since</span><span class="pr-val" id="pSince">—</span></div>
+      <div class="profile-row"><span class="pr-label">Account Status</span><span class="pr-val" style="color: var(--green);">● Active</span></div>
     </div>
   </div>
 
-  <!-- ============ DEPOSIT FUNDS ============ -->
+  <!-- ============ DEPOSIT ============ -->
   <div class="page" id="page-deposit">
-    <div class="page-head">
-      <h1>💰 Deposit <span>Funds</span></h1>
-      <p>Add money to your Arknet SMS wallet.</p>
+    <div class="top-row">
+      <div class="greeting">
+        <h1>💰 Deposit <span>Funds</span></h1>
+        <p>Add money to your Arknet SMS wallet.</p>
+      </div>
+      <div class="balance-chip">
+        <span class="b-icon">💰</span>
+        <div><small>Balance</small><div class="b-val bal-ref">$0.00</div></div>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Current Balance</div>
-      <div style="font-size: 36px; font-weight: 800; color: var(--pink); text-align: center; padding: 16px 0;">
+    <div class="section" style="text-align: center;">
+      <div class="section-title" style="justify-content: center;">Current Balance</div>
+      <div style="font-size: 40px; font-weight: 800; color: var(--pink); padding: 12px 0;">
         <span id="depositBalance">$0.00</span>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Choose Amount</div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Choose Amount</div>
       <div class="service-picker" id="amountPicker">
-        <div class="service-pick" data-amount="5">
-          <div class="sp-icon">💵</div>
-          <div class="sp-name">$5</div>
-        </div>
-        <div class="service-pick selected" data-amount="10">
-          <div class="sp-icon">💵</div>
-          <div class="sp-name">$10</div>
-        </div>
-        <div class="service-pick" data-amount="25">
-          <div class="sp-icon">💵</div>
-          <div class="sp-name">$25</div>
-        </div>
-        <div class="service-pick" data-amount="50">
-          <div class="sp-icon">💵</div>
-          <div class="sp-name">$50</div>
-        </div>
-        <div class="service-pick" data-amount="100">
-          <div class="sp-icon">💵</div>
-          <div class="sp-name">$100</div>
-        </div>
+        <div class="service-pick" data-amount="5"><div class="sp-icon">💵</div><div class="sp-name">$5</div></div>
+        <div class="service-pick selected" data-amount="10"><div class="sp-icon">💵</div><div class="sp-name">$10</div></div>
+        <div class="service-pick" data-amount="25"><div class="sp-icon">💵</div><div class="sp-name">$25</div></div>
+        <div class="service-pick" data-amount="50"><div class="sp-icon">💵</div><div class="sp-name">$50</div></div>
+        <div class="service-pick" data-amount="100"><div class="sp-icon">💵</div><div class="sp-name">$100</div></div>
       </div>
 
       <div class="form-field" style="margin-top: 16px;">
@@ -914,41 +975,29 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Payment Method</div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Payment Method</div>
       <div class="service-picker" id="paymentPicker">
-        <div class="service-pick selected" data-method="card">
-          <div class="sp-icon">💳</div>
-          <div class="sp-name">Card</div>
-        </div>
-        <div class="service-pick" data-method="paypal">
-          <div class="sp-icon">🅿️</div>
-          <div class="sp-name">PayPal</div>
-        </div>
-        <div class="service-pick" data-method="crypto">
-          <div class="sp-icon">₿</div>
-          <div class="sp-name">Crypto</div>
-        </div>
-        <div class="service-pick" data-method="bank">
-          <div class="sp-icon">🏦</div>
-          <div class="sp-name">Bank Transfer</div>
-        </div>
+        <div class="service-pick selected" data-method="card"><div class="sp-icon">💳</div><div class="sp-name">Card</div></div>
+        <div class="service-pick" data-method="paypal"><div class="sp-icon">🅿️</div><div class="sp-name">PayPal</div></div>
+        <div class="service-pick" data-method="crypto"><div class="sp-icon">₿</div><div class="sp-name">Crypto</div></div>
+        <div class="service-pick" data-method="bank"><div class="sp-icon">🏦</div><div class="sp-name">Bank Transfer</div></div>
       </div>
 
-      <div style="margin-top: 18px;">
-        <button class="btn-pink btn-full" id="depositBtn">Deposit Now →</button>
-      </div>
+      <button class="btn-pink btn-full" style="margin-top: 18px;" id="depositBtn">Deposit Now →</button>
     </div>
   </div>
 
   <!-- ============ TRANSACTION HISTORY ============ -->
   <div class="page" id="page-history">
-    <div class="page-head">
-      <h1>📜 Transaction <span>History</span></h1>
-      <p>All your deposits and purchases.</p>
+    <div class="top-row">
+      <div class="greeting">
+        <h1>📜 Transaction <span>History</span></h1>
+        <p>All your deposits and purchases.</p>
+      </div>
     </div>
 
-    <div class="card">
+    <div class="section">
       <div id="txList">
         <div class="empty">
           <div class="empty-icon">🧾</div>
@@ -961,13 +1010,15 @@
 
   <!-- ============ CHANGE PASSWORD ============ -->
   <div class="page" id="page-password">
-    <div class="page-head">
-      <h1>🔒 Change <span>Password</span></h1>
-      <p>Keep your account secure with a strong password.</p>
+    <div class="top-row">
+      <div class="greeting">
+        <h1>🔒 Change <span>Password</span></h1>
+        <p>Keep your account secure with a strong password.</p>
+      </div>
     </div>
 
-    <div class="card" style="max-width: 520px;">
-      <div class="card-title">Update Password</div>
+    <div class="section" style="max-width: 520px;">
+      <div class="section-title" style="margin-bottom: 14px;">Update Password</div>
       <div class="form-grid">
         <div class="form-field">
           <label for="currentPass">Current Password</label>
@@ -999,7 +1050,7 @@
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
     getFirestore, doc, getDoc, setDoc,
-    collection, addDoc, query, where, orderBy, getDocs, serverTimestamp
+    collection, addDoc, query, orderBy, getDocs, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -1016,7 +1067,6 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // ---------- Helpers ----------
   const toast = document.getElementById('toast');
   const showToast = (text, type = '') => {
     toast.textContent = text;
@@ -1034,17 +1084,16 @@
       item.classList.add('active');
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page-' + item.dataset.page).classList.add('active');
-      // Close sidebar on mobile
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('overlay').classList.remove('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 
-  // Quick action buttons
+  // Quick action cards
   document.querySelectorAll('[data-goto]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const page = btn.dataset.goto;
-      const item = document.querySelector(`.side-item[data-page="${page}"]`);
+      const item = document.querySelector(`.side-item[data-page="${btn.dataset.goto}"]`);
       if (item) item.click();
     });
   });
@@ -1061,11 +1110,11 @@
     overlay.classList.remove('show');
   });
 
-  // ---------- Service picker (generic) ----------
+  // ---------- Pickers ----------
   const wirePicker = (containerId, callback) => {
     const container = document.getElementById(containerId);
     if (!container) return;
-    container.querySelectorAll('[data-service], [data-amount], [data-method], .country-pick').forEach(el => {
+    container.querySelectorAll('.service-pick').forEach(el => {
       el.addEventListener('click', () => {
         container.querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
         el.classList.add('selected');
@@ -1074,52 +1123,51 @@
     });
   };
 
-  // USA services
   wirePicker('usaServices', el => {
-    const name = el.querySelector('.sp-name').textContent;
-    const price = el.querySelector('.sp-price').textContent;
-    document.getElementById('usaServiceName').textContent = name;
-    document.getElementById('usaPrice').textContent = price;
+    document.getElementById('usaServiceName').textContent = el.querySelector('.sp-name').textContent;
+    document.getElementById('usaPrice').textContent = el.querySelector('.sp-price').textContent;
   });
 
-  // Global country picker
   const countryPicker = document.getElementById('countryPicker');
   if (countryPicker) {
     countryPicker.querySelectorAll('.country-pick').forEach(el => {
       el.addEventListener('click', () => {
         countryPicker.querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
         el.classList.add('selected');
-        const flag = el.querySelector('.cp-flag').textContent;
-        const name = el.querySelector('.cp-name').textContent;
-        const price = '$' + el.dataset.price;
-        document.getElementById('gCountry').textContent = flag + ' ' + name;
-        document.getElementById('gPrice').textContent = price;
+        document.getElementById('gCountry').textContent =
+          el.querySelector('.cp-flag').textContent + ' ' + el.querySelector('.cp-name').textContent;
+        document.getElementById('gPrice').textContent = '$' + el.dataset.price;
       });
     });
   }
 
-  // Global services
   wirePicker('globalServices', el => {
     document.getElementById('gService').textContent = el.querySelector('.sp-name').textContent;
   });
 
-  // Amount picker
-  wirePicker('amountPicker', el => {
+  wirePicker('amountPicker', () => {
     document.getElementById('customAmount').value = '';
   });
-  document.getElementById('customAmount').addEventListener('input', (e) => {
+  document.getElementById('customAmount').addEventListener('input', () => {
     document.getElementById('amountPicker').querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
   });
 
-  // Payment method picker
   wirePicker('paymentPicker');
+
+  // Boost platform
+  wirePicker('boostPlatform', el => {
+    document.getElementById('boostPlatformVal').textContent = el.querySelector('.sp-name').textContent;
+  });
+
+  // Boost service
+  wirePicker('boostService', el => {
+    document.getElementById('boostServiceVal').textContent = el.querySelector('.sp-name').textContent;
+    document.getElementById('boostPrice').textContent = '$' + el.dataset.price;
+  });
 
   // ---------- AUTH GUARD ----------
   onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = 'login.html';
-      return;
-    }
+    if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
 
     const name = user.displayName || 'User';
@@ -1128,12 +1176,10 @@
     document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
     document.getElementById('welcomeName').textContent = name.split(' ')[0];
 
-    // Profile panel
     document.getElementById('pName').textContent = name;
     document.getElementById('pEmail').textContent = user.email;
     document.getElementById('pUid').textContent = user.uid;
 
-    // Load user data from Firestore
     try {
       const snap = await getDoc(doc(db, 'users', user.uid));
       if (snap.exists()) {
@@ -1146,31 +1192,26 @@
         currentBalance = data.balance || 0;
         updateBalanceUI();
       }
-    } catch (e) {
-      console.warn('User data load error:', e);
-    }
+    } catch (e) { console.warn(e); }
 
-    // Load transactions
     loadTransactions();
+    loadActivations();
   });
 
   const updateBalanceUI = () => {
     const txt = '$' + currentBalance.toFixed(2);
     document.getElementById('balanceVal').textContent = txt;
     document.getElementById('depositBalance').textContent = txt;
+    document.querySelectorAll('.bal-ref').forEach(el => el.textContent = txt);
   };
 
   // ---------- LOAD TRANSACTIONS ----------
   async function loadTransactions() {
     if (!currentUser) return;
     try {
-      const q = query(
-        collection(db, 'users', currentUser.uid, 'transactions'),
-        orderBy('createdAt', 'desc')
-      );
+      const q = query(collection(db, 'users', currentUser.uid, 'transactions'), orderBy('createdAt', 'desc'));
       const snap = await getDocs(q);
       const txList = document.getElementById('txList');
-      const recentTx = document.getElementById('recentTx');
 
       if (snap.empty) {
         txList.innerHTML = `
@@ -1179,23 +1220,17 @@
             <h3>No transactions yet</h3>
             <p>When you deposit or buy something, it will show here.</p>
           </div>`;
-        recentTx.innerHTML = txList.innerHTML;
         return;
       }
 
       let html = '';
-      let recentHtml = '';
-      let orderCount = 0;
-
-      snap.forEach((docSnap, idx) => {
+      snap.forEach(docSnap => {
         const t = docSnap.data();
         const isPlus = t.type === 'deposit';
-        if (!isPlus) orderCount++;
         const date = t.createdAt?.toDate
           ? t.createdAt.toDate().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
           : 'Just now';
-
-        const row = `
+        html += `
           <div class="list-row">
             <div class="lr-left">
               <div class="lr-icon">${t.icon || '🧾'}</div>
@@ -1209,24 +1244,81 @@
               <div class="lr-date">${date}</div>
             </div>
           </div>`;
-        html += row;
-        if (idx < 4) recentHtml += row;
       });
-
       txList.innerHTML = html;
-      recentTx.innerHTML = recentHtml;
-      document.getElementById('ordersVal').textContent = orderCount;
+    } catch (e) { console.warn(e); }
+  }
+
+  // ---------- LOAD ACTIVATIONS ----------
+  async function loadActivations() {
+    if (!currentUser) return;
+    const tbody = document.getElementById('activationsBody');
+    try {
+      const q = query(collection(db, 'users', currentUser.uid, 'activations'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+
+      if (snap.empty) {
+        tbody.innerHTML = `
+          <tr><td colspan="6">
+            <div class="empty">
+              <div class="empty-icon">📭</div>
+              <h3>No activations yet</h3>
+              <p>Your activated numbers will appear here.</p>
+            </div>
+          </td></tr>`;
+        return;
+      }
+
+      let html = '';
+      snap.forEach(d => {
+        const a = d.data();
+        const date = a.createdAt?.toDate
+          ? a.createdAt.toDate().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+          : 'Just now';
+        const statusClass = {
+          active: 'status-active', pending: 'status-pending',
+          expired: 'status-expired', completed: 'status-completed'
+        }[a.status] || 'status-pending';
+
+        html += `
+          <tr>
+            <td>${a.service || '—'}</td>
+            <td>${a.number || '—'}</td>
+            <td>${a.code ? `<span class="code-pill">${a.code}</span>` : `<span class="code-pill pending">Waiting…</span>`}</td>
+            <td>$${Number(a.price || 0).toFixed(2)}</td>
+            <td><span class="status-badge ${statusClass}">${a.status || 'pending'}</span></td>
+            <td>${date}</td>
+          </tr>`;
+      });
+      tbody.innerHTML = html;
     } catch (e) {
-      console.warn('Tx load error:', e);
+      console.warn('Activations error:', e);
+      tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
     }
   }
+
+  // Refresh button
+  document.getElementById('refreshBtn').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.classList.add('spinning');
+    await loadActivations();
+    await loadTransactions();
+    showToast('✅ Refreshed', 'success');
+    setTimeout(() => btn.classList.remove('spinning'), 600);
+  });
 
   // ---------- ADD TRANSACTION ----------
   async function addTransaction(data) {
     if (!currentUser) return;
     await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-      ...data,
-      createdAt: serverTimestamp()
+      ...data, createdAt: serverTimestamp()
+    });
+  }
+
+  async function addActivation(data) {
+    if (!currentUser) return;
+    await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
+      ...data, createdAt: serverTimestamp()
     });
   }
 
@@ -1234,19 +1326,19 @@
   document.getElementById('usaBuyBtn').addEventListener('click', async () => {
     const service = document.getElementById('usaServiceName').textContent;
     const price = parseFloat(document.getElementById('usaPrice').textContent.replace('$', ''));
-    if (currentBalance < price) {
-      showToast('Insufficient balance. Please deposit funds.', 'error');
-      return;
-    }
+    if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+
     currentBalance -= price;
     await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
     updateBalanceUI();
-    await addTransaction({
-      type: 'purchase', icon: '🇺🇸', title: `USA Number — ${service}`,
-      subtitle: 'United States virtual number', amount: price
-    });
+
+    const fakeNumber = '+1' + Math.floor(2000000000 + Math.random() * 7999999999);
+    await addTransaction({ type: 'purchase', icon: '🇺🇸', title: `USA Number — ${service}`, subtitle: 'United States virtual number', amount: price });
+    await addActivation({ service, number: fakeNumber, code: '', price, status: 'pending' });
+
     showToast(`✅ USA ${service} number purchased!`, 'success');
     loadTransactions();
+    loadActivations();
   });
 
   // ---------- BUY GLOBAL ----------
@@ -1254,19 +1346,19 @@
     const countryText = document.getElementById('gCountry').textContent.trim();
     const service = document.getElementById('gService').textContent;
     const price = parseFloat(document.getElementById('gPrice').textContent.replace('$', ''));
-    if (currentBalance < price) {
-      showToast('Insufficient balance. Please deposit funds.', 'error');
-      return;
-    }
+    if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+
     currentBalance -= price;
     await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
     updateBalanceUI();
-    await addTransaction({
-      type: 'purchase', icon: '🌍', title: `${countryText} — ${service}`,
-      subtitle: 'Virtual number', amount: price
-    });
+
+    const fakeNumber = '+' + Math.floor(1000000000 + Math.random() * 8999999999);
+    await addTransaction({ type: 'purchase', icon: '🌍', title: `${countryText} — ${service}`, subtitle: 'Virtual number', amount: price });
+    await addActivation({ service, number: fakeNumber, code: '', price, status: 'pending' });
+
     showToast(`✅ ${countryText} ${service} number purchased!`, 'success');
     loadTransactions();
+    loadActivations();
   });
 
   // ---------- BUY ITEM (Gmail / Social) ----------
@@ -1274,20 +1366,32 @@
     btn.addEventListener('click', async () => {
       const item = btn.dataset.buyItem;
       const price = parseFloat(btn.dataset.buyPrice);
-      if (currentBalance < price) {
-        showToast('Insufficient balance. Please deposit funds.', 'error');
-        return;
-      }
+      if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+
       currentBalance -= price;
       await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
       updateBalanceUI();
-      await addTransaction({
-        type: 'purchase', icon: '🛒', title: item,
-        subtitle: 'Account purchase', amount: price
-      });
+
+      await addTransaction({ type: 'purchase', icon: '🛒', title: item, subtitle: 'Account purchase', amount: price });
       showToast(`✅ ${item} purchased!`, 'success');
       loadTransactions();
     });
+  });
+
+  // ---------- BOOST ----------
+  document.getElementById('boostBuyBtn').addEventListener('click', async () => {
+    const platform = document.getElementById('boostPlatformVal').textContent;
+    const service = document.getElementById('boostServiceVal').textContent;
+    const price = parseFloat(document.getElementById('boostPrice').textContent.replace('$', ''));
+    if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+
+    currentBalance -= price;
+    await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
+    updateBalanceUI();
+
+    await addTransaction({ type: 'purchase', icon: '🚀', title: `${platform} ${service}`, subtitle: 'Boost order', amount: price });
+    showToast(`✅ ${platform} ${service} boost ordered!`, 'success');
+    loadTransactions();
   });
 
   // ---------- DEPOSIT ----------
@@ -1299,15 +1403,11 @@
     }
     const method = document.querySelector('#paymentPicker .selected')?.dataset.method || 'card';
 
-    // Add to balance
     currentBalance += amount;
     await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
     updateBalanceUI();
 
-    await addTransaction({
-      type: 'deposit', icon: '💰', title: `Deposit via ${method}`,
-      subtitle: 'Funds added to wallet', amount: amount
-    });
+    await addTransaction({ type: 'deposit', icon: '💰', title: `Deposit via ${method}`, subtitle: 'Funds added', amount });
 
     showToast(`✅ $${amount.toFixed(2)} deposited via ${method}!`, 'success');
     document.getElementById('customAmount').value = '';
@@ -1328,16 +1428,15 @@
       const cred = EmailAuthProvider.credential(currentUser.email, cur);
       await reauthenticateWithCredential(currentUser, cred);
       await updatePassword(currentUser, nw);
-      showToast('✅ Password updated successfully!', 'success');
+      showToast('✅ Password updated!', 'success');
       document.getElementById('currentPass').value = '';
       document.getElementById('newPass').value = '';
       document.getElementById('confirmPass').value = '';
     } catch (err) {
-      console.error(err);
       const map = {
         'auth/wrong-password': 'Current password is incorrect.',
         'auth/weak-password': 'New password is too weak.',
-        'auth/requires-recent-login': 'Please login again to change password.'
+        'auth/requires-recent-login': 'Please login again.'
       };
       showToast(map[err.code] || err.message, 'error');
     }
@@ -1351,4 +1450,4 @@
 </script>
 
 </body>
- </html>
+       </html>
