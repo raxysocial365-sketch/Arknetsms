@@ -167,6 +167,33 @@
   .code-pill { background: var(--pink-soft); color: var(--pink); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 13px; letter-spacing: 1px; font-family: 'Consolas', monospace; }
   .code-pill.pending { background: #fef3c7; color: #92400e; }
 
+  /* Cancel button */
+  .btn-cancel-row {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.2s;
+    white-space: nowrap;
+    margin-top: 6px;
+  }
+  .btn-cancel-row:hover { background: #dc2626; color: white; border-color: #dc2626; }
+  .btn-cancel-row:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .refund-pill {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 12px;
+  }
+
   .empty { text-align: center; padding: 40px 20px; border: 2px dashed #f0dcd4; border-radius: 12px; }
   .empty-icon { font-size: 46px; margin-bottom: 12px; }
   .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
@@ -223,6 +250,7 @@
     text-align: left;
     transition: 0.15s;
     font-family: inherit;
+    border-left: none; border-right: none; border-top: none;
   }
   .search-item:last-child { border-bottom: none; }
   .search-item:hover { background: var(--pink-soft); }
@@ -258,7 +286,7 @@
   .price-card .price { font-size: 26px; font-weight: 800; color: var(--pink); }
   .price-card .price-note { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
 
-  /* SERVICE PICKER (USA grid) */
+  /* SERVICE PICKER */
   .service-picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
   .service-pick {
     background: var(--white); border: 1.5px solid #f5e6e0; border-radius: 14px;
@@ -500,12 +528,12 @@
     <div class="section">
       <div class="section-title" style="margin-bottom: 14px;">Select Service</div>
       <div class="service-picker" id="usaServices">
-        <div class="service-pick selected" data-service="whatsapp"><div class="sp-icon">💬</div><div class="sp-name">WhatsApp</div><div class="sp-price">₦3,800</div></div>
-        <div class="service-pick" data-service="telegram"><div class="sp-icon">✈️</div><div class="sp-name">Telegram</div><div class="sp-price">₦3,800</div></div>
-        <div class="service-pick" data-service="instagram"><div class="sp-icon">📸</div><div class="sp-name">Instagram</div><div class="sp-price">₦4,200</div></div>
-        <div class="service-pick" data-service="facebook"><div class="sp-icon">📘</div><div class="sp-name">Facebook</div><div class="sp-price">₦3,800</div></div>
-        <div class="service-pick" data-service="google"><div class="sp-icon">🔵</div><div class="sp-name">Google</div><div class="sp-price">₦4,500</div></div>
-        <div class="service-pick" data-service="discord"><div class="sp-icon">💻</div><div class="sp-name">Discord</div><div class="sp-price">₦4,200</div></div>
+        <div class="service-pick selected" data-service="whatsapp"><div class="sp-icon">💬</div><div class="sp-name">WhatsApp</div><div class="sp-price">₦4,725</div></div>
+        <div class="service-pick" data-service="telegram"><div class="sp-icon">✈️</div><div class="sp-name">Telegram</div><div class="sp-price">₦4,725</div></div>
+        <div class="service-pick" data-service="instagram"><div class="sp-icon">📸</div><div class="sp-name">Instagram</div><div class="sp-price">₦2,090</div></div>
+        <div class="service-pick" data-service="facebook"><div class="sp-icon">📘</div><div class="sp-name">Facebook</div><div class="sp-price">₦2,710</div></div>
+        <div class="service-pick" data-service="google"><div class="sp-icon">🔵</div><div class="sp-name">Google</div><div class="sp-price">₦3,175</div></div>
+        <div class="service-pick" data-service="discord"><div class="sp-icon">💻</div><div class="sp-name">Discord</div><div class="sp-price">₦2,090</div></div>
       </div>
     </div>
 
@@ -513,7 +541,7 @@
       <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
       <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val">🇺🇸 United States</span></div>
       <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="usaServiceName">WhatsApp</span></div>
-      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="usaPrice">₦3,800</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="usaPrice">₦4,725</span></div>
       <button class="btn-pink btn-full" style="margin-top: 18px;" id="usaBuyBtn">Buy Now →</button>
     </div>
   </div>
@@ -525,7 +553,7 @@
       <p>Search a country, pick a service, and purchase instantly.</p>
     </div>
 
-    <!-- STEP 1: COUNTRY SEARCH -->
+    <!-- STEP 1 -->
     <div class="section">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
@@ -534,14 +562,14 @@
       <div class="form-field">
         <label>Select Country <span class="req">*</span></label>
         <div class="search-wrap">
-          <input type="text" id="countryInput" placeholder="🔍 Search country... (e.g. Poland, USA, Nigeria)" autocomplete="off">
+          <input type="text" id="countryInput" placeholder="🔍 Search country... (e.g. Poland, USA)" autocomplete="off">
           <div class="search-results" id="countryDropdown"></div>
         </div>
         <div class="form-hint">Search and pick the country you want.</div>
       </div>
     </div>
 
-    <!-- STEP 2: SERVICE SEARCH -->
+    <!-- STEP 2 -->
     <div class="section" id="serviceCard" style="display: none;">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
@@ -567,15 +595,13 @@
       </div>
     </div>
 
-    <!-- STEP 3: BUY BUTTON -->
+    <!-- STEP 3 -->
     <div class="section" id="buySection" style="display: none;">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
         Confirm & Buy
       </div>
-      <button class="btn-pink btn-full" id="actionBtn" disabled>
-        🛒 Buy Number
-      </button>
+      <button class="btn-pink btn-full" id="actionBtn" disabled>🛒 Buy Number</button>
     </div>
   </div>
 
@@ -607,7 +633,7 @@
         </div>
       </div>
       <div class="list-row">
-        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Bulk Gmail (10 pcs)</div><div class="lr-sub">Wholesale • Discounted rate</div></div></div>
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Bulk Gmail (10 pcs)</div><div class="lr-sub">Wholesale • Discounted</div></div></div>
         <div class="lr-right"><div class="lr-amount">₦13,500</div>
           <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Bulk x10" data-buy-price="13500">Buy</button>
         </div>
@@ -655,7 +681,7 @@
         </div>
       </div>
       <div class="list-row">
-        <div class="lr-left"><div class="lr-icon">💻</div><div><div class="lr-title">Discord Account</div><div class="lr-sub">Verified email attached</div></div></div>
+        <div class="lr-left"><div class="lr-icon">💻</div><div><div class="lr-title">Discord Account</div><div class="lr-sub">Verified email</div></div></div>
         <div class="lr-right"><div class="lr-amount">₦2,700</div>
           <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Discord Account" data-buy-price="2700">Buy</button>
         </div>
@@ -831,13 +857,9 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  /* 🔌 AutoFications backend endpoint (Firebase Cloud Function or Vercel API) */
   const API_URL = "/api/autofications-buy";
-
-  /* Pricing config (can also be loaded from Firestore admin_settings) */
-  let USD_TO_NGN = 1500;
-  let PROFIT_NGN = 850;
-  let priceOverrides = {};
+  const USD_TO_NGN = 1550;   // 👈 update to current rate
+  const PROFIT_NGN = 850;    // your profit per transaction
 
   const toast = document.getElementById('toast');
   const showToast = (text, type = '') => {
@@ -854,7 +876,7 @@
   let currentUser = null;
   let currentBalance = 0;
 
-  /* ========== SIDEBAR ========== */
+  /* SIDEBAR */
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
     item.addEventListener('click', () => {
       document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
@@ -885,7 +907,7 @@
     overlay.classList.remove('show');
   });
 
-  /* ========== PICKERS ========== */
+  /* PICKERS */
   const wirePicker = (containerId, callback) => {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -917,33 +939,33 @@
     document.getElementById('boostPrice').textContent = '₦' + Number(el.dataset.price).toLocaleString('en-NG');
   });
 
-  /* ========== ALL COUNTRIES — AUTO-FICATIONS FLOW ========== */
+  /* ========== ALL COUNTRIES — REAL AutoFications ========== */
   const COUNTRIES = [
-  {name:"United Kingdom", code:"UK", flag:"🇬🇧"},
-  {name:"United States", code:"US1", flag:"🇺🇸"},
-  {name:"France", code:"FR", flag:"🇫🇷"},
-  {name:"Hong Kong", code:"HK", flag:"🇭🇰"},
-  {name:"China", code:"CN", flag:"🇨🇳"},
-  {name:"Germany", code:"DE", flag:"🇩🇪"},
-  {name:"Netherlands", code:"NL", flag:"🇳🇱"},
-  {name:"Malaysia", code:"MY", flag:"🇲🇾"},
-  {name:"Brazil", code:"BR", flag:"🇧🇷"},
-  {name:"India", code:"IND", flag:"🇮🇳"},
-  {name:"Philippines", code:"PH", flag:"🇵🇭"},
-  {name:"Spain", code:"ES", flag:"🇪🇸"},
-  {name:"Argentina", code:"AR", flag:"🇦🇷"},
-  {name:"New Zealand", code:"NZ", flag:"🇳🇿"},
-  {name:"Ukraine", code:"UA", flag:"🇺🇦"},
-  {name:"Sweden", code:"SE", flag:"🇸🇪"},
-  {name:"Poland", code:"PL", flag:"🇵🇱"},
-  {name:"India (alt)", code:"IN1", flag:"🇮🇳"},
-  {name:"Vietnam", code:"VN", flag:"🇻🇳"},
-  {name:"Romania", code:"RO", flag:"🇷🇴"},
-  {name:"Portugal", code:"PT", flag:"🇵🇹"},
-  {name:"Turkey", code:"TR", flag:"🇹🇷"},
-  {name:"Estonia", code:"EE", flag:"🇪🇪"},
-  {name:"Israel", code:"IL", flag:"🇮🇱"}
-];
+    {name:"United Kingdom", code:"UK", flag:"🇬🇧"},
+    {name:"United States", code:"US1", flag:"🇺🇸"},
+    {name:"France", code:"FR", flag:"🇫🇷"},
+    {name:"Hong Kong", code:"HK", flag:"🇭🇰"},
+    {name:"China", code:"CN", flag:"🇨🇳"},
+    {name:"Germany", code:"DE", flag:"🇩🇪"},
+    {name:"Netherlands", code:"NL", flag:"🇳🇱"},
+    {name:"Malaysia", code:"MY", flag:"🇲🇾"},
+    {name:"Brazil", code:"BR", flag:"🇧🇷"},
+    {name:"India", code:"IND", flag:"🇮🇳"},
+    {name:"Philippines", code:"PH", flag:"🇵🇭"},
+    {name:"Spain", code:"ES", flag:"🇪🇸"},
+    {name:"Argentina", code:"AR", flag:"🇦🇷"},
+    {name:"New Zealand", code:"NZ", flag:"🇳🇿"},
+    {name:"Ukraine", code:"UA", flag:"🇺🇦"},
+    {name:"Sweden", code:"SE", flag:"🇸🇪"},
+    {name:"Poland", code:"PL", flag:"🇵🇱"},
+    {name:"India (IN1)", code:"IN1", flag:"🇮🇳"},
+    {name:"Vietnam", code:"VN", flag:"🇻🇳"},
+    {name:"Romania", code:"RO", flag:"🇷🇴"},
+    {name:"Portugal", code:"PT", flag:"🇵🇹"},
+    {name:"Turkey", code:"TR", flag:"🇹🇷"},
+    {name:"Estonia", code:"EE", flag:"🇪🇪"},
+    {name:"Israel", code:"IL", flag:"🇮🇱"}
+  ];
 
   let selectedCountry = null;
   let selectedService = null;
@@ -976,20 +998,9 @@
     if (e.target === purchaseModal) closeModal();
   });
 
-  function calculateCustomerPrice(providerUsdPrice, countryCode, websiteId){
-    const key = `${String(countryCode || '').toLowerCase()}:${String(websiteId || '')}`;
-    const override = priceOverrides[key];
-    if (override?.customPrice) {
-      const c = Number(override.customPrice);
-      if (c > 0) return c;
-    }
+  function calculateCustomerPrice(providerUsdPrice){
     const usd = Number(providerUsdPrice || 0);
     return Math.ceil((usd * USD_TO_NGN) + PROFIT_NGN);
-  }
-
-  function isServiceDisabled(countryCode, websiteId){
-    const key = `${String(countryCode || '').toLowerCase()}:${String(websiteId || '')}`;
-    return priceOverrides[key]?.enabled === false;
   }
 
   /* COUNTRY SEARCH */
@@ -1013,7 +1024,7 @@
           <span class="si-flag">${c.flag}</span>
           <span class="si-name">${escapeHtml(c.name)}</span>
         </div>
-        <span class="si-price" style="font-size:11px;color:var(--brown-light);font-weight:600;">${c.code.toUpperCase()}</span>
+        <span class="si-price" style="font-size:11px;color:var(--brown-light);font-weight:600;">${c.code}</span>
       </button>
     `).join('');
     countryDropdown.classList.add('show');
@@ -1055,22 +1066,16 @@
       const res = await fetch(url, { cache: 'no-store' });
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data?.message || 'Failed to load services');
+      if (!res.ok || !data.success) {
+        serviceInput.placeholder = data.message || 'Failed to load services';
+        return;
+      }
 
-      let services = [];
-      if (Array.isArray(data?.services)) services = data.services;
-      else if (Array.isArray(data?.data)) services = data.data;
-      else if (Array.isArray(data?.result)) services = data.result;
-      else if (Array.isArray(data)) services = data;
-
-      availableServices = services.map(s => {
-        if (typeof s === 'string') return { id:'', name:s, price:0 };
-        return {
-          id: String(s.id ?? s.websiteId ?? s.website_id ?? s.website ?? ''),
-          name: String(s.name ?? s.website ?? s.service ?? '').trim(),
-          price: Number(s.price ?? s.cost ?? s.rate ?? s.amount ?? 0)
-        };
-      }).filter(s => s.id && s.name);
+      availableServices = (data.services || []).map(s => ({
+        id: String(s.id),
+        name: String(s.name),
+        price: Number(s.price || 0)
+      }));
 
       if (!availableServices.length) {
         serviceInput.placeholder = 'No services available';
@@ -1092,7 +1097,6 @@
     if (!q) { serviceDropdown.classList.remove('show'); return; }
 
     const matches = availableServices
-      .filter(s => !isServiceDisabled(selectedCountry.code, s.id))
       .filter(s => s.name.toLowerCase().includes(q))
       .slice(0, 12);
 
@@ -1103,7 +1107,7 @@
     }
 
     serviceDropdown.innerHTML = matches.map(s => {
-      const price = calculateCustomerPrice(s.price, selectedCountry.code, s.id);
+      const price = calculateCustomerPrice(s.price);
       return `
         <button type="button" class="search-item" data-id="${escapeHtml(s.id)}">
           <div class="si-left">
@@ -1124,13 +1128,12 @@
   function selectService(id){
     const service = availableServices.find(s => String(s.id) === String(id));
     if (!service) return;
-    if (isServiceDisabled(selectedCountry.code, service.id)) return;
 
     selectedService = service;
     serviceInput.value = capitalize(service.name);
     serviceDropdown.classList.remove('show');
 
-    const price = calculateCustomerPrice(service.price, selectedCountry.code, service.id);
+    const price = calculateCustomerPrice(service.price);
 
     selectedChip.style.display = 'flex';
     selectedName.textContent = `${selectedCountry.flag} ${capitalize(service.name)}`;
@@ -1145,19 +1148,19 @@
   actionBtn.addEventListener('click', () => {
     if (!currentUser || !selectedCountry || !selectedService) return;
 
-    const price = calculateCustomerPrice(selectedService.price, selectedCountry.code, selectedService.id);
+    const price = calculateCustomerPrice(selectedService.price);
 
     if (currentBalance < price) {
       const shortfall = price - currentBalance;
       openModal(`
         <div class="modal-icon">⚠️</div>
         <div class="modal-title">Not Enough Balance</div>
-        <div class="modal-sub">You need <b>${formatNGN(shortfall)}</b> more to buy <b>${escapeHtml(capitalize(selectedService.name))}</b>.</div>
+        <div class="modal-sub">You need <b>${formatNGN(shortfall)}</b> more.</div>
         <div class="modal-detail">
           <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(selectedService.name))}</b></div>
           <div class="md-row"><span>Country</span><b>${selectedCountry.flag} ${escapeHtml(selectedCountry.name)}</b></div>
           <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
-          <div class="md-row"><span>Your Balance</span><b>${formatNGN(currentBalance)}</b></div>
+          <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
           <div class="md-row total"><span>Shortfall</span><b>${formatNGN(shortfall)}</b></div>
         </div>
         <div class="modal-actions">
@@ -1176,13 +1179,13 @@
     openModal(`
       <div class="modal-icon">🛒</div>
       <div class="modal-title">Confirm Purchase</div>
-      <div class="modal-sub">You're about to rent a <b>${escapeHtml(capitalize(selectedService.name))}</b> number from <b>${escapeHtml(selectedCountry.name)}</b>.</div>
+      <div class="modal-sub">Buy <b>${escapeHtml(capitalize(selectedService.name))}</b> number from <b>${escapeHtml(selectedCountry.name)}</b>.</div>
       <div class="modal-detail">
         <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(selectedService.name))}</b></div>
         <div class="md-row"><span>Country</span><b>${selectedCountry.flag} ${escapeHtml(selectedCountry.name)}</b></div>
         <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
-        <div class="md-row"><span>Your Balance</span><b>${formatNGN(currentBalance)}</b></div>
-        <div class="md-row total"><span>After Purchase</span><b>${formatNGN(currentBalance - price)}</b></div>
+        <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
+        <div class="md-row total"><span>After</span><b>${formatNGN(currentBalance - price)}</b></div>
       </div>
       <div class="modal-actions">
         <button class="btn-cancel" id="mCancel">Cancel</button>
@@ -1200,7 +1203,7 @@
     buyBtn.disabled = true;
     buyBtn.textContent = '⏳ Processing...';
 
-    const price = calculateCustomerPrice(selectedService.price, selectedCountry.code, selectedService.id);
+    const price = calculateCustomerPrice(selectedService.price);
 
     try {
       const userRef = doc(db, 'users', currentUser.uid);
@@ -1214,21 +1217,17 @@
       currentBalance = freshBalance;
       updateBalanceUI();
 
-      /* Call AutoFications backend */
       const genUrl = `${API_URL}?action=generate&website=${encodeURIComponent(selectedService.id)}&country=${encodeURIComponent(selectedCountry.code)}`;
       const genRes = await fetch(genUrl, { cache: 'no-store' });
+      const genData = await genRes.json();
 
-      let genData = {};
-      try { genData = await genRes.json(); } catch { genData = {}; }
-
-      if (!genRes.ok || genData.success === false || genData.error) {
-        throw new Error('OUT_OF_STOCK');
+      if (!genRes.ok || !genData.success) {
+        throw new Error(genData.message || 'OUT_OF_STOCK');
       }
 
-      const phoneNumber = genData.number || genData.phone || genData.phoneNumber || genData.phone_number;
+      const phoneNumber = genData.number;
       if (!phoneNumber) throw new Error('OUT_OF_STOCK');
 
-      /* Deduct balance */
       const newBalance = freshBalance - price;
       await updateDoc(userRef, {
         wallet: newBalance,
@@ -1239,7 +1238,6 @@
       currentBalance = newBalance;
       updateBalanceUI();
 
-      /* Save activation */
       await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
         service: capitalize(selectedService.name),
         serviceId: selectedService.id,
@@ -1254,7 +1252,6 @@
         createdAt: serverTimestamp()
       });
 
-      /* Transaction */
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
         type: 'purchase',
         icon: selectedCountry.flag,
@@ -1264,32 +1261,16 @@
         createdAt: serverTimestamp()
       });
 
-      /* Save context */
-      try {
-        localStorage.setItem('activeOrder', JSON.stringify({
-          serviceName: capitalize(selectedService.name),
-          country: selectedCountry.name,
-          flag: selectedCountry.flag,
-          phone: phoneNumber,
-          price: price,
-          provider: 'autofications',
-          createdAt: Date.now()
-        }));
-      } catch (e) {}
-
       closeModal();
-      showToast(`✅ ${capitalize(selectedService.name)} number purchased!`, 'success');
+      showToast(`✅ Number: ${phoneNumber}`, 'success');
 
-      /* Reset */
       selectedCountry = null;
       selectedService = null;
-      selectedPriceEl.textContent = '';
       countryInput.value = '';
       serviceInput.value = '';
       serviceCard.style.display = 'none';
       buySection.style.display = 'none';
 
-      /* Redirect to Dashboard */
       setTimeout(() => {
         document.querySelector('.side-item[data-page="dashboard"]').click();
         loadTransactions();
@@ -1298,9 +1279,9 @@
 
     } catch (err) {
       console.error('Purchase error:', err);
-      let msg = 'Something went wrong. Please try again.';
-      if (err.message === 'OUT_OF_STOCK') msg = 'Number out of stock. Please try another service.';
-      else if (err.message === 'INSUFFICIENT') msg = 'Insufficient wallet balance.';
+      let msg = err.message === 'INSUFFICIENT'
+        ? 'Insufficient balance. Deposit funds first.'
+        : (err.message || 'Something went wrong. Try again.');
 
       openModal(`
         <div class="modal-icon">❌</div>
@@ -1319,7 +1300,7 @@
     }
   }
 
-  /* ========== AUTH GUARD ========== */
+  /* AUTH GUARD */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
@@ -1358,7 +1339,7 @@
     document.getElementById('depositBalance').textContent = txt;
   };
 
-  /* ========== LOAD TRANSACTIONS ========== */
+  /* LOAD TRANSACTIONS */
   async function loadTransactions(){
     if (!currentUser) return;
     try {
@@ -1397,7 +1378,7 @@
     } catch (e) { console.warn(e); }
   }
 
-  /* ========== LOAD ACTIVATIONS ========== */
+  /* LOAD ACTIVATIONS */
   async function loadActivations(){
     if (!currentUser) return;
     const tbody = document.getElementById('activationsBody');
@@ -1413,27 +1394,106 @@
       let html = '';
       snap.forEach(d => {
         const a = d.data();
+        const id = d.id;
+        const created = a.createdAt?.toDate ? a.createdAt.toDate() : new Date();
         const date = a.createdAt?.toDate
           ? a.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
           : 'Just now';
+
+        const ageMinutes = (Date.now() - created.getTime()) / 60000;
+        const canCancel = a.status === 'pending' && ageMinutes < 15 && a.provider === 'autofications';
+
         const statusClass = {
           active: 'status-active', pending: 'status-pending',
-          expired: 'status-expired', completed: 'status-completed'
+          expired: 'status-expired', completed: 'status-completed',
+          cancelled: 'status-expired'
         }[a.status] || 'status-pending';
+
+        let codeCell = '';
+        if (a.status === 'cancelled') {
+          codeCell = `<span class="refund-pill">REFUNDED</span>`;
+        } else if (a.code) {
+          codeCell = `<span class="code-pill">${a.code}</span>`;
+        } else {
+          codeCell = `<span class="code-pill pending">Waiting…</span>`;
+        }
+
+        const actionCell = canCancel
+          ? `<button class="btn-cancel-row" data-cancel-id="${id}" data-phone="${a.number}" data-service-id="${a.serviceId || ''}" data-country="${a.countryCode || ''}" data-price="${a.price || 0}">✖ Cancel</button>`
+          : '';
 
         html += `
           <tr>
             <td>${a.flag ? a.flag + ' ' : ''}${a.service || '—'}</td>
             <td>${a.number || '—'}</td>
-            <td>${a.code ? `<span class="code-pill">${a.code}</span>` : `<span class="code-pill pending">Waiting…</span>`}</td>
+            <td>${codeCell}</td>
             <td>${formatNGNshort(a.price)}</td>
             <td><span class="status-badge ${statusClass}">${a.status || 'pending'}</span></td>
-            <td>${date}</td>
+            <td>${date}${actionCell ? '<br>' + actionCell : ''}</td>
           </tr>`;
       });
       tbody.innerHTML = html;
+
+      tbody.querySelectorAll('[data-cancel-id]').forEach(btn => {
+        btn.addEventListener('click', () => cancelActivation(btn));
+      });
     } catch (e) {
+      console.warn(e);
       tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
+    }
+  }
+
+  async function cancelActivation(btn){
+    const id = btn.dataset.cancelId;
+    const phone = btn.dataset.phone;
+    const serviceId = btn.dataset.serviceId;
+    const country = btn.dataset.country;
+    const price = Number(btn.dataset.price || 0);
+
+    if (!confirm(`Cancel this number and get ₦${price.toLocaleString()} refunded?`)) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Cancelling…';
+
+    try {
+      const url = `${API_URL}?action=blacklist&country=${encodeURIComponent(country)}&website=${encodeURIComponent(serviceId)}&phone_number=${encodeURIComponent(phone)}`;
+      const r = await fetch(url, { cache: 'no-store' });
+      const result = await r.json();
+      console.log('Blacklist result:', result);
+
+      await updateDoc(
+        doc(db, 'users', currentUser.uid, 'activations', id),
+        { status: 'cancelled', cancelledAt: serverTimestamp() }
+      );
+
+      const userRef = doc(db, 'users', currentUser.uid);
+      const fresh = await getDoc(userRef);
+      const freshData = fresh.data() || {};
+      const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
+      const newBalance = freshBalance + price;
+
+      await updateDoc(userRef, { wallet: newBalance, updatedAt: serverTimestamp() });
+      currentBalance = newBalance;
+      updateBalanceUI();
+
+      await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
+        type: 'deposit',
+        icon: '↩️',
+        title: `Refund — ${phone}`,
+        subtitle: 'Cancelled activation',
+        amount: price,
+        createdAt: serverTimestamp()
+      });
+
+      showToast(`✅ Cancelled. ₦${price.toLocaleString()} refunded!`, 'success');
+      loadActivations();
+      loadTransactions();
+
+    } catch (err) {
+      console.error('Cancel error:', err);
+      showToast('❌ Cancel failed. Try again.', 'error');
+      btn.disabled = false;
+      btn.textContent = '✖ Cancel';
     }
   }
 
@@ -1446,30 +1506,60 @@
     setTimeout(() => btn.classList.remove('spinning'), 600);
   });
 
-  /* ========== BUY USA ========== */
+  /* BUY USA — uses AutoFications US1 */
   document.getElementById('usaBuyBtn').addEventListener('click', async () => {
-    const service = document.getElementById('usaServiceName').textContent;
+    const serviceName = document.getElementById('usaServiceName').textContent;
     const price = Number(document.getElementById('usaPrice').textContent.replace(/[₦,]/g, ''));
     if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
 
-    currentBalance -= price;
-    await saveBalance();
+    // Find matching service ID from AutoFications list
+    const map = { 'WhatsApp': '1421', 'Telegram': '1405', 'Instagram': '1365', 'Facebook': '1352', 'Google': '1357', 'Discord': '1345' };
+    const serviceId = map[serviceName] || '1386';
 
-    const fakeNumber = '+1' + Math.floor(2000000000 + Math.random() * 7999999999);
-    await addTransaction({ type: 'purchase', icon: '🇺🇸', title: `USA Number — ${service}`, subtitle: 'United States virtual number', amount: price });
-    await addActivation({ service, number: fakeNumber, code: '', price, status: 'pending' });
+    try {
+      const genUrl = `${API_URL}?action=generate&website=${serviceId}&country=US1`;
+      const res = await fetch(genUrl, { cache: 'no-store' });
+      const data = await res.json();
 
-    showToast(`✅ USA ${service} number purchased!`, 'success');
-    loadTransactions();
-    loadActivations();
+      if (!data.success) {
+        showToast(data.message || 'Failed to get number', 'error');
+        return;
+      }
+
+      const phoneNumber = data.number;
+      currentBalance -= price;
+      await saveBalance();
+
+      await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
+        service: serviceName,
+        serviceId: serviceId,
+        country: 'United States',
+        countryCode: 'US1',
+        flag: '🇺🇸',
+        number: phoneNumber,
+        code: '',
+        price: price,
+        status: 'pending',
+        provider: 'autofications',
+        createdAt: serverTimestamp()
+      });
+
+      await addTransaction({ type: 'purchase', icon: '🇺🇸', title: `USA Number — ${serviceName}`, subtitle: `Number: ${phoneNumber}`, amount: price });
+
+      showToast(`✅ Number: ${phoneNumber}`, 'success');
+      loadTransactions();
+      loadActivations();
+    } catch (err) {
+      showToast('❌ Failed. Try again.', 'error');
+    }
   });
 
-  /* ========== BUY ITEM ========== */
+  /* BUY ITEM */
   document.querySelectorAll('[data-buy-item]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const item = btn.dataset.buyItem;
       const price = Number(btn.dataset.buyPrice);
-      if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+      if (currentBalance < price) return showToast('Insufficient balance.', 'error');
 
       currentBalance -= price;
       await saveBalance();
@@ -1479,12 +1569,12 @@
     });
   });
 
-  /* ========== BOOST ========== */
+  /* BOOST */
   document.getElementById('boostBuyBtn').addEventListener('click', async () => {
     const platform = document.getElementById('boostPlatformVal').textContent;
     const service = document.getElementById('boostServiceVal').textContent;
     const price = Number(document.getElementById('boostPrice').textContent.replace(/[₦,]/g, ''));
-    if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+    if (currentBalance < price) return showToast('Insufficient balance.', 'error');
 
     currentBalance -= price;
     await saveBalance();
@@ -1493,7 +1583,7 @@
     loadTransactions();
   });
 
-  /* ========== DEPOSIT ========== */
+  /* DEPOSIT */
   document.getElementById('depositBtn').addEventListener('click', async () => {
     let amount = Number(document.getElementById('customAmount').value);
     if (!amount || amount <= 0) {
@@ -1511,7 +1601,7 @@
     loadTransactions();
   });
 
-  /* ========== CHANGE PASSWORD ========== */
+  /* CHANGE PASSWORD */
   document.getElementById('changePassBtn').addEventListener('click', async () => {
     const cur = document.getElementById('currentPass').value;
     const nw = document.getElementById('newPass').value;
@@ -1539,20 +1629,16 @@
     }
   });
 
-  /* ========== LOGOUT ========== */
+  /* LOGOUT */
   document.getElementById('logoutBtn').addEventListener('click', async () => {
     await signOut(auth);
     window.location.href = 'login.html';
   });
 
-  /* ========== HELPERS ========== */
+  /* HELPERS */
   async function addTransaction(data){
     if (!currentUser) return;
     await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), { ...data, createdAt: serverTimestamp() });
-  }
-  async function addActivation(data){
-    if (!currentUser) return;
-    await addDoc(collection(db, 'users', currentUser.uid, 'activations'), { ...data, createdAt: serverTimestamp() });
   }
   async function saveBalance(){
     await setDoc(doc(db, 'users', currentUser.uid), { wallet: currentBalance }, { merge: true });
@@ -1561,4 +1647,4 @@
 </script>
 
 </body>
-       </html>
+ </html>
