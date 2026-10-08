@@ -19,6 +19,7 @@
     --red: #dc2626;
     --warning: #b45309;
     --sidebar-w: 260px;
+    --bottom-nav-h: 68px;
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
 
@@ -99,7 +100,7 @@
   .topbar-balance .b-val { color: var(--pink-light); }
 
   /* MAIN */
-  .main { margin-left: var(--sidebar-w); padding: 26px 4% 60px; min-height: calc(100vh - 60px); }
+  .main { margin-left: var(--sidebar-w); padding: 26px 4% 90px; min-height: calc(100vh - 60px); }
   .page { display: none; animation: fade 0.3s ease; }
   .page.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -317,9 +318,51 @@
   .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
   .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; word-break: break-word; text-align: right; }
 
+  /* PROFIT CARD */
+  .profit-hero {
+    background: linear-gradient(135deg, var(--brown-dark), var(--brown));
+    color: white;
+    border-radius: 18px;
+    padding: 30px 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .profit-hero .ph-label {
+    font-size: 13px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--pink-light);
+    margin-bottom: 10px;
+  }
+  .profit-hero .ph-value {
+    font-size: 42px; font-weight: 800;
+    color: white; letter-spacing: -1px;
+  }
+  .profit-hero .ph-sub {
+    font-size: 13px; color: #e8d5cc; margin-top: 8px;
+  }
+
+  .profit-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px; margin-bottom: 20px;
+  }
+  .profit-box {
+    background: var(--white); border: 1px solid #f5e6e0;
+    border-radius: 14px; padding: 18px;
+  }
+  .profit-box .pb-label {
+    font-size: 12px; color: var(--brown-light); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.6px;
+  }
+  .profit-box .pb-value {
+    font-size: 22px; font-weight: 800; color: var(--brown-dark);
+    margin-top: 4px;
+  }
+  .profit-box .pb-value.pink { color: var(--pink); }
+  .profit-box .pb-value.green { color: var(--green); }
+  .profit-box .pb-value.red { color: var(--red); }
+
   /* TOAST */
   .toast {
-    position: fixed; bottom: 24px; left: 50%;
+    position: fixed; bottom: calc(var(--bottom-nav-h) + 20px); left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: var(--brown-dark); color: white;
     padding: 13px 22px; border-radius: 10px;
@@ -373,15 +416,52 @@
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
   .overlay.show { display: block; }
 
-  /* RESPONSIVE */
+  /* ========== BOTTOM NAV (mobile only) ========== */
+  .bottom-nav {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: var(--bottom-nav-h);
+    background: var(--white);
+    border-top: 1px solid #f0dcd4;
+    box-shadow: 0 -6px 20px rgba(74,44,42,0.08);
+    z-index: 400;
+    padding: 0 6px;
+  }
+  .bn-inner {
+    max-width: 520px; margin: 0 auto;
+    height: 100%;
+    display: flex; justify-content: space-around; align-items: center;
+  }
+  .bn-item {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px;
+    color: var(--brown-light);
+    font-size: 10px; font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 6px 4px;
+    transition: 0.2s;
+    background: transparent; border: none;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bn-item .bn-icon { font-size: 20px; line-height: 1; }
+  .bn-item.active { color: var(--pink); }
+  .bn-item.logout { color: #dc2626; }
+  .bn-item:hover { color: var(--pink); }
+
+  /* ========== RESPONSIVE ========== */
   @media (max-width: 900px) {
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 4% 60px; }
+    .main { margin-left: 0; padding: 20px 4% 100px; }
     .menu-btn { display: block; }
     .greeting h1 { font-size: 22px; }
     .actions-top { grid-template-columns: repeat(3, 1fr); }
     .actions-bottom { max-width: 100%; }
+    .bottom-nav { display: block; }
+    .toast { bottom: calc(var(--bottom-nav-h) + 20px); }
   }
   @media (max-width: 600px) {
     .actions-top { grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -391,6 +471,7 @@
     .action-card .ac-title { font-size: 12px; }
     .action-card .ac-sub { font-size: 10px; }
     .price-card .price { font-size: 22px; }
+    .profit-hero .ph-value { font-size: 32px; }
   }
   @media (max-width: 380px) {
     .action-card .ac-title { font-size: 11px; }
@@ -433,6 +514,7 @@
     <div class="side-item" data-page="profile"><span class="si-icon">👤</span> Profile</div>
     <div class="side-item" data-page="deposit"><span class="si-icon">💰</span> Deposit Funds</div>
     <div class="side-item" data-page="history"><span class="si-icon">📜</span> Transaction History</div>
+    <div class="side-item" data-page="profits"><span class="si-icon">📈</span> Profits</div>
     <div class="side-item" data-page="password"><span class="si-icon">🔒</span> Change Password</div>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
@@ -553,7 +635,6 @@
       <p>Search a country, pick a service, and purchase instantly.</p>
     </div>
 
-    <!-- STEP 1 -->
     <div class="section">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
@@ -569,7 +650,6 @@
       </div>
     </div>
 
-    <!-- STEP 2 -->
     <div class="section" id="serviceCard" style="display: none;">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
@@ -595,7 +675,6 @@
       </div>
     </div>
 
-    <!-- STEP 3 -->
     <div class="section" id="buySection" style="display: none;">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
@@ -805,6 +884,50 @@
     </div>
   </div>
 
+  <!-- ========== PROFITS ========== -->
+  <div class="page" id="page-profits">
+    <div class="greeting">
+      <h1>📈 Your <span>Profits</span></h1>
+      <p>How much you've earned from reselling AutoFications numbers.</p>
+    </div>
+
+    <div class="profit-hero">
+      <div class="ph-label">Total Profit Earned</div>
+      <div class="ph-value" id="totalProfit">₦0</div>
+      <div class="ph-sub" id="totalProfitSub">From 0 successful sales</div>
+    </div>
+
+    <div class="profit-grid">
+      <div class="profit-box">
+        <div class="pb-label">Total Sales</div>
+        <div class="pb-value pink" id="totalSales">₦0</div>
+      </div>
+      <div class="profit-box">
+        <div class="pb-label">Provider Cost</div>
+        <div class="pb-value red" id="totalCost">₦0</div>
+      </div>
+      <div class="profit-box">
+        <div class="pb-label">Total Orders</div>
+        <div class="pb-value" id="totalOrders">0</div>
+      </div>
+      <div class="profit-box">
+        <div class="pb-label">Cancelled / Refunded</div>
+        <div class="pb-value" id="totalCancelled">0</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Profit Breakdown</div>
+      <div id="profitList">
+        <div class="empty">
+          <div class="empty-icon">📈</div>
+          <h3>No profit yet</h3>
+          <p>Your earnings will appear here once customers buy numbers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ========== CHANGE PASSWORD ========== -->
   <div class="page" id="page-password">
     <div class="greeting">
@@ -824,6 +947,32 @@
 
 </main>
 
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <div class="bn-inner">
+    <button class="bn-item" data-goto="dashboard">
+      <span class="bn-icon">📊</span>
+      <span>Service</span>
+    </button>
+    <button class="bn-item" data-goto="history">
+      <span class="bn-icon">📜</span>
+      <span>Transactions</span>
+    </button>
+    <button class="bn-item" data-goto="deposit">
+      <span class="bn-icon">💰</span>
+      <span>Deposit</span>
+    </button>
+    <button class="bn-item" data-goto="profits">
+      <span class="bn-icon">📈</span>
+      <span>Profits</span>
+    </button>
+    <button class="bn-item logout" id="bnLogout">
+      <span class="bn-icon">🚪</span>
+      <span>Logout</span>
+    </button>
+  </div>
+</nav>
+
 <!-- PURCHASE MODAL -->
 <div class="modal-overlay" id="purchaseModal">
   <div class="modal-box" id="modalContent"></div>
@@ -839,7 +988,7 @@
     EmailAuthProvider, reauthenticateWithCredential, updatePassword
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
-    getFirestore, doc, getDoc, setDoc, updateDoc, deleteField,
+    getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, deleteDoc,
     collection, addDoc, query, orderBy, getDocs, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -858,8 +1007,8 @@
   const db = getFirestore(app);
 
   const API_URL = "/api/autofications-buy";
-  const USD_TO_NGN = 1550;   // 👈 update to current rate
-  const PROFIT_NGN = 850;    // your profit per transaction
+  const USD_TO_NGN = 1550;
+  const PROFIT_NGN = 850;
 
   const toast = document.getElementById('toast');
   const showToast = (text, type = '') => {
@@ -876,24 +1025,25 @@
   let currentUser = null;
   let currentBalance = 0;
 
-  /* SIDEBAR */
+  /* SIDEBAR + BOTTOM NAV SHARED SWITCHER */
+  function gotoPage(page){
+    document.querySelectorAll('.side-item').forEach(i => i.classList.toggle('active', i.dataset.page === page));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + page);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.bn-item').forEach(b => b.classList.toggle('active', b.dataset.goto === page));
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (page === 'profits') loadProfits();
+  }
+
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('page-' + item.dataset.page).classList.add('active');
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('overlay').classList.remove('show');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    item.addEventListener('click', () => gotoPage(item.dataset.page));
   });
 
   document.querySelectorAll('[data-goto]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = document.querySelector(`.side-item[data-page="${btn.dataset.goto}"]`);
-      if (item) item.click();
-    });
+    btn.addEventListener('click', () => gotoPage(btn.dataset.goto));
   });
 
   const sidebar = document.getElementById('sidebar');
@@ -939,7 +1089,7 @@
     document.getElementById('boostPrice').textContent = '₦' + Number(el.dataset.price).toLocaleString('en-NG');
   });
 
-  /* ========== ALL COUNTRIES — REAL AutoFications ========== */
+  /* ========== ALL COUNTRIES ========== */
   const COUNTRIES = [
     {name:"United Kingdom", code:"UK", flag:"🇬🇧"},
     {name:"United States", code:"US1", flag:"🇺🇸"},
@@ -1002,8 +1152,11 @@
     const usd = Number(providerUsdPrice || 0);
     return Math.ceil((usd * USD_TO_NGN) + PROFIT_NGN);
   }
+  function calculateProviderCostNgn(providerUsdPrice){
+    const usd = Number(providerUsdPrice || 0);
+    return Math.ceil(usd * USD_TO_NGN);
+  }
 
-  /* COUNTRY SEARCH */
   countryInput.addEventListener('input', () => {
     const q = countryInput.value.trim().toLowerCase();
     if (!q) { countryDropdown.classList.remove('show'); return; }
@@ -1090,7 +1243,6 @@
     }
   }
 
-  /* SERVICE SEARCH */
   serviceInput.addEventListener('input', () => {
     if (!selectedCountry) return;
     const q = serviceInput.value.trim().toLowerCase();
@@ -1144,10 +1296,8 @@
     actionBtn.disabled = false;
   }
 
-  /* BUY BUTTON */
   actionBtn.addEventListener('click', () => {
     if (!currentUser || !selectedCountry || !selectedService) return;
-
     const price = calculateCustomerPrice(selectedService.price);
 
     if (currentBalance < price) {
@@ -1169,10 +1319,7 @@
         </div>
       `);
       document.getElementById('mCancel').onclick = closeModal;
-      document.getElementById('mFund').onclick = () => {
-        closeModal();
-        document.querySelector('.side-item[data-page="deposit"]').click();
-      };
+      document.getElementById('mFund').onclick = () => { closeModal(); gotoPage('deposit'); };
       return;
     }
 
@@ -1204,6 +1351,8 @@
     buyBtn.textContent = '⏳ Processing...';
 
     const price = calculateCustomerPrice(selectedService.price);
+    const providerCost = calculateProviderCostNgn(selectedService.price);
+    const profit = price - providerCost;
 
     try {
       const userRef = doc(db, 'users', currentUser.uid);
@@ -1221,9 +1370,7 @@
       const genRes = await fetch(genUrl, { cache: 'no-store' });
       const genData = await genRes.json();
 
-      if (!genRes.ok || !genData.success) {
-        throw new Error(genData.message || 'OUT_OF_STOCK');
-      }
+      if (!genRes.ok || !genData.success) throw new Error(genData.message || 'OUT_OF_STOCK');
 
       const phoneNumber = genData.number;
       if (!phoneNumber) throw new Error('OUT_OF_STOCK');
@@ -1247,6 +1394,8 @@
         number: phoneNumber,
         code: '',
         price: price,
+        providerCost: providerCost,
+        profit: profit,
         status: 'pending',
         provider: 'autofications',
         createdAt: serverTimestamp()
@@ -1272,7 +1421,7 @@
       buySection.style.display = 'none';
 
       setTimeout(() => {
-        document.querySelector('.side-item[data-page="dashboard"]').click();
+        gotoPage('dashboard');
         loadTransactions();
         loadActivations();
       }, 800);
@@ -1293,10 +1442,7 @@
         </div>
       `);
       document.getElementById('mClose').onclick = closeModal;
-      document.getElementById('mRetry').onclick = () => {
-        closeModal();
-        setTimeout(() => actionBtn.click(), 100);
-      };
+      document.getElementById('mRetry').onclick = () => { closeModal(); setTimeout(() => actionBtn.click(), 100); };
     }
   }
 
@@ -1331,6 +1477,7 @@
 
     loadTransactions();
     loadActivations();
+    cleanupOldCancelled();
   });
 
   const updateBalanceUI = () => {
@@ -1378,6 +1525,27 @@
     } catch (e) { console.warn(e); }
   }
 
+  /* CLEANUP: Delete cancelled activations older than 3 minutes */
+  async function cleanupOldCancelled() {
+    if (!currentUser) return;
+    try {
+      const snap = await getDocs(collection(db, 'users', currentUser.uid, 'activations'));
+      const now = Date.now();
+      const toDelete = [];
+      snap.forEach(d => {
+        const a = d.data();
+        if (a.status === 'cancelled' && a.cancelledAt?.toDate) {
+          const age = (now - a.cancelledAt.toDate().getTime()) / 60000;
+          if (age > 3) toDelete.push(d.id);
+        }
+      });
+      for (const id of toDelete) {
+        await deleteDoc(doc(db, 'users', currentUser.uid, 'activations', id));
+      }
+      if (toDelete.length) console.log(`Deleted ${toDelete.length} old cancelled activation(s)`);
+    } catch (e) { console.warn('cleanup error:', e); }
+  }
+
   /* LOAD ACTIVATIONS */
   async function loadActivations(){
     if (!currentUser) return;
@@ -1385,22 +1553,33 @@
     try {
       const q = query(collection(db, 'users', currentUser.uid, 'activations'), orderBy('createdAt', 'desc'));
       const snap = await getDocs(q);
+      const now = Date.now();
 
-      if (snap.empty) {
+      // Filter: hide cancelled older than 3 min (they'll be deleted next cleanup)
+      const visible = [];
+      snap.forEach(d => {
+        const a = d.data();
+        if (a.status === 'cancelled' && a.cancelledAt?.toDate) {
+          const age = (now - a.cancelledAt.toDate().getTime()) / 60000;
+          if (age > 3) return; // skip
+        }
+        visible.push({ id: d.id, ...a });
+      });
+
+      if (!visible.length) {
         tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
         return;
       }
 
       let html = '';
-      snap.forEach(d => {
-        const a = d.data();
-        const id = d.id;
+      visible.forEach(a => {
+        const id = a.id;
         const created = a.createdAt?.toDate ? a.createdAt.toDate() : new Date();
         const date = a.createdAt?.toDate
           ? a.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
           : 'Just now';
 
-        const ageMinutes = (Date.now() - created.getTime()) / 60000;
+        const ageMinutes = (now - created.getTime()) / 60000;
         const canCancel = a.status === 'pending' && ageMinutes < 15 && a.provider === 'autofications';
 
         const statusClass = {
@@ -1457,9 +1636,7 @@
 
     try {
       const url = `${API_URL}?action=blacklist&country=${encodeURIComponent(country)}&website=${encodeURIComponent(serviceId)}&phone_number=${encodeURIComponent(phone)}`;
-      const r = await fetch(url, { cache: 'no-store' });
-      const result = await r.json();
-      console.log('Blacklist result:', result);
+      await fetch(url, { cache: 'no-store' });
 
       await updateDoc(
         doc(db, 'users', currentUser.uid, 'activations', id),
@@ -1488,6 +1665,7 @@
       showToast(`✅ Cancelled. ₦${price.toLocaleString()} refunded!`, 'success');
       loadActivations();
       loadTransactions();
+      setTimeout(cleanupOldCancelled, 4000);
 
     } catch (err) {
       console.error('Cancel error:', err);
@@ -1497,34 +1675,91 @@
     }
   }
 
+  /* PROFITS PAGE */
+  async function loadProfits(){
+    if (!currentUser) return;
+    try {
+      const snap = await getDocs(collection(db, 'users', currentUser.uid, 'activations'));
+      let totalSales = 0, totalCost = 0, totalProfit = 0, orders = 0, cancelled = 0;
+      let rows = [];
+      snap.forEach(d => {
+        const a = d.data();
+        if (a.status === 'cancelled') { cancelled++; return; }
+        if (a.provider === 'autofications') {
+          orders++;
+          totalSales += Number(a.price || 0);
+          totalCost += Number(a.providerCost || 0);
+          totalProfit += Number(a.profit || 0);
+          rows.push(a);
+        }
+      });
+
+      document.getElementById('totalProfit').textContent = formatNGNshort(totalProfit);
+      document.getElementById('totalProfitSub').textContent = `From ${orders} successful sale${orders === 1 ? '' : 's'}`;
+      document.getElementById('totalSales').textContent = formatNGNshort(totalSales);
+      document.getElementById('totalCost').textContent = formatNGNshort(totalCost);
+      document.getElementById('totalOrders').textContent = orders;
+      document.getElementById('totalCancelled').textContent = cancelled;
+
+      const list = document.getElementById('profitList');
+      if (!rows.length) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">📈</div><h3>No profit yet</h3><p>Your earnings will appear here once customers buy numbers.</p></div>`;
+        return;
+      }
+
+      rows.sort((a,b) => (b.createdAt?.toDate?.() || 0) - (a.createdAt?.toDate?.() || 0));
+      let html = '';
+      rows.slice(0, 50).forEach(a => {
+        const date = a.createdAt?.toDate
+          ? a.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+          : 'Just now';
+        html += `
+          <div class="list-row">
+            <div class="lr-left">
+              <div class="lr-icon">${a.flag || '🌍'}</div>
+              <div>
+                <div class="lr-title">${a.service || '—'} • ${a.country || ''}</div>
+                <div class="lr-sub">${date}</div>
+              </div>
+            </div>
+            <div class="lr-right">
+              <div class="lr-amount plus">+${formatNGNshort(a.profit || 0)}</div>
+              <div class="lr-date">Sale: ${formatNGNshort(a.price)} • Cost: ${formatNGNshort(a.providerCost)}</div>
+            </div>
+          </div>`;
+      });
+      list.innerHTML = html;
+    } catch (e) {
+      console.warn('profits error:', e);
+    }
+  }
+
   document.getElementById('refreshBtn').addEventListener('click', async (e) => {
     const btn = e.currentTarget;
     btn.classList.add('spinning');
+    await cleanupOldCancelled();
     await loadActivations();
     await loadTransactions();
     showToast('✅ Refreshed', 'success');
     setTimeout(() => btn.classList.remove('spinning'), 600);
   });
 
-  /* BUY USA — uses AutoFications US1 */
+  /* BUY USA */
   document.getElementById('usaBuyBtn').addEventListener('click', async () => {
     const serviceName = document.getElementById('usaServiceName').textContent;
     const price = Number(document.getElementById('usaPrice').textContent.replace(/[₦,]/g, ''));
     if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
 
-    // Find matching service ID from AutoFications list
     const map = { 'WhatsApp': '1421', 'Telegram': '1405', 'Instagram': '1365', 'Facebook': '1352', 'Google': '1357', 'Discord': '1345' };
     const serviceId = map[serviceName] || '1386';
+    const providerCost = Math.ceil((price - PROFIT_NGN));
 
     try {
       const genUrl = `${API_URL}?action=generate&website=${serviceId}&country=US1`;
       const res = await fetch(genUrl, { cache: 'no-store' });
       const data = await res.json();
 
-      if (!data.success) {
-        showToast(data.message || 'Failed to get number', 'error');
-        return;
-      }
+      if (!data.success) return showToast(data.message || 'Failed to get number', 'error');
 
       const phoneNumber = data.number;
       currentBalance -= price;
@@ -1539,6 +1774,8 @@
         number: phoneNumber,
         code: '',
         price: price,
+        providerCost: providerCost,
+        profit: price - providerCost,
         status: 'pending',
         provider: 'autofications',
         createdAt: serverTimestamp()
@@ -1629,11 +1866,13 @@
     }
   });
 
-  /* LOGOUT */
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
+  /* LOGOUT (both sidebar + bottom nav) */
+  async function doLogout(){
     await signOut(auth);
     window.location.href = 'login.html';
-  });
+  }
+  document.getElementById('logoutBtn').addEventListener('click', doLogout);
+  document.getElementById('bnLogout').addEventListener('click', doLogout);
 
   /* HELPERS */
   async function addTransaction(data){
@@ -1647,4 +1886,4 @@
 </script>
 
 </body>
- </html>
+           </html>
