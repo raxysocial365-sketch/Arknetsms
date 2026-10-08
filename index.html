@@ -78,87 +78,46 @@
   }
   .btn-secondary:hover { background: var(--brown-dark); color: white; border-color: var(--brown-dark); }
 
-  /* Hero stats - 2x2 layout */
   .hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 24px;
-    max-width: 420px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-top: 24px; max-width: 420px;
   }
   .hero-stat {
-    background: var(--white);
-    border: 1px solid #f5e6e0;
-    border-radius: 12px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    background: var(--white); border: 1px solid #f5e6e0;
+    border-radius: 12px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
     box-shadow: 0 2px 8px rgba(74,44,42,0.05);
   }
   .hero-stat-num {
-    background: var(--pink);
-    color: white;
-    width: 32px; height: 32px;
-    border-radius: 8px;
+    background: var(--pink); color: white;
+    width: 32px; height: 32px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 800;
-    font-size: 15px;
-    flex-shrink: 0;
+    font-weight: 800; font-size: 15px; flex-shrink: 0;
   }
-  .hero-stat-text {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--brown-dark);
-    line-height: 1.2;
-  }
-  .hero-stat-text small {
-    display: block;
-    font-size: 11px;
-    color: var(--brown-light);
-    font-weight: 500;
-    margin-top: 2px;
-  }
+  .hero-stat-text { font-size: 13px; font-weight: 600; color: var(--brown-dark); line-height: 1.2; }
+  .hero-stat-text small { display: block; font-size: 11px; color: var(--brown-light); font-weight: 500; margin-top: 2px; }
 
-  /* ===== NEW HERO VISUAL - Live SMS Feed ===== */
-  .hero-visual {
-    position: relative;
-    padding: 20px;
-  }
+  /* Hero visual — Live SMS Feed */
+  .hero-visual { position: relative; padding: 20px; }
   .live-feed {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 24px 22px;
+    background: var(--white); border-radius: 24px; padding: 24px 22px;
     box-shadow: 0 25px 60px rgba(74,44,42,0.18);
     border: 1px solid #f5e6e0;
-    position: relative;
-    z-index: 2;
-    max-width: 420px;
-    margin: auto;
+    position: relative; z-index: 2;
+    max-width: 420px; margin: auto;
   }
   .live-feed-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #f5e6e0;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #f5e6e0;
   }
   .live-feed-title {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--brown-dark);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 16px; font-weight: 800; color: var(--brown-dark);
+    display: flex; align-items: center; gap: 8px;
   }
   .live-dot {
-    width: 9px; height: 9px;
-    background: #22c55e;
-    border-radius: 50%;
+    width: 9px; height: 9px; background: #22c55e; border-radius: 50%;
     box-shadow: 0 0 0 0 rgba(34,197,94,0.6);
-    animation: pulse 1.8s infinite;
-    display: inline-block;
+    animation: pulse 1.8s infinite; display: inline-block;
   }
   @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
@@ -166,108 +125,47 @@
     100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
   }
   .live-feed-badge {
-    background: var(--pink-soft);
-    color: var(--pink);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    border: 1px solid var(--pink-light);
+    background: var(--pink-soft); color: var(--pink);
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; border: 1px solid var(--pink-light);
   }
-
   .sms-item {
-    background: var(--pink-soft);
-    border-radius: 14px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
+    background: var(--pink-soft); border-radius: 14px;
+    padding: 14px 16px; margin-bottom: 10px;
     border-left: 4px solid var(--pink);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    display: flex; flex-direction: column; gap: 6px;
   }
   .sms-item:last-child { margin-bottom: 0; }
-  .sms-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  .sms-top { display: flex; justify-content: space-between; align-items: center; }
   .sms-app-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--brown-dark);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 14px; font-weight: 700; color: var(--brown-dark);
+    display: flex; align-items: center; gap: 8px;
   }
-  .sms-app-logo {
-    width: 20px; height: 20px;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .sms-app-logo { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
   .sms-app-logo svg { width: 100%; height: 100%; }
-  .sms-time {
-    font-size: 11px;
-    color: var(--brown-light);
-    font-weight: 600;
-  }
-  .sms-code-row {
-    font-size: 15px;
-    color: var(--brown);
-    font-weight: 600;
-    padding-left: 28px;
-  }
-  .sms-code-row span {
-    color: var(--pink);
-    font-weight: 800;
-    letter-spacing: 1px;
-  }
+  .sms-time { font-size: 11px; color: var(--brown-light); font-weight: 600; }
+  .sms-code-row { font-size: 15px; color: var(--brown); font-weight: 600; padding-left: 28px; }
+  .sms-code-row span { color: var(--pink); font-weight: 800; letter-spacing: 1px; }
 
-  /* Floating decorations */
-  .float-deco {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(40px);
-    z-index: 1;
-    opacity: 0.5;
-  }
-  .deco-1 {
-    width: 200px; height: 200px;
-    background: var(--pink);
-    top: -20px; right: -20px;
-  }
-  .deco-2 {
-    width: 180px; height: 180px;
-    background: var(--brown-light);
-    bottom: -30px; left: -30px;
-  }
+  .float-deco { position: absolute; border-radius: 50%; filter: blur(40px); z-index: 1; opacity: 0.5; }
+  .deco-1 { width: 200px; height: 200px; background: var(--pink); top: -20px; right: -20px; }
+  .deco-2 { width: 180px; height: 180px; background: var(--brown-light); bottom: -30px; left: -30px; }
 
-  /* Floating trust badges */
   .floating-badge {
-    position: absolute;
-    background: var(--white);
-    border-radius: 12px;
-    padding: 10px 14px;
-    box-shadow: 0 10px 30px rgba(74,44,42,0.18);
-    border: 1px solid #f5e6e0;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--brown-dark);
+    position: absolute; background: var(--white); border-radius: 12px;
+    padding: 10px 14px; box-shadow: 0 10px 30px rgba(74,44,42,0.18);
+    border: 1px solid #f5e6e0; z-index: 3;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; color: var(--brown-dark);
     animation: floaty 3s ease-in-out infinite;
   }
   .floating-badge .fb-icon {
-    width: 26px; height: 26px;
-    border-radius: 8px;
-    background: var(--pink);
-    color: white;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px;
+    width: 26px; height: 26px; border-radius: 8px;
+    background: var(--pink); color: white;
+    display: flex; align-items: center; justify-content: center; font-size: 13px;
   }
   .fb-1 { top: 10px; left: -15px; }
   .fb-2 { bottom: 20px; right: -15px; animation-delay: 1.5s; }
-
   @keyframes floaty {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-8px); }
@@ -285,10 +183,7 @@
   .section-head p { color: var(--brown); font-size: 16px; max-width: 620px; margin: auto; }
 
   /* Features */
-  .features-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 22px;
-  }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
   .feature-card {
     background: var(--white); padding: 30px 24px; border-radius: 16px;
     border: 1px solid #f5e6e0; transition: 0.3s;
@@ -308,10 +203,7 @@
   .feature-card p { color: var(--brown); font-size: 15px; }
 
   /* Stats */
-  .stats-section {
-    background: linear-gradient(135deg, var(--brown-dark), var(--brown));
-    color: white;
-  }
+  .stats-section { background: linear-gradient(135deg, var(--brown-dark), var(--brown)); color: white; }
   .stats-section .section-head h2 { color: white; }
   .stats-section .section-head h2 span { color: var(--pink-light); }
   .stats-section .section-head p { color: #e8d5cc; }
@@ -329,63 +221,34 @@
   .stat-label { font-size: 14px; color: #e8d5cc; font-weight: 500; }
 
   /* How it works */
-  .steps-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 22px;
-  }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
   .step-card {
     background: var(--white); padding: 30px 22px; border-radius: 16px;
     border: 1px solid #f5e6e0; transition: 0.3s;
   }
   .step-card:hover { border-color: var(--pink); transform: translateY(-4px); }
-  .step-num {
-    font-size: 42px; font-weight: 800; color: var(--pink-light);
-    line-height: 1; margin-bottom: 14px;
-  }
+  .step-num { font-size: 42px; font-weight: 800; color: var(--pink-light); line-height: 1; margin-bottom: 14px; }
   .step-card h3 { color: var(--brown-dark); font-size: 18px; margin-bottom: 10px; font-weight: 700; }
   .step-card p { color: var(--brown); font-size: 15px; }
 
   /* Services */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 18px;
-  }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 18px; }
   .service-card {
-    background: var(--white);
-    padding: 24px 14px;
-    border-radius: 14px;
-    text-align: center;
-    border: 1px solid #f5e6e0;
-    transition: 0.3s;
+    background: var(--white); padding: 24px 14px; border-radius: 14px;
+    text-align: center; border: 1px solid #f5e6e0; transition: 0.3s;
   }
   .service-card:hover {
-    background: var(--pink-soft);
-    border-color: var(--pink);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(236,72,153,0.15);
+    background: var(--pink-soft); border-color: var(--pink);
+    transform: translateY(-4px); box-shadow: 0 10px 25px rgba(236,72,153,0.15);
   }
-  .service-logo {
-    width: 52px;
-    height: 52px;
-    margin: 0 auto 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  .service-logo { width: 52px; height: 52px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; }
   .service-logo svg { width: 100%; height: 100%; }
   .service-card h4 { color: var(--brown-dark); font-size: 15px; margin-bottom: 4px; font-weight: 700; }
   .service-card p { color: var(--brown-light); font-size: 12px; }
 
   /* Countries */
   .countries-section { background: var(--pink-soft); }
-  .countries-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    max-width: 900px;
-    margin: auto;
-  }
+  .countries-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 900px; margin: auto; }
   .country-card {
     background: var(--white); padding: 16px 14px; border-radius: 14px;
     border: 1px solid #f5e6e0; display: flex; align-items: center; gap: 12px;
@@ -451,6 +314,11 @@
     .hero-stat-text small { font-size: 10px; }
     .live-feed { padding: 20px 16px; }
     .float-deco { display: none; }
+    .countries-grid { gap: 10px; }
+    .country-card { padding: 12px 10px; gap: 8px; }
+    .country-flag { font-size: 22px; }
+    .country-name { font-size: 12px; }
+    .country-count { font-size: 10px; }
   }
 </style>
 </head>
@@ -464,8 +332,8 @@
     <a href="#how" class="nav-link">How It Works</a>
     <a href="#countries" class="nav-link">Countries</a>
     <div class="nav-btns">
-      <a href="#" class="btn-login">Login</a>
-      <a href="#get-started" class="btn-signup">Create Account</a>
+      <a href="login.html" class="btn-login">Login</a>
+      <a href="signup.html" class="btn-signup">Create Account</a>
     </div>
   </nav>
 </header>
@@ -477,8 +345,8 @@
     <h1>Virtual Phone Numbers for <span>SMS Verification</span></h1>
     <p>Arknet SMS provides reliable USA, Canada, UK and international virtual phone numbers to receive verification codes privately and securely. No SIM. No Contract. No Hassle.</p>
     <div class="hero-btns">
-      <a href="#" class="btn-primary">Login</a>
-      <a href="#get-started" class="btn-secondary">Create Account</a>
+      <a href="login.html" class="btn-primary">Login</a>
+      <a href="signup.html" class="btn-secondary">Create Account</a>
     </div>
 
     <div class="hero-stats">
@@ -501,7 +369,7 @@
     </div>
   </div>
 
-  <!-- ===== NEW VISUAL: Live SMS Feed ===== -->
+  <!-- Live SMS Feed -->
   <div class="hero-visual">
     <div class="float-deco deco-1"></div>
     <div class="float-deco deco-2"></div>
@@ -525,7 +393,6 @@
         <div class="live-feed-badge">REAL-TIME</div>
       </div>
 
-      <!-- WhatsApp -->
       <div class="sms-item">
         <div class="sms-top">
           <div class="sms-app-name">
@@ -539,7 +406,6 @@
         <div class="sms-code-row">Your code is: <span>847291</span></div>
       </div>
 
-      <!-- Telegram -->
       <div class="sms-item">
         <div class="sms-top">
           <div class="sms-app-name">
@@ -553,7 +419,6 @@
         <div class="sms-code-row">Code: <span>529183</span></div>
       </div>
 
-      <!-- Instagram -->
       <div class="sms-item">
         <div class="sms-top">
           <div class="sms-app-name">
@@ -577,7 +442,6 @@
         </div>
         <div class="sms-code-row">Code: <span>193847</span></div>
       </div>
-
     </div>
   </div>
 </section>
@@ -767,13 +631,6 @@
         <p>SMS Verification</p>
       </div>
 
-      <div class="service-card">
-        <div class="service-logo">
-          <svg viewBox="0 0 24 24" fill="#6b4423"><path d="M21.58 16.09l-1.09-7.66C20.21 6.46 18.52 5 16.53 5H7.47C5.48 5 3.79 6.46 3.51 8.43l-1.09 7.66C2.2 17.63 3.39 19 4.94 19c.68 0 1.32-.27 1.8-.75L9 16h6l2.25 2.25c.48.48 1.13.75 1.8.75 1.56 0 2.75-1.37 2.53-2.91zM11 11H9v2H8v-2H6v-1h2V8h1v2h2v1zm4-1c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-        </div>
-        <h4>Gaming</h4>
-        <p>SMS Verification</p>
-      </div>
 
     </div>
   </div>
@@ -801,7 +658,7 @@
       <div class="country-card"><div class="country-flag">🇪🇸</div><div><div class="country-name">Spain</div><div class="country-count">18K+ numbers</div></div></div>
     </div>
     <div style="text-align:center; margin-top: 40px;">
-      <a href="#get-started" class="btn-secondary">📍 View All 175+ Countries</a>
+      <a href="signup.html" class="btn-secondary">📍 View All 175+ Countries</a>
     </div>
   </div>
 </section>
@@ -810,8 +667,8 @@
 <section class="cta-section" id="get-started">
   <h2>Ready to verify without sharing your real number?</h2>
   <p>Join users who trust Arknet SMS for fast, secure and reliable SMS verification.</p>
-  <a href="#" class="btn-primary">Get Number Now</a>
-  <a href="#" class="btn-secondary">Create Account</a>
+  <a href="signup.html" class="btn-primary">Get Number Now</a>
+  <a href="signup.html" class="btn-secondary">Create Account</a>
 </section>
 
 <!-- FOOTER -->
@@ -838,4 +695,4 @@
 </footer>
 
 </body>
-</html>
+ </html>
