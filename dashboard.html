@@ -19,7 +19,6 @@
     --red: #dc2626;
     --warning: #b45309;
     --sidebar-w: 260px;
-    --bottom-nav-h: 68px;
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
 
@@ -100,7 +99,7 @@
   .topbar-balance .b-val { color: var(--pink-light); }
 
   /* MAIN */
-  .main { margin-left: var(--sidebar-w); padding: 26px 4% 90px; min-height: calc(100vh - 60px); }
+  .main { margin-left: var(--sidebar-w); padding: 26px 4% 120px; min-height: calc(100vh - 60px); }
   .page { display: none; animation: fade 0.3s ease; }
   .page.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -168,7 +167,6 @@
   .code-pill { background: var(--pink-soft); color: var(--pink); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 13px; letter-spacing: 1px; font-family: 'Consolas', monospace; }
   .code-pill.pending { background: #fef3c7; color: #92400e; }
 
-  /* Cancel button */
   .btn-cancel-row {
     background: #fee2e2;
     color: #991b1b;
@@ -223,7 +221,7 @@
   .form-field .req { color: var(--red); margin-left: 2px; }
   .form-hint { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
 
-  /* SEARCH RESULTS DROPDOWN */
+  /* SEARCH */
   .search-wrap { position: relative; }
   .search-results {
     position: absolute;
@@ -263,7 +261,6 @@
   .search-empty { padding: 18px; text-align: center; font-size: 13px; color: var(--brown-light); }
   .search-empty-icon { font-size: 26px; margin-bottom: 6px; opacity: 0.6; }
 
-  /* SELECTED CHIP */
   .selected-chip {
     background: var(--pink-soft);
     border-radius: 12px;
@@ -276,7 +273,6 @@
   .selected-chip .lbl { color: var(--brown-light); font-weight: 600; }
   .selected-chip .val { font-weight: 800; color: var(--brown-dark); }
 
-  /* PRICE CARD */
   .price-card {
     background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
     border-radius: 14px;
@@ -318,7 +314,7 @@
   .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
   .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; word-break: break-word; text-align: right; }
 
-  /* PROFIT CARD */
+  /* PROFIT PAGE */
   .profit-hero {
     background: linear-gradient(135deg, var(--brown-dark), var(--brown));
     color: white;
@@ -362,7 +358,9 @@
 
   /* TOAST */
   .toast {
-    position: fixed; bottom: calc(var(--bottom-nav-h) + 20px); left: 50%;
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: var(--brown-dark); color: white;
     padding: 13px 22px; border-radius: 10px;
@@ -416,52 +414,98 @@
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
   .overlay.show { display: block; }
 
-  /* ========== BOTTOM NAV (mobile only) ========== */
+  /* ========== FLOATING PILL BOTTOM NAV ========== */
   .bottom-nav {
     display: none;
-    position: fixed; bottom: 0; left: 0; right: 0;
-    height: var(--bottom-nav-h);
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 500px;
     background: var(--white);
-    border-top: 1px solid #f0dcd4;
-    box-shadow: 0 -6px 20px rgba(74,44,42,0.08);
+    border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
+    padding: 8px 6px;
     z-index: 400;
-    padding: 0 6px;
   }
+
   .bn-inner {
-    max-width: 520px; margin: 0 auto;
-    height: 100%;
-    display: flex; justify-content: space-around; align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
   }
+
   .bn-item {
     flex: 1;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 3px;
-    color: var(--brown-light);
-    font-size: 10px; font-weight: 700;
-    text-decoration: none;
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 10px;
+    font-weight: 600;
     cursor: pointer;
-    padding: 6px 4px;
-    transition: 0.2s;
-    background: transparent; border: none;
+    padding: 6px 2px;
+    border-radius: 16px;
+    transition: 0.25s;
     font-family: inherit;
     -webkit-tap-highlight-color: transparent;
+    min-height: 56px;
   }
-  .bn-item .bn-icon { font-size: 20px; line-height: 1; }
-  .bn-item.active { color: var(--pink); }
+
+  .bn-item .bn-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s;
+  }
+
+  .bn-item .bn-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .bn-item.active {
+    color: var(--brown-dark);
+    font-weight: 700;
+  }
+
+  .bn-item.active .bn-icon {
+    background: var(--pink-soft);
+    color: var(--pink);
+  }
+
+  .bn-item.active .bn-icon svg {
+    stroke: var(--pink);
+  }
+
   .bn-item.logout { color: #dc2626; }
-  .bn-item:hover { color: var(--pink); }
+  .bn-item.logout:hover { color: #b91c1c; }
+  .bn-item.logout .bn-icon { color: currentColor; }
 
   /* ========== RESPONSIVE ========== */
   @media (max-width: 900px) {
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 4% 100px; }
+    .main { margin-left: 0; padding: 20px 4% 120px; }
     .menu-btn { display: block; }
     .greeting h1 { font-size: 22px; }
     .actions-top { grid-template-columns: repeat(3, 1fr); }
     .actions-bottom { max-width: 100%; }
     .bottom-nav { display: block; }
-    .toast { bottom: calc(var(--bottom-nav-h) + 20px); }
   }
   @media (max-width: 600px) {
     .actions-top { grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -472,10 +516,14 @@
     .action-card .ac-sub { font-size: 10px; }
     .price-card .price { font-size: 22px; }
     .profit-hero .ph-value { font-size: 32px; }
+    .bn-item { font-size: 9px; }
+    .bn-item .bn-icon { width: 30px; height: 30px; }
+    .bn-item .bn-icon svg { width: 18px; height: 18px; }
   }
   @media (max-width: 380px) {
     .action-card .ac-title { font-size: 11px; }
     .action-card .ac-icon { width: 42px; height: 42px; font-size: 20px; }
+    .bn-item { font-size: 8.5px; }
   }
 </style>
 </head>
@@ -911,7 +959,7 @@
         <div class="pb-value" id="totalOrders">0</div>
       </div>
       <div class="profit-box">
-        <div class="pb-label">Cancelled / Refunded</div>
+        <div class="pb-label">Cancelled</div>
         <div class="pb-value" id="totalCancelled">0</div>
       </div>
     </div>
@@ -947,27 +995,64 @@
 
 </main>
 
-<!-- BOTTOM NAV (mobile) -->
+<!-- FLOATING PILL BOTTOM NAV (mobile) -->
 <nav class="bottom-nav">
   <div class="bn-inner">
-    <button class="bn-item" data-goto="dashboard">
-      <span class="bn-icon">📊</span>
+    <button class="bn-item active" data-goto="dashboard">
+      <span class="bn-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+      </span>
       <span>Service</span>
     </button>
+
     <button class="bn-item" data-goto="history">
-      <span class="bn-icon">📜</span>
+      <span class="bn-icon">
+        <svg viewBox="0 0 24 24">
+          <line x1="8" y1="6" x2="21" y2="6"/>
+          <line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <circle cx="3.5" cy="6" r="1"/>
+          <circle cx="3.5" cy="12" r="1"/>
+          <circle cx="3.5" cy="18" r="1"/>
+        </svg>
+      </span>
       <span>Transactions</span>
     </button>
+
     <button class="bn-item" data-goto="deposit">
-      <span class="bn-icon">💰</span>
+      <span class="bn-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="6" width="20" height="14" rx="2.5"/>
+          <path d="M2 10h20"/>
+          <path d="M6 15h3"/>
+        </svg>
+      </span>
       <span>Deposit</span>
     </button>
+
     <button class="bn-item" data-goto="profits">
-      <span class="bn-icon">📈</span>
-      <span>Profits</span>
+      <span class="bn-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 17l6-6 4 4 8-8"/>
+          <path d="M14 7h7v7"/>
+        </svg>
+      </span>
+      <span>Profit</span>
     </button>
+
     <button class="bn-item logout" id="bnLogout">
-      <span class="bn-icon">🚪</span>
+      <span class="bn-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </span>
       <span>Logout</span>
     </button>
   </div>
@@ -1025,7 +1110,7 @@
   let currentUser = null;
   let currentBalance = 0;
 
-  /* SIDEBAR + BOTTOM NAV SHARED SWITCHER */
+  /* SHARED PAGE SWITCHER (sidebar + bottom nav) */
   function gotoPage(page){
     document.querySelectorAll('.side-item').forEach(i => i.classList.toggle('active', i.dataset.page === page));
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1089,7 +1174,7 @@
     document.getElementById('boostPrice').textContent = '₦' + Number(el.dataset.price).toLocaleString('en-NG');
   });
 
-  /* ========== ALL COUNTRIES ========== */
+  /* COUNTRIES */
   const COUNTRIES = [
     {name:"United Kingdom", code:"UK", flag:"🇬🇧"},
     {name:"United States", code:"US1", flag:"🇺🇸"},
@@ -1157,6 +1242,7 @@
     return Math.ceil(usd * USD_TO_NGN);
   }
 
+  /* COUNTRY SEARCH */
   countryInput.addEventListener('input', () => {
     const q = countryInput.value.trim().toLowerCase();
     if (!q) { countryDropdown.classList.remove('show'); return; }
@@ -1243,6 +1329,7 @@
     }
   }
 
+  /* SERVICE SEARCH */
   serviceInput.addEventListener('input', () => {
     if (!selectedCountry) return;
     const q = serviceInput.value.trim().toLowerCase();
@@ -1296,6 +1383,7 @@
     actionBtn.disabled = false;
   }
 
+  /* BUY BUTTON */
   actionBtn.addEventListener('click', () => {
     if (!currentUser || !selectedCountry || !selectedService) return;
     const price = calculateCustomerPrice(selectedService.price);
@@ -1525,7 +1613,7 @@
     } catch (e) { console.warn(e); }
   }
 
-  /* CLEANUP: Delete cancelled activations older than 3 minutes */
+  /* DELETE CANCELLED > 3 MINUTES */
   async function cleanupOldCancelled() {
     if (!currentUser) return;
     try {
@@ -1555,13 +1643,12 @@
       const snap = await getDocs(q);
       const now = Date.now();
 
-      // Filter: hide cancelled older than 3 min (they'll be deleted next cleanup)
       const visible = [];
       snap.forEach(d => {
         const a = d.data();
         if (a.status === 'cancelled' && a.cancelledAt?.toDate) {
           const age = (now - a.cancelledAt.toDate().getTime()) / 60000;
-          if (age > 3) return; // skip
+          if (age > 3) return;
         }
         visible.push({ id: d.id, ...a });
       });
@@ -1866,7 +1953,7 @@
     }
   });
 
-  /* LOGOUT (both sidebar + bottom nav) */
+  /* LOGOUT */
   async function doLogout(){
     await signOut(auth);
     window.location.href = 'login.html';
@@ -1886,4 +1973,4 @@
 </script>
 
 </body>
-           </html>
+     </html>
