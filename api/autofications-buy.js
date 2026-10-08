@@ -30,13 +30,11 @@ export default async function handler(req, res) {
     if (phone_number) params.set('phone_number', phone_number);
 
     const url = `${BASE}?${params.toString()}`;
-    console.log('AutoFications call:', url.replace(KEY, 'HIDDEN'));
-
     const r = await fetch(url, { method: 'GET', cache: 'no-store' });
     const text = await r.text();
-
-    // Handle known errors
     const trimmed = text.trim();
+
+    // ---- Known AutoFications error strings ----
     const knownErrors = {
       Balance_error: 'AutoFications balance is low. Please top up your provider account.',
       Request_limited: 'Too many requests. Please wait 20 seconds.',
@@ -47,7 +45,11 @@ export default async function handler(req, res) {
     };
 
     if (knownErrors[trimmed]) {
-      return res.status(200).json({ success: false, message: knownErrors[trimmed], code: trimmed });
+      return res.status(200).json({
+        success: false,
+        message: knownErrors[trimmed],
+        code: trimmed
+      });
     }
 
     // ---------- SERVICELIST ----------
@@ -73,24 +75,35 @@ export default async function handler(req, res) {
     if (action === 'generate') {
       const phone = trimmed;
       if (!phone || !/^\d+$/.test(phone)) {
-        return res.status(200).json({ success: false, message: 'No number available. Try again.', debug: text });
+        return res.status(200).json({
+          success: false,
+          message: 'No number available. Try again.',
+          debug: text
+        });
       }
       return res.status(200).json({ success: true, number: phone });
     }
 
-    // ---------- READ ----------
+    // ---------- READ (SMS code) ----------
     if (action === 'read') {
-      return res.status(200).json({ success: true, code: trimmed, found: trimmed.length > 0 });
+      return res.status(200).json({
+        success: true,
+        code: trimmed,
+        found: trimmed.length > 0
+      });
+    }
+
+    // ---------- BLACKLIST ----------
+    if (action === 'blacklist') {
+      return res.status(200).json({
+        success: trimmed.toLowerCase().includes('success'),
+        raw: trimmed
+      });
     }
 
     // ---------- BALANCE ----------
     if (action === 'balance') {
       return res.status(200).json({ success: true, balance: parseFloat(trimmed) || 0 });
-    }
-
-    // ---------- BLACKLIST ----------
-    if (action === 'blacklist') {
-      return res.status(200).json({ success: trimmed.toLowerCase().includes('success') });
     }
 
     return res.status(200).json({ success: true, raw: trimmed });
