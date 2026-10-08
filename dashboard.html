@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arknet SMS — Dashboard</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+  :root {
+    --brown-dark: #4a2c2a;
+    --brown: #6b4423;
+    --brown-light: #8b5e3c;
+    --pink: #ec4899;
+    --pink-light: #f9a8d4;
+    --pink-soft: #fdf2f8;
+    --white: #ffffff;
+    --cream: #fef9f5;
+    --green: #22c55e;
+  }
+  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+
+  /* ---- Top bar ---- */
+  .topbar {
+    background: var(--white);
+    padding: 14px 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 12px rgba(74,44,42,0.08);
+    border-bottom: 1px solid #f5e6e0;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .logo { font-size: 22px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; }
+  .logo span { color: var(--pink); }
+  .user-area { display: flex; align-items: center; gap: 12px; }
+  .user-info { text-align: right; }
+  .user-name { font-size: 14px; font-weight: 700; color: var(--brown-dark); }
+  .user-email { font-size: 11px; color: var(--brown-light); }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--brown));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 15px;
+  }
+  .btn-logout {
+    padding: 8px 14px; border: 1.5px solid var(--brown); border-radius: 8px;
+    background: white; color: var(--brown); font-weight: 700; font-size: 12px;
+    cursor: pointer; transition: 0.2s; font-family: inherit;
+  }
+  .btn-logout:hover { background: var(--brown); color: white; }
+
+  /* ---- Layout ---- */
+  .container { max-width: 1200px; margin: auto; padding: 30px 5% 60px; }
+  .welcome { margin-bottom: 26px; }
+  .welcome h1 { font-size: 28px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; }
+  .welcome h1 span { color: var(--pink); }
+  .welcome p { color: var(--brown); font-size: 15px; margin-top: 4px; }
+
+  /* ---- Balance + quick stats ---- */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  .stat-box {
+    background: var(--white);
+    border: 1px solid #f5e6e0;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .stat-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    background: var(--pink-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .stat-info .stat-label { font-size: 12px; color: var(--brown-light); font-weight: 600; }
+  .stat-info .stat-val { font-size: 22px; font-weight: 800; color: var(--brown-dark); line-height: 1.2; }
+  .stat-info .stat-val small { font-size: 12px; color: var(--pink); font-weight: 700; }
+
+  /* ---- Tabs ---- */
+  .dash-tabs {
+    display: flex; gap: 6px; margin-bottom: 22px;
+    background: var(--white); padding: 6px; border-radius: 12px;
+    border: 1px solid #f5e6e0; overflow-x: auto;
+  }
+  .dash-tab {
+    flex: 1; min-width: 120px; text-align: center;
+    padding: 11px 16px; font-size: 14px; font-weight: 700;
+    color: var(--brown); cursor: pointer; border-radius: 8px;
+    transition: 0.2s; white-space: nowrap; user-select: none;
+  }
+  .dash-tab.active { background: var(--pink); color: white; box-shadow: 0 4px 12px rgba(236,72,153,0.3); }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade 0.3s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ---- Buy number ---- */
+  .buy-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    background: var(--white); padding: 24px; border-radius: 16px;
+    border: 1px solid #f5e6e0; margin-bottom: 18px;
+  }
+  .buy-field label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--brown-dark); }
+  .buy-field select {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid #f0dcd4; border-radius: 10px;
+    background: var(--cream); font-size: 14px; color: var(--brown-dark);
+    font-family: inherit; cursor: pointer;
+  }
+  .buy-field select:focus { outline: none; border-color: var(--pink); background: white; }
+
+  .btn-buy {
+    grid-column: 1 / -1;
+    padding: 14px; background: var(--pink); color: white;
+    border: none; border-radius: 10px; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: 0.25s; font-family: inherit;
+  }
+  .btn-buy:hover { background: var(--brown-dark); }
+
+  /* ---- Numbers list ---- */
+  .number-card {
+    background: var(--white); border: 1px solid #f5e6e0;
+    border-radius: 14px; padding: 20px; margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center; gap: 14px;
+    transition: 0.25s;
+  }
+  .number-card:hover { border-color: var(--pink-light); box-shadow: 0 10px 25px rgba(236,72,153,0.1); }
+  .number-left { display: flex; align-items: center; gap: 14px; }
+  .number-flag { font-size: 30px; }
+  .number-details .number-phone { font-size: 16px; font-weight: 800; color: var(--brown-dark); letter-spacing: 0.5px; }
+  .number-details .number-meta { font-size: 12px; color: var(--brown-light); margin-top: 2px; }
+  .number-actions { display: flex; gap: 8px; }
+  .btn-sm {
+    padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700;
+    cursor: pointer; transition: 0.2s; border: none; font-family: inherit;
+  }
+  .btn-view { background: var(--pink); color: white; }
+  .btn-view:hover { background: var(--brown-dark); }
+  .btn-copy { background: var(--pink-soft); color: var(--pink); border: 1px solid var(--pink-light); }
+  .btn-copy:hover { background: var(--pink); color: white; }
+
+  /* ---- SMS inbox ---- */
+  .sms-item {
+    background: var(--white); border: 1px solid #f5e6e0;
+    border-radius: 14px; padding: 18px 20px; margin-bottom: 12px;
+    border-left: 4px solid var(--pink);
+  }
+  .sms-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .sms-app { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--brown-dark); font-size: 14px; }
+  .sms-app-logo { width: 22px; height: 22px; }
+  .sms-app-logo svg { width: 100%; height: 100%; }
+  .sms-time { font-size: 12px; color: var(--brown-light); font-weight: 600; }
+  .sms-body { font-size: 14px; color: var(--brown); padding-left: 32px; }
+  .sms-body strong { color: var(--pink); font-weight: 800; letter-spacing: 1px; font-size: 16px; }
+
+  /* ---- Empty state ---- */
+  .empty {
+    text-align: center; padding: 50px 20px;
+    background: var(--white); border-radius: 16px;
+    border: 2px dashed #f0dcd4;
+  }
+  .empty-icon { font-size: 50px; margin-bottom: 14px; }
+  .empty h3 { color: var(--brown-dark); font-size: 18px; margin-bottom: 6px; }
+  .empty p { color: var(--brown-light); font-size: 14px; }
+
+  /* ---- Profile ---- */
+  .profile-card {
+    background: var(--white); border: 1px solid #f5e6e0;
+    border-radius: 16px; padding: 26px; max-width: 620px;
+  }
+  .profile-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0; border-bottom: 1px solid #f5e6e0;
+  }
+  .profile-row:last-child { border-bottom: none; }
+  .profile-row .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
+  .profile-row .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; }
+
+  /* ---- Toast ---- */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--brown-dark); color: white;
+    padding: 13px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: #dc2626; }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 640px) {
+    .user-info { display: none; }
+    .buy-grid { grid-template-columns: 1fr; padding: 18px; }
+    .number-card { flex-direction: column; align-items: flex-start; }
+    .number-actions { width: 100%; }
+    .number-actions .btn-sm { flex: 1; }
+    .welcome h1 { font-size: 22px; }
+    .container { padding: 22px 4% 50px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="logo">Arknet<span>SMS</span></div>
+  <div class="user-area">
+    <div class="user-info">
+      <div class="user-name" id="userName">Loading...</div>
+      <div class="user-email" id="userEmail">—</div>
+    </div>
+    <div class="avatar" id="avatar">A</div>
+    <button class="btn-logout" id="logoutBtn">Logout</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Welcome -->
+  <div class="welcome">
+    <h1>Welcome back, <span id="welcomeName">User</span> 👋</h1>
+    <p>Manage your virtual numbers and SMS verification codes.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-icon">💰</div>
+      <div class="stat-info">
+        <div class="stat-label">Balance</div>
+        <div class="stat-val">$0.00</div>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon">📱</div>
+      <div class="stat-info">
+        <div class="stat-label">Active Numbers</div>
+        <div class="stat-val" id="activeCount">0</div>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon">💬</div>
+      <div class="stat-info">
+        <div class="stat-label">SMS Received</div>
+        <div class="stat-val" id="smsCount">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="dash-tabs">
+    <div class="dash-tab active" data-panel="buy">🛒 Buy Number</div>
+    <div class="dash-tab" data-panel="numbers">📱 My Numbers</div>
+    <div class="dash-tab" data-panel="inbox">💬 SMS Inbox</div>
+    <div class="dash-tab" data-panel="profile">👤 Profile</div>
+  </div>
+
+  <!-- Buy Number Panel -->
+  <div class="panel active" id="panel-buy">
+    <div class="buy-grid">
+      <div class="buy-field">
+        <label for="country">Select Country</label>
+        <select id="country">
+          <option value="US">🇺🇸 United States ($0.50)</option>
+          <option value="GB">🇬🇧 United Kingdom ($0.60)</option>
+          <option value="CA">🇨🇦 Canada ($0.55)</option>
+          <option value="DE">🇩🇪 Germany ($0.70)</option>
+          <option value="FR">🇫🇷 France ($0.70)</option>
+          <option value="NG">🇳🇬 Nigeria ($0.40)</option>
+          <option value="IN">🇮🇳 India ($0.35)</option>
+          <option value="PH">🇵🇭 Philippines ($0.45)</option>
+          <option value="ID">🇮🇩 Indonesia ($0.45)</option>
+          <option value="BR">🇧🇷 Brazil ($0.65)</option>
+        </select>
+      </div>
+
+      <div class="buy-field">
+        <label for="service">Select Service</label>
+        <select id="service">
+          <option value="whatsapp">💬 WhatsApp</option>
+          <option value="telegram">✈️ Telegram</option>
+          <option value="instagram">📸 Instagram</option>
+          <option value="facebook">📘 Facebook</option>
+          <option value="google">🔵 Google</option>
+          <option value="discord">💻 Discord</option>
+          <option value="tiktok">🎵 TikTok</option>
+          <option value="twitter">🐦 Twitter / X</option>
+        </select>
+      </div>
+
+      <button class="btn-buy" id="buyBtn">Get Number Now →</button>
+    </div>
+  </div>
+
+  <!-- My Numbers Panel -->
+  <div class="panel" id="panel-numbers">
+    <div id="numbersList">
+      <div class="empty">
+        <div class="empty-icon">📱</div>
+        <h3>No numbers yet</h3>
+        <p>Go to <strong>Buy Number</strong> tab to get started.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMS Inbox Panel -->
+  <div class="panel" id="panel-inbox">
+    <div id="inboxList">
+      <div class="empty">
+        <div class="empty-icon">💬</div>
+        <h3>No SMS yet</h3>
+        <p>Once you buy a number, codes will appear here.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Panel -->
+  <div class="panel" id="panel-profile">
+    <div class="profile-card">
+      <div class="profile-row">
+        <span class="pr-label">Full Name</span>
+        <span class="pr-val" id="pName">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="pr-label">Email</span>
+        <span class="pr-val" id="pEmail">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="pr-label">User ID</span>
+        <span class="pr-val" id="pUid" style="font-size:12px;">—</span>
+      </div>
+      <div class="profile-row">
+        <span class="pr-label">Member Since</span>
+        <span class="pr-val" id="pSince">—</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
+    authDomain: "arknetsms-430ee.firebaseapp.com",
+    projectId: "arknetsms-430ee",
+    storageBucket: "arknetsms-430ee.firebasestorage.app",
+    messagingSenderId: "961504742152",
+    appId: "1:961504742152:web:a9ade98d13465bb3b8babd",
+    measurementId: "G-48V2T4CBJF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // ---------- Toast ----------
+  const toast = document.getElementById('toast');
+  const showToast = (text, type = '') => {
+    toast.textContent = text;
+    toast.className = 'toast show ' + type;
+    setTimeout(() => toast.className = 'toast ' + type, 2600);
+  };
+
+  // ---------- Tabs ----------
+  document.querySelectorAll('.dash-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+    });
+  });
+
+  // ---------- Auth guard ----------
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    // Fill topbar
+    const name = user.displayName || 'User';
+    document.getElementById('userName').textContent = name;
+    document.getElementById('userEmail').textContent = user.email;
+    document.getElementById('avatar').textContent = name.charAt(0).toUpperCase();
+    document.getElementById('welcomeName').textContent = name.split(' ')[0];
+
+    // Profile panel
+    document.getElementById('pName').textContent = name;
+    document.getElementById('pEmail').textContent = user.email;
+    document.getElementById('pUid').textContent = user.uid;
+
+    // Fetch extra data from Firestore
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.createdAt) {
+          document.getElementById('pSince').textContent =
+            new Date(data.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load Firestore data:', e);
+    }
+
+    // TODO: load numbers from Firestore when you build the backend
+  });
+
+  // ---------- Logout ----------
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+      window.location.href = 'login.html';
+    } catch (e) {
+      showToast('Logout failed: ' + e.message, 'error');
+    }
+  });
+
+  // ---------- Buy number (demo) ----------
+  document.getElementById('buyBtn').addEventListener('click', () => {
+    const country = document.getElementById('country').value;
+    const service = document.getElementById('service').value;
+    showToast(`Demo: buying ${service} number from ${country}...`, 'success');
+
+    // Later: call your API / Firestore to actually create the number.
+  });
+</script>
+
+</body>
+</html>
