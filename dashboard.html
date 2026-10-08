@@ -17,6 +17,7 @@
     --cream: #fef9f5;
     --green: #22c55e;
     --red: #dc2626;
+    --warning: #b45309;
     --sidebar-w: 260px;
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
@@ -174,6 +175,7 @@
   /* BUTTONS */
   .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.25s; font-family: inherit; }
   .btn-pink:hover { background: var(--brown-dark); transform: translateY(-1px); }
+  .btn-pink:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
   .btn-full { width: 100%; }
 
   /* FORMS */
@@ -189,44 +191,74 @@
     outline: none; border-color: var(--pink);
     background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
+  .form-field input:disabled { background: #f8f5f3; cursor: not-allowed; }
+  .form-field .req { color: var(--red); margin-left: 2px; }
+  .form-hint { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
 
   /* SEARCH RESULTS DROPDOWN */
+  .search-wrap { position: relative; }
   .search-results {
-    margin-top: 12px;
-    max-height: 320px;
-    overflow-y: auto;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0; right: 0;
+    background: var(--white);
+    border: 1.5px solid var(--pink);
     border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(236,72,153,0.18);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
     display: none;
   }
   .search-results.show { display: block; }
 
   .search-item {
-    display: flex; align-items: center; justify-content: space-between;
+    width: 100%;
     padding: 13px 16px;
-    background: var(--cream);
-    border: 1px solid #f0dcd4;
-    border-radius: 10px;
-    margin-bottom: 8px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px;
     cursor: pointer;
-    transition: 0.2s;
+    border-bottom: 1px solid #f0dcd4;
+    background: var(--white);
+    text-align: left;
+    transition: 0.15s;
+    font-family: inherit;
   }
-  .search-item:hover {
-    background: var(--pink-soft);
-    border-color: var(--pink);
-    transform: translateX(3px);
-  }
+  .search-item:last-child { border-bottom: none; }
+  .search-item:hover { background: var(--pink-soft); }
   .search-item .si-left { display: flex; align-items: center; gap: 12px; }
-  .search-item .si-flag, .search-item .si-icon { font-size: 24px; }
+  .search-item .si-flag, .search-item .si-icon { font-size: 22px; }
   .search-item .si-name { font-weight: 700; font-size: 14px; color: var(--brown-dark); }
-  .search-item .si-price { font-weight: 800; font-size: 14px; color: var(--pink); }
+  .search-item .si-price { font-weight: 800; font-size: 14px; color: var(--pink); flex-shrink: 0; }
 
-  .search-empty {
-    text-align: center; padding: 22px 14px;
-    color: var(--brown-light); font-size: 13px;
+  .search-empty { padding: 18px; text-align: center; font-size: 13px; color: var(--brown-light); }
+  .search-empty-icon { font-size: 26px; margin-bottom: 6px; opacity: 0.6; }
+
+  /* SELECTED CHIP */
+  .selected-chip {
+    background: var(--pink-soft);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px;
+    border: 1px solid var(--pink-light);
   }
-  .search-empty-icon { font-size: 30px; margin-bottom: 6px; opacity: 0.6; }
+  .selected-chip .lbl { color: var(--brown-light); font-weight: 600; }
+  .selected-chip .val { font-weight: 800; color: var(--brown-dark); }
 
-  /* PICKERS */
+  /* PRICE CARD */
+  .price-card {
+    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+    margin-top: 14px;
+  }
+  .price-card .price { font-size: 26px; font-weight: 800; color: var(--pink); }
+  .price-card .price-note { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
+
+  /* SERVICE PICKER (USA grid) */
   .service-picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
   .service-pick {
     background: var(--white); border: 1.5px solid #f5e6e0; border-radius: 14px;
@@ -288,16 +320,26 @@
     max-width: 440px; width: 100%;
     box-shadow: 0 25px 60px rgba(0,0,0,0.35);
     text-align: center; animation: popIn 0.3s ease;
+    max-height: 90vh; overflow-y: auto;
   }
   @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .modal-icon { font-size: 46px; margin-bottom: 10px; }
   .modal-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 6px; }
-  .modal-sub { font-size: 14px; color: var(--brown-light); margin-bottom: 20px; }
+  .modal-sub { font-size: 14px; color: var(--brown-light); margin-bottom: 20px; line-height: 1.6; }
   .modal-detail { background: var(--pink-soft); border-radius: 14px; padding: 16px; margin-bottom: 22px; text-align: left; }
-  .md-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: var(--brown-dark); }
+  .md-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: var(--brown-dark); gap: 12px; }
   .md-row span { color: var(--brown-light); font-weight: 600; }
-  .md-row b { font-weight: 800; }
+  .md-row b { font-weight: 800; text-align: right; }
+  .md-row.total { border-top: 1px solid var(--pink-light); margin-top: 6px; padding-top: 12px; font-size: 15px; }
+  .md-row.total b { color: var(--pink); font-size: 16px; }
   .modal-actions { display: flex; gap: 12px; }
+  .btn-cancel {
+    flex: 1; padding: 13px; border-radius: 10px;
+    background: #e5e7eb; color: var(--brown-dark);
+    font-weight: 700; font-size: 14px; cursor: pointer;
+    font-family: inherit; border: none; transition: 0.2s;
+  }
+  .btn-cancel:hover { background: #d1d5db; }
 
   /* OVERLAY */
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
@@ -320,6 +362,7 @@
     .action-card .ac-icon { width: 48px; height: 48px; font-size: 22px; border-radius: 14px; }
     .action-card .ac-title { font-size: 12px; }
     .action-card .ac-sub { font-size: 10px; }
+    .price-card .price { font-size: 22px; }
   }
   @media (max-width: 380px) {
     .action-card .ac-title { font-size: 11px; }
@@ -482,44 +525,57 @@
       <p>Search a country, pick a service, and purchase instantly.</p>
     </div>
 
-    <!-- STEP 1 -->
+    <!-- STEP 1: COUNTRY SEARCH -->
     <div class="section">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
         Search Country
       </div>
       <div class="form-field">
-        <input type="text" id="countrySearch" placeholder="🔍 Search country... (e.g. Poland, USA, Nigeria)" autocomplete="off">
+        <label>Select Country <span class="req">*</span></label>
+        <div class="search-wrap">
+          <input type="text" id="countryInput" placeholder="🔍 Search country... (e.g. Poland, USA, Nigeria)" autocomplete="off">
+          <div class="search-results" id="countryDropdown"></div>
+        </div>
+        <div class="form-hint">Search and pick the country you want.</div>
       </div>
-      <div id="countryResults" class="search-results"></div>
     </div>
 
-    <!-- STEP 2 -->
-    <div class="section" id="step2" style="display: none;">
+    <!-- STEP 2: SERVICE SEARCH -->
+    <div class="section" id="serviceCard" style="display: none;">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
         Search App / Service
       </div>
       <div class="form-field">
-        <input type="text" id="serviceSearch" placeholder="🔍 Search service... (e.g. WhatsApp, Gmail)" autocomplete="off">
+        <label>Select Service <span class="req">*</span></label>
+        <div class="search-wrap">
+          <input type="text" id="serviceInput" placeholder="Loading services..." autocomplete="off" disabled>
+          <div class="search-results" id="serviceDropdown"></div>
+        </div>
+        <div class="form-hint">Search and select the service to verify.</div>
       </div>
-      <div id="serviceResults" class="search-results"></div>
+
+      <div class="selected-chip" id="selectedChip" style="display:none;">
+        <span class="lbl">Selected:</span>
+        <span class="val" id="selectedName">—</span>
+      </div>
+
+      <div class="price-card" id="priceCard" style="display:none;">
+        <div class="price" id="selectedPrice">₦0.00</div>
+        <div class="price-note">Charged only when the number is successfully issued.</div>
+      </div>
     </div>
 
-    <!-- STEP 3 -->
-    <div class="section" id="step3" style="display: none;">
+    <!-- STEP 3: BUY BUTTON -->
+    <div class="section" id="buySection" style="display: none;">
       <div class="section-title" style="margin-bottom: 12px;">
         <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
-        Confirm Purchase
+        Confirm & Buy
       </div>
-      <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val" id="sumCountry">—</span></div>
-      <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="sumService">—</span></div>
-      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="sumPrice">—</span></div>
-      <div class="profile-row"><span class="pr-label">Your Balance</span><span class="pr-val" id="sumBalance">—</span></div>
-      <div style="margin-top: 18px; display: flex; gap: 12px;">
-        <button class="btn-pink" style="flex: 1;" id="purchaseNowBtn">PURCHASE NOW →</button>
-        <button class="btn-pink" style="flex: 1; background: #e5e7eb; color: var(--brown-dark);" id="cancelBtn">Cancel</button>
-      </div>
+      <button class="btn-pink btn-full" id="actionBtn" disabled>
+        🛒 Buy Number
+      </button>
     </div>
   </div>
 
@@ -744,23 +800,7 @@
 
 <!-- PURCHASE MODAL -->
 <div class="modal-overlay" id="purchaseModal">
-  <div class="modal-box">
-    <div class="modal-icon">🛒</div>
-    <h2 class="modal-title">Confirm Purchase</h2>
-    <p class="modal-sub">You are about to buy a virtual number:</p>
-
-    <div class="modal-detail">
-      <div class="md-row"><span>Country</span><b id="mCountry">—</b></div>
-      <div class="md-row"><span>Service</span><b id="mService">—</b></div>
-      <div class="md-row"><span>Price</span><b style="color: var(--pink);" id="mPrice">—</b></div>
-      <div class="md-row"><span>Balance After</span><b id="mAfter">—</b></div>
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn-pink" style="flex: 1; background: #e5e7eb; color: var(--brown-dark);" id="modalCancel">Cancel</button>
-      <button class="btn-pink" style="flex: 1;" id="modalConfirm">PURCHASE NOW</button>
-    </div>
-  </div>
+  <div class="modal-box" id="modalContent"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -773,7 +813,7 @@
     EmailAuthProvider, reauthenticateWithCredential, updatePassword
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
-    getFirestore, doc, getDoc, setDoc,
+    getFirestore, doc, getDoc, setDoc, updateDoc, deleteField,
     collection, addDoc, query, orderBy, getDocs, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -791,6 +831,14 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
+  /* 🔌 AutoFications backend endpoint (Firebase Cloud Function or Vercel API) */
+  const API_URL = "/api/autofications-buy";
+
+  /* Pricing config (can also be loaded from Firestore admin_settings) */
+  let USD_TO_NGN = 1500;
+  let PROFIT_NGN = 850;
+  let priceOverrides = {};
+
   const toast = document.getElementById('toast');
   const showToast = (text, type = '') => {
     toast.textContent = text;
@@ -798,13 +846,15 @@
     setTimeout(() => toast.className = 'toast ' + type, 2800);
   };
 
+  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
+  const capitalize = (v) => String(v || '').replace(/\b\w/g, c => c.toUpperCase());
+  const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+
   let currentUser = null;
   let currentBalance = 0;
 
-  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
-
-  // Sidebar switching
+  /* ========== SIDEBAR ========== */
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
     item.addEventListener('click', () => {
       document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
@@ -835,7 +885,7 @@
     overlay.classList.remove('show');
   });
 
-  // Pickers
+  /* ========== PICKERS ========== */
   const wirePicker = (containerId, callback) => {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -853,9 +903,7 @@
     document.getElementById('usaPrice').textContent = el.querySelector('.sp-price').textContent;
   });
 
-  wirePicker('amountPicker', () => {
-    document.getElementById('customAmount').value = '';
-  });
+  wirePicker('amountPicker', () => { document.getElementById('customAmount').value = ''; });
   document.getElementById('customAmount').addEventListener('input', () => {
     document.getElementById('amountPicker').querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
   });
@@ -869,268 +917,414 @@
     document.getElementById('boostPrice').textContent = '₦' + Number(el.dataset.price).toLocaleString('en-NG');
   });
 
-  // ============================================================
-  //          ALL COUNTRIES — SEARCH-ONLY FLOW
-  // ============================================================
-  const COUNTRIES_DB = [
-    { code: 'PL', name: 'Poland', flag: '🇵🇱', markup: 1.0 },
-    { code: 'US', name: 'United States', flag: '🇺🇸', markup: 1.0 },
-    { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', markup: 1.1 },
-    { code: 'CA', name: 'Canada', flag: '🇨🇦', markup: 1.0 },
-    { code: 'DE', name: 'Germany', flag: '🇩🇪', markup: 1.2 },
-    { code: 'FR', name: 'France', flag: '🇫🇷', markup: 1.2 },
-    { code: 'NG', name: 'Nigeria', flag: '🇳🇬', markup: 0.9 },
-    { code: 'IN', name: 'India', flag: '🇮🇳', markup: 0.8 },
-    { code: 'PH', name: 'Philippines', flag: '🇵🇭', markup: 0.9 },
-    { code: 'ID', name: 'Indonesia', flag: '🇮🇩', markup: 0.9 },
-    { code: 'BR', name: 'Brazil', flag: '🇧🇷', markup: 1.0 },
-    { code: 'MX', name: 'Mexico', flag: '🇲🇽', markup: 1.0 },
-    { code: 'ES', name: 'Spain', flag: '🇪🇸', markup: 1.1 },
-    { code: 'IT', name: 'Italy', flag: '🇮🇹', markup: 1.1 },
-    { code: 'NL', name: 'Netherlands', flag: '🇳🇱', markup: 1.1 },
-    { code: 'RU', name: 'Russia', flag: '🇷🇺', markup: 1.0 },
-    { code: 'UA', name: 'Ukraine', flag: '🇺🇦', markup: 1.0 },
-    { code: 'KE', name: 'Kenya', flag: '🇰🇪', markup: 0.9 },
-    { code: 'GH', name: 'Ghana', flag: '🇬🇭', markup: 0.9 },
-    { code: 'ZA', name: 'South Africa', flag: '🇿🇦', markup: 0.9 },
-  ];
-
-  const SERVICES_DB = [
-    { id: 'whatsapp',  name: 'WhatsApp',   icon: '💬', base: 4500 },
-    { id: 'telegram',  name: 'Telegram',   icon: '✈️', base: 4500 },
-    { id: 'instagram', name: 'Instagram',  icon: '📸', base: 5000 },
-    { id: 'facebook',  name: 'Facebook',   icon: '📘', base: 4500 },
-    { id: 'google',    name: 'Google',     icon: '🔵', base: 5200 },
-    { id: 'discord',   name: 'Discord',    icon: '💻', base: 4800 },
-    { id: 'tiktok',    name: 'TikTok',     icon: '🎵', base: 4800 },
-    { id: 'twitter',   name: 'Twitter / X', icon: '🐦', base: 5000 },
-    { id: 'gmail',     name: 'Gmail',      icon: '📧', base: 3200 },
-    { id: 'openai',    name: 'OpenAI',     icon: '🤖', base: 5200 },
-    { id: 'uber',      name: 'Uber',       icon: '🚗', base: 4500 },
-    { id: 'paypal',    name: 'PayPal',     icon: '🅿️', base: 6000 },
-    { id: 'amazon',    name: 'Amazon',     icon: '📦', base: 4500 },
-    { id: 'tinder',    name: 'Tinder',     icon: '🔥', base: 5000 },
+  /* ========== ALL COUNTRIES — AUTO-FICATIONS FLOW ========== */
+  const COUNTRIES = [
+    {name:"United Kingdom",code:"gb",flag:"🇬🇧"},
+    {name:"United States",code:"us",flag:"🇺🇸"},
+    {name:"France",code:"fr",flag:"🇫🇷"},
+    {name:"China",code:"cn",flag:"🇨🇳"},
+    {name:"Spain",code:"es",flag:"🇪🇸"},
+    {name:"Argentina",code:"ar",flag:"🇦🇷"},
+    {name:"New Zealand",code:"nz",flag:"🇳🇿"},
+    {name:"Ukraine",code:"ua",flag:"🇺🇦"},
+    {name:"Sweden",code:"se",flag:"🇸🇪"},
+    {name:"Poland",code:"pl",flag:"🇵🇱"},
+    {name:"Germany",code:"de",flag:"🇩🇪"},
+    {name:"Canada",code:"ca",flag:"🇨🇦"},
+    {name:"Australia",code:"au",flag:"🇦🇺"},
+    {name:"Italy",code:"it",flag:"🇮🇹"},
+    {name:"Netherlands",code:"nl",flag:"🇳🇱"},
+    {name:"Belgium",code:"be",flag:"🇧🇪"},
+    {name:"Austria",code:"at",flag:"🇦🇹"},
+    {name:"Switzerland",code:"ch",flag:"🇨🇭"},
+    {name:"Portugal",code:"pt",flag:"🇵🇹"},
+    {name:"Ireland",code:"ie",flag:"🇮🇪"},
+    {name:"Norway",code:"no",flag:"🇳🇴"},
+    {name:"Denmark",code:"dk",flag:"🇩🇰"},
+    {name:"Finland",code:"fi",flag:"🇫🇮"},
+    {name:"Czech Republic",code:"cz",flag:"🇨🇿"},
+    {name:"Romania",code:"ro",flag:"🇷🇴"},
+    {name:"Hungary",code:"hu",flag:"🇭🇺"},
+    {name:"Greece",code:"gr",flag:"🇬🇷"},
+    {name:"Turkey",code:"tr",flag:"🇹🇷"},
+    {name:"India",code:"in",flag:"🇮🇳"},
+    {name:"Indonesia",code:"id",flag:"🇮🇩"},
+    {name:"Malaysia",code:"my",flag:"🇲🇾"},
+    {name:"Philippines",code:"ph",flag:"🇵🇭"},
+    {name:"Thailand",code:"th",flag:"🇹🇭"},
+    {name:"Vietnam",code:"vn",flag:"🇻🇳"},
+    {name:"Japan",code:"jp",flag:"🇯🇵"},
+    {name:"South Korea",code:"kr",flag:"🇰🇷"},
+    {name:"Singapore",code:"sg",flag:"🇸🇬"},
+    {name:"Brazil",code:"br",flag:"🇧🇷"},
+    {name:"Mexico",code:"mx",flag:"🇲🇽"},
+    {name:"Chile",code:"cl",flag:"🇨🇱"},
+    {name:"Colombia",code:"co",flag:"🇨🇴"},
+    {name:"Peru",code:"pe",flag:"🇵🇪"},
+    {name:"South Africa",code:"za",flag:"🇿🇦"},
+    {name:"Nigeria",code:"ng",flag:"🇳🇬"},
+    {name:"Egypt",code:"eg",flag:"🇪🇬"},
+    {name:"Morocco",code:"ma",flag:"🇲🇦"},
+    {name:"Israel",code:"il",flag:"🇮🇱"},
+    {name:"Pakistan",code:"pk",flag:"🇵🇰"},
+    {name:"Bangladesh",code:"bd",flag:"🇧🇩"},
+    {name:"Saudi Arabia",code:"sa",flag:"🇸🇦"},
+    {name:"United Arab Emirates",code:"ae",flag:"🇦🇪"},
+    {name:"Qatar",code:"qa",flag:"🇶🇦"},
+    {name:"Kuwait",code:"kw",flag:"🇰🇼"},
+    {name:"Russia",code:"ru",flag:"🇷🇺"},
+    {name:"Kazakhstan",code:"kz",flag:"🇰🇿"},
+    {name:"Moldova",code:"md",flag:"🇲🇩"},
+    {name:"Serbia",code:"rs",flag:"🇷🇸"},
+    {name:"Bulgaria",code:"bg",flag:"🇧🇬"},
+    {name:"Slovakia",code:"sk",flag:"🇸🇰"}
   ];
 
   let selectedCountry = null;
   let selectedService = null;
-  let selectedPrice = 0;
+  let availableServices = [];
 
-  const countrySearchEl = document.getElementById('countrySearch');
-  const countryResultsEl = document.getElementById('countryResults');
-  const serviceSearchEl = document.getElementById('serviceSearch');
-  const serviceResultsEl = document.getElementById('serviceResults');
+  const countryInput = document.getElementById('countryInput');
+  const countryDropdown = document.getElementById('countryDropdown');
+  const serviceCard = document.getElementById('serviceCard');
+  const serviceInput = document.getElementById('serviceInput');
+  const serviceDropdown = document.getElementById('serviceDropdown');
+  const selectedChip = document.getElementById('selectedChip');
+  const selectedName = document.getElementById('selectedName');
+  const selectedPriceEl = document.getElementById('selectedPrice');
+  const priceCard = document.getElementById('priceCard');
+  const buySection = document.getElementById('buySection');
+  const actionBtn = document.getElementById('actionBtn');
+  const purchaseModal = document.getElementById('purchaseModal');
+  const modalContent = document.getElementById('modalContent');
 
-  // COUNTRY SEARCH
-  countrySearchEl.addEventListener('input', (e) => {
-    const term = e.target.value.trim().toLowerCase();
+  function openModal(html){
+    modalContent.innerHTML = html;
+    purchaseModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    purchaseModal.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  purchaseModal.addEventListener('click', e => {
+    if (e.target === purchaseModal) closeModal();
+  });
 
-    if (selectedCountry && !countrySearchEl.value.includes(selectedCountry.name)) {
-      selectedCountry = null;
-      selectedService = null;
-      document.getElementById('step2').style.display = 'none';
-      document.getElementById('step3').style.display = 'none';
+  function calculateCustomerPrice(providerUsdPrice, countryCode, websiteId){
+    const key = `${String(countryCode || '').toLowerCase()}:${String(websiteId || '')}`;
+    const override = priceOverrides[key];
+    if (override?.customPrice) {
+      const c = Number(override.customPrice);
+      if (c > 0) return c;
     }
+    const usd = Number(providerUsdPrice || 0);
+    return Math.ceil((usd * USD_TO_NGN) + PROFIT_NGN);
+  }
 
-    if (!term) {
-      countryResultsEl.classList.remove('show');
-      countryResultsEl.innerHTML = '';
-      return;
-    }
+  function isServiceDisabled(countryCode, websiteId){
+    const key = `${String(countryCode || '').toLowerCase()}:${String(websiteId || '')}`;
+    return priceOverrides[key]?.enabled === false;
+  }
 
-    const matches = COUNTRIES_DB.filter(c =>
-      c.name.toLowerCase().includes(term) || c.code.toLowerCase().includes(term)
-    );
+  /* COUNTRY SEARCH */
+  countryInput.addEventListener('input', () => {
+    const q = countryInput.value.trim().toLowerCase();
+    if (!q) { countryDropdown.classList.remove('show'); return; }
+
+    const matches = COUNTRIES.filter(c =>
+      c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
+    ).slice(0, 12);
 
     if (!matches.length) {
-      countryResultsEl.innerHTML = `
-        <div class="search-empty">
-          <div class="search-empty-icon">🔍</div>
-          No country found for "<b>${term}</b>"
-        </div>`;
-      countryResultsEl.classList.add('show');
+      countryDropdown.innerHTML = `<div class="search-empty"><div class="search-empty-icon">🔍</div>No country found</div>`;
+      countryDropdown.classList.add('show');
       return;
     }
 
-    countryResultsEl.innerHTML = matches.map(c => `
-      <div class="search-item" data-code="${c.code}" data-name="${c.name}" data-flag="${c.flag}" data-markup="${c.markup}">
+    countryDropdown.innerHTML = matches.map(c => `
+      <button type="button" class="search-item" data-code="${escapeHtml(c.code)}">
         <div class="si-left">
           <span class="si-flag">${c.flag}</span>
-          <span class="si-name">${c.name}</span>
+          <span class="si-name">${escapeHtml(c.name)}</span>
         </div>
-        <span class="si-price">›</span>
-      </div>
+        <span class="si-price" style="font-size:11px;color:var(--brown-light);font-weight:600;">${c.code.toUpperCase()}</span>
+      </button>
     `).join('');
-    countryResultsEl.classList.add('show');
+    countryDropdown.classList.add('show');
 
-    countryResultsEl.querySelectorAll('.search-item').forEach(el => {
-      el.addEventListener('click', () => {
-        selectedCountry = {
-          code: el.dataset.code,
-          name: el.dataset.name,
-          flag: el.dataset.flag,
-          markup: parseFloat(el.dataset.markup)
-        };
-
-        countrySearchEl.value = `${selectedCountry.flag}  ${selectedCountry.name}`;
-        countryResultsEl.classList.remove('show');
-        countryResultsEl.innerHTML = '';
-
-        selectedService = null;
-        selectedPrice = 0;
-        serviceSearchEl.value = '';
-        serviceResultsEl.classList.remove('show');
-        serviceResultsEl.innerHTML = '';
-        document.getElementById('step3').style.display = 'none';
-
-        document.getElementById('step2').style.display = 'block';
-        setTimeout(() => {
-          document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
-          serviceSearchEl.focus();
-        }, 200);
-      });
+    countryDropdown.querySelectorAll('.search-item').forEach(btn => {
+      btn.addEventListener('click', () => selectCountry(btn.dataset.code));
     });
   });
 
-  // SERVICE SEARCH
-  serviceSearchEl.addEventListener('input', (e) => {
-    if (!selectedCountry) return;
-    const term = e.target.value.trim().toLowerCase();
-
-    if (selectedService && !serviceSearchEl.value.includes(selectedService.name)) {
-      selectedService = null;
-      selectedPrice = 0;
-      document.getElementById('step3').style.display = 'none';
-    }
-
-    if (!term) {
-      serviceResultsEl.classList.remove('show');
-      serviceResultsEl.innerHTML = '';
-      return;
-    }
-
-    const matches = SERVICES_DB.filter(s => s.name.toLowerCase().includes(term));
-
-    if (!matches.length) {
-      serviceResultsEl.innerHTML = `
-        <div class="search-empty">
-          <div class="search-empty-icon">🔍</div>
-          No service found for "<b>${term}</b>"
-        </div>`;
-      serviceResultsEl.classList.add('show');
-      return;
-    }
-
-    serviceResultsEl.innerHTML = matches.map(s => {
-      const price = Math.round(s.base * (selectedCountry.markup || 1));
-      return `
-        <div class="search-item" data-id="${s.id}" data-name="${s.name}" data-icon="${s.icon}" data-price="${price}">
-          <div class="si-left">
-            <span class="si-icon">${s.icon}</span>
-            <span class="si-name">${s.name}</span>
-          </div>
-          <span class="si-price">${formatNGNshort(price)}</span>
-        </div>
-      `;
-    }).join('');
-    serviceResultsEl.classList.add('show');
-
-    serviceResultsEl.querySelectorAll('.search-item').forEach(el => {
-      el.addEventListener('click', () => {
-        selectedService = {
-          id: el.dataset.id,
-          name: el.dataset.name,
-          icon: el.dataset.icon
-        };
-        selectedPrice = parseFloat(el.dataset.price);
-
-        serviceSearchEl.value = `${selectedService.icon}  ${selectedService.name}`;
-        serviceResultsEl.classList.remove('show');
-        serviceResultsEl.innerHTML = '';
-
-        document.getElementById('sumCountry').textContent = `${selectedCountry.flag} ${selectedCountry.name}`;
-        document.getElementById('sumService').textContent = `${selectedService.icon} ${selectedService.name}`;
-        document.getElementById('sumPrice').textContent = formatNGNshort(selectedPrice);
-        document.getElementById('sumBalance').textContent = formatNGN(currentBalance);
-
-        document.getElementById('step3').style.display = 'block';
-        setTimeout(() => {
-          document.getElementById('step3').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 200);
-      });
-    });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#countryInput') && !countryDropdown.contains(e.target)) countryDropdown.classList.remove('show');
+    if (!e.target.closest('#serviceInput') && !serviceDropdown.contains(e.target)) serviceDropdown.classList.remove('show');
   });
 
-  // CANCEL
-  document.getElementById('cancelBtn').addEventListener('click', () => {
+  async function selectCountry(code){
+    const country = COUNTRIES.find(c => c.code.toLowerCase() === String(code).toLowerCase());
+    if (!country) return;
+
+    selectedCountry = country;
     selectedService = null;
-    selectedPrice = 0;
-    serviceSearchEl.value = '';
-    serviceResultsEl.classList.remove('show');
-    serviceResultsEl.innerHTML = '';
-    document.getElementById('step3').style.display = 'none';
-    document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setTimeout(() => serviceSearchEl.focus(), 200);
-  });
+    availableServices = [];
+    serviceInput.value = '';
+    selectedChip.style.display = 'none';
+    priceCard.style.display = 'none';
+    buySection.style.display = 'none';
+    actionBtn.disabled = true;
 
-  // PURCHASE NOW → modal
-  document.getElementById('purchaseNowBtn').addEventListener('click', () => {
-    if (!selectedCountry || !selectedService) return showToast('Please pick country and service.', 'error');
-    if (currentBalance < selectedPrice) return showToast('Insufficient balance. Deposit funds first.', 'error');
+    countryInput.value = `${country.flag} ${country.name}`;
+    countryDropdown.classList.remove('show');
 
-    document.getElementById('mCountry').textContent = `${selectedCountry.flag} ${selectedCountry.name}`;
-    document.getElementById('mService').textContent = `${selectedService.icon} ${selectedService.name}`;
-    document.getElementById('mPrice').textContent = formatNGNshort(selectedPrice);
-    document.getElementById('mAfter').textContent = formatNGN(currentBalance - selectedPrice);
-    document.getElementById('purchaseModal').classList.add('show');
-  });
-
-  document.getElementById('modalCancel').addEventListener('click', () => {
-    document.getElementById('purchaseModal').classList.remove('show');
-  });
-
-  document.getElementById('modalConfirm').addEventListener('click', async () => {
-    const btn = document.getElementById('modalConfirm');
-    btn.disabled = true;
-    btn.innerHTML = 'Processing…';
-
-    const countryName = selectedCountry.name;
-    const countryFlag = selectedCountry.flag;
-    const serviceName = selectedService.name;
-    const price = selectedPrice;
+    serviceCard.style.display = 'block';
+    serviceInput.disabled = true;
+    serviceInput.placeholder = 'Loading services...';
+    serviceDropdown.innerHTML = '';
+    serviceDropdown.classList.remove('show');
 
     try {
-      currentBalance -= price;
-      await saveBalance();
+      const url = `${API_URL}?action=servicelist&country=${encodeURIComponent(country.code)}`;
+      const res = await fetch(url, { cache: 'no-store' });
+      const data = await res.json();
 
-      await addTransaction({
-        type: 'purchase', icon: countryFlag,
-        title: `${countryName} — ${serviceName}`,
-        subtitle: 'Virtual number',
-        amount: price
+      if (!res.ok) throw new Error(data?.message || 'Failed to load services');
+
+      let services = [];
+      if (Array.isArray(data?.services)) services = data.services;
+      else if (Array.isArray(data?.data)) services = data.data;
+      else if (Array.isArray(data?.result)) services = data.result;
+      else if (Array.isArray(data)) services = data;
+
+      availableServices = services.map(s => {
+        if (typeof s === 'string') return { id:'', name:s, price:0 };
+        return {
+          id: String(s.id ?? s.websiteId ?? s.website_id ?? s.website ?? ''),
+          name: String(s.name ?? s.website ?? s.service ?? '').trim(),
+          price: Number(s.price ?? s.cost ?? s.rate ?? s.amount ?? 0)
+        };
+      }).filter(s => s.id && s.name);
+
+      if (!availableServices.length) {
+        serviceInput.placeholder = 'No services available';
+        return;
+      }
+
+      serviceInput.placeholder = `🔍 Search among ${availableServices.length} services...`;
+      serviceInput.disabled = false;
+    } catch (err) {
+      console.error('Service list error:', err);
+      serviceInput.placeholder = 'Failed to load services';
+    }
+  }
+
+  /* SERVICE SEARCH */
+  serviceInput.addEventListener('input', () => {
+    if (!selectedCountry) return;
+    const q = serviceInput.value.trim().toLowerCase();
+    if (!q) { serviceDropdown.classList.remove('show'); return; }
+
+    const matches = availableServices
+      .filter(s => !isServiceDisabled(selectedCountry.code, s.id))
+      .filter(s => s.name.toLowerCase().includes(q))
+      .slice(0, 12);
+
+    if (!matches.length) {
+      serviceDropdown.innerHTML = `<div class="search-empty"><div class="search-empty-icon">🔍</div>No service found</div>`;
+      serviceDropdown.classList.add('show');
+      return;
+    }
+
+    serviceDropdown.innerHTML = matches.map(s => {
+      const price = calculateCustomerPrice(s.price, selectedCountry.code, s.id);
+      return `
+        <button type="button" class="search-item" data-id="${escapeHtml(s.id)}">
+          <div class="si-left">
+            <span class="si-icon">📱</span>
+            <span class="si-name">${escapeHtml(capitalize(s.name))}</span>
+          </div>
+          <span class="si-price">${formatNGNshort(price)}</span>
+        </button>
+      `;
+    }).join('');
+    serviceDropdown.classList.add('show');
+
+    serviceDropdown.querySelectorAll('.search-item').forEach(btn => {
+      btn.addEventListener('click', () => selectService(btn.dataset.id));
+    });
+  });
+
+  function selectService(id){
+    const service = availableServices.find(s => String(s.id) === String(id));
+    if (!service) return;
+    if (isServiceDisabled(selectedCountry.code, service.id)) return;
+
+    selectedService = service;
+    serviceInput.value = capitalize(service.name);
+    serviceDropdown.classList.remove('show');
+
+    const price = calculateCustomerPrice(service.price, selectedCountry.code, service.id);
+
+    selectedChip.style.display = 'flex';
+    selectedName.textContent = `${selectedCountry.flag} ${capitalize(service.name)}`;
+    selectedPriceEl.textContent = formatNGN(price);
+    priceCard.style.display = 'block';
+
+    buySection.style.display = 'block';
+    actionBtn.disabled = false;
+  }
+
+  /* BUY BUTTON */
+  actionBtn.addEventListener('click', () => {
+    if (!currentUser || !selectedCountry || !selectedService) return;
+
+    const price = calculateCustomerPrice(selectedService.price, selectedCountry.code, selectedService.id);
+
+    if (currentBalance < price) {
+      const shortfall = price - currentBalance;
+      openModal(`
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">Not Enough Balance</div>
+        <div class="modal-sub">You need <b>${formatNGN(shortfall)}</b> more to buy <b>${escapeHtml(capitalize(selectedService.name))}</b>.</div>
+        <div class="modal-detail">
+          <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(selectedService.name))}</b></div>
+          <div class="md-row"><span>Country</span><b>${selectedCountry.flag} ${escapeHtml(selectedCountry.name)}</b></div>
+          <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
+          <div class="md-row"><span>Your Balance</span><b>${formatNGN(currentBalance)}</b></div>
+          <div class="md-row total"><span>Shortfall</span><b>${formatNGN(shortfall)}</b></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" id="mCancel">Cancel</button>
+          <button class="btn-pink" style="flex:2;" id="mFund">💰 Fund Wallet</button>
+        </div>
+      `);
+      document.getElementById('mCancel').onclick = closeModal;
+      document.getElementById('mFund').onclick = () => {
+        closeModal();
+        document.querySelector('.side-item[data-page="deposit"]').click();
+      };
+      return;
+    }
+
+    openModal(`
+      <div class="modal-icon">🛒</div>
+      <div class="modal-title">Confirm Purchase</div>
+      <div class="modal-sub">You're about to rent a <b>${escapeHtml(capitalize(selectedService.name))}</b> number from <b>${escapeHtml(selectedCountry.name)}</b>.</div>
+      <div class="modal-detail">
+        <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(selectedService.name))}</b></div>
+        <div class="md-row"><span>Country</span><b>${selectedCountry.flag} ${escapeHtml(selectedCountry.name)}</b></div>
+        <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
+        <div class="md-row"><span>Your Balance</span><b>${formatNGN(currentBalance)}</b></div>
+        <div class="md-row total"><span>After Purchase</span><b>${formatNGN(currentBalance - price)}</b></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="mCancel">Cancel</button>
+        <button class="btn-pink" style="flex:2;" id="mBuy">✅ PURCHASE NOW</button>
+      </div>
+    `);
+
+    document.getElementById('mCancel').onclick = closeModal;
+    document.getElementById('mBuy').onclick = processPurchase;
+  });
+
+  async function processPurchase(){
+    const buyBtn = document.getElementById('mBuy');
+    if (!buyBtn) return;
+    buyBtn.disabled = true;
+    buyBtn.textContent = '⏳ Processing...';
+
+    const price = calculateCustomerPrice(selectedService.price, selectedCountry.code, selectedService.id);
+
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      const freshSnap = await getDoc(userRef);
+      if (!freshSnap.exists()) throw new Error('User account not found.');
+
+      const freshData = freshSnap.data() || {};
+      const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
+      if (freshBalance < price) throw new Error('INSUFFICIENT');
+
+      currentBalance = freshBalance;
+      updateBalanceUI();
+
+      /* Call AutoFications backend */
+      const genUrl = `${API_URL}?action=generate&website=${encodeURIComponent(selectedService.id)}&country=${encodeURIComponent(selectedCountry.code)}`;
+      const genRes = await fetch(genUrl, { cache: 'no-store' });
+
+      let genData = {};
+      try { genData = await genRes.json(); } catch { genData = {}; }
+
+      if (!genRes.ok || genData.success === false || genData.error) {
+        throw new Error('OUT_OF_STOCK');
+      }
+
+      const phoneNumber = genData.number || genData.phone || genData.phoneNumber || genData.phone_number;
+      if (!phoneNumber) throw new Error('OUT_OF_STOCK');
+
+      /* Deduct balance */
+      const newBalance = freshBalance - price;
+      await updateDoc(userRef, {
+        wallet: newBalance,
+        walletBalance: deleteField(),
+        balance: deleteField(),
+        updatedAt: serverTimestamp()
       });
+      currentBalance = newBalance;
+      updateBalanceUI();
 
-      const fakeNumber = '+' + Math.floor(1000000000 + Math.random() * 8999999999);
-      await addActivation({
-        service: serviceName,
-        number: fakeNumber,
+      /* Save activation */
+      await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
+        service: capitalize(selectedService.name),
+        serviceId: selectedService.id,
+        country: selectedCountry.name,
+        countryCode: selectedCountry.code,
+        flag: selectedCountry.flag,
+        number: phoneNumber,
         code: '',
         price: price,
         status: 'pending',
-        country: countryName
+        provider: 'autofications',
+        createdAt: serverTimestamp()
       });
 
-      document.getElementById('purchaseModal').classList.remove('show');
-      showToast(`✅ ${serviceName} purchased! Redirecting…`, 'success');
+      /* Transaction */
+      await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
+        type: 'purchase',
+        icon: selectedCountry.flag,
+        title: `${selectedCountry.name} — ${capitalize(selectedService.name)}`,
+        subtitle: `Number: ${phoneNumber}`,
+        amount: price,
+        createdAt: serverTimestamp()
+      });
 
+      /* Save context */
+      try {
+        localStorage.setItem('activeOrder', JSON.stringify({
+          serviceName: capitalize(selectedService.name),
+          country: selectedCountry.name,
+          flag: selectedCountry.flag,
+          phone: phoneNumber,
+          price: price,
+          provider: 'autofications',
+          createdAt: Date.now()
+        }));
+      } catch (e) {}
+
+      closeModal();
+      showToast(`✅ ${capitalize(selectedService.name)} number purchased!`, 'success');
+
+      /* Reset */
       selectedCountry = null;
       selectedService = null;
-      selectedPrice = 0;
-      countrySearchEl.value = '';
-      serviceSearchEl.value = '';
-      document.getElementById('step2').style.display = 'none';
-      document.getElementById('step3').style.display = 'none';
+      selectedPriceEl.textContent = '';
+      countryInput.value = '';
+      serviceInput.value = '';
+      serviceCard.style.display = 'none';
+      buySection.style.display = 'none';
 
+      /* Redirect to Dashboard */
       setTimeout(() => {
         document.querySelector('.side-item[data-page="dashboard"]').click();
         loadTransactions();
@@ -1138,17 +1332,29 @@
       }, 800);
 
     } catch (err) {
-      console.error(err);
-      showToast('❌ Purchase failed. Try again.', 'error');
-      currentBalance += price;
-      await saveBalance();
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = 'PURCHASE NOW';
-    }
-  });
+      console.error('Purchase error:', err);
+      let msg = 'Something went wrong. Please try again.';
+      if (err.message === 'OUT_OF_STOCK') msg = 'Number out of stock. Please try another service.';
+      else if (err.message === 'INSUFFICIENT') msg = 'Insufficient wallet balance.';
 
-  // AUTH GUARD
+      openModal(`
+        <div class="modal-icon">❌</div>
+        <div class="modal-title">Purchase Failed</div>
+        <div class="modal-sub">${escapeHtml(msg)}</div>
+        <div class="modal-actions">
+          <button class="btn-cancel" id="mClose">Close</button>
+          <button class="btn-pink" style="flex:2;" id="mRetry">🔄 Try Again</button>
+        </div>
+      `);
+      document.getElementById('mClose').onclick = closeModal;
+      document.getElementById('mRetry').onclick = () => {
+        closeModal();
+        setTimeout(() => actionBtn.click(), 100);
+      };
+    }
+  }
+
+  /* ========== AUTH GUARD ========== */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
@@ -1172,7 +1378,7 @@
           document.getElementById('pSince').textContent =
             new Date(data.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
         }
-        currentBalance = data.balance || 0;
+        currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
         updateBalanceUI();
       }
     } catch (e) { console.warn(e); }
@@ -1187,7 +1393,8 @@
     document.getElementById('depositBalance').textContent = txt;
   };
 
-  async function loadTransactions() {
+  /* ========== LOAD TRANSACTIONS ========== */
+  async function loadTransactions(){
     if (!currentUser) return;
     try {
       const q = query(collection(db, 'users', currentUser.uid, 'transactions'), orderBy('createdAt', 'desc'));
@@ -1200,11 +1407,11 @@
       }
 
       let html = '';
-      snap.forEach(docSnap => {
-        const t = docSnap.data();
+      snap.forEach(d => {
+        const t = d.data();
         const isPlus = t.type === 'deposit';
         const date = t.createdAt?.toDate
-          ? t.createdAt.toDate().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+          ? t.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
           : 'Just now';
         html += `
           <div class="list-row">
@@ -1225,7 +1432,8 @@
     } catch (e) { console.warn(e); }
   }
 
-  async function loadActivations() {
+  /* ========== LOAD ACTIVATIONS ========== */
+  async function loadActivations(){
     if (!currentUser) return;
     const tbody = document.getElementById('activationsBody');
     try {
@@ -1241,7 +1449,7 @@
       snap.forEach(d => {
         const a = d.data();
         const date = a.createdAt?.toDate
-          ? a.createdAt.toDate().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+          ? a.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
           : 'Just now';
         const statusClass = {
           active: 'status-active', pending: 'status-pending',
@@ -1250,7 +1458,7 @@
 
         html += `
           <tr>
-            <td>${a.service || '—'}</td>
+            <td>${a.flag ? a.flag + ' ' : ''}${a.service || '—'}</td>
             <td>${a.number || '—'}</td>
             <td>${a.code ? `<span class="code-pill">${a.code}</span>` : `<span class="code-pill pending">Waiting…</span>`}</td>
             <td>${formatNGNshort(a.price)}</td>
@@ -1260,7 +1468,6 @@
       });
       tbody.innerHTML = html;
     } catch (e) {
-      console.warn(e);
       tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
     }
   }
@@ -1274,20 +1481,7 @@
     setTimeout(() => btn.classList.remove('spinning'), 600);
   });
 
-  async function addTransaction(data) {
-    if (!currentUser) return;
-    await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), { ...data, createdAt: serverTimestamp() });
-  }
-  async function addActivation(data) {
-    if (!currentUser) return;
-    await addDoc(collection(db, 'users', currentUser.uid, 'activations'), { ...data, createdAt: serverTimestamp() });
-  }
-  async function saveBalance() {
-    await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
-    updateBalanceUI();
-  }
-
-  // BUY USA
+  /* ========== BUY USA ========== */
   document.getElementById('usaBuyBtn').addEventListener('click', async () => {
     const service = document.getElementById('usaServiceName').textContent;
     const price = Number(document.getElementById('usaPrice').textContent.replace(/[₦,]/g, ''));
@@ -1305,7 +1499,7 @@
     loadActivations();
   });
 
-  // BUY ITEM
+  /* ========== BUY ITEM ========== */
   document.querySelectorAll('[data-buy-item]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const item = btn.dataset.buyItem;
@@ -1320,7 +1514,7 @@
     });
   });
 
-  // BOOST
+  /* ========== BOOST ========== */
   document.getElementById('boostBuyBtn').addEventListener('click', async () => {
     const platform = document.getElementById('boostPlatformVal').textContent;
     const service = document.getElementById('boostServiceVal').textContent;
@@ -1334,7 +1528,7 @@
     loadTransactions();
   });
 
-  // DEPOSIT
+  /* ========== DEPOSIT ========== */
   document.getElementById('depositBtn').addEventListener('click', async () => {
     let amount = Number(document.getElementById('customAmount').value);
     if (!amount || amount <= 0) {
@@ -1352,7 +1546,7 @@
     loadTransactions();
   });
 
-  // CHANGE PASSWORD
+  /* ========== CHANGE PASSWORD ========== */
   document.getElementById('changePassBtn').addEventListener('click', async () => {
     const cur = document.getElementById('currentPass').value;
     const nw = document.getElementById('newPass').value;
@@ -1380,12 +1574,26 @@
     }
   });
 
-  // LOGOUT
+  /* ========== LOGOUT ========== */
   document.getElementById('logoutBtn').addEventListener('click', async () => {
     await signOut(auth);
     window.location.href = 'login.html';
   });
+
+  /* ========== HELPERS ========== */
+  async function addTransaction(data){
+    if (!currentUser) return;
+    await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), { ...data, createdAt: serverTimestamp() });
+  }
+  async function addActivation(data){
+    if (!currentUser) return;
+    await addDoc(collection(db, 'users', currentUser.uid, 'activations'), { ...data, createdAt: serverTimestamp() });
+  }
+  async function saveBalance(){
+    await setDoc(doc(db, 'users', currentUser.uid), { wallet: currentBalance }, { merge: true });
+    updateBalanceUI();
+  }
 </script>
 
 </body>
- </html>
+       </html>
