@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arknet PVA — Dashboard</title>
+<title>Arknet SMS — Dashboard</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
   :root {
@@ -17,7 +17,8 @@
     --cream: #fef9f5;
     --green: #22c55e;
     --red: #dc2626;
-    --warning: #b45309;
+    --blue: #2563eb;
+    --gold: #d97706;
     --sidebar-w: 260px;
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
@@ -99,12 +100,12 @@
   .topbar-balance .b-val { color: var(--pink-light); }
 
   /* MAIN */
-  .main { margin-left: var(--sidebar-w); padding: 26px 4% 120px; min-height: calc(100vh - 60px); }
+  .main { margin-left: var(--sidebar-w); padding: 20px 4% 120px; min-height: calc(100vh - 60px); }
   .page { display: none; animation: fade 0.3s ease; }
   .page.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .greeting { margin-bottom: 26px; }
+  .greeting { margin-bottom: 22px; }
   .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; margin-bottom: 4px; }
   .greeting h1 span { color: var(--pink); }
   .greeting p { color: var(--brown); font-size: 14px; }
@@ -160,9 +161,9 @@
   table.act-table tr:last-child td { border-bottom: none; }
   table.act-table tr:hover td { background: var(--pink-soft); }
   .status-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
-  .status-active { background: #dcfce7; color: #166534; }
+  .status-active, .status-delivered { background: #dcfce7; color: #166534; }
   .status-pending { background: #fef3c7; color: #92400e; }
-  .status-expired { background: #fee2e2; color: #991b1b; }
+  .status-expired, .status-rejected { background: #fee2e2; color: #991b1b; }
   .status-completed { background: #dbeafe; color: #1e40af; }
   .code-pill { background: var(--pink-soft); color: var(--pink); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 13px; letter-spacing: 1px; font-family: 'Consolas', monospace; }
   .code-pill.pending { background: #fef3c7; color: #92400e; }
@@ -194,23 +195,35 @@
   .btn-pink:hover { background: var(--brown-dark); transform: translateY(-1px); }
   .btn-pink:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
   .btn-full { width: 100%; }
+  .btn-gold {
+    background: #fbbf24; color: #4a2c2a;
+    padding: 14px 24px; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 800; cursor: pointer;
+    transition: 0.25s; font-family: inherit; width: 100%;
+  }
+  .btn-gold:hover { background: #f59e0b; transform: translateY(-1px); }
+  .btn-gold:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 
   /* FORMS */
   .form-grid { display: grid; gap: 14px; }
   .form-field label { display: block; font-size: 13px; font-weight: 700; color: var(--brown-dark); margin-bottom: 6px; }
-  .form-field input, .form-field select {
+  .form-field input, .form-field select, .form-field textarea {
     width: 100%; padding: 13px 14px;
     border: 1.5px solid #f0dcd4; border-radius: 10px;
     font-size: 14px; color: var(--brown-dark);
     background: var(--cream); transition: 0.2s; font-family: inherit;
+    resize: vertical;
   }
-  .form-field input:focus, .form-field select:focus {
+  .form-field textarea { min-height: 90px; }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
     outline: none; border-color: var(--pink);
     background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
   .form-field input:disabled { background: #f8f5f3; cursor: not-allowed; }
   .form-field .req { color: var(--red); margin-left: 2px; }
   .form-hint { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 480px) { .form-row-2 { grid-template-columns: 1fr; } }
 
   /* SEARCH */
   .search-wrap { position: relative; }
@@ -292,6 +305,163 @@
   .profile-row:last-child { border-bottom: none; }
   .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
   .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; word-break: break-word; text-align: right; }
+
+  /* GIFT DELIVERY CARDS */
+  .delivery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .delivery-card {
+    background: var(--white);
+    border: 1px solid #f5e6e0;
+    border-radius: 16px;
+    padding: 20px 18px;
+    cursor: pointer;
+    transition: 0.28s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 130px;
+    position: relative;
+  }
+  .delivery-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--pink);
+    box-shadow: 0 12px 28px rgba(236,72,153,0.15);
+  }
+  .delivery-card.gold {
+    background: #fffbeb;
+    border-color: #fde68a;
+  }
+  .delivery-card.gold:hover {
+    border-color: var(--gold);
+    box-shadow: 0 12px 28px rgba(217,119,6,0.18);
+  }
+  .delivery-card .dc-flag {
+    font-size: 34px;
+    line-height: 1;
+  }
+  .delivery-card .dc-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    margin-top: 4px;
+  }
+  .delivery-card .dc-sub {
+    font-size: 12px;
+    color: var(--brown-light);
+    line-height: 1.4;
+  }
+  .delivery-card .dc-arrow {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    font-size: 18px;
+    color: var(--blue);
+    font-weight: 800;
+  }
+  .delivery-card.gold .dc-arrow {
+    color: var(--gold);
+  }
+
+  /* PRODUCT CARD */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .product-card {
+    background: var(--white);
+    border: 1px solid #f5e6e0;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.28s;
+  }
+  .product-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--pink);
+    box-shadow: 0 12px 28px rgba(236,72,153,0.15);
+  }
+  .product-img {
+    height: 140px;
+    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 54px;
+    overflow: hidden;
+  }
+  .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .product-info { padding: 14px 16px 16px; }
+  .product-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .product-price {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--pink);
+  }
+
+  /* VIEW ALL ORDERS BUTTON */
+  .view-orders-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #ecfdf5;
+    border: 1.5px solid #a7f3d0;
+    border-radius: 18px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: 0.25s;
+    margin-top: 24px;
+    position: relative;
+  }
+  .view-orders-btn:hover {
+    background: #d1fae5;
+    border-color: #6ee7b7;
+    transform: translateY(-2px);
+  }
+  .vo-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: #065f46;
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .vo-text { flex: 1; }
+  .vo-title {
+    font-size: 16px; font-weight: 800; color: #065f46;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .vo-count {
+    background: #065f46;
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .vo-sub {
+    font-size: 12px; color: #047857; margin-top: 3px;
+  }
+  .vo-arrow {
+    font-size: 24px; color: #047857; font-weight: 800;
+    flex-shrink: 0;
+  }
 
   /* TOAST */
   .toast {
@@ -412,6 +582,11 @@
     .bn-item { font-size: 9px; }
     .bn-item .bn-icon { width: 30px; height: 30px; }
     .bn-item .bn-icon svg { width: 18px; height: 18px; }
+    .delivery-grid { gap: 10px; }
+    .delivery-card { padding: 16px 14px; min-height: 110px; }
+    .delivery-card .dc-flag { font-size: 28px; }
+    .delivery-card .dc-title { font-size: 14px; }
+    .delivery-card .dc-sub { font-size: 11px; }
   }
   @media (max-width: 380px) {
     .action-card .ac-title { font-size: 11px; }
@@ -445,16 +620,17 @@
     <div class="side-item active" data-page="dashboard"><span class="si-icon">📊</span> Dashboard</div>
     <div class="side-item" data-page="usa"><span class="si-icon">🇺🇸</span> Buy USA Number</div>
     <div class="side-item" data-page="countries"><span class="si-icon">🌍</span> Buy All Countries</div>
-    <div class="side-item" data-page="gmail"><span class="si-icon">📧</span> Buy Gmail Account</div>
+    <div class="side-item" data-page="gifts"><span class="si-icon">🎁</span> Send Gifts</div>
     <div class="side-item" data-page="social"><span class="si-icon">📱</span> Buy Social Media</div>
-    <div class="side-item" data-page="boost"><span class="si-icon">🚀</span> Boost Your Social Media</div>
+    <div class="side-item" data-page="boost"><span class="si-icon">🚀</span> Boost Social Media</div>
 
     <div class="side-divider"></div>
     <div class="side-label">Account</div>
 
     <div class="side-item" data-page="profile"><span class="si-icon">👤</span> Profile</div>
     <div class="side-item" data-page="deposit"><span class="si-icon">💰</span> Deposit Funds</div>
-    <div class="side-item" data-page="history"><span class="si-icon">📜</span> Transaction History</div>
+    <div class="side-item" data-page="myorders"><span class="si-icon">📦</span> My Orders</div>
+    <div class="side-item" data-page="history"><span class="si-icon">📜</span> Transactions</div>
     <div class="side-item" data-page="password"><span class="si-icon">🔒</span> Change Password</div>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
@@ -477,16 +653,11 @@
 
   <!-- ========== DASHBOARD ========== -->
   <div class="page active" id="page-dashboard">
-    <div class="greeting">
-      <h1>Hi <span id="welcomeName">User</span> 👋</h1>
-      <p>Here's a quick overview of your Arknet SMS account.</p>
-    </div>
-
     <div class="actions-top">
-      <div class="action-card" data-goto="gmail">
-        <div class="ac-icon">📧</div>
-        <div class="ac-title">Buy Gmail</div>
-        <div class="ac-sub">Fresh & aged accounts</div>
+      <div class="action-card" data-goto="gifts">
+        <div class="ac-icon">🎁</div>
+        <div class="ac-title">Send Gifts</div>
+        <div class="ac-sub">Deliver worldwide</div>
       </div>
       <div class="action-card" data-goto="social">
         <div class="ac-icon">📱</div>
@@ -540,7 +711,7 @@
     </div>
   </div>
 
-  <!-- ========== BUY USA NUMBER ========== -->
+  <!-- ========== USA NUMBER ========== -->
   <div class="page" id="page-usa">
     <div class="greeting">
       <h1>🇺🇸 Buy <span>USA Number</span></h1>
@@ -581,7 +752,7 @@
     </div>
   </div>
 
-  <!-- ========== BUY ALL COUNTRIES ========== -->
+  <!-- ========== ALL COUNTRIES ========== -->
   <div class="page" id="page-countries">
     <div class="greeting">
       <h1>🌍 Buy <span>All Countries</span></h1>
@@ -637,40 +808,167 @@
     </div>
   </div>
 
-  <!-- ========== BUY GMAIL ========== -->
-  <div class="page" id="page-gmail">
-    <div class="greeting">
-      <h1>📧 Buy <span>Gmail Account</span></h1>
-      <p>Fresh, verified Gmail accounts ready to use.</p>
-    </div>
-    <div class="section">
-      <div class="section-title" style="margin-bottom: 14px;">Available Gmail Accounts</div>
+  <!-- ========== SEND GIFTS ========== -->
+  <div class="page" id="page-gifts">
 
-      <div class="list-row">
-        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Fresh Gmail Account</div><div class="lr-sub">New account • Full access</div></div></div>
-        <div class="lr-right"><div class="lr-amount">₦1,800</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Fresh" data-buy-price="1800">Buy</button>
+    <!-- SUB-VIEW 1: DELIVERY CHOICE -->
+    <div class="gift-view" id="gift-view-delivery">
+      <div class="greeting">
+        <h1>🎁 Send <span>Gifts</span></h1>
+        <p>Choose where you want to send your gift.</p>
+      </div>
+
+      <div class="delivery-grid">
+        <div class="delivery-card" data-gift-country="USA">
+          <div class="dc-flag">🇺🇸</div>
+          <div class="dc-title">USA</div>
+          <div class="dc-sub">Gift products available in USA</div>
+          <div class="dc-arrow">→</div>
+        </div>
+        <div class="delivery-card" data-gift-country="Canada">
+          <div class="dc-flag">🇨🇦</div>
+          <div class="dc-title">Canada</div>
+          <div class="dc-sub">Gift products available in Canada</div>
+          <div class="dc-arrow">→</div>
+        </div>
+        <div class="delivery-card" data-gift-country="Other">
+          <div class="dc-flag">🌍</div>
+          <div class="dc-title">Other Countries</div>
+          <div class="dc-sub">Send gifts to other destinations</div>
+          <div class="dc-arrow">→</div>
+        </div>
+        <div class="delivery-card gold" data-gift-country="Customize">
+          <div class="dc-flag">🎁</div>
+          <div class="dc-title">Customize Gift</div>
+          <div class="dc-sub">Create a personalized gift</div>
+          <div class="dc-arrow">→</div>
         </div>
       </div>
-      <div class="list-row">
-        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Aged Gmail (3+ Months)</div><div class="lr-sub">Trusted • Recovery email</div></div></div>
-        <div class="lr-right"><div class="lr-amount">₦5,250</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Aged" data-buy-price="5250">Buy</button>
+
+      <div class="view-orders-btn" data-goto="myorders">
+        <div class="vo-icon">📦</div>
+        <div class="vo-text">
+          <div class="vo-title">View All My Orders <span class="vo-count" id="giftOrderCount">0</span></div>
+          <div class="vo-sub">Tap to see your gift deliveries</div>
+        </div>
+        <div class="vo-arrow">›</div>
+      </div>
+    </div>
+
+    <!-- SUB-VIEW 2: PRODUCT LIST -->
+    <div class="gift-view" id="gift-view-products" style="display: none;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 22px;">
+        <button class="btn-cancel" style="flex: 0; padding: 10px 16px; font-size: 14px;" id="giftBackToDelivery">← Back</button>
+        <div class="greeting" style="margin: 0;">
+          <h1 style="font-size: 20px;" id="giftCountryTitle">Gifts</h1>
+          <p style="font-size: 13px;" id="giftCountrySub">Pick a gift to continue</p>
         </div>
       </div>
-      <div class="list-row">
-        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">USA Gmail Account</div><div class="lr-sub">US-based • Verified phone</div></div></div>
-        <div class="lr-right"><div class="lr-amount">₦3,000</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail USA" data-buy-price="3000">Buy</button>
-        </div>
-      </div>
-      <div class="list-row">
-        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Bulk Gmail (10 pcs)</div><div class="lr-sub">Wholesale • Discounted</div></div></div>
-        <div class="lr-right"><div class="lr-amount">₦13,500</div>
-          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Bulk x10" data-buy-price="13500">Buy</button>
+
+      <div class="product-grid" id="giftProductGrid">
+        <div class="empty" style="grid-column: 1/-1;">
+          <div class="empty-icon">🎁</div>
+          <h3>No gifts available</h3>
+          <p>Please check back later.</p>
         </div>
       </div>
     </div>
+
+    <!-- SUB-VIEW 3: CHECKOUT -->
+    <div class="gift-view" id="gift-view-checkout" style="display: none;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 22px;">
+        <button class="btn-cancel" style="flex: 0; padding: 10px 16px; font-size: 14px;" id="giftBackToProducts">← Back</button>
+        <div class="greeting" style="margin: 0;">
+          <h1 style="font-size: 20px;">Checkout</h1>
+          <p style="font-size: 13px;">Fill delivery details</p>
+        </div>
+      </div>
+
+      <!-- Selected product summary -->
+      <div class="section" style="background: #eff6ff; border-color: #bfdbfe;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="width: 60px; height: 60px; border-radius: 12px; background: white; display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0; overflow: hidden;" id="coProductImg">🎁</div>
+          <div>
+            <div style="font-weight: 800; font-size: 15px; color: var(--brown-dark);" id="coProductName">Gift</div>
+            <div style="font-weight: 800; font-size: 16px; color: var(--pink); margin-top: 2px;" id="coProductPrice">₦0.00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact info -->
+      <div class="section">
+        <div class="section-title" style="margin-bottom: 14px;">📞 Contact Info</div>
+        <div class="form-field">
+          <label>Your Phone <span class="req">*</span></label>
+          <input type="tel" id="coYourPhone" placeholder="Enter your phone number">
+        </div>
+      </div>
+
+      <!-- Delivery info -->
+      <div class="section">
+        <div class="section-title" style="margin-bottom: 14px;">📦 Delivery Info</div>
+
+        <div class="form-field">
+          <label>Sender Name <span class="req">*</span></label>
+          <input type="text" id="coSenderName" placeholder="Sender name">
+        </div>
+
+        <div class="form-field">
+          <label>Recipient Name <span class="req">*</span></label>
+          <input type="text" id="coRecipientName" placeholder="Recipient name">
+        </div>
+
+        <div class="form-field">
+          <label>Recipient Phone <span class="req">*</span></label>
+          <input type="tel" id="coRecipientPhone" placeholder="Recipient phone">
+        </div>
+
+        <div class="form-field">
+          <label>Street / House Address <span class="req">*</span></label>
+          <input type="text" id="coAddress" placeholder="Street / house address">
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-field">
+            <label>City <span class="req">*</span></label>
+            <input type="text" id="coCity" placeholder="City">
+          </div>
+          <div class="form-field">
+            <label>State <span class="req">*</span></label>
+            <input type="text" id="coState" placeholder="State">
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Country</label>
+          <input type="text" id="coCountry" placeholder="Country" disabled>
+        </div>
+
+        <div class="form-field">
+          <label>ZIP Code</label>
+          <input type="text" id="coZip" placeholder="ZIP Code">
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="section">
+        <div class="section-title" style="margin-bottom: 14px;">📝 Additional Notes</div>
+        <div class="form-field">
+          <textarea id="coNotes" placeholder="Gift message or delivery instructions"></textarea>
+        </div>
+      </div>
+
+      <!-- Payment summary -->
+      <div class="section">
+        <div class="section-title" style="margin-bottom: 14px;">💳 Payment Summary</div>
+        <div class="profile-row"><span class="pr-label">Base Price</span><span class="pr-val" id="coBasePrice">₦0.00</span></div>
+        <div class="profile-row"><span class="pr-label" style="font-weight: 800; color: var(--brown-dark);">Total</span><span class="pr-val" style="font-size: 16px; color: var(--pink); font-weight: 800;" id="coTotal">₦0.00</span></div>
+        <div class="profile-row"><span class="pr-label">Your Balance</span><span class="pr-val" style="color: var(--green);" id="coBalance">₦0.00</span></div>
+      </div>
+
+      <button class="btn-gold" id="coConfirmBtn">Confirm Order</button>
+    </div>
+
   </div>
 
   <!-- ========== BUY SOCIAL ========== -->
@@ -719,6 +1017,15 @@
         </div>
       </div>
     </div>
+
+    <div class="view-orders-btn" data-goto="myorders">
+      <div class="vo-icon">📦</div>
+      <div class="vo-text">
+        <div class="vo-title">View All My Orders <span class="vo-count" id="socialOrderCount">0</span></div>
+        <div class="vo-sub">Tap to see your social account deliveries</div>
+      </div>
+      <div class="vo-arrow">›</div>
+    </div>
   </div>
 
   <!-- ========== BOOST ========== -->
@@ -759,6 +1066,33 @@
       <div class="profile-row"><span class="pr-label">Quantity</span><span class="pr-val">1,000</span></div>
       <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="boostPrice">₦4,500</span></div>
       <button class="btn-pink btn-full" style="margin-top: 18px;" id="boostBuyBtn">Boost Now →</button>
+    </div>
+
+    <div class="view-orders-btn" data-goto="myorders">
+      <div class="vo-icon">📦</div>
+      <div class="vo-text">
+        <div class="vo-title">View All My Orders <span class="vo-count" id="boostOrderCount">0</span></div>
+        <div class="vo-sub">Tap to see your boost orders</div>
+      </div>
+      <div class="vo-arrow">›</div>
+    </div>
+  </div>
+
+  <!-- ========== MY ORDERS ========== -->
+  <div class="page" id="page-myorders">
+    <div class="greeting">
+      <h1>📦 My <span>Orders</span></h1>
+      <p>All your gift, social, and boost orders.</p>
+    </div>
+
+    <div class="section">
+      <div id="myOrdersList">
+        <div class="empty">
+          <div class="empty-icon">📦</div>
+          <h3>No orders yet</h3>
+          <p>Your gifts, social accounts, and boosts will appear here.</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -860,66 +1194,29 @@
 <nav class="bottom-nav">
   <div class="bn-inner">
     <button class="bn-item active" data-goto="dashboard">
-      <span class="bn-icon">
-        <svg viewBox="0 0 24 24">
-          <rect x="3" y="3" width="7" height="7" rx="1.5"/>
-          <rect x="14" y="3" width="7" height="7" rx="1.5"/>
-          <rect x="3" y="14" width="7" height="7" rx="1.5"/>
-          <rect x="14" y="14" width="7" height="7" rx="1.5"/>
-        </svg>
-      </span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
       <span>Service</span>
     </button>
-
-    <button class="bn-item" data-goto="history">
-      <span class="bn-icon">
-        <svg viewBox="0 0 24 24">
-          <line x1="8" y1="6" x2="21" y2="6"/>
-          <line x1="8" y1="12" x2="21" y2="12"/>
-          <line x1="8" y1="18" x2="21" y2="18"/>
-          <circle cx="3.5" cy="6" r="1"/>
-          <circle cx="3.5" cy="12" r="1"/>
-          <circle cx="3.5" cy="18" r="1"/>
-        </svg>
-      </span>
-      <span>Transactions</span>
+    <button class="bn-item" data-goto="myorders">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+      <span>Orders</span>
     </button>
-
     <button class="bn-item" data-goto="deposit">
-      <span class="bn-icon">
-        <svg viewBox="0 0 24 24">
-          <rect x="2" y="6" width="20" height="14" rx="2.5"/>
-          <path d="M2 10h20"/>
-          <path d="M6 15h3"/>
-        </svg>
-      </span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
       <span>Deposit</span>
     </button>
-
     <button class="bn-item" data-goto="profile">
-      <span class="bn-icon">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
-        </svg>
-      </span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
       <span>Profile</span>
     </button>
-
     <button class="bn-item logout" id="bnLogout">
-      <span class="bn-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-          <polyline points="16 17 21 12 16 7"/>
-          <line x1="21" y1="12" x2="9" y2="12"/>
-        </svg>
-      </span>
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
       <span>Logout</span>
     </button>
   </div>
 </nav>
 
-<!-- PURCHASE MODAL -->
+<!-- MODAL -->
 <div class="modal-overlay" id="purchaseModal">
   <div class="modal-box" id="modalContent"></div>
 </div>
@@ -935,7 +1232,7 @@
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
     getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, deleteDoc,
-    collection, addDoc, query, orderBy, getDocs, serverTimestamp
+    collection, addDoc, query, orderBy, where, getDocs, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -973,7 +1270,7 @@
   let currentBalance = 0;
   let currentPage = 'dashboard';
 
-  /* ============ PAGE SWITCHER (with history support) ============ */
+  /* PAGE SWITCHER with history support */
   function gotoPage(page, fromHistory = false){
     currentPage = page;
 
@@ -986,24 +1283,21 @@
     document.getElementById('overlay').classList.remove('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Push history so Android back works
-    if (!fromHistory && page !== 'dashboard') {
-      history.pushState({ page }, '', '#' + page);
-    }
+    if (!fromHistory && page !== 'dashboard') history.pushState({ page }, '', '#' + page);
+
+    // Load page-specific data
+    if (page === 'myorders') loadMyOrders();
+    if (page === 'gifts') loadGiftCounts();
   }
 
-  // Android / browser back button
   window.addEventListener('popstate', (e) => {
     const page = e.state?.page || 'dashboard';
     gotoPage(page, true);
   });
 
-  // When user lands on page (with #hash), go to that page
   window.addEventListener('load', () => {
     const hash = window.location.hash.replace('#', '');
-    if (hash && document.getElementById('page-' + hash)) {
-      gotoPage(hash, true);
-    }
+    if (hash && document.getElementById('page-' + hash)) gotoPage(hash, true);
   });
 
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
@@ -1017,12 +1311,10 @@
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   document.getElementById('menuBtn').addEventListener('click', () => {
-    sidebar.classList.add('open');
-    overlay.classList.add('show');
+    sidebar.classList.add('open'); overlay.classList.add('show');
   });
   overlay.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-    overlay.classList.remove('show');
+    sidebar.classList.remove('open'); overlay.classList.remove('show');
   });
 
   /* PICKERS */
@@ -1043,7 +1335,6 @@
     document.getElementById('amountPicker').querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
   });
   wirePicker('paymentPicker');
-
   wirePicker('boostPlatform', el => {
     document.getElementById('boostPlatformVal').textContent = el.querySelector('.sp-name').textContent;
   });
@@ -1137,10 +1428,7 @@
 
     countryDropdown.innerHTML = matches.map(c => `
       <button type="button" class="search-item" data-code="${escapeHtml(c.code)}">
-        <div class="si-left">
-          <span class="si-flag">${c.flag}</span>
-          <span class="si-name">${escapeHtml(c.name)}</span>
-        </div>
+        <div class="si-left"><span class="si-flag">${c.flag}</span><span class="si-name">${escapeHtml(c.name)}</span></div>
         <span class="si-price" style="font-size:11px;color:var(--brown-light);font-weight:600;">${c.code}</span>
       </button>
     `).join('');
@@ -1190,20 +1478,14 @@
       }
 
       availableServices = (data.services || []).map(s => ({
-        id: String(s.id),
-        name: String(s.name),
-        price: Number(s.price || 0)
+        id: String(s.id), name: String(s.name), price: Number(s.price || 0)
       }));
 
-      if (!availableServices.length) {
-        serviceInput.placeholder = 'No services available';
-        return;
-      }
+      if (!availableServices.length) { serviceInput.placeholder = 'No services available'; return; }
 
       serviceInput.placeholder = `🔍 Search among ${availableServices.length} services...`;
       serviceInput.disabled = false;
     } catch (err) {
-      console.error('Service list error:', err);
       serviceInput.placeholder = 'Failed to load services';
     }
   }
@@ -1213,9 +1495,7 @@
     const q = serviceInput.value.trim().toLowerCase();
     if (!q) { serviceDropdown.classList.remove('show'); return; }
 
-    const matches = availableServices
-      .filter(s => s.name.toLowerCase().includes(q))
-      .slice(0, 12);
+    const matches = availableServices.filter(s => s.name.toLowerCase().includes(q)).slice(0, 12);
 
     if (!matches.length) {
       serviceDropdown.innerHTML = `<div class="search-empty"><div class="search-empty-icon">🔍</div>No service found</div>`;
@@ -1227,16 +1507,12 @@
       const price = calculateCustomerPrice(s.price);
       return `
         <button type="button" class="search-item" data-id="${escapeHtml(s.id)}">
-          <div class="si-left">
-            <span class="si-icon">📱</span>
-            <span class="si-name">${escapeHtml(capitalize(s.name))}</span>
-          </div>
+          <div class="si-left"><span class="si-icon">📱</span><span class="si-name">${escapeHtml(capitalize(s.name))}</span></div>
           <span class="si-price">${formatNGNshort(price)}</span>
         </button>
       `;
     }).join('');
     serviceDropdown.classList.add('show');
-
     serviceDropdown.querySelectorAll('.search-item').forEach(btn => {
       btn.addEventListener('click', () => selectService(btn.dataset.id));
     });
@@ -1251,12 +1527,10 @@
     serviceDropdown.classList.remove('show');
 
     const price = calculateCustomerPrice(service.price);
-
     selectedChip.style.display = 'flex';
     selectedName.textContent = `${selectedCountry.flag} ${capitalize(service.name)}`;
     selectedPriceEl.textContent = formatNGN(price);
     priceCard.style.display = 'block';
-
     buySection.style.display = 'block';
     actionBtn.disabled = false;
   }
@@ -1304,7 +1578,6 @@
         <button class="btn-pink" style="flex:2;" id="mBuy">✅ PURCHASE NOW</button>
       </div>
     `);
-
     document.getElementById('mCancel').onclick = closeModal;
     document.getElementById('mBuy').onclick = processPurchase;
   });
@@ -1336,67 +1609,38 @@
       const genData = await genRes.json();
 
       if (!genRes.ok || !genData.success) throw new Error(genData.message || 'OUT_OF_STOCK');
-
       const phoneNumber = genData.number;
       if (!phoneNumber) throw new Error('OUT_OF_STOCK');
 
       const newBalance = freshBalance - price;
-      await updateDoc(userRef, {
-        wallet: newBalance,
-        walletBalance: deleteField(),
-        balance: deleteField(),
-        updatedAt: serverTimestamp()
-      });
+      await updateDoc(userRef, { wallet: newBalance, walletBalance: deleteField(), balance: deleteField(), updatedAt: serverTimestamp() });
       currentBalance = newBalance;
       updateBalanceUI();
 
       await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
-        service: capitalize(selectedService.name),
-        serviceId: selectedService.id,
-        country: selectedCountry.name,
-        countryCode: selectedCountry.code,
-        flag: selectedCountry.flag,
-        number: phoneNumber,
-        code: '',
-        price: price,
-        providerCost: providerCost,
-        profit: profit,
-        status: 'pending',
-        provider: 'autofications',
-        createdAt: serverTimestamp()
+        service: capitalize(selectedService.name), serviceId: selectedService.id,
+        country: selectedCountry.name, countryCode: selectedCountry.code, flag: selectedCountry.flag,
+        number: phoneNumber, code: '', price: price, providerCost: providerCost, profit: profit,
+        status: 'pending', provider: 'autofications', createdAt: serverTimestamp()
       });
 
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'purchase',
-        icon: selectedCountry.flag,
+        type: 'purchase', icon: selectedCountry.flag,
         title: `${selectedCountry.name} — ${capitalize(selectedService.name)}`,
-        subtitle: `Number: ${phoneNumber}`,
-        amount: price,
-        createdAt: serverTimestamp()
+        subtitle: `Number: ${phoneNumber}`, amount: price, createdAt: serverTimestamp()
       });
 
       closeModal();
       showToast(`✅ Number: ${phoneNumber}`, 'success');
 
-      selectedCountry = null;
-      selectedService = null;
-      countryInput.value = '';
-      serviceInput.value = '';
-      serviceCard.style.display = 'none';
-      buySection.style.display = 'none';
+      selectedCountry = null; selectedService = null;
+      countryInput.value = ''; serviceInput.value = '';
+      serviceCard.style.display = 'none'; buySection.style.display = 'none';
 
-      setTimeout(() => {
-        gotoPage('dashboard');
-        loadTransactions();
-        loadActivations();
-      }, 800);
-
+      setTimeout(() => { gotoPage('dashboard'); loadTransactions(); loadActivations(); }, 800);
     } catch (err) {
       console.error('Purchase error:', err);
-      let msg = err.message === 'INSUFFICIENT'
-        ? 'Insufficient balance. Deposit funds first.'
-        : (err.message || 'Something went wrong. Try again.');
-
+      let msg = err.message === 'INSUFFICIENT' ? 'Insufficient balance. Deposit funds first.' : (err.message || 'Something went wrong. Try again.');
       openModal(`
         <div class="modal-icon">❌</div>
         <div class="modal-title">Purchase Failed</div>
@@ -1411,10 +1655,7 @@
     }
   }
 
-  /* ============================================================
-     USA NUMBERS — TEXTVERIFIED
-     ============================================================ */
-
+  /* ============ USA — TEXTVERIFIED ============ */
   let usaSelectedService = null;
   let usaAvailableServices = [];
 
@@ -1439,20 +1680,14 @@
       }
 
       usaAvailableServices = (data.services || []).map(s => ({
-        id: String(s.id),
-        name: String(s.name),
-        price: Number(s.price || 0.25)
+        id: String(s.id), name: String(s.name), price: Number(s.price || 0.25)
       }));
 
-      if (!usaAvailableServices.length) {
-        usaServiceInput.placeholder = 'No services available';
-        return;
-      }
+      if (!usaAvailableServices.length) { usaServiceInput.placeholder = 'No services available'; return; }
 
       usaServiceInput.placeholder = `🔍 Search among ${usaAvailableServices.length} services...`;
       usaServiceInput.disabled = false;
     } catch (err) {
-      console.error('USA service list error:', err);
       usaServiceInput.placeholder = 'Failed to load services';
     }
   }
@@ -1461,9 +1696,7 @@
     const q = usaServiceInput.value.trim().toLowerCase();
     if (!q) { usaServiceDropdown.classList.remove('show'); return; }
 
-    const matches = usaAvailableServices
-      .filter(s => s.name.toLowerCase().includes(q))
-      .slice(0, 12);
+    const matches = usaAvailableServices.filter(s => s.name.toLowerCase().includes(q)).slice(0, 12);
 
     if (!matches.length) {
       usaServiceDropdown.innerHTML = `<div class="search-empty"><div class="search-empty-icon">🔍</div>No service found</div>`;
@@ -1475,16 +1708,12 @@
       const price = calculateCustomerPrice(s.price);
       return `
         <button type="button" class="search-item" data-id="${escapeHtml(s.id)}">
-          <div class="si-left">
-            <span class="si-icon">🇺🇸</span>
-            <span class="si-name">${escapeHtml(capitalize(s.name))}</span>
-          </div>
+          <div class="si-left"><span class="si-icon">🇺🇸</span><span class="si-name">${escapeHtml(capitalize(s.name))}</span></div>
           <span class="si-price">${formatNGNshort(price)}</span>
         </button>
       `;
     }).join('');
     usaServiceDropdown.classList.add('show');
-
     usaServiceDropdown.querySelectorAll('.search-item').forEach(btn => {
       btn.addEventListener('click', () => selectUsaService(btn.dataset.id));
     });
@@ -1499,7 +1728,6 @@
     usaServiceDropdown.classList.remove('show');
 
     const price = calculateCustomerPrice(service.price);
-
     usaSelectedChip.style.display = 'flex';
     usaSelectedName.textContent = `🇺🇸 ${capitalize(service.name)}`;
     usaSelectedPrice.textContent = formatNGN(price);
@@ -1550,7 +1778,6 @@
         <button class="btn-pink" style="flex:2;" id="mBuy">✅ PURCHASE NOW</button>
       </div>
     `);
-
     document.getElementById('mCancel').onclick = closeModal;
     document.getElementById('mBuy').onclick = processUsaPurchase;
   });
@@ -1581,48 +1808,29 @@
       const genRes = await fetch(genUrl, { cache: 'no-store' });
       const genData = await genRes.json();
 
-      if (!genRes.ok || !genData.success) {
-        throw new Error(genData.message || 'OUT_OF_STOCK');
-      }
+      if (!genRes.ok || !genData.success) throw new Error(genData.message || 'OUT_OF_STOCK');
 
       const phoneNumber = genData.number;
       const requestId = genData.request_id;
       if (!phoneNumber) throw new Error('OUT_OF_STOCK');
 
       const newBalance = freshBalance - price;
-      await updateDoc(userRef, {
-        wallet: newBalance,
-        walletBalance: deleteField(),
-        balance: deleteField(),
-        updatedAt: serverTimestamp()
-      });
+      await updateDoc(userRef, { wallet: newBalance, walletBalance: deleteField(), balance: deleteField(), updatedAt: serverTimestamp() });
       currentBalance = newBalance;
       updateBalanceUI();
 
       await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
-        service: capitalize(usaSelectedService.name),
-        serviceId: usaSelectedService.id,
-        country: 'United States',
-        countryCode: 'US',
-        flag: '🇺🇸',
-        number: phoneNumber,
-        requestId: requestId,
-        code: '',
-        price: price,
-        providerCost: providerCost,
-        profit: profit,
-        status: 'pending',
-        provider: 'textverified',
-        createdAt: serverTimestamp()
+        service: capitalize(usaSelectedService.name), serviceId: usaSelectedService.id,
+        country: 'United States', countryCode: 'US', flag: '🇺🇸',
+        number: phoneNumber, requestId: requestId, code: '',
+        price: price, providerCost: providerCost, profit: profit,
+        status: 'pending', provider: 'textverified', createdAt: serverTimestamp()
       });
 
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'purchase',
-        icon: '🇺🇸',
+        type: 'purchase', icon: '🇺🇸',
         title: `USA — ${capitalize(usaSelectedService.name)}`,
-        subtitle: `Number: ${phoneNumber}`,
-        amount: price,
-        createdAt: serverTimestamp()
+        subtitle: `Number: ${phoneNumber}`, amount: price, createdAt: serverTimestamp()
       });
 
       closeModal();
@@ -1634,18 +1842,10 @@
       usaPriceCard.style.display = 'none';
       usaBuySection.style.display = 'none';
 
-      setTimeout(() => {
-        gotoPage('dashboard');
-        loadTransactions();
-        loadActivations();
-      }, 800);
-
+      setTimeout(() => { gotoPage('dashboard'); loadTransactions(); loadActivations(); }, 800);
     } catch (err) {
       console.error('USA purchase error:', err);
-      let msg = err.message === 'INSUFFICIENT'
-        ? 'Insufficient balance. Deposit funds first.'
-        : (err.message || 'Something went wrong. Try again.');
-
+      let msg = err.message === 'INSUFFICIENT' ? 'Insufficient balance. Deposit funds first.' : (err.message || 'Something went wrong. Try again.');
       openModal(`
         <div class="modal-icon">❌</div>
         <div class="modal-title">Purchase Failed</div>
@@ -1660,6 +1860,307 @@
     }
   }
 
+  /* ============================================================
+     SEND GIFTS FLOW
+     ============================================================ */
+
+  let selectedGiftCountry = null;
+  let selectedGiftProduct = null;
+
+  const giftViews = {
+    delivery: document.getElementById('gift-view-delivery'),
+    products: document.getElementById('gift-view-products'),
+    checkout: document.getElementById('gift-view-checkout')
+  };
+
+  function showGiftView(viewName) {
+    Object.keys(giftViews).forEach(k => {
+      giftViews[k].style.display = (k === viewName) ? 'block' : 'none';
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Delivery choice click
+  document.querySelectorAll('.delivery-card').forEach(card => {
+    card.addEventListener('click', () => {
+      selectedGiftCountry = card.dataset.giftCountry;
+      document.getElementById('giftCountryTitle').textContent = `${selectedGiftCountry} Gifts`;
+      document.getElementById('giftCountrySub').textContent = `Pick a gift to send to ${selectedGiftCountry}`;
+      loadGiftProducts(selectedGiftCountry);
+      showGiftView('products');
+    });
+  });
+
+  document.getElementById('giftBackToDelivery').addEventListener('click', () => {
+    showGiftView('delivery');
+    selectedGiftCountry = null;
+  });
+
+  document.getElementById('giftBackToProducts').addEventListener('click', () => {
+    showGiftView('products');
+  });
+
+  // Load gift products from Firestore
+  async function loadGiftProducts(country) {
+    const grid = document.getElementById('giftProductGrid');
+    grid.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><div class="empty-icon">⏳</div><h3>Loading gifts...</h3></div>`;
+
+    try {
+      const q = query(
+        collection(db, 'gifts'),
+        where('active', '==', true)
+      );
+      const snap = await getDocs(q);
+
+      const gifts = [];
+      snap.forEach(d => {
+        const g = d.data();
+        if (!g.countries || g.countries.includes(country) || g.countries.includes('All')) {
+          gifts.push({ id: d.id, ...g });
+        }
+      });
+
+      if (!gifts.length) {
+        grid.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><div class="empty-icon">🎁</div><h3>No gifts available</h3><p>No gifts for ${country} right now. Check back soon.</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = gifts.map(g => `
+        <div class="product-card" data-gift-id="${g.id}">
+          <div class="product-img">
+            ${g.image ? `<img src="${escapeHtml(g.image)}" alt="${escapeHtml(g.name)}" onerror="this.parentNode.innerHTML='${g.icon || '🎁'}'">` : (g.icon || '🎁')}
+          </div>
+          <div class="product-info">
+            <div class="product-name">${escapeHtml(g.name)}</div>
+            <div class="product-price">${formatNGNshort(g.price)}</div>
+          </div>
+        </div>
+      `).join('');
+
+      grid.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const gift = gifts.find(x => x.id === card.dataset.giftId);
+          if (gift) openCheckout(gift);
+        });
+      });
+    } catch (err) {
+      console.error('Gift products error:', err);
+      grid.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><div class="empty-icon">⚠️</div><h3>Could not load gifts</h3><p>Please try again later.</p></div>`;
+    }
+  }
+
+  // Open checkout
+  function openCheckout(gift) {
+    selectedGiftProduct = gift;
+
+    // Product summary
+    const imgEl = document.getElementById('coProductImg');
+    if (gift.image) {
+      imgEl.innerHTML = `<img src="${escapeHtml(gift.image)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentNode.textContent='${gift.icon || '🎁'}'">`;
+    } else {
+      imgEl.textContent = gift.icon || '🎁';
+    }
+    document.getElementById('coProductName').textContent = gift.name;
+    document.getElementById('coProductPrice').textContent = formatNGNshort(gift.price);
+
+    // Country field
+    document.getElementById('coCountry').value = selectedGiftCountry === 'Customize' ? '' : selectedGiftCountry;
+
+    // Prices
+    document.getElementById('coBasePrice').textContent = formatNGNshort(gift.price);
+    document.getElementById('coTotal').textContent = formatNGNshort(gift.price);
+    document.getElementById('coBalance').textContent = formatNGNshort(currentBalance);
+
+    // Clear old form
+    ['coYourPhone','coSenderName','coRecipientName','coRecipientPhone','coAddress','coCity','coState','coZip','coNotes'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+
+    showGiftView('checkout');
+  }
+
+  // Confirm gift order
+  document.getElementById('coConfirmBtn').addEventListener('click', async () => {
+    if (!selectedGiftProduct) return;
+
+    const fields = {
+      yourPhone: document.getElementById('coYourPhone').value.trim(),
+      senderName: document.getElementById('coSenderName').value.trim(),
+      recipientName: document.getElementById('coRecipientName').value.trim(),
+      recipientPhone: document.getElementById('coRecipientPhone').value.trim(),
+      address: document.getElementById('coAddress').value.trim(),
+      city: document.getElementById('coCity').value.trim(),
+      state: document.getElementById('coState').value.trim(),
+      country: document.getElementById('coCountry').value.trim() || selectedGiftCountry,
+      zip: document.getElementById('coZip').value.trim(),
+      notes: document.getElementById('coNotes').value.trim()
+    };
+
+    // Validate
+    const required = ['yourPhone','senderName','recipientName','recipientPhone','address','city','state'];
+    for (const key of required) {
+      if (!fields[key]) {
+        return showToast('Please fill all required fields.', 'error');
+      }
+    }
+
+    const price = Number(selectedGiftProduct.price || 0);
+    if (currentBalance < price) {
+      return showToast('Insufficient balance. Please deposit funds.', 'error');
+    }
+
+    const btn = document.getElementById('coConfirmBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Processing...';
+
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      const freshSnap = await getDoc(userRef);
+      const freshData = freshSnap.data() || {};
+      const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
+
+      if (freshBalance < price) throw new Error('INSUFFICIENT');
+
+      const newBalance = freshBalance - price;
+      await updateDoc(userRef, { wallet: newBalance, updatedAt: serverTimestamp() });
+      currentBalance = newBalance;
+      updateBalanceUI();
+
+      // Save order to top-level orders collection (for admin)
+      await addDoc(collection(db, 'orders'), {
+        userId: currentUser.uid,
+        userEmail: currentUser.email || '',
+        userName: currentUser.displayName || '',
+        type: 'gift',
+        productId: selectedGiftProduct.id,
+        productName: selectedGiftProduct.name,
+        productPrice: price,
+        country: fields.country,
+        yourPhone: fields.yourPhone,
+        senderName: fields.senderName,
+        recipientName: fields.recipientName,
+        recipientPhone: fields.recipientPhone,
+        address: fields.address,
+        city: fields.city,
+        state: fields.state,
+        zip: fields.zip,
+        notes: fields.notes,
+        status: 'pending',
+        amount: price,
+        currency: 'NGN',
+        createdAt: serverTimestamp()
+      });
+
+      // Log transaction
+      await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
+        type: 'purchase', icon: '🎁',
+        title: `Gift: ${selectedGiftProduct.name}`,
+        subtitle: `To ${fields.recipientName} • ${fields.country}`,
+        amount: price, createdAt: serverTimestamp()
+      });
+
+      showToast(`✅ Gift order placed! We'll deliver soon.`, 'success');
+
+      selectedGiftProduct = null;
+      selectedGiftCountry = null;
+      setTimeout(() => {
+        showGiftView('delivery');
+        gotoPage('myorders');
+        loadMyOrders();
+        loadGiftCounts();
+        loadTransactions();
+      }, 1000);
+    } catch (err) {
+      console.error('Gift order error:', err);
+      let msg = err.message === 'INSUFFICIENT' ? 'Insufficient balance.' : (err.message || 'Something went wrong.');
+      showToast(msg, 'error');
+      btn.disabled = false;
+      btn.textContent = 'Confirm Order';
+    }
+  });
+
+  /* ============================================================
+     MY ORDERS PAGE
+     ============================================================ */
+
+  async function loadMyOrders() {
+    if (!currentUser) return;
+    const list = document.getElementById('myOrdersList');
+    list.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div><h3>Loading...</h3></div>`;
+
+    try {
+      const q = query(
+        collection(db, 'orders'),
+        where('userId', '==', currentUser.uid)
+      );
+      const snap = await getDocs(q);
+
+      if (snap.empty) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">📦</div><h3>No orders yet</h3><p>Your gifts, social accounts, and boosts will appear here.</p></div>`;
+        return;
+      }
+
+      const orders = [];
+      snap.forEach(d => orders.push({ id: d.id, ...d.data() }));
+      orders.sort((a, b) => (b.createdAt?.toDate?.() || 0) - (a.createdAt?.toDate?.() || 0));
+
+      let html = '';
+      orders.forEach(o => {
+        const date = o.createdAt?.toDate
+          ? o.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+          : 'Just now';
+
+        const statusClass = {
+          pending: 'status-pending',
+          delivered: 'status-delivered',
+          completed: 'status-delivered',
+          rejected: 'status-rejected',
+          cancelled: 'status-rejected'
+        }[o.status] || 'status-pending';
+
+        const icon = o.type === 'gift' ? '🎁' : o.type === 'social' ? '📱' : o.type === 'boost' ? '🚀' : '📦';
+        const title = o.productName || o.title || 'Order';
+
+        html += `
+          <div class="list-row">
+            <div class="lr-left">
+              <div class="lr-icon">${icon}</div>
+              <div>
+                <div class="lr-title">${escapeHtml(title)}</div>
+                <div class="lr-sub">${escapeHtml(o.recipientName || o.country || '')} • ${date}</div>
+              </div>
+            </div>
+            <div class="lr-right">
+              <div class="lr-amount minus">-${formatNGNshort(o.amount)}</div>
+              <div style="margin-top: 4px;">
+                <span class="status-badge ${statusClass}">${o.status || 'pending'}</span>
+              </div>
+            </div>
+          </div>`;
+      });
+      list.innerHTML = html;
+    } catch (err) {
+      console.error('My orders error:', err);
+      list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Could not load orders</h3><p>Please try again.</p></div>`;
+    }
+  }
+
+  /* Count orders for badge */
+  async function loadGiftCounts() {
+    if (!currentUser) return;
+    try {
+      const q = query(collection(db, 'orders'), where('userId', '==', currentUser.uid));
+      const snap = await getDocs(q);
+      const count = snap.size;
+      const badge1 = document.getElementById('giftOrderCount');
+      const badge2 = document.getElementById('socialOrderCount');
+      const badge3 = document.getElementById('boostOrderCount');
+      if (badge1) badge1.textContent = count;
+      if (badge2) badge2.textContent = count;
+      if (badge3) badge3.textContent = count;
+    } catch (e) { console.warn(e); }
+  }
+
   /* AUTH GUARD */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
@@ -1669,7 +2170,6 @@
     document.getElementById('sideName').textContent = name;
     document.getElementById('sideEmail').textContent = user.email;
     document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
-    document.getElementById('welcomeName').textContent = name.split(' ')[0];
 
     document.getElementById('pName').textContent = name;
     document.getElementById('pEmail').textContent = user.email;
@@ -1692,6 +2192,7 @@
     loadTransactions();
     loadActivations();
     loadUsaServices();
+    loadGiftCounts();
     cleanupOldCancelled();
   });
 
@@ -1699,6 +2200,7 @@
     const txt = formatNGN(currentBalance);
     document.getElementById('topBalance').textContent = txt;
     document.getElementById('depositBalance').textContent = txt;
+    document.getElementById('coBalance').textContent = formatNGNshort(currentBalance);
   };
 
   /* LOAD TRANSACTIONS */
@@ -1754,10 +2256,7 @@
           if (age > 3) toDelete.push(d.id);
         }
       });
-      for (const id of toDelete) {
-        await deleteDoc(doc(db, 'users', currentUser.uid, 'activations', id));
-      }
-      if (toDelete.length) console.log(`Deleted ${toDelete.length} old cancelled activation(s)`);
+      for (const id of toDelete) await deleteDoc(doc(db, 'users', currentUser.uid, 'activations', id));
     } catch (e) { console.warn('cleanup error:', e); }
   }
 
@@ -1803,13 +2302,9 @@
         }[a.status] || 'status-pending';
 
         let codeCell = '';
-        if (a.status === 'cancelled') {
-          codeCell = `<span class="refund-pill">REFUNDED</span>`;
-        } else if (a.code) {
-          codeCell = `<span class="code-pill">${a.code}</span>`;
-        } else {
-          codeCell = `<span class="code-pill pending">Waiting…</span>`;
-        }
+        if (a.status === 'cancelled') codeCell = `<span class="refund-pill">REFUNDED</span>`;
+        else if (a.code) codeCell = `<span class="code-pill">${a.code}</span>`;
+        else codeCell = `<span class="code-pill pending">Waiting…</span>`;
 
         const actionCell = canCancel
           ? `<button class="btn-cancel-row" data-cancel-id="${id}" data-phone="${a.number}" data-service-id="${a.serviceId || ''}" data-country="${a.countryCode || ''}" data-price="${a.price || 0}" data-provider="${a.provider || ''}" data-request-id="${a.requestId || ''}">✖ Cancel</button>`
@@ -1831,8 +2326,7 @@
         btn.addEventListener('click', () => cancelActivation(btn));
       });
     } catch (e) {
-      console.warn(e);
-      tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3></div></td></tr>`;
     }
   }
 
@@ -1852,17 +2346,12 @@
 
     try {
       if (provider === 'textverified' && requestId) {
-        // TextVerified cancel
         await fetch(`${TV_API_URL}?action=cancel&request_id=${encodeURIComponent(requestId)}`, { cache: 'no-store' });
       } else {
-        // AutoFications blacklist
         await fetch(`${API_URL}?action=blacklist&country=${encodeURIComponent(country)}&website=${encodeURIComponent(serviceId)}&phone_number=${encodeURIComponent(phone)}`, { cache: 'no-store' });
       }
 
-      await updateDoc(
-        doc(db, 'users', currentUser.uid, 'activations', id),
-        { status: 'cancelled', cancelledAt: serverTimestamp() }
-      );
+      await updateDoc(doc(db, 'users', currentUser.uid, 'activations', id), { status: 'cancelled', cancelledAt: serverTimestamp() });
 
       const userRef = doc(db, 'users', currentUser.uid);
       const fresh = await getDoc(userRef);
@@ -1875,19 +2364,15 @@
       updateBalanceUI();
 
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'deposit',
-        icon: '↩️',
-        title: `Refund — ${phone}`,
-        subtitle: 'Cancelled activation',
-        amount: price,
-        createdAt: serverTimestamp()
+        type: 'deposit', icon: '↩️',
+        title: `Refund — ${phone}`, subtitle: 'Cancelled activation',
+        amount: price, createdAt: serverTimestamp()
       });
 
       showToast(`✅ Cancelled. ₦${price.toLocaleString()} refunded!`, 'success');
       loadActivations();
       loadTransactions();
       setTimeout(cleanupOldCancelled, 4000);
-
     } catch (err) {
       console.error('Cancel error:', err);
       showToast('❌ Cancel failed. Try again.', 'error');
@@ -1906,7 +2391,7 @@
     setTimeout(() => btn.classList.remove('spinning'), 600);
   });
 
-  /* BUY ITEM */
+  /* BUY ITEM (Social Media) */
   document.querySelectorAll('[data-buy-item]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const item = btn.dataset.buyItem;
@@ -1915,9 +2400,22 @@
 
       currentBalance -= price;
       await saveBalance();
-      await addTransaction({ type: 'purchase', icon: '🛒', title: item, subtitle: 'Account purchase', amount: price });
-      showToast(`✅ ${item} purchased!`, 'success');
+
+      await addDoc(collection(db, 'orders'), {
+        userId: currentUser.uid,
+        userEmail: currentUser.email || '',
+        userName: currentUser.displayName || '',
+        type: 'social',
+        productName: item,
+        amount: price,
+        status: 'pending',
+        createdAt: serverTimestamp()
+      });
+
+      await addTransaction({ type: 'purchase', icon: '🛒', title: item, subtitle: 'Social account order', amount: price });
+      showToast(`✅ ${item} order placed!`, 'success');
       loadTransactions();
+      loadGiftCounts();
     });
   });
 
@@ -1930,9 +2428,24 @@
 
     currentBalance -= price;
     await saveBalance();
+
+    await addDoc(collection(db, 'orders'), {
+      userId: currentUser.uid,
+      userEmail: currentUser.email || '',
+      userName: currentUser.displayName || '',
+      type: 'boost',
+      productName: `${platform} — ${service}`,
+      platform: platform,
+      service: service,
+      amount: price,
+      status: 'pending',
+      createdAt: serverTimestamp()
+    });
+
     await addTransaction({ type: 'purchase', icon: '🚀', title: `${platform} ${service}`, subtitle: 'Boost order', amount: price });
     showToast(`✅ ${platform} ${service} boost ordered!`, 'success');
     loadTransactions();
+    loadGiftCounts();
   });
 
   /* DEPOSIT */
@@ -1984,7 +2497,6 @@
   /* LOGOUT */
   async function doLogout(){
     await signOut(auth);
-    // Replace history so back button doesn't return to dashboard
     window.location.replace('login.html');
   }
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
@@ -2002,4 +2514,4 @@
 </script>
 
 </body>
-                                                                     </html>
+ </html>
