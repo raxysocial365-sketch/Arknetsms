@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arknet SMS — Dashboard</title>
+<title>Arknet PVA — Dashboard</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
   :root {
@@ -348,7 +348,7 @@
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
   .overlay.show { display: block; }
 
-  /* ========== FLOATING PILL BOTTOM NAV ========== */
+  /* FLOATING PILL BOTTOM NAV */
   .bottom-nav {
     display: none;
     position: fixed;
@@ -363,73 +363,34 @@
     padding: 8px 6px;
     z-index: 400;
   }
-
-  .bn-inner {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
-
+  .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
   .bn-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    background: transparent;
-    border: none;
-    color: #9ca3af;
-    font-size: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 6px 2px;
-    border-radius: 16px;
-    transition: 0.25s;
-    font-family: inherit;
-    -webkit-tap-highlight-color: transparent;
-    min-height: 56px;
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 3px;
+    background: transparent; border: none;
+    color: #9ca3af; font-size: 10px; font-weight: 600;
+    cursor: pointer; padding: 6px 2px; border-radius: 16px;
+    transition: 0.25s; font-family: inherit;
+    -webkit-tap-highlight-color: transparent; min-height: 56px;
   }
-
   .bn-item .bn-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 34px; height: 34px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
     transition: 0.25s;
   }
-
   .bn-item .bn-icon svg {
     width: 20px; height: 20px;
-    stroke: currentColor;
-    stroke-width: 2;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    stroke: currentColor; stroke-width: 2;
+    fill: none; stroke-linecap: round; stroke-linejoin: round;
   }
-
-  .bn-item.active {
-    color: var(--brown-dark);
-    font-weight: 700;
-  }
-
-  .bn-item.active .bn-icon {
-    background: var(--pink-soft);
-    color: var(--pink);
-  }
-
-  .bn-item.active .bn-icon svg {
-    stroke: var(--pink);
-  }
-
+  .bn-item.active { color: var(--brown-dark); font-weight: 700; }
+  .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
+  .bn-item.active .bn-icon svg { stroke: var(--pink); }
   .bn-item.logout { color: #dc2626; }
   .bn-item.logout:hover { color: #b91c1c; }
   .bn-item.logout .bn-icon { color: currentColor; }
 
-  /* ========== RESPONSIVE ========== */
+  /* RESPONSIVE */
   @media (max-width: 900px) {
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
@@ -583,27 +544,40 @@
   <div class="page" id="page-usa">
     <div class="greeting">
       <h1>🇺🇸 Buy <span>USA Number</span></h1>
-      <p>Get a US virtual number for SMS verification.</p>
+      <p>Real US carrier numbers from TextVerified. Best for WhatsApp, Google, and strict platforms.</p>
     </div>
 
     <div class="section">
-      <div class="section-title" style="margin-bottom: 14px;">Select Service</div>
-      <div class="service-picker" id="usaServices">
-        <div class="service-pick selected" data-service="whatsapp"><div class="sp-icon">💬</div><div class="sp-name">WhatsApp</div><div class="sp-price">₦4,725</div></div>
-        <div class="service-pick" data-service="telegram"><div class="sp-icon">✈️</div><div class="sp-name">Telegram</div><div class="sp-price">₦4,725</div></div>
-        <div class="service-pick" data-service="instagram"><div class="sp-icon">📸</div><div class="sp-name">Instagram</div><div class="sp-price">₦2,090</div></div>
-        <div class="service-pick" data-service="facebook"><div class="sp-icon">📘</div><div class="sp-name">Facebook</div><div class="sp-price">₦2,710</div></div>
-        <div class="service-pick" data-service="google"><div class="sp-icon">🔵</div><div class="sp-name">Google</div><div class="sp-price">₦3,175</div></div>
-        <div class="service-pick" data-service="discord"><div class="sp-icon">💻</div><div class="sp-name">Discord</div><div class="sp-price">₦2,090</div></div>
+      <div class="section-title" style="margin-bottom: 12px;">
+        <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
+        Search Service
+      </div>
+      <div class="form-field">
+        <label>Select Service <span class="req">*</span></label>
+        <div class="search-wrap">
+          <input type="text" id="usaServiceInput" placeholder="Loading services..." autocomplete="off" disabled>
+          <div class="search-results" id="usaServiceDropdown"></div>
+        </div>
+        <div class="form-hint">Choose the platform you want to verify (WhatsApp, Google, etc.)</div>
+      </div>
+
+      <div class="selected-chip" id="usaSelectedChip" style="display:none;">
+        <span class="lbl">Selected:</span>
+        <span class="val" id="usaSelectedName">—</span>
+      </div>
+
+      <div class="price-card" id="usaPriceCard" style="display:none;">
+        <div class="price" id="usaSelectedPrice">₦0.00</div>
+        <div class="price-note">Charged only when the number is successfully issued.</div>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
-      <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val">🇺🇸 United States</span></div>
-      <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="usaServiceName">WhatsApp</span></div>
-      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="usaPrice">₦4,725</span></div>
-      <button class="btn-pink btn-full" style="margin-top: 18px;" id="usaBuyBtn">Buy Now →</button>
+    <div class="section" id="usaBuySection" style="display: none;">
+      <div class="section-title" style="margin-bottom: 12px;">
+        <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
+        Confirm & Buy
+      </div>
+      <button class="btn-pink btn-full" id="usaActionBtn" disabled>🛒 Buy USA Number</button>
     </div>
   </div>
 
@@ -882,7 +856,7 @@
 
 </main>
 
-<!-- FLOATING PILL BOTTOM NAV (mobile) -->
+<!-- FLOATING PILL BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-inner">
     <button class="bn-item active" data-goto="dashboard">
@@ -979,6 +953,7 @@
   const db = getFirestore(app);
 
   const API_URL = "/api/autofications-buy";
+  const TV_API_URL = "/api/textverified-buy";
   const USD_TO_NGN = 1550;
   const PROFIT_NGN = 850;
 
@@ -996,9 +971,12 @@
 
   let currentUser = null;
   let currentBalance = 0;
+  let currentPage = 'dashboard';
 
-  /* PAGE SWITCHER */
-  function gotoPage(page){
+  /* ============ PAGE SWITCHER (with history support) ============ */
+  function gotoPage(page, fromHistory = false){
+    currentPage = page;
+
     document.querySelectorAll('.side-item').forEach(i => i.classList.toggle('active', i.dataset.page === page));
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById('page-' + page);
@@ -1007,7 +985,26 @@
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').classList.remove('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Push history so Android back works
+    if (!fromHistory && page !== 'dashboard') {
+      history.pushState({ page }, '', '#' + page);
+    }
   }
+
+  // Android / browser back button
+  window.addEventListener('popstate', (e) => {
+    const page = e.state?.page || 'dashboard';
+    gotoPage(page, true);
+  });
+
+  // When user lands on page (with #hash), go to that page
+  window.addEventListener('load', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById('page-' + hash)) {
+      gotoPage(hash, true);
+    }
+  });
 
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
     item.addEventListener('click', () => gotoPage(item.dataset.page));
@@ -1040,11 +1037,6 @@
       });
     });
   };
-
-  wirePicker('usaServices', el => {
-    document.getElementById('usaServiceName').textContent = el.querySelector('.sp-name').textContent;
-    document.getElementById('usaPrice').textContent = el.querySelector('.sp-price').textContent;
-  });
 
   wirePicker('amountPicker', () => { document.getElementById('customAmount').value = ''; });
   document.getElementById('customAmount').addEventListener('input', () => {
@@ -1128,6 +1120,7 @@
     return Math.ceil(usd * USD_TO_NGN);
   }
 
+  /* COUNTRY SEARCH */
   countryInput.addEventListener('input', () => {
     const q = countryInput.value.trim().toLowerCase();
     if (!q) { countryDropdown.classList.remove('show'); return; }
@@ -1161,6 +1154,7 @@
   document.addEventListener('click', e => {
     if (!e.target.closest('#countryInput') && !countryDropdown.contains(e.target)) countryDropdown.classList.remove('show');
     if (!e.target.closest('#serviceInput') && !serviceDropdown.contains(e.target)) serviceDropdown.classList.remove('show');
+    if (!e.target.closest('#usaServiceInput') && !usaServiceDropdown.contains(e.target)) usaServiceDropdown.classList.remove('show');
   });
 
   async function selectCountry(code){
@@ -1417,6 +1411,255 @@
     }
   }
 
+  /* ============================================================
+     USA NUMBERS — TEXTVERIFIED
+     ============================================================ */
+
+  let usaSelectedService = null;
+  let usaAvailableServices = [];
+
+  const usaServiceInput = document.getElementById('usaServiceInput');
+  const usaServiceDropdown = document.getElementById('usaServiceDropdown');
+  const usaSelectedChip = document.getElementById('usaSelectedChip');
+  const usaSelectedName = document.getElementById('usaSelectedName');
+  const usaSelectedPrice = document.getElementById('usaSelectedPrice');
+  const usaPriceCard = document.getElementById('usaPriceCard');
+  const usaBuySection = document.getElementById('usaBuySection');
+  const usaActionBtn = document.getElementById('usaActionBtn');
+
+  async function loadUsaServices() {
+    try {
+      const url = `${TV_API_URL}?action=servicelist`;
+      const res = await fetch(url, { cache: 'no-store' });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        usaServiceInput.placeholder = data.message || 'Failed to load services';
+        return;
+      }
+
+      usaAvailableServices = (data.services || []).map(s => ({
+        id: String(s.id),
+        name: String(s.name),
+        price: Number(s.price || 0.25)
+      }));
+
+      if (!usaAvailableServices.length) {
+        usaServiceInput.placeholder = 'No services available';
+        return;
+      }
+
+      usaServiceInput.placeholder = `🔍 Search among ${usaAvailableServices.length} services...`;
+      usaServiceInput.disabled = false;
+    } catch (err) {
+      console.error('USA service list error:', err);
+      usaServiceInput.placeholder = 'Failed to load services';
+    }
+  }
+
+  usaServiceInput.addEventListener('input', () => {
+    const q = usaServiceInput.value.trim().toLowerCase();
+    if (!q) { usaServiceDropdown.classList.remove('show'); return; }
+
+    const matches = usaAvailableServices
+      .filter(s => s.name.toLowerCase().includes(q))
+      .slice(0, 12);
+
+    if (!matches.length) {
+      usaServiceDropdown.innerHTML = `<div class="search-empty"><div class="search-empty-icon">🔍</div>No service found</div>`;
+      usaServiceDropdown.classList.add('show');
+      return;
+    }
+
+    usaServiceDropdown.innerHTML = matches.map(s => {
+      const price = calculateCustomerPrice(s.price);
+      return `
+        <button type="button" class="search-item" data-id="${escapeHtml(s.id)}">
+          <div class="si-left">
+            <span class="si-icon">🇺🇸</span>
+            <span class="si-name">${escapeHtml(capitalize(s.name))}</span>
+          </div>
+          <span class="si-price">${formatNGNshort(price)}</span>
+        </button>
+      `;
+    }).join('');
+    usaServiceDropdown.classList.add('show');
+
+    usaServiceDropdown.querySelectorAll('.search-item').forEach(btn => {
+      btn.addEventListener('click', () => selectUsaService(btn.dataset.id));
+    });
+  });
+
+  function selectUsaService(id) {
+    const service = usaAvailableServices.find(s => String(s.id) === String(id));
+    if (!service) return;
+
+    usaSelectedService = service;
+    usaServiceInput.value = capitalize(service.name);
+    usaServiceDropdown.classList.remove('show');
+
+    const price = calculateCustomerPrice(service.price);
+
+    usaSelectedChip.style.display = 'flex';
+    usaSelectedName.textContent = `🇺🇸 ${capitalize(service.name)}`;
+    usaSelectedPrice.textContent = formatNGN(price);
+    usaPriceCard.style.display = 'block';
+    usaBuySection.style.display = 'block';
+    usaActionBtn.disabled = false;
+  }
+
+  usaActionBtn.addEventListener('click', () => {
+    if (!currentUser || !usaSelectedService) return;
+    const price = calculateCustomerPrice(usaSelectedService.price);
+
+    if (currentBalance < price) {
+      const shortfall = price - currentBalance;
+      openModal(`
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">Not Enough Balance</div>
+        <div class="modal-sub">You need <b>${formatNGN(shortfall)}</b> more.</div>
+        <div class="modal-detail">
+          <div class="md-row"><span>Service</span><b>🇺🇸 ${escapeHtml(capitalize(usaSelectedService.name))}</b></div>
+          <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
+          <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
+          <div class="md-row total"><span>Shortfall</span><b>${formatNGN(shortfall)}</b></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" id="mCancel">Cancel</button>
+          <button class="btn-pink" style="flex:2;" id="mFund">💰 Fund Wallet</button>
+        </div>
+      `);
+      document.getElementById('mCancel').onclick = closeModal;
+      document.getElementById('mFund').onclick = () => { closeModal(); gotoPage('deposit'); };
+      return;
+    }
+
+    openModal(`
+      <div class="modal-icon">🛒</div>
+      <div class="modal-title">Confirm USA Purchase</div>
+      <div class="modal-sub">Buy a real US <b>${escapeHtml(capitalize(usaSelectedService.name))}</b> number from TextVerified.</div>
+      <div class="modal-detail">
+        <div class="md-row"><span>Country</span><b>🇺🇸 United States</b></div>
+        <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(usaSelectedService.name))}</b></div>
+        <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
+        <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
+        <div class="md-row total"><span>After</span><b>${formatNGN(currentBalance - price)}</b></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="mCancel">Cancel</button>
+        <button class="btn-pink" style="flex:2;" id="mBuy">✅ PURCHASE NOW</button>
+      </div>
+    `);
+
+    document.getElementById('mCancel').onclick = closeModal;
+    document.getElementById('mBuy').onclick = processUsaPurchase;
+  });
+
+  async function processUsaPurchase() {
+    const buyBtn = document.getElementById('mBuy');
+    if (!buyBtn) return;
+    buyBtn.disabled = true;
+    buyBtn.textContent = '⏳ Processing...';
+
+    const price = calculateCustomerPrice(usaSelectedService.price);
+    const providerCost = calculateProviderCostNgn(usaSelectedService.price);
+    const profit = price - providerCost;
+
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      const freshSnap = await getDoc(userRef);
+      if (!freshSnap.exists()) throw new Error('User account not found.');
+
+      const freshData = freshSnap.data() || {};
+      const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
+      if (freshBalance < price) throw new Error('INSUFFICIENT');
+
+      currentBalance = freshBalance;
+      updateBalanceUI();
+
+      const genUrl = `${TV_API_URL}?action=generate&service=${encodeURIComponent(usaSelectedService.name)}`;
+      const genRes = await fetch(genUrl, { cache: 'no-store' });
+      const genData = await genRes.json();
+
+      if (!genRes.ok || !genData.success) {
+        throw new Error(genData.message || 'OUT_OF_STOCK');
+      }
+
+      const phoneNumber = genData.number;
+      const requestId = genData.request_id;
+      if (!phoneNumber) throw new Error('OUT_OF_STOCK');
+
+      const newBalance = freshBalance - price;
+      await updateDoc(userRef, {
+        wallet: newBalance,
+        walletBalance: deleteField(),
+        balance: deleteField(),
+        updatedAt: serverTimestamp()
+      });
+      currentBalance = newBalance;
+      updateBalanceUI();
+
+      await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
+        service: capitalize(usaSelectedService.name),
+        serviceId: usaSelectedService.id,
+        country: 'United States',
+        countryCode: 'US',
+        flag: '🇺🇸',
+        number: phoneNumber,
+        requestId: requestId,
+        code: '',
+        price: price,
+        providerCost: providerCost,
+        profit: profit,
+        status: 'pending',
+        provider: 'textverified',
+        createdAt: serverTimestamp()
+      });
+
+      await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
+        type: 'purchase',
+        icon: '🇺🇸',
+        title: `USA — ${capitalize(usaSelectedService.name)}`,
+        subtitle: `Number: ${phoneNumber}`,
+        amount: price,
+        createdAt: serverTimestamp()
+      });
+
+      closeModal();
+      showToast(`✅ USA Number: ${phoneNumber}`, 'success');
+
+      usaSelectedService = null;
+      usaServiceInput.value = '';
+      usaSelectedChip.style.display = 'none';
+      usaPriceCard.style.display = 'none';
+      usaBuySection.style.display = 'none';
+
+      setTimeout(() => {
+        gotoPage('dashboard');
+        loadTransactions();
+        loadActivations();
+      }, 800);
+
+    } catch (err) {
+      console.error('USA purchase error:', err);
+      let msg = err.message === 'INSUFFICIENT'
+        ? 'Insufficient balance. Deposit funds first.'
+        : (err.message || 'Something went wrong. Try again.');
+
+      openModal(`
+        <div class="modal-icon">❌</div>
+        <div class="modal-title">Purchase Failed</div>
+        <div class="modal-sub">${escapeHtml(msg)}</div>
+        <div class="modal-actions">
+          <button class="btn-cancel" id="mClose">Close</button>
+          <button class="btn-pink" style="flex:2;" id="mRetry">🔄 Try Again</button>
+        </div>
+      `);
+      document.getElementById('mClose').onclick = closeModal;
+      document.getElementById('mRetry').onclick = () => { closeModal(); setTimeout(() => usaActionBtn.click(), 100); };
+    }
+  }
+
   /* AUTH GUARD */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
@@ -1448,6 +1691,7 @@
 
     loadTransactions();
     loadActivations();
+    loadUsaServices();
     cleanupOldCancelled();
   });
 
@@ -1550,7 +1794,7 @@
           : 'Just now';
 
         const ageMinutes = (now - created.getTime()) / 60000;
-        const canCancel = a.status === 'pending' && ageMinutes < 15 && a.provider === 'autofications';
+        const canCancel = a.status === 'pending' && ageMinutes < 15;
 
         const statusClass = {
           active: 'status-active', pending: 'status-pending',
@@ -1568,7 +1812,7 @@
         }
 
         const actionCell = canCancel
-          ? `<button class="btn-cancel-row" data-cancel-id="${id}" data-phone="${a.number}" data-service-id="${a.serviceId || ''}" data-country="${a.countryCode || ''}" data-price="${a.price || 0}">✖ Cancel</button>`
+          ? `<button class="btn-cancel-row" data-cancel-id="${id}" data-phone="${a.number}" data-service-id="${a.serviceId || ''}" data-country="${a.countryCode || ''}" data-price="${a.price || 0}" data-provider="${a.provider || ''}" data-request-id="${a.requestId || ''}">✖ Cancel</button>`
           : '';
 
         html += `
@@ -1598,6 +1842,8 @@
     const serviceId = btn.dataset.serviceId;
     const country = btn.dataset.country;
     const price = Number(btn.dataset.price || 0);
+    const provider = btn.dataset.provider || 'autofications';
+    const requestId = btn.dataset.requestId || '';
 
     if (!confirm(`Cancel this number and get ₦${price.toLocaleString()} refunded?`)) return;
 
@@ -1605,8 +1851,13 @@
     btn.textContent = 'Cancelling…';
 
     try {
-      const url = `${API_URL}?action=blacklist&country=${encodeURIComponent(country)}&website=${encodeURIComponent(serviceId)}&phone_number=${encodeURIComponent(phone)}`;
-      await fetch(url, { cache: 'no-store' });
+      if (provider === 'textverified' && requestId) {
+        // TextVerified cancel
+        await fetch(`${TV_API_URL}?action=cancel&request_id=${encodeURIComponent(requestId)}`, { cache: 'no-store' });
+      } else {
+        // AutoFications blacklist
+        await fetch(`${API_URL}?action=blacklist&country=${encodeURIComponent(country)}&website=${encodeURIComponent(serviceId)}&phone_number=${encodeURIComponent(phone)}`, { cache: 'no-store' });
+      }
 
       await updateDoc(
         doc(db, 'users', currentUser.uid, 'activations', id),
@@ -1653,53 +1904,6 @@
     await loadTransactions();
     showToast('✅ Refreshed', 'success');
     setTimeout(() => btn.classList.remove('spinning'), 600);
-  });
-
-  /* BUY USA */
-  document.getElementById('usaBuyBtn').addEventListener('click', async () => {
-    const serviceName = document.getElementById('usaServiceName').textContent;
-    const price = Number(document.getElementById('usaPrice').textContent.replace(/[₦,]/g, ''));
-    if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
-
-    const map = { 'WhatsApp': '1421', 'Telegram': '1405', 'Instagram': '1365', 'Facebook': '1352', 'Google': '1357', 'Discord': '1345' };
-    const serviceId = map[serviceName] || '1386';
-    const providerCost = Math.ceil((price - PROFIT_NGN));
-
-    try {
-      const genUrl = `${API_URL}?action=generate&website=${serviceId}&country=US1`;
-      const res = await fetch(genUrl, { cache: 'no-store' });
-      const data = await res.json();
-
-      if (!data.success) return showToast(data.message || 'Failed to get number', 'error');
-
-      const phoneNumber = data.number;
-      currentBalance -= price;
-      await saveBalance();
-
-      await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
-        service: serviceName,
-        serviceId: serviceId,
-        country: 'United States',
-        countryCode: 'US1',
-        flag: '🇺🇸',
-        number: phoneNumber,
-        code: '',
-        price: price,
-        providerCost: providerCost,
-        profit: price - providerCost,
-        status: 'pending',
-        provider: 'autofications',
-        createdAt: serverTimestamp()
-      });
-
-      await addTransaction({ type: 'purchase', icon: '🇺🇸', title: `USA Number — ${serviceName}`, subtitle: `Number: ${phoneNumber}`, amount: price });
-
-      showToast(`✅ Number: ${phoneNumber}`, 'success');
-      loadTransactions();
-      loadActivations();
-    } catch (err) {
-      showToast('❌ Failed. Try again.', 'error');
-    }
   });
 
   /* BUY ITEM */
@@ -1780,7 +1984,8 @@
   /* LOGOUT */
   async function doLogout(){
     await signOut(auth);
-    window.location.href = 'login.html';
+    // Replace history so back button doesn't return to dashboard
+    window.location.replace('login.html');
   }
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
   document.getElementById('bnLogout').addEventListener('click', doLogout);
@@ -1797,4 +2002,4 @@
 </script>
 
 </body>
-</html>
+                                                                     </html>
