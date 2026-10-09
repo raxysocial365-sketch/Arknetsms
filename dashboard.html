@@ -103,19 +103,25 @@
   .main { margin-left: var(--sidebar-w); padding: 22px 4% 120px; min-height: calc(100vh - 60px); }
 
   /* ACTION CARDS */
-  .actions-grid {
+  .actions-top {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .actions-mid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
     margin-bottom: 14px;
   }
-  .actions-bottom {
+  .actions-account {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
-    max-width: 66%;
-    margin: 0 auto 30px;
+    margin-bottom: 30px;
   }
+
   .action-card {
     background: var(--white); border: 1px solid #f5e6e0; border-radius: 22px;
     padding: 26px 16px 22px;
@@ -171,6 +177,32 @@
   .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
   .empty p { color: var(--brown-light); font-size: 14px; }
 
+  /* BUTTONS */
+  .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.25s; font-family: inherit; }
+  .btn-pink:hover { background: var(--brown-dark); transform: translateY(-1px); }
+  .btn-pink:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  .btn-full { width: 100%; }
+
+  /* FORMS */
+  .form-grid { display: grid; gap: 14px; }
+  .form-field label { display: block; font-size: 13px; font-weight: 700; color: var(--brown-dark); margin-bottom: 6px; }
+  .form-field input {
+    width: 100%; padding: 13px 14px;
+    border: 1.5px solid #f0dcd4; border-radius: 10px;
+    font-size: 14px; color: var(--brown-dark);
+    background: var(--cream); transition: 0.2s; font-family: inherit;
+  }
+  .form-field input:focus {
+    outline: none; border-color: var(--pink);
+    background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
+  }
+
+  /* PROFILE ROWS */
+  .profile-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f5e6e0; gap: 10px; }
+  .profile-row:last-child { border-bottom: none; }
+  .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
+  .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; word-break: break-word; text-align: right; }
+
   /* TOAST */
   .toast {
     position: fixed; bottom: 100px; left: 50%;
@@ -189,6 +221,35 @@
   /* OVERLAY */
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
   .overlay.show { display: block; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(74,44,42,0.7);
+    backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 998; padding: 20px;
+  }
+  .modal-overlay.show { display: flex; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-box {
+    background: white; border-radius: 24px; padding: 32px 26px;
+    max-width: 440px; width: 100%;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    text-align: center;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-icon { font-size: 46px; margin-bottom: 10px; }
+  .modal-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 6px; }
+  .modal-sub { font-size: 14px; color: var(--brown-light); margin-bottom: 20px; line-height: 1.6; }
+  .modal-actions { display: flex; gap: 12px; }
+  .btn-cancel {
+    flex: 1; padding: 13px; border-radius: 10px;
+    background: #e5e7eb; color: var(--brown-dark);
+    font-weight: 700; font-size: 14px; cursor: pointer;
+    font-family: inherit; border: none; transition: 0.2s;
+  }
+  .btn-cancel:hover { background: #d1d5db; }
 
   /* BOTTOM NAV */
   .bottom-nav {
@@ -238,11 +299,9 @@
     .main { margin-left: 0; padding: 20px 4% 120px; }
     .menu-btn { display: block; }
     .bottom-nav { display: block; }
-    .actions-bottom { max-width: 100%; }
   }
   @media (max-width: 600px) {
-    .actions-grid { gap: 10px; }
-    .actions-bottom { gap: 10px; }
+    .actions-top, .actions-mid, .actions-account { gap: 10px; }
     .action-card { padding: 18px 8px 16px; border-radius: 18px; min-height: 120px; gap: 10px; }
     .action-card .ac-icon { width: 48px; height: 48px; font-size: 22px; border-radius: 14px; }
     .action-card .ac-title { font-size: 12px; }
@@ -289,10 +348,10 @@
     <div class="side-divider"></div>
     <div class="side-label">Account</div>
 
-    <a href="profile.html" class="side-item"><span class="si-icon">👤</span> Profile</a>
+    <a href="#profile" class="side-item" data-page="profile"><span class="si-icon">👤</span> Profile</a>
     <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
     <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
-    <a href="change-password.html" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
+    <a href="#password" class="side-item" data-page="password"><span class="si-icon">🔒</span> Change Password</a>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
 </aside>
@@ -312,60 +371,115 @@
 <!-- MAIN -->
 <main class="main">
 
-  <!-- TOP ROW -->
-  <div class="actions-grid">
-    <a href="usa-numbers.html" class="action-card">
-      <div class="ac-icon">🇺🇸</div>
-      <div class="ac-title">USA Numbers</div>
-      <div class="ac-sub">High quality</div>
-    </a>
-    <a href="countries.html" class="action-card">
-      <div class="ac-icon">🌍</div>
-      <div class="ac-title">All Countries</div>
-      <div class="ac-sub">Global coverage</div>
-    </a>
-    <a href="gifts.html" class="action-card">
-      <div class="ac-icon">🎁</div>
-      <div class="ac-title">Send Gifts</div>
-      <div class="ac-sub">Deliver worldwide</div>
-    </a>
-  </div>
+  <!-- ========== MAIN VIEW ========== -->
+  <div id="view-main">
 
-  <!-- BOTTOM ROW -->
-  <div class="actions-bottom">
-    <a href="social-logs.html" class="action-card">
-      <div class="ac-icon">📱</div>
-      <div class="ac-title">Social Media</div>
-      <div class="ac-sub">Verified accounts</div>
-    </a>
-    <a href="boosting.html" class="action-card">
-      <div class="ac-icon">🚀</div>
-      <div class="ac-title">Boost Social</div>
-      <div class="ac-sub">Followers & likes</div>
-    </a>
-  </div>
-
-  <!-- RECENT ACTIVATIONS -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-title">🕐 Recent Activations</div>
-      <button class="btn-refresh" id="refreshBtn"><span>🔄</span> Refresh</button>
+    <!-- TOP ROW: USA · All Countries -->
+    <div class="actions-top">
+      <a href="usa-numbers.html" class="action-card">
+        <div class="ac-icon">🇺🇸</div>
+        <div class="ac-title">USA Numbers</div>
+        <div class="ac-sub">High quality</div>
+      </a>
+      <a href="countries.html" class="action-card">
+        <div class="ac-icon">🌍</div>
+        <div class="ac-title">All Countries</div>
+        <div class="ac-sub">Global coverage</div>
+      </a>
     </div>
-    <div class="table-wrap">
-      <table class="act-table">
-        <thead>
-          <tr><th>Service</th><th>Number</th><th>SMS Code</th></tr>
-        </thead>
-        <tbody id="activationsBody">
-          <tr><td colspan="3">
-            <div class="empty">
-              <div class="empty-icon">📭</div>
-              <h3>No activations yet</h3>
-              <p>Your activated numbers will appear here.</p>
-            </div>
-          </td></tr>
-        </tbody>
-      </table>
+
+    <!-- MID ROW: Gifts · Social · Boost -->
+    <div class="actions-mid">
+      <a href="gifts.html" class="action-card">
+        <div class="ac-icon">🎁</div>
+        <div class="ac-title">Send Gifts</div>
+        <div class="ac-sub">Deliver worldwide</div>
+      </a>
+      <a href="social-logs.html" class="action-card">
+        <div class="ac-icon">📱</div>
+        <div class="ac-title">Social Media</div>
+        <div class="ac-sub">Verified accounts</div>
+      </a>
+      <a href="boosting.html" class="action-card">
+        <div class="ac-icon">🚀</div>
+        <div class="ac-title">Boost Social</div>
+        <div class="ac-sub">Followers & likes</div>
+      </a>
+    </div>
+
+    <!-- ACCOUNT ROW: Profile · Change Password -->
+    <div class="actions-account">
+      <div class="action-card" data-open="profile">
+        <div class="ac-icon">👤</div>
+        <div class="ac-title">Profile</div>
+        <div class="ac-sub">Your account info</div>
+      </div>
+      <div class="action-card" data-open="password">
+        <div class="ac-icon">🔒</div>
+        <div class="ac-title">Change Password</div>
+        <div class="ac-sub">Keep account secure</div>
+      </div>
+    </div>
+
+    <!-- RECENT ACTIVATIONS -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">🕐 Recent Activations</div>
+        <button class="btn-refresh" id="refreshBtn"><span>🔄</span> Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table class="act-table">
+          <thead>
+            <tr><th>Service</th><th>Number</th><th>SMS Code</th></tr>
+          </thead>
+          <tbody id="activationsBody">
+            <tr><td colspan="3">
+              <div class="empty">
+                <div class="empty-icon">📭</div>
+                <h3>No activations yet</h3>
+                <p>Your activated numbers will appear here.</p>
+              </div>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== PROFILE VIEW ========== -->
+  <div id="view-profile" style="display:none;">
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 22px;">
+      <button class="btn-cancel" style="flex: 0; padding: 10px 16px; font-size: 14px;" data-back>← Back</button>
+      <h1 style="font-size: 22px; font-weight: 800; color: var(--brown-dark);">👤 My Profile</h1>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Account Information</div>
+      <div class="profile-row"><span class="pr-label">Full Name</span><span class="pr-val" id="pName">—</span></div>
+      <div class="profile-row"><span class="pr-label">Email</span><span class="pr-val" id="pEmail">—</span></div>
+      <div class="profile-row"><span class="pr-label">Phone Number</span><span class="pr-val" id="pPhone">—</span></div>
+      <div class="profile-row"><span class="pr-label">User ID</span><span class="pr-val" id="pUid" style="font-size:11px;">—</span></div>
+      <div class="profile-row"><span class="pr-label">Member Since</span><span class="pr-val" id="pSince">—</span></div>
+      <div class="profile-row"><span class="pr-label">Account Status</span><span class="pr-val" style="color: var(--green);">● Active</span></div>
+    </div>
+  </div>
+
+  <!-- ========== CHANGE PASSWORD VIEW ========== -->
+  <div id="view-password" style="display:none;">
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 22px;">
+      <button class="btn-cancel" style="flex: 0; padding: 10px 16px; font-size: 14px;" data-back>← Back</button>
+      <h1 style="font-size: 22px; font-weight: 800; color: var(--brown-dark);">🔒 Change Password</h1>
+    </div>
+
+    <div class="section" style="max-width: 520px;">
+      <div class="section-title" style="margin-bottom: 14px;">Update Password</div>
+      <div class="form-grid">
+        <div class="form-field"><label for="currentPass">Current Password</label><input type="password" id="currentPass" placeholder="••••••••"></div>
+        <div class="form-field"><label for="newPass">New Password</label><input type="password" id="newPass" placeholder="At least 6 characters"></div>
+        <div class="form-field"><label for="confirmPass">Confirm New Password</label><input type="password" id="confirmPass" placeholder="Re-enter new password"></div>
+        <button class="btn-pink btn-full" id="changePassBtn">Update Password →</button>
+      </div>
     </div>
   </div>
 
@@ -386,10 +500,10 @@
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
       <span>Deposit</span>
     </a>
-    <a href="profile.html" class="bn-item" data-goto="profile">
+    <button class="bn-item" data-open="profile" id="bnProfile">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
       <span>Profile</span>
-    </a>
+    </button>
     <button class="bn-item logout" id="bnLogout">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
       <span>Logout</span>
@@ -397,13 +511,19 @@
   </div>
 </nav>
 
+<!-- MODAL -->
+<div class="modal-overlay" id="purchaseModal">
+  <div class="modal-box" id="modalContent"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- FIREBASE -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
-    getAuth, onAuthStateChanged, signOut
+    getAuth, onAuthStateChanged, signOut,
+    EmailAuthProvider, reauthenticateWithCredential, updatePassword
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
     getFirestore, doc, getDoc, collection, query, orderBy, getDocs, deleteDoc
@@ -431,7 +551,6 @@
   };
 
   const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
 
   let currentUser = null;
 
@@ -455,6 +574,36 @@
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
   document.getElementById('bnLogout').addEventListener('click', doLogout);
 
+  /* VIEW SWITCHER (in-page views) */
+  function showView(viewName) {
+    document.getElementById('view-main').style.display = viewName === 'main' ? 'block' : 'none';
+    document.getElementById('view-profile').style.display = viewName === 'profile' ? 'block' : 'none';
+    document.getElementById('view-password').style.display = viewName === 'password' ? 'block' : 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('[data-open]').forEach(el => {
+    el.addEventListener('click', () => {
+      const target = el.dataset.open;
+      if (target === 'profile') showView('profile');
+      if (target === 'password') showView('password');
+    });
+  });
+
+  document.querySelectorAll('[data-back]').forEach(el => {
+    el.addEventListener('click', () => showView('main'));
+  });
+
+  // Sidebar profile/password links
+  document.querySelectorAll('.side-item[data-page]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView(el.dataset.page);
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+  });
+
   /* AUTH GUARD */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
@@ -465,10 +614,19 @@
     document.getElementById('sideEmail').textContent = user.email;
     document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
 
+    document.getElementById('pName').textContent = name;
+    document.getElementById('pEmail').textContent = user.email;
+    document.getElementById('pUid').textContent = user.uid;
+
     try {
       const snap = await getDoc(doc(db, 'users', user.uid));
       if (snap.exists()) {
         const data = snap.data();
+        document.getElementById('pPhone').textContent = data.number || '—';
+        if (data.createdAt) {
+          document.getElementById('pSince').textContent =
+            new Date(data.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
         const balance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
         document.getElementById('topBalance').textContent = formatNGN(balance);
       }
@@ -478,7 +636,7 @@
     cleanupOldCancelled();
   });
 
-  /* LOAD ACTIVATIONS — last 3 only */
+  /* LOAD ACTIVATIONS */
   async function loadActivations() {
     if (!currentUser) return;
     const tbody = document.getElementById('activationsBody');
@@ -529,7 +687,7 @@
     }
   }
 
-  /* AUTO-DELETE CANCELLED > 3 MIN */
+  /* CLEANUP CANCELLED */
   async function cleanupOldCancelled() {
     if (!currentUser) return;
     try {
@@ -557,6 +715,35 @@
     await loadActivations();
     showToast('✅ Refreshed', 'success');
     btn.innerHTML = '<span>🔄</span> Refresh';
+  });
+
+  /* CHANGE PASSWORD */
+  document.getElementById('changePassBtn').addEventListener('click', async () => {
+    const cur = document.getElementById('currentPass').value;
+    const nw = document.getElementById('newPass').value;
+    const cf = document.getElementById('confirmPass').value;
+
+    if (!cur || !nw || !cf) return showToast('Please fill all fields.', 'error');
+    if (nw.length < 6) return showToast('New password must be at least 6 characters.', 'error');
+    if (nw !== cf) return showToast('New passwords do not match.', 'error');
+
+    try {
+      const cred = EmailAuthProvider.credential(currentUser.email, cur);
+      await reauthenticateWithCredential(currentUser, cred);
+      await updatePassword(currentUser, nw);
+      showToast('✅ Password updated!', 'success');
+      document.getElementById('currentPass').value = '';
+      document.getElementById('newPass').value = '';
+      document.getElementById('confirmPass').value = '';
+      setTimeout(() => showView('main'), 900);
+    } catch (err) {
+      const map = {
+        'auth/wrong-password': 'Current password is incorrect.',
+        'auth/weak-password': 'New password is too weak.',
+        'auth/requires-recent-login': 'Please login again.'
+      };
+      showToast(map[err.code] || err.message, 'error');
+    }
   });
 </script>
 
