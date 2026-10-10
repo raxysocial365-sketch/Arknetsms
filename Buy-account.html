@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Account — Arknet</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+  :root {
+    --brown-dark: #4a2c2a;
+    --brown: #6b4423;
+    --brown-light: #8b5e3c;
+    --pink: #ec4899;
+    --pink-light: #f9a8d4;
+    --pink-soft: #fdf2f8;
+    --white: #ffffff;
+    --cream: #fef9f5;
+    --green: #22c55e;
+    --red: #dc2626;
+  }
+  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--brown-dark);
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .back-btn {
+    background: var(--white); color: var(--brown-dark);
+    border: none; width: 38px; height: 38px;
+    border-radius: 12px; cursor: pointer;
+    font-size: 18px; text-decoration: none;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s;
+  }
+  .back-btn:hover { background: var(--pink); color: white; }
+  .topbar h1 {
+    color: white; font-size: 18px; font-weight: 800;
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 600px; margin: 0 auto;
+    padding: 24px 4% 60px;
+    min-height: calc(100vh - 70px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+
+  /* CARD */
+  .working-card {
+    background: var(--white);
+    border: 1px solid #f5e6e0;
+    border-radius: 24px;
+    padding: 46px 30px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(74,44,42,0.08);
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    overflow: hidden;
+  }
+  .working-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 200px; height: 200px;
+    background: var(--pink-soft);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .working-card::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 160px; height: 160px;
+    background: var(--pink-soft);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+
+  .working-icon {
+    font-size: 72px;
+    margin-bottom: 20px;
+    display: block;
+    position: relative;
+    z-index: 2;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .working-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+    line-height: 1.3;
+  }
+  .working-title span { color: var(--pink); }
+
+  .working-sub {
+    font-size: 14px;
+    color: var(--brown-light);
+    line-height: 1.7;
+    margin-bottom: 26px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Progress bar */
+  .progress {
+    background: var(--pink-soft);
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 26px;
+    position: relative;
+    z-index: 2;
+    max-width: 260px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pink), var(--brown-dark));
+    border-radius: 999px;
+    width: 65%;
+    animation: pulse-progress 2s ease-in-out infinite;
+  }
+  @keyframes pulse-progress {
+    0%, 100% { width: 55%; opacity: 1; }
+    50% { width: 85%; opacity: 0.85; }
+  }
+
+  /* Contact button */
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    padding: 15px 26px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.25s;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 10px 24px rgba(37,211,102,0.3);
+    width: 100%;
+    max-width: 300px;
+  }
+  .contact-btn:hover {
+    background: #20b959;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(37,211,102,0.4);
+  }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    width: calc(100% - 24px); max-width: 500px;
+    background: var(--white); border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
+    padding: 8px 6px; z-index: 400;
+  }
+  .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
+  .bn-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 3px;
+    background: transparent; border: none;
+    color: #9ca3af; font-size: 10px; font-weight: 600;
+    cursor: pointer; padding: 6px 2px; border-radius: 16px;
+    transition: 0.25s; font-family: inherit; text-decoration: none;
+    min-height: 56px;
+  }
+  .bn-item .bn-icon {
+    width: 34px; height: 34px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bn-item .bn-icon svg {
+    width: 20px; height: 20px;
+    stroke: currentColor; stroke-width: 2; fill: none;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .bn-item.active { color: var(--brown-dark); font-weight: 700; }
+  .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
+  .bn-item.active .bn-icon svg { stroke: var(--pink); }
+  .bn-item.logout { color: #dc2626; }
+
+  /* Small screens */
+  @media (max-width: 600px) {
+    .working-card { padding: 36px 22px; border-radius: 20px; }
+    .working-icon { font-size: 60px; }
+    .working-title { font-size: 20px; }
+    .working-sub { font-size: 13px; }
+    .bn-item { font-size: 8.5px; }
+    .bn-item .bn-icon { width: 30px; height: 30px; }
+    .bn-item .bn-icon svg { width: 18px; height: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="dashboard.html" class="back-btn">←</a>
+  <h1>🛒 Buy Account</h1>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="working-card">
+    <span class="working-icon">🛠️</span>
+    <div class="working-title">We're Working On It <span>Soon</span></div>
+    <div class="working-sub">
+      Our Buy Account feature is currently in development.<br>
+      We'll be launching it very soon with verified social media and email accounts available for purchase.
+    </div>
+
+    <div class="progress">
+      <div class="progress-fill"></div>
+    </div>
+
+    <a href="https://wa.me/2349168165484" target="_blank" class="contact-btn">
+      💬 Contact Us for Updates
+    </a>
+  </div>
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-inner">
+    <a href="dashboard.html" class="bn-item active" data-goto="service">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <span>Service</span>
+    </a>
+    <a href="wallet.html" class="bn-item" data-goto="deposit">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
+      <span>Deposit</span>
+    </a>
+    <a href="dashboard.html" class="bn-item" data-goto="profile">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
+      <span>Profile</span>
+    </a>
+    <a href="https://wa.me/2349168165484" target="_blank" class="bn-item" data-goto="contact">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+      <span>Contact</span>
+    </a>
+    <button class="bn-item logout" id="bnLogout">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+      <span>Logout</span>
+    </button>
+  </div>
+</nav>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
+    authDomain: "arknetsms-430ee.firebaseapp.com",
+    projectId: "arknetsms-430ee",
+    storageBucket: "arknetsms-430ee.firebasestorage.app",
+    messagingSenderId: "961504742152",
+    appId: "1:961504742152:web:a9ade98d13465bb3b8babd",
+    measurementId: "G-48V2T4CBJF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) window.location.href = 'login.html';
+  });
+
+  document.getElementById('bnLogout').addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.replace('login.html');
+  });
+</script>
+
+</body>
+</html>
