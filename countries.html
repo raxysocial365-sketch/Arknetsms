@@ -54,19 +54,6 @@
     overflow: hidden;
     color: white;
   }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 18px; right: 70px;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.35);
-    box-shadow:
-      20px 25px 0 rgba(255,255,255,0.2),
-      50px -5px 0 rgba(255,255,255,0.25),
-      80px 30px 0 rgba(255,255,255,0.15);
-    pointer-events: none;
-  }
   .hero-top {
     display: flex; align-items: center; justify-content: space-between;
     gap: 0.6rem; margin-bottom: 1rem;
@@ -176,7 +163,6 @@
   .dropdown-item .dd-price { font-size: 0.88rem; font-weight: 800; color: var(--pink); flex-shrink: 0; }
   .dropdown-item .dd-code { font-size: 0.75rem; color: var(--brown-light); font-weight: 600; }
   .dropdown-empty { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
-  .dropdown-loading { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
 
   .selected-chip { background: var(--pink-soft); border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; border: 1px solid var(--pink-light); }
   .selected-chip .lbl { color: var(--brown-light); font-weight: 500; }
@@ -215,41 +201,23 @@
   .toast.success { background: var(--green); }
   .toast.error { background: var(--red); }
 
-  /* ==========================================
-     BOTTOM NAV — matches dashboard style exactly
-     ========================================== */
+  /* BOTTOM NAV */
   .bottom-nav {
     position: fixed; bottom: 14px; left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 24px); max-width: 500px;
-    background: var(--white);
-    border-radius: 22px;
+    background: var(--white); border-radius: 22px;
     box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
     padding: 8px 6px; z-index: 400;
   }
   .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
-  .bn-item {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 3px;
-    background: transparent; border: none; color: #9ca3af;
-    font-size: 10px; font-weight: 600; cursor: pointer;
-    padding: 6px 2px; border-radius: 16px; transition: 0.25s;
-    font-family: inherit; text-decoration: none; min-height: 56px;
-  }
-  .bn-item .bn-icon {
-    width: 34px; height: 34px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .bn-item .bn-icon svg {
-    width: 20px; height: 20px;
-    stroke: currentColor; stroke-width: 2;
-    fill: none; stroke-linecap: round; stroke-linejoin: round;
-  }
+  .bn-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: transparent; border: none; color: #9ca3af; font-size: 10px; font-weight: 600; cursor: pointer; padding: 6px 2px; border-radius: 16px; transition: 0.25s; font-family: inherit; text-decoration: none; min-height: 56px; }
+  .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .bn-item .bn-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .bn-item.active { color: var(--brown-dark); font-weight: 700; }
   .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
   .bn-item.active .bn-icon svg { stroke: var(--pink); }
   .bn-item.logout { color: #dc2626; }
-  .bn-item.logout:hover { color: #b91c1c; }
 
   @media (min-width: 700px) { .container, .topbar-inner, .modal-box { max-width: 640px; } }
   @media (max-width: 600px) {
@@ -270,7 +238,6 @@
 
 <div class="container">
 
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-top">
       <div class="hero-greet">
@@ -295,8 +262,8 @@
 
     <div class="hero-stats">
       <div class="hero-stat">
-        <span class="s-lbl">Speed</span>
-        <span class="s-val">Instant</span>
+        <span class="s-lbl">Countries</span>
+        <span class="s-val">59</span>
       </div>
       <div class="hero-stat">
         <span class="s-lbl">Type</span>
@@ -309,7 +276,6 @@
     </div>
   </div>
 
-  <!-- SECTION 1: COUNTRY -->
   <div class="main-card">
     <div class="step-head">
       <span class="step-num">1</span>
@@ -322,7 +288,6 @@
     </div>
   </div>
 
-  <!-- SECTION 2: SERVICE -->
   <div class="main-card" id="serviceCard" style="display: none;">
     <div class="step-head">
       <span class="step-num">2</span>
@@ -350,22 +315,22 @@
   </div>
 </div>
 
-<!-- BOTTOM NAV — dashboard style -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-inner">
-    <a href="dashboard.html" class="bn-item active">
+    <a href="dashboard.html" class="bn-item active" data-nav="service">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
       <span>Service</span>
     </a>
-    <a href="wallet.html" class="bn-item">
+    <a href="wallet.html" class="bn-item" data-nav="deposit">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
       <span>Deposit</span>
     </a>
-    <a href="dashboard.html#profile" class="bn-item">
+    <a href="dashboard.html#profile" class="bn-item" data-nav="profile">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
       <span>Profile</span>
     </a>
-    <a href="https://wa.me/2349168165484" target="_blank" class="bn-item">
+    <a href="https://wa.me/2349168165484" target="_blank" class="bn-item" data-nav="contact">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
       <span>Contact</span>
     </a>
@@ -433,8 +398,63 @@
     if (e.target.id === 'purchaseModal') closeModal();
   });
 
+  /* ✅ All 59 countries — codes match AutoFications COUNTRY_MAP */
   const COUNTRIES = [
-    {name:"United Kingdom", code:"UK", flag:"🇬🇧"},{name:"United States", code:"US1", flag:"🇺🇸"},{name:"France", code:"FR", flag:"🇫🇷"},{name:"Hong Kong", code:"HK", flag:"🇭🇰"},{name:"China", code:"CN", flag:"🇨🇳"},{name:"Germany", code:"DE", flag:"🇩🇪"},{name:"Netherlands", code:"NL", flag:"🇳🇱"},{name:"Malaysia", code:"MY", flag:"🇲🇾"},{name:"Brazil", code:"BR", flag:"🇧🇷"},{name:"India", code:"IND", flag:"🇮🇳"},{name:"Philippines", code:"PH", flag:"🇵🇭"},{name:"Spain", code:"ES", flag:"🇪🇸"},{name:"Argentina", code:"AR", flag:"🇦🇷"},{name:"New Zealand", code:"NZ", flag:"🇳🇿"},{name:"Ukraine", code:"UA", flag:"🇺🇦"},{name:"Sweden", code:"SE", flag:"🇸🇪"},{name:"Poland", code:"PL", flag:"🇵🇱"},{name:"India (IN1)", code:"IN1", flag:"🇮🇳"},{name:"Vietnam", code:"VN", flag:"🇻🇳"},{name:"Romania", code:"RO", flag:"🇷🇴"},{name:"Portugal", code:"PT", flag:"🇵🇹"},{name:"Turkey", code:"TR", flag:"🇹🇷"},{name:"Estonia", code:"EE", flag:"🇪🇪"},{name:"Israel", code:"IL", flag:"🇮🇱"}
+    {name:"United Kingdom", code:"gb", flag:"🇬🇧"},
+    {name:"United States", code:"us", flag:"🇺🇸"},
+    {name:"Canada", code:"ca", flag:"🇨🇦"},
+    {name:"France", code:"fr", flag:"🇫🇷"},
+    {name:"Germany", code:"de", flag:"🇩🇪"},
+    {name:"Netherlands", code:"nl", flag:"🇳🇱"},
+    {name:"Spain", code:"es", flag:"🇪🇸"},
+    {name:"Italy", code:"it", flag:"🇮🇹"},
+    {name:"Portugal", code:"pt", flag:"🇵🇹"},
+    {name:"Ireland", code:"ie", flag:"🇮🇪"},
+    {name:"Sweden", code:"se", flag:"🇸🇪"},
+    {name:"Poland", code:"pl", flag:"🇵🇱"},
+    {name:"Austria", code:"at", flag:"🇦🇹"},
+    {name:"Denmark", code:"dk", flag:"🇩🇰"},
+    {name:"Finland", code:"fi", flag:"🇫🇮"},
+    {name:"Czech Republic", code:"cz", flag:"🇨🇿"},
+    {name:"Romania", code:"ro", flag:"🇷🇴"},
+    {name:"Greece", code:"gr", flag:"🇬🇷"},
+    {name:"Turkey", code:"tr", flag:"🇹🇷"},
+    {name:"Ukraine", code:"ua", flag:"🇺🇦"},
+    {name:"Russia", code:"ru", flag:"🇷🇺"},
+    {name:"Serbia", code:"rs", flag:"🇷🇸"},
+    {name:"Bulgaria", code:"bg", flag:"🇧🇬"},
+    {name:"Slovakia", code:"sk", flag:"🇸🇰"},
+    {name:"Moldova", code:"md", flag:"🇲🇩"},
+    {name:"China", code:"cn", flag:"🇨🇳"},
+    {name:"Hong Kong", code:"hk", flag:"🇭🇰"},
+    {name:"Malaysia", code:"my", flag:"🇲🇾"},
+    {name:"Philippines", code:"ph", flag:"🇵🇭"},
+    {name:"Thailand", code:"th", flag:"🇹🇭"},
+    {name:"Vietnam", code:"vn", flag:"🇻🇳"},
+    {name:"Indonesia", code:"id", flag:"🇮🇩"},
+    {name:"India", code:"ind", flag:"🇮🇳"},
+    {name:"India (IN1)", code:"in1", flag:"🇮🇳"},
+    {name:"Pakistan", code:"pk", flag:"🇵🇰"},
+    {name:"Bangladesh", code:"bd", flag:"🇧🇩"},
+    {name:"Kazakhstan", code:"kz", flag:"🇰🇿"},
+    {name:"Israel", code:"il", flag:"🇮🇱"},
+    {name:"Saudi Arabia", code:"sa", flag:"🇸🇦"},
+    {name:"United Arab Emirates", code:"ae", flag:"🇦🇪"},
+    {name:"Qatar", code:"qa", flag:"🇶🇦"},
+    {name:"Kuwait", code:"kw", flag:"🇰🇼"},
+    {name:"Morocco", code:"ma", flag:"🇲🇦"},
+    {name:"Egypt", code:"eg", flag:"🇪🇬"},
+    {name:"Nigeria", code:"ng", flag:"🇳🇬"},
+    {name:"Kenya", code:"ke", flag:"🇰🇪"},
+    {name:"South Africa", code:"za", flag:"🇿🇦"},
+    {name:"Brazil", code:"br", flag:"🇧🇷"},
+    {name:"Mexico", code:"mx", flag:"🇲🇽"},
+    {name:"Argentina", code:"ar", flag:"🇦🇷"},
+    {name:"Colombia", code:"co", flag:"🇨🇴"},
+    {name:"Chile", code:"cl", flag:"🇨🇱"},
+    {name:"Peru", code:"pe", flag:"🇵🇪"},
+    {name:"Australia", code:"au", flag:"🇦🇺"},
+    {name:"New Zealand", code:"nz", flag:"🇳🇿"}
   ];
 
   const countryInput = document.getElementById('countryInput');
@@ -442,7 +462,6 @@
   const serviceInput = document.getElementById('serviceInput');
   const serviceDropdown = document.getElementById('serviceDropdown');
 
-  /* COUNTRY SEARCH */
   countryInput.addEventListener('input', () => {
     const q = countryInput.value.trim().toLowerCase();
     if (!q) { countryDropdown.classList.remove('active'); return; }
@@ -458,7 +477,7 @@
           <span class="dd-flag">${c.flag}</span>
           <span class="dd-name">${escapeHtml(c.name)}</span>
         </div>
-        <span class="dd-code">${c.code}</span>
+        <span class="dd-code">${c.code.toUpperCase()}</span>
       </button>
     `).join('');
     countryDropdown.classList.add('active');
@@ -485,7 +504,6 @@
     countryInput.value = `${country.flag} ${country.name}`;
     countryDropdown.classList.remove('active');
 
-    /* Update hero */
     document.getElementById('heroFlag').textContent = country.flag;
     document.getElementById('heroTitle').textContent = `${country.name} SMS`;
     document.getElementById('heroSub').textContent = `Real ${country.name} SIM numbers. Fast & reliable.`;
@@ -499,7 +517,7 @@
     try {
       const res = await fetch(`${API_URL}?action=servicelist&country=${encodeURIComponent(country.code)}`, { cache: 'no-store' });
       const data = await res.json();
-      if (!res.ok || !data.success) { serviceInput.placeholder = data.message || 'Failed'; return; }
+      if (!res.ok || !data.success) { serviceInput.placeholder = data.message || data.error || 'Failed'; return; }
       availableServices = (data.services || []).map(s => ({ id: String(s.id), name: String(s.name), price: Number(s.price || 0) }));
       if (!availableServices.length) { serviceInput.placeholder = 'No services'; return; }
       serviceInput.placeholder = `🔍 Search among ${availableServices.length} services...`;
@@ -507,7 +525,6 @@
     } catch (err) { serviceInput.placeholder = 'Failed to load services'; }
   }
 
-  /* SERVICE SEARCH */
   serviceInput.addEventListener('input', () => {
     if (!selectedCountry) return;
     const q = serviceInput.value.trim().toLowerCase();
@@ -548,7 +565,6 @@
     document.getElementById('actionBtn').disabled = false;
   }
 
-  /* PURCHASE */
   document.getElementById('actionBtn').addEventListener('click', () => {
     if (!currentUser || !selectedCountry || !selectedService) return;
     const price = calcPrice(selectedService.price);
@@ -590,9 +606,8 @@
 
       const genRes = await fetch(`${API_URL}?action=generate&website=${encodeURIComponent(selectedService.id)}&country=${encodeURIComponent(selectedCountry.code)}`, { cache: 'no-store' });
       const genData = await genRes.json();
-      if (!genRes.ok || !genData.success) throw new Error(genData.message || 'OUT_OF_STOCK');
+      if (!genRes.ok || !genData.success || !genData.number) throw new Error('OUT_OF_STOCK');
       const phoneNumber = genData.number;
-      if (!phoneNumber) throw new Error('OUT_OF_STOCK');
 
       const newBalance = freshBalance - price;
       await updateDoc(userRef, { wallet: newBalance, walletBalance: deleteField(), balance: deleteField(), updatedAt: serverTimestamp() });
@@ -640,13 +655,11 @@
     }
   }
 
-  /* AUTH */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
     const name = (user.displayName || user.email.split('@')[0]).split(' ')[0];
     document.getElementById('heroName').textContent = name.charAt(0).toUpperCase() + name.slice(1);
-
     try {
       const snap = await getDoc(doc(db, 'users', user.uid));
       if (snap.exists()) {
