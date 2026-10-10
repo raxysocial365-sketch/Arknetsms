@@ -34,188 +34,57 @@
   .view.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* HOW TO USE BUTTON (TOP) */
+  /* HOW TO USE BUTTON */
   .how-btn {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    display: flex; align-items: center; gap: 14px;
     background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-    border: 1.5px solid #93c5fd;
-    border-radius: 16px;
-    padding: 18px 20px;
-    cursor: pointer;
-    transition: 0.25s;
-    text-decoration: none;
-    color: inherit;
-    margin-bottom: 20px;
-    width: 100%;
-    font-family: inherit;
-    text-align: left;
+    border: 1.5px solid #93c5fd; border-radius: 16px;
+    padding: 18px 20px; cursor: pointer; transition: 0.25s;
+    color: inherit; margin-bottom: 20px; width: 100%;
+    font-family: inherit; text-align: left;
   }
-  .how-btn:hover {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    border-color: #60a5fa;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.15);
-  }
-  .hb-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 14px;
-    background: var(--blue);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-  }
+  .how-btn:hover { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-color: #60a5fa; transform: translateY(-2px); }
+  .hb-icon { width: 50px; height: 50px; border-radius: 14px; background: var(--blue); color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
   .hb-text { flex: 1; }
-  .hb-title {
-    font-size: 15px;
-    font-weight: 800;
-    color: #1e40af;
-    margin-bottom: 3px;
-  }
-  .hb-sub {
-    font-size: 12px;
-    color: #1d4ed8;
-  }
-  .hb-arrow {
-    font-size: 22px;
-    color: #1d4ed8;
-    font-weight: 800;
-  }
+  .hb-title { font-size: 15px; font-weight: 800; color: #1e40af; margin-bottom: 3px; }
+  .hb-sub { font-size: 12px; color: #1d4ed8; }
+  .hb-arrow { font-size: 22px; color: #1d4ed8; font-weight: 800; }
 
   /* ACTION CARDS */
-  .actions-top {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-  .actions-single {
-    display: grid;
-    grid-template-columns: 1fr;
-    max-width: calc(50% - 6px);
-    margin: 0 auto 22px;
-  }
+  .actions-top { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 12px; }
+  .actions-single { display: grid; grid-template-columns: 1fr; max-width: calc(50% - 6px); margin: 0 auto 22px; }
 
   .action-card {
     background: var(--white); border: 1px solid #f5e6e0; border-radius: 18px;
-    padding: 24px 12px 20px;
-    cursor: pointer; transition: 0.28s;
+    padding: 24px 12px 20px; cursor: pointer; transition: 0.28s;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; gap: 10px; min-height: 130px;
-    text-decoration: none; color: inherit;
-    position: relative;
+    text-decoration: none; color: inherit; position: relative;
   }
   .action-card:hover { transform: translateY(-4px); border-color: var(--pink-light); box-shadow: 0 16px 34px rgba(236,72,153,0.14); }
-  .action-card .ac-icon {
-    width: 52px; height: 52px; border-radius: 16px;
-    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08);
-  }
+  .action-card .ac-icon { width: 52px; height: 52px; border-radius: 16px; background: linear-gradient(135deg, var(--pink-soft), #fce7f3); display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08); }
   .action-card .ac-title { font-size: 13px; font-weight: 800; color: var(--brown-dark); line-height: 1.25; }
   .action-card .ac-sub { font-size: 11px; color: var(--brown-light); font-weight: 500; margin-top: -4px; }
 
-  /* COMING SOON */
   .action-card.coming-soon { opacity: 0.7; cursor: not-allowed; background: #faf5f3; }
   .action-card.coming-soon:hover { transform: none; border-color: #f5e6e0; box-shadow: none; }
   .action-card.coming-soon .ac-icon { background: linear-gradient(135deg, #f5ebe7, #ece0da); }
-  .coming-badge {
-    position: absolute; top: 10px; right: 10px;
-    background: var(--pink); color: white;
-    font-size: 8px; font-weight: 800;
-    padding: 3px 8px; border-radius: 999px;
-    letter-spacing: 0.5px; text-transform: uppercase;
-  }
+  .coming-badge { position: absolute; top: 10px; right: 10px; background: var(--pink); color: white; font-size: 8px; font-weight: 800; padding: 3px 8px; border-radius: 999px; letter-spacing: 0.5px; text-transform: uppercase; }
 
-  /* HOW TO VIEW */
-  .how-view {
-    background: var(--white);
-    border: 1px solid #f5e6e0;
-    border-radius: 16px;
-    padding: 22px 20px;
-    margin-bottom: 22px;
-  }
-  .how-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 0;
-    border-bottom: 1px solid #f5e6e0;
-    text-decoration: none;
-    color: inherit;
-    transition: 0.2s;
-  }
+  /* HOW VIEW */
+  .how-view { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 22px 20px; margin-bottom: 22px; }
+  .how-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f5e6e0; text-decoration: none; color: inherit; transition: 0.2s; }
   .how-item:last-child { border-bottom: none; }
-  .how-item:hover {
-    background: var(--pink-soft);
-    margin: 0 -10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 10px;
-  }
-  .hi-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
+  .how-item:hover { background: var(--pink-soft); margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 10px; }
+  .hi-icon { width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg, var(--pink-soft), #fce7f3); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
   .hi-text { flex: 1; }
-  .hi-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--brown-dark);
-    margin-bottom: 2px;
-  }
-  .hi-sub {
-    font-size: 11px;
-    color: var(--brown-light);
-  }
-  .hi-arrow {
-    font-size: 20px;
-    color: var(--pink);
-    font-weight: 800;
-  }
+  .hi-title { font-size: 14px; font-weight: 700; color: var(--brown-dark); margin-bottom: 2px; }
+  .hi-sub { font-size: 11px; color: var(--brown-light); }
+  .hi-arrow { font-size: 20px; color: var(--pink); font-weight: 800; }
 
-  /* SUPPORT ITEM */
-  .support-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 0;
-    text-decoration: none;
-    color: inherit;
-    transition: 0.2s;
-  }
-  .support-item:hover {
-    background: #ecfdf5;
-    margin: 0 -10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 10px;
-  }
-  .si-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    background: #25D366;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
+  .support-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; text-decoration: none; color: inherit; transition: 0.2s; }
+  .support-item:hover { background: #ecfdf5; margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 10px; }
+  .si-icon { width: 46px; height: 46px; border-radius: 12px; background: #25D366; color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
 
   /* SECTION */
   .section { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 20px; margin-bottom: 20px; }
@@ -240,7 +109,7 @@
   .status-expired, .status-cancelled { background: #fee2e2; color: #991b1b; }
   .status-completed { background: #dbeafe; color: #1e40af; }
 
-  .btn-cancel-row { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 5px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer; font-family: inherit; transition: 0.2s; white-space: nowrap; margin-top: 6px; }
+  .btn-cancel-row { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 5px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; margin-top: 6px; }
   .btn-cancel-row:hover { background: #dc2626; color: white; border-color: #dc2626; }
   .btn-cancel-row:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -283,21 +152,9 @@
   .toast.error { background: var(--red); }
 
   /* BOTTOM NAV */
-  .bottom-nav {
-    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
-    width: calc(100% - 24px); max-width: 500px; background: var(--white); border-radius: 22px;
-    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
-    padding: 8px 6px; z-index: 400;
-  }
+  .bottom-nav { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); width: calc(100% - 24px); max-width: 500px; background: var(--white); border-radius: 22px; box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08); padding: 8px 6px; z-index: 400; }
   .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
-  .bn-item {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 3px;
-    background: transparent; border: none;
-    color: #9ca3af; font-size: 10px; font-weight: 600;
-    cursor: pointer; padding: 6px 2px; border-radius: 16px;
-    transition: 0.25s; font-family: inherit; text-decoration: none; min-height: 56px;
-  }
+  .bn-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: transparent; border: none; color: #9ca3af; font-size: 10px; font-weight: 600; cursor: pointer; padding: 6px 2px; border-radius: 16px; transition: 0.25s; font-family: inherit; text-decoration: none; min-height: 56px; }
   .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
   .bn-item .bn-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .bn-item.active { color: var(--brown-dark); font-weight: 700; }
@@ -331,10 +188,10 @@
 
 <main class="main">
 
-  <!-- ============ DASHBOARD VIEW ============ -->
+  <!-- DASHBOARD VIEW -->
   <div class="view active" id="view-dashboard">
 
-    <!-- HOW TO USE BUTTON (AT TOP) -->
+    <!-- HOW TO USE BUTTON -->
     <button class="how-btn" id="howToUseBtn">
       <div class="hb-icon">📖</div>
       <div class="hb-text">
@@ -344,7 +201,7 @@
       <div class="hb-arrow">›</div>
     </button>
 
-    <!-- TOP ROW: USA · All Countries -->
+    <!-- USA · All Countries -->
     <div class="actions-top">
       <a href="usa-numbers.html" class="action-card">
         <div class="ac-icon">🇺🇸</div>
@@ -358,7 +215,7 @@
       </a>
     </div>
 
-    <!-- SINGLE CENTERED CARD: Social Media PVA -->
+    <!-- Social Media — Coming Soon -->
     <div class="actions-single">
       <div class="action-card coming-soon">
         <div class="coming-badge">Coming Soon</div>
@@ -393,7 +250,7 @@
     </div>
   </div>
 
-  <!-- ============ HOW TO USE VIEW ============ -->
+  <!-- HOW TO USE VIEW -->
   <div class="view" id="view-howto">
     <div class="greeting">
       <h1>📖 How to <span>Use</span></h1>
@@ -410,7 +267,6 @@
         </div>
         <div class="hi-arrow">›</div>
       </a>
-
       <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="how-item">
         <div class="hi-icon">🇺🇸</div>
         <div class="hi-text">
@@ -419,7 +275,6 @@
         </div>
         <div class="hi-arrow">›</div>
       </a>
-
       <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="how-item">
         <div class="hi-icon">🌍</div>
         <div class="hi-text">
@@ -428,7 +283,6 @@
         </div>
         <div class="hi-arrow">›</div>
       </a>
-
       <a href="https://wa.me/2349168165484" target="_blank" rel="noopener" class="support-item">
         <div class="si-icon">💬</div>
         <div class="hi-text">
@@ -440,7 +294,7 @@
     </div>
   </div>
 
-  <!-- ============ PROFILE VIEW ============ -->
+  <!-- PROFILE VIEW -->
   <div class="view" id="view-profile">
     <div class="greeting"><h1>👤 My <span>Profile</span></h1><p>Manage your account settings.</p></div>
     <button class="back-btn" data-back>← Back to Dashboard</button>
@@ -571,7 +425,7 @@
         currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
         document.getElementById('topBalance').textContent = formatNGN(currentBalance);
       }
-    } catch (e) {}
+    } catch (e) { console.warn(e); }
     loadActivations();
     cleanupOldCancelled();
   });
@@ -631,6 +485,7 @@
         btn.addEventListener('click', () => cancelActivation(btn));
       });
     } catch (e) {
+      console.warn(e);
       tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3></div></td></tr>`;
     }
   }
@@ -654,9 +509,7 @@
       } else {
         await fetch(`${API_URL}?action=blacklist&country=${encodeURIComponent(country)}&website=${encodeURIComponent(serviceId)}&phone_number=${encodeURIComponent(phone)}`, { cache: 'no-store' });
       }
-      await updateDoc(doc(db, 'users', currentUser.uid, 'activations', id), {
-        status: 'cancelled', cancelledAt: serverTimestamp()
-      });
+      await updateDoc(doc(db, 'users', currentUser.uid, 'activations', id), { status: 'cancelled', cancelledAt: serverTimestamp() });
       const userRef = doc(db, 'users', currentUser.uid);
       const fresh = await getDoc(userRef);
       const freshData = fresh.data() || {};
@@ -735,4 +588,4 @@
 </script>
 
 </body>
-</html>
+ </html>
