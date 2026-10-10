@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Community — Arknet</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+  :root { --brown-dark: #4a2c2a; --pink: #ec4899; --pink-soft: #fdf2f8; --white: #ffffff; --cream: #fef9f5; }
+  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+  .topbar { background: var(--brown-dark); padding: 16px 20px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 100; }
+  .back-btn { background: var(--white); color: var(--brown-dark); border: none; width: 38px; height: 38px; border-radius: 12px; cursor: pointer; font-size: 18px; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+  .topbar h1 { color: white; font-size: 18px; font-weight: 800; }
+  .main { max-width: 600px; margin: 0 auto; padding: 20px 4% 60px; }
+  .hero {
+    background: linear-gradient(135deg, var(--pink), var(--brown-dark));
+    color: white; border-radius: 20px; padding: 32px 24px;
+    text-align: center; margin-bottom: 20px;
+  }
+  .hero .hero-icon { font-size: 54px; margin-bottom: 12px; }
+  .hero h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .hero p { font-size: 14px; opacity: 0.9; line-height: 1.6; }
+  .section { background: var(--white); border-radius: 16px; padding: 22px; margin-bottom: 16px; border: 1px solid #f5e6e0; }
+  .section h3 { font-size: 16px; font-weight: 800; margin-bottom: 14px; }
+  .community-link {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 0; border-bottom: 1px solid #f5e6e0;
+    text-decoration: none; color: inherit; transition: 0.2s;
+  }
+  .community-link:last-child { border-bottom: none; }
+  .community-link:hover { background: var(--pink-soft); margin: 0 -10px; padding-left: 10px; padding-right: 10px; border-radius: 10px; }
+  .cl-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .cl-wa { background: #25D366; color: white; }
+  .cl-tg { background: #0088cc; color: white; }
+  .cl-ig { background: linear-gradient(135deg, #f58529, #dd2a7b); color: white; }
+  .cl-yt { background: #ff0000; color: white; }
+  .cl-x { background: #000; color: white; }
+  .cl-text { flex: 1; }
+  .cl-title { font-size: 14px; font-weight: 700; color: var(--brown-dark); margin-bottom: 2px; }
+  .cl-sub { font-size: 12px; color: #8b5e3c; }
+  .cl-arrow { font-size: 18px; color: var(--pink); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="dashboard.html" class="back-btn">←</a>
+    <h1>🌍 Our Community</h1>
+  </div>
+  <main class="main">
+    <div class="hero">
+      <div class="hero-icon">👥</div>
+      <h2>Join Our Community</h2>
+      <p>Connect with thousands of Arknet users. Get updates, tips, and support from our team and community members.</p>
+    </div>
+    <div class="section">
+      <h3>Community Channels</h3>
+      <a href="https://wa.me/2349168165484" target="_blank" class="community-link">
+        <div class="cl-icon cl-wa">💬</div>
+        <div class="cl-text">
+          <div class="cl-title">WhatsApp Community</div>
+          <div class="cl-sub">Chat with users & support</div>
+        </div>
+        <div class="cl-arrow">›</div>
+      </a>
+      <a href="https://t.me/arknetsms" target="_blank" class="community-link">
+        <div class="cl-icon cl-tg">✈️</div>
+        <div class="cl-text">
+          <div class="cl-title">Telegram Channel</div>
+          <div class="cl-sub">Announcements & updates</div>
+        </div>
+        <div class="cl-arrow">›</div>
+      </a>
+      <a href="https://instagram.com/arknetsms" target="_blank" class="community-link">
+        <div class="cl-icon cl-ig">📸</div>
+        <div class="cl-text">
+          <div class="cl-title">Instagram</div>
+          <div class="cl-sub">Follow for news</div>
+        </div>
+        <div class="cl-arrow">›</div>
+      </a>
+      <a href="https://youtube.com/@arknetsms" target="_blank" class="community-link">
+        <div class="cl-icon cl-yt">▶️</div>
+        <div class="cl-text">
+          <div class="cl-title">YouTube</div>
+          <div class="cl-sub">Video tutorials</div>
+        </div>
+        <div class="cl-arrow">›</div>
+      </a>
+      <a href="https://x.com/arknetsms" target="_blank" class="community-link">
+        <div class="cl-icon cl-x">🐦</div>
+        <div class="cl-text">
+          <div class="cl-title">Twitter / X</div>
+          <div class="cl-sub">Latest news</div>
+        </div>
+        <div class="cl-arrow">›</div>
+      </a>
+    </div>
+  </main>
+</body>
+</html>
