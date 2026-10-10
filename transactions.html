@@ -6,39 +6,26 @@
 <title>Transactions — Arknet</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-  :root {
-    --brown-dark: #4a2c2a;
-    --brown: #6b4423;
-    --brown-light: #8b5e3c;
-    --pink: #ec4899;
-    --pink-light: #f9a8d4;
-    --pink-soft: #fdf2f8;
-    --white: #ffffff;
-    --cream: #fef9f5;
-    --green: #22c55e;
-    --red: #dc2626;
-    --sidebar-w: 260px;
-  }
+  :root { --brown-dark: #4a2c2a; --brown: #6b4423; --brown-light: #8b5e3c; --pink: #ec4899; --pink-light: #f9a8d4; --pink-soft: #fdf2f8; --white: #ffffff; --cream: #fef9f5; --green: #22c55e; --red: #dc2626; --sidebar-w: 260px; }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
-
-  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--brown-dark); color: #e8d5cc; display: flex; flex-direction: column; z-index: 200; transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: 30px; }
-  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
+  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--brown-dark); color: #e8d5cc; display: flex; flex-direction: column; z-index: 200; transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 30px; }
+  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); }
   .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; }
   .sidebar-brand .logo span { color: var(--pink-light); }
   .sidebar-brand p { font-size: 11px; color: #b89b8f; margin-top: 3px; }
-  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
+  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); }
   .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
   .side-user-info { overflow: hidden; }
-  .side-user-name { font-size: 14px; font-weight: 700; color: white; }
-  .side-user-email { font-size: 11px; color: #b89b8f; }
+  .side-user-name { font-size: 14px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .side-user-email { font-size: 11px; color: #b89b8f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .side-nav { padding: 12px 10px; flex: 1; }
   .side-label { font-size: 10px; font-weight: 800; color: #b89b8f; text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px; }
   .side-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #e8d5cc; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 2px; }
   .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
   .side-item.active { background: var(--pink); color: white; }
+  .side-item .si-icon { font-size: 17px; width: 20px; text-align: center; }
   .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 10px 14px; }
   .side-logout { color: #fca5a5 !important; }
-
   .topbar { display: flex; background: var(--brown-dark); padding: 14px 20px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150; gap: 12px; }
   .topbar-left { display: flex; align-items: center; gap: 14px; }
   .menu-btn { background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; display: none; }
@@ -46,19 +33,16 @@
   .topbar .logo span { color: var(--pink-light); }
   .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; }
   .topbar-balance .b-val { color: var(--pink-light); }
-
-  .main { margin-left: var(--sidebar-w); padding: 22px 4% 120px; min-height: calc(100vh - 60px); }
+  .main { margin-left: var(--sidebar-w); padding: 22px 4% 140px; min-height: calc(100vh - 60px); }
   .greeting { margin-bottom: 22px; }
   .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
   .greeting h1 span { color: var(--pink); }
   .greeting p { color: var(--brown); font-size: 14px; }
-
   .section { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 22px; margin-bottom: 22px; }
-  .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
-  .section-title { font-size: 16px; font-weight: 800; color: var(--brown-dark); display: flex; align-items: center; gap: 8px; }
+  .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .section-title { font-size: 16px; font-weight: 800; color: var(--brown-dark); }
   .btn-refresh { background: var(--pink-soft); color: var(--pink); border: 1px solid var(--pink-light); padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
   .btn-refresh:hover { background: var(--pink); color: white; }
-
   .list-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f5e6e0; gap: 12px; }
   .list-row:last-child { border-bottom: none; }
   .lr-left { display: flex; align-items: center; gap: 12px; }
@@ -70,21 +54,43 @@
   .lr-amount.plus { color: var(--green); }
   .lr-amount.minus { color: var(--red); }
   .lr-date { font-size: 11px; color: var(--brown-light); margin-top: 2px; }
-
   .empty { text-align: center; padding: 40px 20px; border: 2px dashed #f0dcd4; border-radius: 12px; }
   .empty-icon { font-size: 46px; margin-bottom: 12px; }
   .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
   .empty p { color: var(--brown-light); font-size: 14px; }
-
+  .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--brown-dark); color: white; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none; max-width: 90%; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
   .overlay.show { display: block; }
-
+  .bottom-nav {
+    display: none; position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    width: calc(100% - 24px); max-width: 500px; background: var(--white); border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
+    padding: 8px 6px; z-index: 400;
+    transition: opacity 0.2s ease, transform 0.3s ease;
+  }
+  body.sidebar-open .bottom-nav { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(120px); }
+  .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
+  .bn-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: transparent; border: none; color: #9ca3af; font-size: 10px; font-weight: 600; cursor: pointer; padding: 6px 2px; border-radius: 16px; transition: 0.25s; font-family: inherit; text-decoration: none; min-height: 56px; }
+  .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .bn-item .bn-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .bn-item.active { color: var(--brown-dark); font-weight: 700; }
+  .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
+  .bn-item.active .bn-icon svg { stroke: var(--pink); }
+  .bn-item.logout { color: #dc2626; }
   @media (max-width: 900px) {
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 4% 60px; }
+    .main { margin-left: 0; padding: 20px 4% 140px; }
     .menu-btn { display: block; }
+    .bottom-nav { display: block; }
     body.sidebar-open { overflow: hidden; }
+  }
+  @media (max-width: 600px) {
+    .bn-item { font-size: 9px; }
+    .bn-item .bn-icon { width: 30px; height: 30px; }
+    .bn-item .bn-icon svg { width: 18px; height: 18px; }
   }
 </style>
 </head>
@@ -93,16 +99,10 @@
 <div class="overlay" id="overlay"></div>
 
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-brand">
-    <div class="logo">Arknet<span>SMS</span></div>
-    <p>Virtual numbers & accounts</p>
-  </div>
+  <div class="sidebar-brand"><div class="logo">Arknet<span>SMS</span></div><p>Virtual numbers & accounts</p></div>
   <div class="side-user">
     <div class="side-avatar" id="sideAvatar">A</div>
-    <div class="side-user-info">
-      <div class="side-user-name" id="sideName">Loading...</div>
-      <div class="side-user-email" id="sideEmail">—</div>
-    </div>
+    <div class="side-user-info"><div class="side-user-name" id="sideName">Loading...</div><div class="side-user-email" id="sideEmail">—</div></div>
   </div>
   <nav class="side-nav">
     <div class="side-label">Main</div>
@@ -112,31 +112,21 @@
     <a href="social-logs.html" class="side-item"><span class="si-icon">📱</span> Social Media Logs</a>
     <div class="side-divider"></div>
     <div class="side-label">Account</div>
-    <a href="dashboard.html#profile" class="side-item"><span class="si-icon">👤</span> Profile</a>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">👤</span> Profile</a>
     <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
     <a href="transactions.html" class="side-item active"><span class="si-icon">📜</span> Transactions</a>
-    <a href="dashboard.html#password" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
 </aside>
 
 <div class="topbar">
-  <div class="topbar-left">
-    <button class="menu-btn" id="menuBtn">☰</button>
-    <div class="logo">Arknet<span>SMS</span></div>
-  </div>
-  <div class="topbar-balance">
-    <span class="b-icon">💰</span>
-    <span class="b-val" id="topBalance">₦0.00</span>
-  </div>
+  <div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div class="logo">Arknet<span>SMS</span></div></div>
+  <div class="topbar-balance"><span class="b-icon">💰</span><span class="b-val" id="topBalance">₦0.00</span></div>
 </div>
 
 <main class="main">
-  <div class="greeting">
-    <h1>📜 Transaction <span>History</span></h1>
-    <p>All your deposits and purchases.</p>
-  </div>
-
+  <div class="greeting"><h1>📜 Transaction <span>History</span></h1><p>All your deposits and purchases.</p></div>
   <div class="section">
     <div class="section-head">
       <div class="section-title">🕐 All Transactions</div>
@@ -146,11 +136,37 @@
       <div class="empty">
         <div class="empty-icon">🧾</div>
         <h3>No transactions yet</h3>
-        <p>When you deposit or buy something, it will show here.</p>
+        <p>When you deposit or buy, it will show here.</p>
       </div>
     </div>
   </div>
 </main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-inner">
+    <a href="dashboard.html" class="bn-item" data-goto="service">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <span>Service</span>
+    </a>
+    <a href="transactions.html" class="bn-item active" data-goto="orders">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+      <span>Orders</span>
+    </a>
+    <a href="wallet.html" class="bn-item" data-goto="deposit">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
+      <span>Deposit</span>
+    </a>
+    <a href="dashboard.html" class="bn-item" data-goto="profile">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
+      <span>Profile</span>
+    </a>
+    <button class="bn-item logout" id="bnLogout">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+      <span>Logout</span>
+    </button>
+  </div>
+</nav>
 
 <div class="toast" id="toast"></div>
 
@@ -173,16 +189,11 @@
   const db = getFirestore(app);
 
   const toast = document.getElementById('toast');
-  const showToast = (t, type='') => {
-    toast.textContent = t;
-    toast.className = 'toast show ' + type;
-    setTimeout(() => toast.className = 'toast ' + type, 2500);
-  };
+  const showToast = (t, type='') => { toast.textContent = t; toast.className = 'toast show ' + type; setTimeout(() => toast.className = 'toast ' + type, 2500); };
   const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
   let currentUser = null;
-
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   document.getElementById('menuBtn').addEventListener('click', () => {
@@ -193,9 +204,9 @@
     sidebar.classList.remove('open'); overlay.classList.remove('show');
     document.body.classList.remove('sidebar-open');
   });
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await signOut(auth); window.location.replace('login.html');
-  });
+  async function doLogout(){ await signOut(auth); window.location.replace('login.html'); }
+  document.getElementById('logoutBtn').addEventListener('click', doLogout);
+  document.getElementById('bnLogout').addEventListener('click', doLogout);
 
   async function loadTransactions() {
     if (!currentUser) return;
@@ -214,24 +225,16 @@
         const date = t.createdAt?.toDate
           ? t.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
           : 'Just now';
-        html += `
-          <div class="list-row">
-            <div class="lr-left">
-              <div class="lr-icon">${t.icon || '🧾'}</div>
-              <div>
-                <div class="lr-title">${escapeHtml(t.title || 'Transaction')}</div>
-                <div class="lr-sub">${escapeHtml(t.subtitle || '')}</div>
-              </div>
-            </div>
-            <div class="lr-right">
-              <div class="lr-amount ${isPlus ? 'plus' : 'minus'}">${isPlus ? '+' : '-'}${formatNGN(t.amount)}</div>
-              <div class="lr-date">${date}</div>
-            </div>
-          </div>`;
+        html += `<div class="list-row">
+          <div class="lr-left"><div class="lr-icon">${t.icon || '🧾'}</div>
+            <div><div class="lr-title">${escapeHtml(t.title || '')}</div><div class="lr-sub">${escapeHtml(t.subtitle || '')}</div></div>
+          </div>
+          <div class="lr-right"><div class="lr-amount ${isPlus ? 'plus' : 'minus'}">${isPlus ? '+' : '-'}${formatNGN(t.amount)}</div><div class="lr-date">${date}</div></div>
+        </div>`;
       });
       list.innerHTML = html;
     } catch (e) {
-      list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Could not load transactions</h3></div>`;
+      list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Could not load</h3></div>`;
     }
   }
 
