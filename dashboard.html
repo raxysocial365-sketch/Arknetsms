@@ -34,53 +34,7 @@
   .view.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ACTION CARDS */
-  .actions-top {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-  .actions-single {
-    display: grid;
-    grid-template-columns: 1fr;
-    max-width: calc(50% - 6px);
-    margin: 0 auto 22px;
-  }
-
-  .action-card {
-    background: var(--white); border: 1px solid #f5e6e0; border-radius: 18px;
-    padding: 24px 12px 20px;
-    cursor: pointer; transition: 0.28s;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; gap: 10px; min-height: 130px;
-    text-decoration: none; color: inherit;
-    position: relative;
-  }
-  .action-card:hover { transform: translateY(-4px); border-color: var(--pink-light); box-shadow: 0 16px 34px rgba(236,72,153,0.14); }
-  .action-card .ac-icon {
-    width: 52px; height: 52px; border-radius: 16px;
-    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08);
-  }
-  .action-card .ac-title { font-size: 13px; font-weight: 800; color: var(--brown-dark); line-height: 1.25; }
-  .action-card .ac-sub { font-size: 11px; color: var(--brown-light); font-weight: 500; margin-top: -4px; }
-
-  /* COMING SOON */
-  .action-card.coming-soon { opacity: 0.7; cursor: not-allowed; background: #faf5f3; }
-  .action-card.coming-soon:hover { transform: none; border-color: #f5e6e0; box-shadow: none; }
-  .action-card.coming-soon .ac-icon { background: linear-gradient(135deg, #f5ebe7, #ece0da); }
-  .coming-badge {
-    position: absolute; top: 10px; right: 10px;
-    background: var(--pink); color: white;
-    font-size: 8px; font-weight: 800;
-    padding: 3px 8px; border-radius: 999px;
-    letter-spacing: 0.5px; text-transform: uppercase;
-  }
-
-  /* HOW TO USE BUTTON */
+  /* HOW TO USE BUTTON (TOP) */
   .how-btn {
     display: flex;
     align-items: center;
@@ -131,6 +85,52 @@
     font-size: 22px;
     color: #1d4ed8;
     font-weight: 800;
+  }
+
+  /* ACTION CARDS */
+  .actions-top {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .actions-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: calc(50% - 6px);
+    margin: 0 auto 22px;
+  }
+
+  .action-card {
+    background: var(--white); border: 1px solid #f5e6e0; border-radius: 18px;
+    padding: 24px 12px 20px;
+    cursor: pointer; transition: 0.28s;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; gap: 10px; min-height: 130px;
+    text-decoration: none; color: inherit;
+    position: relative;
+  }
+  .action-card:hover { transform: translateY(-4px); border-color: var(--pink-light); box-shadow: 0 16px 34px rgba(236,72,153,0.14); }
+  .action-card .ac-icon {
+    width: 52px; height: 52px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08);
+  }
+  .action-card .ac-title { font-size: 13px; font-weight: 800; color: var(--brown-dark); line-height: 1.25; }
+  .action-card .ac-sub { font-size: 11px; color: var(--brown-light); font-weight: 500; margin-top: -4px; }
+
+  /* COMING SOON */
+  .action-card.coming-soon { opacity: 0.7; cursor: not-allowed; background: #faf5f3; }
+  .action-card.coming-soon:hover { transform: none; border-color: #f5e6e0; box-shadow: none; }
+  .action-card.coming-soon .ac-icon { background: linear-gradient(135deg, #f5ebe7, #ece0da); }
+  .coming-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: var(--pink); color: white;
+    font-size: 8px; font-weight: 800;
+    padding: 3px 8px; border-radius: 999px;
+    letter-spacing: 0.5px; text-transform: uppercase;
   }
 
   /* HOW TO VIEW */
@@ -334,6 +334,16 @@
   <!-- ============ DASHBOARD VIEW ============ -->
   <div class="view active" id="view-dashboard">
 
+    <!-- HOW TO USE BUTTON (AT TOP) -->
+    <button class="how-btn" id="howToUseBtn">
+      <div class="hb-icon">📖</div>
+      <div class="hb-text">
+        <div class="hb-title">How to Use Our Website</div>
+        <div class="hb-sub">Quick tutorials to get started</div>
+      </div>
+      <div class="hb-arrow">›</div>
+    </button>
+
     <!-- TOP ROW: USA · All Countries -->
     <div class="actions-top">
       <a href="usa-numbers.html" class="action-card">
@@ -357,16 +367,6 @@
         <div class="ac-sub">Launching soon</div>
       </div>
     </div>
-
-    <!-- HOW TO USE BUTTON -->
-    <button class="how-btn" id="howToUseBtn">
-      <div class="hb-icon">📖</div>
-      <div class="hb-text">
-        <div class="hb-title">How to Use Our Website</div>
-        <div class="hb-sub">Quick tutorials to get started</div>
-      </div>
-      <div class="hb-arrow">›</div>
-    </button>
 
     <!-- RECENT ACTIVATIONS -->
     <div class="section">
