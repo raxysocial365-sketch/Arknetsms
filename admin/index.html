@@ -9,6 +9,7 @@
   :root {
     --brown-dark: #4a2c2a;
     --brown: #6b4423;
+    --brown-light: #8b5e3c;
     --pink: #ec4899;
     --pink-light: #f9a8d4;
     --pink-soft: #fdf2f8;
@@ -24,22 +25,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 30px 16px;
     position: relative;
     overflow-x: hidden;
   }
 
-  /* BG BLOBS */
-  .bg-blob { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.4; z-index: 0; pointer-events: none; }
+  /* Background blobs */
+  .bg-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: 0;
+    pointer-events: none;
+  }
   .blob-1 { width: 320px; height: 320px; background: var(--pink); top: -80px; left: -80px; }
-  .blob-2 { width: 280px; height: 280px; background: var(--brown); bottom: -60px; right: -60px; }
+  .blob-2 { width: 280px; height: 280px; background: var(--brown-light); bottom: -60px; right: -60px; }
 
-  /* CARD */
-  .login-card {
+  /* Auth Card */
+  .auth-card {
     background: var(--white);
     border-radius: 24px;
     padding: 40px 34px;
-    max-width: 420px;
+    max-width: 440px;
     width: 100%;
     box-shadow: 0 25px 60px rgba(74,44,42,0.18);
     border: 1px solid #f5e6e0;
@@ -47,32 +55,41 @@
     z-index: 2;
   }
 
-  .brand { text-align: center; margin-bottom: 26px; }
-  .brand-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--pink), var(--brown));
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    margin: 0 auto 14px;
-    box-shadow: 0 10px 25px rgba(236,72,153,0.3);
+  .brand {
+    text-align: center;
+    margin-bottom: 26px;
   }
-  .logo { font-size: 26px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; }
+  .logo {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    letter-spacing: -0.5px;
+  }
   .logo span { color: var(--pink); }
   .brand p {
     font-size: 13px;
-    color: #8b5e3c;
+    color: var(--brown-light);
     margin-top: 6px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
   }
 
-  /* MSG */
+  /* Admin badge */
+  .admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--pink-soft);
+    color: var(--pink);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 8px;
+    border: 1px solid var(--pink-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Msg */
   .msg {
     padding: 11px 14px;
     border-radius: 10px;
@@ -85,7 +102,7 @@
   .msg.error { background: #fee2e2; color: #991b1b; display: block; }
   .msg.success { background: #dcfce7; color: #166534; display: block; }
 
-  /* FORM */
+  /* Form */
   .field { margin-bottom: 16px; }
   .field label {
     display: block;
@@ -96,9 +113,9 @@
   }
   .field input {
     width: 100%;
-    padding: 14px 16px;
+    padding: 13px 14px;
     border: 1.5px solid #f0dcd4;
-    border-radius: 12px;
+    border-radius: 10px;
     font-size: 14px;
     color: var(--brown-dark);
     background: var(--cream);
@@ -108,55 +125,91 @@
   .field input:focus {
     outline: none;
     border-color: var(--pink);
-    background: white;
+    background: var(--white);
     box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
   .field input::placeholder { color: #b89b8f; }
 
+  /* Password */
   .pass-wrap { position: relative; }
-  .pass-wrap input { padding-right: 46px; }
+  .pass-wrap input { padding-right: 44px; }
   .toggle-eye {
     position: absolute;
-    right: 14px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     font-size: 16px;
-    color: #8b5e3c;
+    color: var(--brown-light);
     user-select: none;
     padding: 4px;
   }
 
-  /* SUBMIT */
+  /* Forgot password */
+  .forgot {
+    text-align: right;
+    margin-top: 8px;
+    margin-bottom: 18px;
+  }
+  .forgot a {
+    color: var(--pink);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .forgot a:hover { text-decoration: underline; }
+
+  /* Submit */
   .btn-submit {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     background: var(--pink);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
     transition: 0.25s;
     font-family: inherit;
-    margin-top: 8px;
-    box-shadow: 0 8px 20px rgba(236,72,153,0.25);
   }
   .btn-submit:hover { background: var(--brown-dark); transform: translateY(-1px); }
   .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  /* FOOTER */
-  .footer-note {
-    text-align: center;
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 14px;
+    color: #b89b8f;
     font-size: 12px;
-    color: #8b5e3c;
-    margin-top: 20px;
-    line-height: 1.5;
+    font-weight: 600;
   }
-  .footer-note strong { color: var(--pink); }
+  .divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #f0dcd4;
+  }
 
-  /* SPINNER */
+  /* Bottom text */
+  .bottom-text {
+    text-align: center;
+    font-size: 13px;
+    color: var(--brown-light);
+    margin-top: 18px;
+  }
+  .bottom-text a {
+    color: var(--pink);
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .bottom-text a:hover { text-decoration: underline; }
+
+  /* Spinner */
   .spinner {
     display: inline-block;
     width: 14px;
@@ -171,7 +224,7 @@
   @keyframes spin { to { transform: rotate(360deg); } }
 
   @media (max-width: 480px) {
-    .login-card { padding: 30px 22px; border-radius: 20px; }
+    .auth-card { padding: 30px 22px; border-radius: 20px; }
     .logo { font-size: 22px; }
   }
 </style>
@@ -181,18 +234,18 @@
 <div class="bg-blob blob-1"></div>
 <div class="bg-blob blob-2"></div>
 
-<div class="login-card">
+<div class="auth-card">
   <div class="brand">
-    <div class="brand-icon">🔐</div>
-    <div class="logo">Arknet<span>Admin</span></div>
-    <p>Control Panel</p>
+    <div class="logo">Arknet<span>SMS</span></div>
+    <p>Login to your admin account</p>
+    <div class="admin-badge">🔐 Admin Access</div>
   </div>
 
   <div class="msg" id="msg"></div>
 
   <form id="loginForm" novalidate>
     <div class="field">
-      <label for="email">Admin Email</label>
+      <label for="email">Email Address</label>
       <input type="email" id="email" placeholder="admin@arknetsms.com" autocomplete="email" required>
     </div>
 
@@ -204,19 +257,24 @@
       </div>
     </div>
 
-    <button type="submit" class="btn-submit" id="loginBtn">Login to Admin Panel</button>
-  </form>
+    <div class="forgot">
+      <a id="forgotLink">Forgot password?</a>
+    </div>
 
-  <div class="footer-note">
-    <strong>Authorized admins only.</strong><br>
-    Unauthorized access is prohibited.
-  </div>
+    <button type="submit" class="btn-submit" id="loginBtn">Login</button>
+
+    <div class="divider">OR</div>
+
+    <div class="bottom-text">
+      Customer account? <a href="../login.html">Customer Login</a>
+    </div>
+  </form>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
-    getAuth, signInWithEmailAndPassword, onAuthStateChanged
+    getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
     getFirestore, doc, getDoc
@@ -240,6 +298,7 @@
   const showMsg = (text, type = 'error') => {
     msg.textContent = text;
     msg.className = 'msg ' + type;
+    if (type === 'success') setTimeout(() => msg.className = 'msg', 4000);
   };
   const setLoading = (btn, loading, text = '') => {
     btn.disabled = loading;
@@ -269,15 +328,14 @@
       const cred = await signInWithEmailAndPassword(auth, email, password);
       const uid = cred.user.uid;
 
-      // Check if user is admin (admin flag in Firestore)
+      // Check if admin
       const userSnap = await getDoc(doc(db, 'users', uid));
       const userData = userSnap.exists() ? userSnap.data() : {};
 
       if (!userData.isAdmin) {
-        // Not an admin → sign out and show error
         await auth.signOut();
         showMsg('❌ Access denied. You are not an admin.');
-        setLoading(btn, false, 'Login to Admin Panel');
+        setLoading(btn, false, 'Login');
         return;
       }
 
@@ -296,7 +354,19 @@
         'auth/invalid-email': 'Invalid email format.'
       };
       showMsg(map[err.code] || err.message);
-      setLoading(btn, false, 'Login to Admin Panel');
+      setLoading(btn, false, 'Login');
+    }
+  });
+
+  // Forgot password
+  document.getElementById('forgotLink').addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+    if (!email) return showMsg('Enter your email first, then click Forgot password.');
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showMsg('✅ Reset link sent! Check your inbox.', 'success');
+    } catch (err) {
+      showMsg(err.message);
     }
   });
 
