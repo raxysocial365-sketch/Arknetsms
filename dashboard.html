@@ -65,26 +65,51 @@
   .view.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* WELCOME MESSAGE */
+  /* WELCOME */
   .welcome {
-    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
-    border: 1px solid var(--pink-light);
-    border-radius: 18px;
-    padding: 22px 22px 20px;
+    background: linear-gradient(135deg, var(--brown-dark), var(--brown));
+    color: white;
+    border-radius: 20px;
+    padding: 24px 22px;
     margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome::before {
+    content: '';
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 140px; height: 140px;
+    background: rgba(236,72,153,0.15);
+    border-radius: 50%;
   }
   .welcome h1 {
     font-size: 22px;
     font-weight: 800;
-    color: var(--brown-dark);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     line-height: 1.3;
+    position: relative;
   }
-  .welcome h1 span { color: var(--pink); }
+  .welcome h1 span { color: var(--pink-light); }
   .welcome p {
-    font-size: 14px;
-    color: var(--brown);
+    font-size: 13px;
+    color: #e8d5cc;
     line-height: 1.6;
+    position: relative;
+  }
+  .welcome .welcome-balance {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pink-light);
+    position: relative;
   }
 
   /* ACTION CARDS */
@@ -115,32 +140,16 @@
   .action-card .ac-title { font-size: 15px; font-weight: 800; color: var(--brown-dark); line-height: 1.25; }
   .action-card .ac-sub { font-size: 12px; color: var(--brown-light); font-weight: 500; margin-top: -8px; }
 
-  /* COMING SOON CARD */
-  .action-card.coming-soon {
-    opacity: 0.65;
-    cursor: not-allowed;
-    background: #faf5f3;
-  }
-  .action-card.coming-soon:hover {
-    transform: none;
-    border-color: #f5e6e0;
-    box-shadow: none;
-  }
-  .action-card.coming-soon .ac-icon {
-    background: linear-gradient(135deg, #f5ebe7, #ece0da);
-  }
+  /* COMING SOON */
+  .action-card.coming-soon { opacity: 0.65; cursor: not-allowed; background: #faf5f3; }
+  .action-card.coming-soon:hover { transform: none; border-color: #f5e6e0; box-shadow: none; }
+  .action-card.coming-soon .ac-icon { background: linear-gradient(135deg, #f5ebe7, #ece0da); }
   .coming-badge {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    background: var(--pink);
-    color: white;
-    font-size: 10px;
-    font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 999px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    position: absolute; top: 14px; right: 14px;
+    background: var(--pink); color: white;
+    font-size: 10px; font-weight: 800;
+    padding: 4px 10px; border-radius: 999px;
+    letter-spacing: 0.5px; text-transform: uppercase;
   }
 
   /* SECTION */
@@ -251,8 +260,9 @@
     .action-card .ac-icon { width: 48px; height: 48px; font-size: 22px; border-radius: 14px; }
     .action-card .ac-title { font-size: 12px; }
     .action-card .ac-sub { font-size: 10px; }
+    .welcome { padding: 20px 18px; }
     .welcome h1 { font-size: 18px; }
-    .welcome p { font-size: 13px; }
+    .welcome p { font-size: 12px; }
     .bn-item { font-size: 8.5px; }
     .bn-item .bn-icon { width: 30px; height: 30px; }
     .bn-item .bn-icon svg { width: 18px; height: 18px; }
@@ -263,7 +273,6 @@
 
 <div class="overlay" id="overlay"></div>
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
     <div class="logo">Arknet<span>SMS</span></div>
@@ -292,7 +301,6 @@
   </nav>
 </aside>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-left">
     <button class="menu-btn" id="menuBtn">☰</button>
@@ -304,16 +312,19 @@
   </div>
 </div>
 
-<!-- MAIN -->
 <main class="main">
 
-  <!-- ============ DASHBOARD VIEW ============ -->
+  <!-- DASHBOARD VIEW -->
   <div class="view active" id="view-dashboard">
 
-    <!-- WELCOME MESSAGE -->
+    <!-- WELCOME -->
     <div class="welcome">
       <h1>Hello <span id="welcomeName">User</span> 👋</h1>
       <p>You're free to buy all countries numbers here at affordable price. Check our <strong>USA 🇺🇸 Numbers</strong> or <strong>All Countries Numbers</strong> — thanks for choosing us!</p>
+      <div class="welcome-balance">
+        <span>💰</span>
+        <span>Balance: <span id="welcomeBalance">₦0.00</span></span>
+      </div>
     </div>
 
     <!-- USA · ALL COUNTRIES -->
@@ -365,7 +376,7 @@
     </div>
   </div>
 
-  <!-- ============ PROFILE VIEW ============ -->
+  <!-- PROFILE VIEW -->
   <div class="view" id="view-profile">
     <div class="greeting"><h1>👤 My <span>Profile</span></h1><p>Your account information.</p></div>
     <button class="back-btn" data-back>← Back to Dashboard</button>
@@ -380,7 +391,7 @@
     </div>
   </div>
 
-  <!-- ============ CHANGE PASSWORD VIEW ============ -->
+  <!-- CHANGE PASSWORD VIEW -->
   <div class="view" id="view-password">
     <div class="greeting"><h1>🔒 Change <span>Password</span></h1><p>Keep your account secure.</p></div>
     <button class="back-btn" data-back>← Back to Dashboard</button>
@@ -397,7 +408,7 @@
 
 </main>
 
-<!-- BOTTOM NAV: Service · Deposit · Profile · Contact · Logout -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-inner">
     <a href="dashboard.html" class="bn-item active" data-goto="service">
@@ -522,6 +533,7 @@
         }
         currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
         document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+        document.getElementById('welcomeBalance').textContent = formatNGN(currentBalance);
       }
     } catch (e) {}
     loadActivations();
@@ -617,8 +629,9 @@
       await updateDoc(userRef, { wallet: newBalance, updatedAt: serverTimestamp() });
       currentBalance = newBalance;
       document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+      document.getElementById('welcomeBalance').textContent = formatNGN(currentBalance);
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'deposit', icon: '↩️',
+        type: 'refund', icon: '↩️',
         title: `Refund — ${phone}`, subtitle: 'Cancelled activation',
         amount: price, createdAt: serverTimestamp()
       });
@@ -688,4 +701,4 @@
 </script>
 
 </body>
- </html>
+</html>
