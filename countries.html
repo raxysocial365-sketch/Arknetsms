@@ -4,70 +4,247 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buy All Countries — Arknet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-  :root { --brown-dark: #4a2c2a; --brown: #6b4423; --brown-light: #8b5e3c; --pink: #ec4899; --pink-light: #f9a8d4; --pink-soft: #fdf2f8; --white: #ffffff; --cream: #fef9f5; --green: #22c55e; --red: #dc2626; --sidebar-w: 260px; }
-  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
-  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--brown-dark); color: #e8d5cc; display: flex; flex-direction: column; z-index: 200; transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 30px; }
-  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); }
-  .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; }
-  .sidebar-brand .logo span { color: var(--pink-light); }
-  .sidebar-brand p { font-size: 11px; color: #b89b8f; margin-top: 3px; }
-  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); }
-  .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
-  .side-user-info { overflow: hidden; }
-  .side-user-name { font-size: 14px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .side-user-email { font-size: 11px; color: #b89b8f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .side-nav { padding: 12px 10px; flex: 1; }
-  .side-label { font-size: 10px; font-weight: 800; color: #b89b8f; text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px; }
-  .side-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #e8d5cc; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 2px; }
-  .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
-  .side-item.active { background: var(--pink); color: white; }
-  .side-item .si-icon { font-size: 17px; width: 20px; text-align: center; }
-  .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 10px 14px; }
-  .side-logout { color: #fca5a5 !important; }
-  .topbar { display: flex; background: var(--brown-dark); padding: 14px 20px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150; gap: 12px; }
-  .topbar-left { display: flex; align-items: center; gap: 14px; }
-  .menu-btn { background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; display: none; }
-  .topbar .logo { font-size: 20px; font-weight: 800; color: white; }
-  .topbar .logo span { color: var(--pink-light); }
-  .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; }
-  .topbar-balance .b-val { color: var(--pink-light); }
-  .main { margin-left: var(--sidebar-w); padding: 22px 4% 140px; min-height: calc(100vh - 60px); }
-  .greeting { margin-bottom: 22px; }
-  .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
-  .greeting h1 span { color: var(--pink); }
-  .greeting p { color: var(--brown); font-size: 14px; }
-  .section { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 22px; margin-bottom: 22px; }
-  .section-title { font-size: 16px; font-weight: 800; color: var(--brown-dark); display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-  .form-field label { display: block; font-size: 13px; font-weight: 700; color: var(--brown-dark); margin-bottom: 6px; }
-  .form-field input { width: 100%; padding: 13px 14px; border: 1.5px solid #f0dcd4; border-radius: 10px; font-size: 14px; color: var(--brown-dark); background: var(--cream); font-family: inherit; }
-  .form-field input:focus { outline: none; border-color: var(--pink); background: white; }
-  .form-field input:disabled { background: #f8f5f3; }
-  .form-hint { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
-  .req { color: var(--red); margin-left: 2px; }
-  .search-wrap { position: relative; }
-  .search-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--white); border: 1.5px solid var(--pink); border-radius: 12px; box-shadow: 0 12px 30px rgba(236,72,153,0.18); max-height: 300px; overflow-y: auto; z-index: 100; display: none; }
-  .search-results.show { display: block; }
-  .search-item { width: 100%; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; background: var(--white); text-align: left; font-family: inherit; border: none; border-bottom: 1px solid #f0dcd4; }
-  .search-item:last-child { border-bottom: none; }
-  .search-item:hover { background: var(--pink-soft); }
-  .search-item .si-left { display: flex; align-items: center; gap: 12px; }
-  .search-item .si-flag, .search-item .si-icon { font-size: 22px; }
-  .search-item .si-name { font-weight: 700; font-size: 14px; color: var(--brown-dark); }
-  .search-item .si-price { font-weight: 800; font-size: 14px; color: var(--pink); }
-  .search-empty { padding: 18px; text-align: center; font-size: 13px; color: var(--brown-light); }
-  .selected-chip { background: var(--pink-soft); border-radius: 12px; padding: 12px 16px; margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; border: 1px solid var(--pink-light); }
-  .selected-chip .lbl { color: var(--brown-light); font-weight: 600; }
-  .selected-chip .val { font-weight: 800; color: var(--brown-dark); }
-  .price-card { background: linear-gradient(135deg, var(--pink-soft), #fce7f3); border-radius: 14px; padding: 20px 16px; text-align: center; margin-top: 14px; }
-  .price-card .price { font-size: 26px; font-weight: 800; color: var(--pink); }
-  .price-card .price-note { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
-  .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
-  .btn-pink:hover { background: var(--brown-dark); }
-  .btn-pink:disabled { opacity: 0.55; cursor: not-allowed; }
-  .btn-full { width: 100%; }
-  .btn-cancel { padding: 13px; border-radius: 10px; background: #e5e7eb; color: var(--brown-dark); font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; border: none; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+  :root {
+    --brown-dark: #4a2c2a;
+    --brown: #6b4423;
+    --brown-light: #8b5e3c;
+    --pink: #ec4899;
+    --pink-dark: #be185d;
+    --pink-light: #f9a8d4;
+    --pink-soft: #fdf2f8;
+    --white: #ffffff;
+    --cream: #fef9f5;
+    --green: #22c55e;
+    --red: #dc2626;
+  }
+  html, body { overflow-x: hidden; }
+  body {
+    background: var(--cream); color: var(--brown-dark);
+    min-height: 100vh; line-height: 1.5;
+    padding-bottom: 110px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+  /* TOPBAR */
+  .topbar { background: var(--brown-dark); position: sticky; top: 0; z-index: 500; }
+  .topbar-inner { max-width: 560px; margin: 0 auto; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.7rem; }
+  .back-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--brown-dark); flex-shrink: 0; }
+  .page-title { font-size: 0.95rem; font-weight: 700; flex: 1; color: white; }
+
+  /* CONTAINER */
+  .container { max-width: 560px; margin: 0 auto; padding: 1rem 1rem 0; display: flex; flex-direction: column; gap: 1rem; }
+
+  /* ==========================================
+     HERO HEADER (same as USA page)
+     ========================================== */
+  .hero {
+    position: relative;
+    border-radius: 24px;
+    padding: 1.4rem 1.3rem 1.5rem;
+    background:
+      radial-gradient(circle at 90% 10%, rgba(255,255,255,0.25) 0%, transparent 45%),
+      radial-gradient(circle at 10% 90%, rgba(255,255,255,0.15) 0%, transparent 40%),
+      linear-gradient(135deg, #ec4899 0%, #be185d 55%, #7f1d1d 130%);
+    box-shadow: 0 18px 40px -18px rgba(190, 24, 93, 0.65);
+    overflow: hidden;
+    color: white;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 18px; right: 70px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    box-shadow:
+      20px 25px 0 rgba(255,255,255,0.2),
+      50px -5px 0 rgba(255,255,255,0.25),
+      80px 30px 0 rgba(255,255,255,0.15);
+    pointer-events: none;
+  }
+
+  .hero-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-greet {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-greet strong {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .hero-wallet {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    backdrop-filter: blur(8px);
+  }
+  .hero-wallet i { font-size: 0.72rem; opacity: 0.9; }
+
+  .hero-main {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-flag {
+    width: 58px; height: 58px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.9rem;
+    flex-shrink: 0;
+    backdrop-filter: blur(8px);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  }
+  .hero-text { flex: 1; min-width: 0; }
+  .hero-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .live-pill {
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--pink-dark);
+    letter-spacing: 0.06em;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .live-pill::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
+    animation: pulse 1.6s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  }
+  .hero-sub {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 6px;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-stat {
+    flex: 1;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 10px;
+    padding: 7px 6px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+  }
+  .hero-stat .s-lbl {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .hero-stat .s-val {
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  /* MAIN CARD */
+  .main-card { background: var(--white); border: 1px solid #f5e6e0; border-radius: 20px; padding: 1.4rem 1.2rem; box-shadow: 0 4px 20px rgba(74,44,42,0.06); }
+  .field-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; display: block; }
+  .field-label .req { color: var(--red); margin-left: 2px; }
+
+  .step-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.85rem; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--pink); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.82rem; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .step-title { font-size: 0.95rem; font-weight: 800; color: var(--brown-dark); }
+
+  .search-wrap { position: relative; margin-bottom: 0.6rem; }
+  .search-wrap input { width: 100%; padding: 0.9rem 1rem; border: 1.5px solid #f0dcd4; outline: none; border-radius: 12px; font-size: 0.9rem; font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--brown-dark); }
+  .search-wrap input:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(236,72,153,0.12); background: white; }
+  .search-wrap input::placeholder { color: #b89b8f; }
+  .search-wrap input:disabled { background: #f8f5f3; cursor: not-allowed; }
+
+  .dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1.5px solid var(--pink); border-radius: 12px; box-shadow: 0 12px 30px rgba(236,72,153,0.15); max-height: 320px; overflow-y: auto; z-index: 100; display: none; }
+  .dropdown.active { display: block; }
+  .dropdown-item { width: 100%; padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; cursor: pointer; border-bottom: 1px solid #f0dcd4; text-align: left; }
+  .dropdown-item:last-child { border-bottom: none; }
+  .dropdown-item:hover { background: var(--pink-soft); }
+  .dropdown-item .dd-left { display: flex; align-items: center; gap: 0.6rem; }
+  .dropdown-item .dd-flag { font-size: 1.2rem; }
+  .dropdown-item .dd-name { font-size: 0.88rem; font-weight: 600; color: var(--brown-dark); text-transform: capitalize; }
+  .dropdown-item .dd-price { font-size: 0.88rem; font-weight: 800; color: var(--pink); flex-shrink: 0; }
+  .dropdown-item .dd-code { font-size: 0.75rem; color: var(--brown-light); font-weight: 600; }
+  .dropdown-empty { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
+  .dropdown-loading { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
+
+  .selected-chip { background: var(--pink-soft); border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; border: 1px solid var(--pink-light); }
+  .selected-chip .lbl { color: var(--brown-light); font-weight: 500; }
+  .selected-chip .val { font-weight: 700; color: var(--brown-dark); text-transform: capitalize; }
+
+  .price-card { background: linear-gradient(135deg, var(--pink-soft), #fce7f3); border-radius: 14px; padding: 1.2rem 1rem; text-align: center; margin-bottom: 0.9rem; }
+  .price-card .price { font-size: 1.5rem; font-weight: 800; color: var(--pink); }
+  .price-card .price-note { font-size: 0.75rem; color: var(--brown-light); margin-top: 0.35rem; }
+
+  .action-btn { width: 100%; padding: 1rem; border-radius: 14px; background: var(--pink); color: #fff; font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem; box-shadow: 0 10px 30px rgba(236,72,153,0.3); transition: 0.25s; }
+  .action-btn:hover:not(:disabled) { background: var(--brown-dark); transform: translateY(-2px); }
+  .action-btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+
+  /* MODAL */
   .modal-overlay { position: fixed; inset: 0; background: rgba(74,44,42,0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 998; padding: 20px; }
   .modal-overlay.show { display: flex; }
   .modal-box { background: white; border-radius: 24px; padding: 32px 26px; max-width: 440px; width: 100%; text-align: center; max-height: 90vh; overflow-y: auto; }
@@ -81,20 +258,26 @@
   .md-row.total { border-top: 1px solid var(--pink-light); margin-top: 6px; padding-top: 12px; font-size: 15px; }
   .md-row.total b { color: var(--pink); font-size: 16px; }
   .modal-actions { display: flex; gap: 12px; }
+  .btn-cancel { padding: 13px; border-radius: 10px; background: #e5e7eb; color: var(--brown-dark); font-weight: 700; font-size: 14px; font-family: inherit; border: none; }
+  .btn-primary { background: var(--pink); color: white; padding: 13px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .btn-primary:hover { background: var(--brown-dark); }
+  .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  /* TOAST */
   .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--brown-dark); color: white; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none; max-width: 90%; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
   .toast.error { background: var(--red); }
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
-  .overlay.show { display: block; }
+
+  /* BOTTOM NAV */
   .bottom-nav {
-    display: none; position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
-    width: calc(100% - 24px); max-width: 500px; background: var(--white); border-radius: 22px;
+    position: fixed; bottom: 14px; left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px); max-width: 500px;
+    background: var(--white); border-radius: 22px;
     box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
     padding: 8px 6px; z-index: 400;
-    transition: opacity 0.2s ease, transform 0.3s ease;
   }
-  body.sidebar-open .bottom-nav { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(120px); }
   .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
   .bn-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: transparent; border: none; color: #9ca3af; font-size: 10px; font-weight: 600; cursor: pointer; padding: 6px 2px; border-radius: 16px; transition: 0.25s; font-family: inherit; text-decoration: none; min-height: 56px; }
   .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
@@ -103,16 +286,10 @@
   .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
   .bn-item.active .bn-icon svg { stroke: var(--pink); }
   .bn-item.logout { color: #dc2626; }
-  @media (max-width: 900px) {
-    .sidebar { transform: translateX(-100%); width: 280px; }
-    .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 4% 140px; }
-    .menu-btn { display: block; }
-    .bottom-nav { display: block; }
-    body.sidebar-open { overflow: hidden; }
-  }
+
+  @media (min-width: 700px) { .container, .topbar-inner, .modal-box { max-width: 640px; } }
   @media (max-width: 600px) {
-    .bn-item { font-size: 9px; }
+    .bn-item { font-size: 8.5px; }
     .bn-item .bn-icon { width: 30px; height: 30px; }
     .bn-item .bn-icon svg { width: 18px; height: 18px; }
   }
@@ -120,94 +297,111 @@
 </head>
 <body>
 
-<div class="overlay" id="overlay"></div>
-
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-brand"><div class="logo">Arknet<span>SMS</span></div><p>Virtual numbers & accounts</p></div>
-  <div class="side-user">
-    <div class="side-avatar" id="sideAvatar">A</div>
-    <div class="side-user-info"><div class="side-user-name" id="sideName">Loading...</div><div class="side-user-email" id="sideEmail">—</div></div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="dashboard.html" class="back-btn">←</a>
+    <span class="page-title">🌍 Buy All Countries</span>
   </div>
-  <nav class="side-nav">
-    <div class="side-label">Main</div>
-    <a href="dashboard.html" class="side-item"><span class="si-icon">📊</span> Dashboard</a>
-    <a href="usa-numbers.html" class="side-item"><span class="si-icon">🇺🇸</span> USA Numbers</a>
-    <a href="countries.html" class="side-item active"><span class="si-icon">🌍</span> All Countries</a>
-    <a href="social-logs.html" class="side-item"><span class="si-icon">📱</span> Social Media Logs</a>
-    <div class="side-divider"></div>
-    <div class="side-label">Account</div>
-    <a href="dashboard.html" class="side-item"><span class="si-icon">👤</span> Profile</a>
-    <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
-    <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
-    <a href="dashboard.html" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
-    <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
-  </nav>
-</aside>
+</header>
 
-<div class="topbar">
-  <div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div class="logo">Arknet<span>SMS</span></div></div>
-  <div class="topbar-balance"><span class="b-icon">💰</span><span class="b-val" id="topBalance">₦0.00</span></div>
-</div>
+<div class="container">
 
-<main class="main">
-  <div class="greeting"><h1>🌍 Buy <span>All Countries</span></h1><p>Search a country, pick a service, and purchase instantly.</p></div>
-
-  <div class="section">
-    <div class="section-title">
-      <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
-      Search Country
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-top">
+      <div class="hero-greet">
+        <span>👋</span>
+        <span>Hi, <strong id="heroName">there</strong></span>
+      </div>
+      <div class="hero-wallet">
+        💰 <span id="heroBalance">₦0.00</span>
+      </div>
     </div>
-    <div class="form-field">
-      <label>Select Country <span class="req">*</span></label>
-      <div class="search-wrap">
-        <input type="text" id="countryInput" placeholder="🔍 Search country..." autocomplete="off">
-        <div class="search-results" id="countryDropdown"></div>
+
+    <div class="hero-main">
+      <div class="hero-flag" id="heroFlag">🌍</div>
+      <div class="hero-text">
+        <div class="hero-title">
+          <span id="heroTitle">Global SMS Verification</span>
+          <span class="live-pill">LIVE</span>
+        </div>
+        <div class="hero-sub" id="heroSub">Search a country, pick a service, verify instantly.</div>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="s-lbl">Speed</span>
+        <span class="s-val">Instant</span>
+      </div>
+      <div class="hero-stat">
+        <span class="s-lbl">Type</span>
+        <span class="s-val">Real SIM</span>
+      </div>
+      <div class="hero-stat">
+        <span class="s-lbl">Uptime</span>
+        <span class="s-val">99.9%</span>
       </div>
     </div>
   </div>
 
-  <div class="section" id="serviceCard" style="display: none;">
-    <div class="section-title">
-      <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
-      Search Service
+  <!-- SECTION 1: COUNTRY -->
+  <div class="main-card">
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <span class="step-title">Search Country</span>
     </div>
-    <div class="form-field">
-      <label>Select Service <span class="req">*</span></label>
-      <div class="search-wrap">
-        <input type="text" id="serviceInput" placeholder="Loading..." autocomplete="off" disabled>
-        <div class="search-results" id="serviceDropdown"></div>
-      </div>
+    <label class="field-label" for="countryInput">Select Country <span class="req">*</span></label>
+    <div class="search-wrap">
+      <input type="text" id="countryInput" placeholder="🔍 Search country..." autocomplete="off">
+      <div class="dropdown" id="countryDropdown"></div>
     </div>
+  </div>
+
+  <!-- SECTION 2: SERVICE (hidden until country chosen) -->
+  <div class="main-card" id="serviceCard" style="display: none;">
+    <div class="step-head">
+      <span class="step-num">2</span>
+      <span class="step-title">Search Service</span>
+    </div>
+    <label class="field-label" for="serviceInput">Select Service <span class="req">*</span></label>
+    <div class="search-wrap">
+      <input type="text" id="serviceInput" placeholder="Loading services..." autocomplete="off" disabled>
+      <div class="dropdown" id="serviceDropdown"></div>
+    </div>
+
     <div class="selected-chip" id="selectedChip" style="display:none;">
-      <span class="lbl">Selected:</span><span class="val" id="selectedName">—</span>
+      <span class="lbl">Selected:</span>
+      <span class="val" id="selectedName">—</span>
     </div>
+
     <div class="price-card" id="priceCard" style="display:none;">
       <div class="price" id="selectedPrice">₦0.00</div>
       <div class="price-note">Charged only when number is issued.</div>
     </div>
-  </div>
 
-  <div class="section" id="buySection" style="display: none;">
-    <button class="btn-pink btn-full" id="actionBtn" disabled>🛒 Buy Number</button>
+    <button class="action-btn" id="actionBtn" disabled>
+      🛒 Purchase Now
+    </button>
   </div>
-</main>
+</div>
 
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-inner">
-    <a href="dashboard.html" class="bn-item" data-goto="service">
+    <a href="dashboard.html" class="bn-item active">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
       <span>Service</span>
     </a>
-    <a href="transactions.html" class="bn-item" data-goto="orders">
+    <a href="transactions.html" class="bn-item">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
       <span>Orders</span>
     </a>
-    <a href="wallet.html" class="bn-item" data-goto="deposit">
+    <a href="wallet.html" class="bn-item">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
       <span>Deposit</span>
     </a>
-    <a href="dashboard.html" class="bn-item" data-goto="profile">
+    <a href="dashboard.html" class="bn-item">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
       <span>Profile</span>
     </a>
@@ -240,6 +434,7 @@
   const db = getFirestore(app);
   const API_URL = "/api/autofications-buy";
   const USD_TO_NGN = 1550, PROFIT_NGN = 850;
+
   const toast = document.getElementById('toast');
   const showToast = (text, type = '') => {
     toast.textContent = text;
@@ -255,19 +450,11 @@
 
   let currentUser = null, currentBalance = 0, selectedCountry = null, selectedService = null, availableServices = [];
 
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  document.getElementById('menuBtn').addEventListener('click', () => {
-    sidebar.classList.add('open'); overlay.classList.add('show');
-    document.body.classList.add('sidebar-open');
+  /* Logout */
+  document.getElementById('bnLogout').addEventListener('click', async () => {
+    try { await signOut(auth); } catch (e) {}
+    window.location.replace('login.html');
   });
-  overlay.addEventListener('click', () => {
-    sidebar.classList.remove('open'); overlay.classList.remove('show');
-    document.body.classList.remove('sidebar-open');
-  });
-  async function doLogout(){ await signOut(auth); window.location.replace('login.html'); }
-  document.getElementById('logoutBtn').addEventListener('click', doLogout);
-  document.getElementById('bnLogout').addEventListener('click', doLogout);
 
   function openModal(html){
     document.getElementById('modalContent').innerHTML = html;
@@ -291,25 +478,34 @@
   const serviceInput = document.getElementById('serviceInput');
   const serviceDropdown = document.getElementById('serviceDropdown');
 
+  /* COUNTRY SEARCH */
   countryInput.addEventListener('input', () => {
     const q = countryInput.value.trim().toLowerCase();
-    if (!q) { countryDropdown.classList.remove('show'); return; }
+    if (!q) { countryDropdown.classList.remove('active'); return; }
     const matches = COUNTRIES.filter(c => c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)).slice(0, 12);
-    if (!matches.length) { countryDropdown.innerHTML = `<div class="search-empty">🔍 No country found</div>`; countryDropdown.classList.add('show'); return; }
+    if (!matches.length) {
+      countryDropdown.innerHTML = `<div class="dropdown-empty">🔍 No country found</div>`;
+      countryDropdown.classList.add('active');
+      return;
+    }
     countryDropdown.innerHTML = matches.map(c => `
-      <button type="button" class="search-item" data-code="${escapeHtml(c.code)}">
-        <div class="si-left"><span class="si-flag">${c.flag}</span><span class="si-name">${escapeHtml(c.name)}</span></div>
-        <span class="si-price" style="font-size:11px;color:var(--brown-light);font-weight:600;">${c.code}</span>
-      </button>`).join('');
-    countryDropdown.classList.add('show');
-    countryDropdown.querySelectorAll('.search-item').forEach(btn => {
+      <button type="button" class="dropdown-item" data-code="${escapeHtml(c.code)}">
+        <div class="dd-left">
+          <span class="dd-flag">${c.flag}</span>
+          <span class="dd-name">${escapeHtml(c.name)}</span>
+        </div>
+        <span class="dd-code">${c.code}</span>
+      </button>
+    `).join('');
+    countryDropdown.classList.add('active');
+    countryDropdown.querySelectorAll('.dropdown-item').forEach(btn => {
       btn.addEventListener('click', () => selectCountry(btn.dataset.code));
     });
   });
 
   document.addEventListener('click', e => {
-    if (!e.target.closest('#countryInput') && !countryDropdown.contains(e.target)) countryDropdown.classList.remove('show');
-    if (!e.target.closest('#serviceInput') && !serviceDropdown.contains(e.target)) serviceDropdown.classList.remove('show');
+    if (!e.target.closest('#countryInput') && !countryDropdown.contains(e.target)) countryDropdown.classList.remove('active');
+    if (!e.target.closest('#serviceInput') && !serviceDropdown.contains(e.target)) serviceDropdown.classList.remove('active');
   });
 
   async function selectCountry(code){
@@ -321,15 +517,21 @@
     serviceInput.value = '';
     document.getElementById('selectedChip').style.display = 'none';
     document.getElementById('priceCard').style.display = 'none';
-    document.getElementById('buySection').style.display = 'none';
     document.getElementById('actionBtn').disabled = true;
     countryInput.value = `${country.flag} ${country.name}`;
-    countryDropdown.classList.remove('show');
+    countryDropdown.classList.remove('active');
+
+    /* Update hero */
+    document.getElementById('heroFlag').textContent = country.flag;
+    document.getElementById('heroTitle').textContent = `${country.name} SMS`;
+    document.getElementById('heroSub').textContent = `Real ${country.name} SIM numbers. Fast & reliable.`;
+
     document.getElementById('serviceCard').style.display = 'block';
     serviceInput.disabled = true;
     serviceInput.placeholder = 'Loading services...';
     serviceDropdown.innerHTML = '';
-    serviceDropdown.classList.remove('show');
+    serviceDropdown.classList.remove('active');
+
     try {
       const res = await fetch(`${API_URL}?action=servicelist&country=${encodeURIComponent(country.code)}`, { cache: 'no-store' });
       const data = await res.json();
@@ -341,20 +543,29 @@
     } catch (err) { serviceInput.placeholder = 'Failed to load services'; }
   }
 
+  /* SERVICE SEARCH */
   serviceInput.addEventListener('input', () => {
     if (!selectedCountry) return;
     const q = serviceInput.value.trim().toLowerCase();
-    if (!q) { serviceDropdown.classList.remove('show'); return; }
+    if (!q) { serviceDropdown.classList.remove('active'); return; }
     const matches = availableServices.filter(s => s.name.toLowerCase().includes(q)).slice(0, 12);
-    if (!matches.length) { serviceDropdown.innerHTML = `<div class="search-empty">🔍 No service found</div>`; serviceDropdown.classList.add('show'); return; }
+    if (!matches.length) {
+      serviceDropdown.innerHTML = `<div class="dropdown-empty">🔍 No service found</div>`;
+      serviceDropdown.classList.add('active');
+      return;
+    }
     serviceDropdown.innerHTML = matches.map(s => {
       const price = calcPrice(s.price);
-      return `<button type="button" class="search-item" data-id="${escapeHtml(s.id)}">
-        <div class="si-left"><span class="si-icon">📱</span><span class="si-name">${escapeHtml(capitalize(s.name))}</span></div>
-        <span class="si-price">${formatNGNshort(price)}</span></button>`;
+      return `<button type="button" class="dropdown-item" data-id="${escapeHtml(s.id)}">
+        <div class="dd-left">
+          <span class="dd-flag">📱</span>
+          <span class="dd-name">${escapeHtml(capitalize(s.name))}</span>
+        </div>
+        <span class="dd-price">${formatNGNshort(price)}</span>
+      </button>`;
     }).join('');
-    serviceDropdown.classList.add('show');
-    serviceDropdown.querySelectorAll('.search-item').forEach(btn => {
+    serviceDropdown.classList.add('active');
+    serviceDropdown.querySelectorAll('.dropdown-item').forEach(btn => {
       btn.addEventListener('click', () => selectService(btn.dataset.id));
     });
   });
@@ -364,16 +575,16 @@
     if (!service) return;
     selectedService = service;
     serviceInput.value = capitalize(service.name);
-    serviceDropdown.classList.remove('show');
+    serviceDropdown.classList.remove('active');
     const price = calcPrice(service.price);
     document.getElementById('selectedChip').style.display = 'flex';
     document.getElementById('selectedName').textContent = `${selectedCountry.flag} ${capitalize(service.name)}`;
     document.getElementById('selectedPrice').textContent = formatNGN(price);
     document.getElementById('priceCard').style.display = 'block';
-    document.getElementById('buySection').style.display = 'block';
     document.getElementById('actionBtn').disabled = false;
   }
 
+  /* PURCHASE */
   document.getElementById('actionBtn').addEventListener('click', () => {
     if (!currentUser || !selectedCountry || !selectedService) return;
     const price = calcPrice(selectedService.price);
@@ -389,63 +600,76 @@
           <div class="md-row total"><span>Shortfall</span><b>${formatNGN(shortfall)}</b></div>
         </div>
         <div class="modal-actions"><button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
-        <button class="btn-pink" style="flex:2;" id="mFund">💰 Fund</button></div>`);
+        <button class="btn-primary" style="flex:2;" id="mFund">💰 Fund</button></div>`);
       document.getElementById('mCancel').onclick = closeModal;
       document.getElementById('mFund').onclick = () => { window.location.href = 'wallet.html'; };
       return;
     }
-    openModal(`<div class="modal-icon">🛒</div><div class="modal-title">Confirm Purchase</div>
-      <div class="modal-sub">Buy <b>${escapeHtml(capitalize(selectedService.name))}</b> from <b>${escapeHtml(selectedCountry.name)}</b>.</div>
-      <div class="modal-detail">
-        <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(selectedService.name))}</b></div>
-        <div class="md-row"><span>Country</span><b>${selectedCountry.flag} ${escapeHtml(selectedCountry.name)}</b></div>
-        <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
-        <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
-        <div class="md-row total"><span>After</span><b>${formatNGN(currentBalance - price)}</b></div>
-      </div>
-      <div class="modal-actions"><button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
-      <button class="btn-pink" style="flex:2;" id="mBuy">✅ PURCHASE NOW</button></div>`);
-    document.getElementById('mCancel').onclick = closeModal;
-    document.getElementById('mBuy').onclick = processPurchase;
+    /* Process purchase directly (no confirm modal, matches USA page) */
+    processPurchase();
   });
 
   async function processPurchase() {
-    const buyBtn = document.getElementById('mBuy');
-    buyBtn.disabled = true; buyBtn.textContent = '⏳ Processing...';
+    const btn = document.getElementById('actionBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Processing...';
+
     const price = calcPrice(selectedService.price);
     const providerCost = calcCost(selectedService.price);
     const profit = price - providerCost;
+
     try {
       const userRef = doc(db, 'users', currentUser.uid);
       const freshSnap = await getDoc(userRef);
       const freshData = freshSnap.data() || {};
       const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
       if (freshBalance < price) throw new Error('INSUFFICIENT');
+
       const genRes = await fetch(`${API_URL}?action=generate&website=${encodeURIComponent(selectedService.id)}&country=${encodeURIComponent(selectedCountry.code)}`, { cache: 'no-store' });
       const genData = await genRes.json();
       if (!genRes.ok || !genData.success) throw new Error(genData.message || 'OUT_OF_STOCK');
       const phoneNumber = genData.number;
       if (!phoneNumber) throw new Error('OUT_OF_STOCK');
+
       const newBalance = freshBalance - price;
       await updateDoc(userRef, { wallet: newBalance, walletBalance: deleteField(), balance: deleteField(), updatedAt: serverTimestamp() });
       currentBalance = newBalance;
-      document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+      document.getElementById('heroBalance').textContent = formatNGN(currentBalance);
+
       await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
-        service: capitalize(selectedService.name), serviceId: selectedService.id,
-        country: selectedCountry.name, countryCode: selectedCountry.code, flag: selectedCountry.flag,
-        number: phoneNumber, code: '', price, providerCost, profit,
-        status: 'pending', provider: 'autofications', createdAt: serverTimestamp()
+        service: capitalize(selectedService.name),
+        serviceId: selectedService.id,
+        country: selectedCountry.name,
+        countryCode: selectedCountry.code,
+        flag: selectedCountry.flag,
+        number: phoneNumber,
+        code: '',
+        price,
+        providerCost,
+        profit,
+        status: 'pending',
+        provider: 'autofications',
+        createdAt: serverTimestamp()
       });
+
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'purchase', icon: selectedCountry.flag,
+        type: 'purchase',
+        icon: selectedCountry.flag,
         title: `${selectedCountry.name} — ${capitalize(selectedService.name)}`,
-        subtitle: `Number: ${phoneNumber}`, amount: price, createdAt: serverTimestamp()
+        subtitle: `Number: ${phoneNumber}`,
+        amount: price,
+        createdAt: serverTimestamp()
       });
-      closeModal();
+
       showToast(`✅ Number: ${phoneNumber}`, 'success');
       setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+
     } catch (err) {
-      const msg = err.message === 'INSUFFICIENT' ? 'Insufficient balance.' : (err.message || 'Something went wrong.');
+      btn.disabled = false;
+      btn.textContent = '🛒 Purchase Now';
+      const msg = err.message === 'INSUFFICIENT' ? 'Insufficient wallet balance.'
+                : err.message === 'OUT_OF_STOCK' ? 'Number out of stock. Please try again later.'
+                : (err.message || 'Something went wrong.');
       openModal(`<div class="modal-icon">❌</div><div class="modal-title">Purchase Failed</div>
         <div class="modal-sub">${escapeHtml(msg)}</div>
         <div class="modal-actions"><button class="btn-cancel" style="flex:1;" id="mClose">Close</button></div>`);
@@ -453,19 +677,19 @@
     }
   }
 
+  /* AUTH */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
-    const name = user.displayName || 'User';
-    document.getElementById('sideName').textContent = name;
-    document.getElementById('sideEmail').textContent = user.email;
-    document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
+    const name = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+    document.getElementById('heroName').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+
     try {
       const snap = await getDoc(doc(db, 'users', user.uid));
       if (snap.exists()) {
         const data = snap.data();
         currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
-        document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+        document.getElementById('heroBalance').textContent = formatNGN(currentBalance);
       }
     } catch (e) {}
   });
