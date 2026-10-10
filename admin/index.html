@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arknet — Admin Panel</title>
+<title>Arknet — Admin Login</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
   :root {
@@ -16,490 +16,210 @@
     --cream: #fef9f5;
     --green: #22c55e;
     --red: #dc2626;
-    --blue: #2563eb;
-    --gold: #d97706;
-    --sidebar-w: 240px;
   }
-  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
-
-  /* LOGIN SCREEN */
-  .login-screen {
-    position: fixed; inset: 0;
-    background: linear-gradient(135deg, var(--brown-dark), var(--brown));
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px; z-index: 1000;
-  }
-  .login-screen.hidden { display: none; }
-  .login-card {
-    background: white; border-radius: 24px; padding: 40px 32px;
-    max-width: 400px; width: 100%; text-align: center;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-  }
-  .login-icon { font-size: 54px; margin-bottom: 14px; }
-  .login-title { font-size: 24px; font-weight: 800; color: var(--brown-dark); margin-bottom: 6px; }
-  .login-sub { font-size: 14px; color: #8b5e3c; margin-bottom: 26px; }
-  .login-card input {
-    width: 100%; padding: 14px 16px;
-    border: 1.5px solid #f0dcd4; border-radius: 12px;
-    font-size: 15px; color: var(--brown-dark);
-    background: var(--cream); margin-bottom: 14px;
-    font-family: inherit;
-  }
-  .login-card input:focus {
-    outline: none; border-color: var(--pink);
-    background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
-  }
-  .login-btn {
-    width: 100%; padding: 14px;
-    background: var(--pink); color: white;
-    border: none; border-radius: 12px;
-    font-size: 15px; font-weight: 700;
-    cursor: pointer; font-family: inherit;
-    transition: 0.2s;
-  }
-  .login-btn:hover { background: var(--brown-dark); }
-
-  /* ADMIN LAYOUT */
-  .admin { display: none; }
-  .admin.show { display: block; }
-
-  /* SIDEBAR */
-  .sidebar {
-    position: fixed; top: 0; left: 0;
-    width: var(--sidebar-w); height: 100vh;
-    background: var(--brown-dark); color: #e8d5cc;
-    display: flex; flex-direction: column;
-    z-index: 200; overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 30px;
-  }
-  .sidebar-brand { padding: 20px 18px; border-bottom: 1px solid rgba(249,168,212,0.15); }
-  .sidebar-brand .logo { font-size: 18px; font-weight: 800; color: white; }
-  .sidebar-brand .logo span { color: var(--pink-light); }
-  .sidebar-brand p { font-size: 10px; color: #b89b8f; margin-top: 2px; }
-  .side-nav { padding: 10px 8px; flex: 1; }
-  .side-label { font-size: 9px; font-weight: 800; color: #b89b8f; text-transform: uppercase; letter-spacing: 1px; padding: 10px 12px 5px; }
-  .side-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 12px; border-radius: 9px;
-    color: #e8d5cc; font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: 0.2s; margin-bottom: 1px;
-    text-decoration: none;
-  }
-  .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
-  .side-item.active { background: var(--pink); color: white; }
-  .side-item .si-icon { font-size: 15px; width: 18px; text-align: center; }
-  .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 8px 12px; }
-  .side-logout { color: #fca5a5 !important; }
-
-  /* TOPBAR */
-  .topbar {
-    display: flex; background: var(--brown-dark);
-    padding: 12px 18px; align-items: center;
-    justify-content: space-between;
-    position: sticky; top: 0; z-index: 150;
-    gap: 12px;
-  }
-  .topbar-left { display: flex; align-items: center; gap: 12px; }
-  .menu-btn { background: transparent; border: none; color: white; font-size: 22px; cursor: pointer; display: none; }
-  .topbar .logo { font-size: 18px; font-weight: 800; color: white; }
-  .topbar .logo span { color: var(--pink-light); }
-  .topbar-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(255,255,255,0.1);
-    border: 1.5px solid var(--pink);
-    border-radius: 999px;
-    padding: 6px 14px;
-    font-weight: 800; font-size: 13px; color: var(--pink-light);
-    white-space: nowrap;
-  }
-
-  /* MAIN */
-  .main { margin-left: var(--sidebar-w); padding: 22px 4% 60px; min-height: calc(100vh - 60px); }
-
-  .page-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 20px; }
-  .page-title span { color: var(--pink); }
-
-  /* STATS */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .stat-card {
-    background: white; border: 1px solid #f5e6e0;
-    border-radius: 16px; padding: 20px;
-    display: flex; align-items: center; gap: 14px;
-  }
-  .stat-icon {
-    width: 50px; height: 50px; border-radius: 12px;
-    background: var(--pink-soft);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; flex-shrink: 0;
-  }
-  .stat-label { font-size: 12px; color: #8b5e3c; font-weight: 600; }
-  .stat-value { font-size: 22px; font-weight: 800; color: var(--brown-dark); line-height: 1.2; }
-
-  /* SECTION */
-  .section {
-    background: white; border: 1px solid #f5e6e0;
-    border-radius: 16px; padding: 22px;
-    margin-bottom: 20px;
-  }
-  .section-title {
-    font-size: 16px; font-weight: 800;
-    color: var(--brown-dark); margin-bottom: 16px;
-    display: flex; align-items: center;
-    justify-content: space-between;
-    gap: 10px; flex-wrap: wrap;
-  }
-
-  /* TABLE */
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; min-width: 620px; }
-  th {
-    text-align: left; font-size: 11px; font-weight: 800;
-    color: #8b5e3c; text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 10px 12px;
-    border-bottom: 2px solid #f5e6e0;
-  }
-  td {
-    padding: 12px;
-    font-size: 13px;
+  body {
+    background: var(--cream);
     color: var(--brown-dark);
-    border-bottom: 1px solid #f5e6e0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
   }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--pink-soft); }
 
-  .pill {
-    display: inline-block;
-    padding: 3px 9px;
-    border-radius: 20px;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+  /* BG BLOBS */
+  .bg-blob { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.4; z-index: 0; pointer-events: none; }
+  .blob-1 { width: 320px; height: 320px; background: var(--pink); top: -80px; left: -80px; }
+  .blob-2 { width: 280px; height: 280px; background: var(--brown); bottom: -60px; right: -60px; }
+
+  /* CARD */
+  .login-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 40px 34px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 25px 60px rgba(74,44,42,0.18);
+    border: 1px solid #f5e6e0;
+    position: relative;
+    z-index: 2;
   }
-  .pill.active { background: #dcfce7; color: #166534; }
-  .pill.pending { background: #fef3c7; color: #92400e; }
-  .pill.rejected { background: #fee2e2; color: #991b1b; }
-  .pill.delivered { background: #dcfce7; color: #166534; }
+
+  .brand { text-align: center; margin-bottom: 26px; }
+  .brand-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--pink), var(--brown));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 14px;
+    box-shadow: 0 10px 25px rgba(236,72,153,0.3);
+  }
+  .logo { font-size: 26px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; }
+  .logo span { color: var(--pink); }
+  .brand p {
+    font-size: 13px;
+    color: #8b5e3c;
+    margin-top: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* MSG */
+  .msg {
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: none;
+    text-align: center;
+  }
+  .msg.error { background: #fee2e2; color: #991b1b; display: block; }
+  .msg.success { background: #dcfce7; color: #166534; display: block; }
 
   /* FORM */
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown-dark);
+    margin-bottom: 6px;
   }
-  .form-field label {
-    display: block; font-size: 12px; font-weight: 700;
-    color: var(--brown-dark); margin-bottom: 6px;
-  }
-  .form-field input {
-    width: 100%; padding: 12px 14px;
-    border: 1.5px solid #f0dcd4; border-radius: 10px;
-    font-size: 14px; color: var(--brown-dark);
-    background: var(--cream); font-family: inherit;
-  }
-  .form-field input:focus {
-    outline: none; border-color: var(--pink);
-    background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
-  }
-  .form-field small { font-size: 11px; color: #8b5e3c; display: block; margin-top: 4px; }
-
-  .btn-pink {
-    background: var(--pink); color: white;
-    padding: 12px 22px; border: none;
-    border-radius: 10px; font-size: 14px;
-    font-weight: 700; cursor: pointer;
-    font-family: inherit; transition: 0.2s;
-  }
-  .btn-pink:hover { background: var(--brown-dark); }
-
-  .btn-save {
-    grid-column: 1 / -1;
-    padding: 14px;
-    background: var(--pink); color: white;
-    border: none; border-radius: 12px;
-    font-size: 15px; font-weight: 800;
-    cursor: pointer; font-family: inherit;
+  .field input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #f0dcd4;
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--brown-dark);
+    background: var(--cream);
     transition: 0.2s;
-    margin-top: 6px;
+    font-family: inherit;
   }
-  .btn-save:hover { background: var(--brown-dark); }
+  .field input:focus {
+    outline: none;
+    border-color: var(--pink);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
+  }
+  .field input::placeholder { color: #b89b8f; }
 
-  /* EMPTY */
-  .empty {
-    text-align: center; padding: 40px 20px;
-    border: 2px dashed #f0dcd4; border-radius: 12px;
+  .pass-wrap { position: relative; }
+  .pass-wrap input { padding-right: 46px; }
+  .toggle-eye {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
     color: #8b5e3c;
+    user-select: none;
+    padding: 4px;
   }
-  .empty-icon { font-size: 40px; margin-bottom: 10px; }
-  .empty h3 { color: var(--brown-dark); font-size: 15px; margin-bottom: 6px; }
 
-  /* TOAST */
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--brown-dark); color: white;
-    padding: 13px 22px; border-radius: 10px;
-    font-size: 14px; font-weight: 600;
-    opacity: 0; transition: 0.3s; z-index: 999;
-    pointer-events: none; max-width: 90%;
+  /* SUBMIT */
+  .btn-submit {
+    width: 100%;
+    padding: 15px;
+    background: var(--pink);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+    font-family: inherit;
+    margin-top: 8px;
+    box-shadow: 0 8px 20px rgba(236,72,153,0.25);
   }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .toast.success { background: var(--green); }
-  .toast.error { background: var(--red); }
+  .btn-submit:hover { background: var(--brown-dark); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  @media (max-width: 900px) {
-    .sidebar { transform: translateX(-100%); width: 250px; transition: transform 0.3s; }
-    .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 18px 4% 60px; }
-    .menu-btn { display: block; }
+  /* FOOTER */
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: #8b5e3c;
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+  .footer-note strong { color: var(--pink); }
+
+  /* SPINNER */
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 480px) {
+    .login-card { padding: 30px 22px; border-radius: 20px; }
+    .logo { font-size: 22px; }
   }
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div class="login-screen" id="loginScreen">
-  <div class="login-card">
-    <div class="login-icon">🔐</div>
-    <div class="login-title">Admin Panel</div>
-    <div class="login-sub">Enter your admin password</div>
-    <input type="password" id="adminPass" placeholder="Admin password" autocomplete="current-password">
-    <button class="login-btn" id="loginBtn">Login to Admin</button>
-  </div>
-</div>
+<div class="bg-blob blob-1"></div>
+<div class="bg-blob blob-2"></div>
 
-<!-- ADMIN PANEL -->
-<div class="admin" id="adminPanel">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="logo">Arknet<span>Admin</span></div>
-      <p>Control panel</p>
-    </div>
-    <nav class="side-nav">
-      <div class="side-label">Overview</div>
-      <div class="side-item active" data-page="dashboard"><span class="si-icon">📊</span> Dashboard</div>
-      <div class="side-item" data-page="users"><span class="si-icon">👥</span> Users</div>
-      <div class="side-item" data-page="orders"><span class="si-icon">📦</span> Orders</div>
-      <div class="side-item" data-page="activations"><span class="si-icon">📱</span> Activations</div>
-
-      <div class="side-divider"></div>
-      <div class="side-label">Settings</div>
-      <div class="side-item" data-page="pricing"><span class="si-icon">💰</span> Pricing</div>
-      <div class="side-item" data-page="rate"><span class="si-icon">📈</span> USD Rate</div>
-
-      <div class="side-divider"></div>
-      <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
-    </nav>
-  </aside>
-
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <div class="topbar-left">
-      <button class="menu-btn" id="menuBtn">☰</button>
-      <div class="logo">Arknet<span>Admin</span></div>
-    </div>
-    <div class="topbar-badge">🔐 Admin</div>
+<div class="login-card">
+  <div class="brand">
+    <div class="brand-icon">🔐</div>
+    <div class="logo">Arknet<span>Admin</span></div>
+    <p>Control Panel</p>
   </div>
 
-  <main class="main">
+  <div class="msg" id="msg"></div>
 
-    <!-- DASHBOARD PAGE -->
-    <div class="page" id="page-dashboard">
-      <div class="page-title">📊 Dashboard <span>Overview</span></div>
+  <form id="loginForm" novalidate>
+    <div class="field">
+      <label for="email">Admin Email</label>
+      <input type="email" id="email" placeholder="admin@arknetsms.com" autocomplete="email" required>
+    </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">👥</div>
-          <div>
-            <div class="stat-label">Total Users</div>
-            <div class="stat-value" id="statUsers">0</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">📦</div>
-          <div>
-            <div class="stat-label">Total Orders</div>
-            <div class="stat-value" id="statOrders">0</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">📱</div>
-          <div>
-            <div class="stat-label">Total Activations</div>
-            <div class="stat-value" id="statActivations">0</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">💰</div>
-          <div>
-            <div class="stat-label">Total Revenue</div>
-            <div class="stat-value" id="statRevenue">₦0</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Recent Users</div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Name</th><th>Email</th><th>Balance</th><th>Joined</th></tr>
-            </thead>
-            <tbody id="recentUsersBody">
-              <tr><td colspan="4"><div class="empty"><div class="empty-icon">👥</div><h3>Loading...</h3></div></td></tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <div class="pass-wrap">
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+        <span class="toggle-eye" data-target="password">👁️</span>
       </div>
     </div>
 
-    <!-- USERS PAGE -->
-    <div class="page" id="page-users" style="display:none;">
-      <div class="page-title">👥 All <span>Users</span></div>
-      <div class="section">
-        <div class="section-title">
-          <span>Customers List</span>
-          <span id="usersCount" style="font-size:12px; color:var(--pink); font-weight:700;">0 users</span>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Name</th><th>Email</th><th>Phone</th><th>Balance</th><th>Joined</th></tr>
-            </thead>
-            <tbody id="usersBody">
-              <tr><td colspan="5"><div class="empty"><div class="empty-icon">👥</div><h3>Loading...</h3></div></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <button type="submit" class="btn-submit" id="loginBtn">Login to Admin Panel</button>
+  </form>
 
-    <!-- ORDERS PAGE -->
-    <div class="page" id="page-orders" style="display:none;">
-      <div class="page-title">📦 All <span>Orders</span></div>
-      <div class="section">
-        <div class="section-title">
-          <span>Orders List</span>
-          <span id="ordersCount" style="font-size:12px; color:var(--pink); font-weight:700;">0 orders</span>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>User</th><th>Product</th><th>Price</th><th>Status</th><th>Date</th></tr>
-            </thead>
-            <tbody id="ordersBody">
-              <tr><td colspan="5"><div class="empty"><div class="empty-icon">📦</div><h3>Loading...</h3></div></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ACTIVATIONS PAGE -->
-    <div class="page" id="page-activations" style="display:none;">
-      <div class="page-title">📱 All <span>Activations</span></div>
-      <div class="section">
-        <div class="section-title">
-          <span>Numbers Bought</span>
-          <span id="activationsCount" style="font-size:12px; color:var(--pink); font-weight:700;">0 activations</span>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>User ID</th><th>Service</th><th>Number</th><th>Price</th><th>Status</th><th>Date</th></tr>
-            </thead>
-            <tbody id="activationsBody2">
-              <tr><td colspan="6"><div class="empty"><div class="empty-icon">📱</div><h3>Loading...</h3></div></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- PRICING PAGE -->
-    <div class="page" id="page-pricing" style="display:none;">
-      <div class="page-title">💰 <span>Pricing</span> Settings</div>
-
-      <div class="section">
-        <div class="section-title">Global Profit Settings</div>
-        <div class="form-grid">
-          <div class="form-field">
-            <label>Profit per Sale (₦)</label>
-            <input type="number" id="profitPerSale" placeholder="850" min="0">
-            <small>Added on top of every number sold</small>
-          </div>
-          <div class="form-field">
-            <label>Auto Price = (USD × Rate) + Profit</label>
-            <input type="text" id="formulaPreview" disabled style="color:var(--brown-light);">
-            <small>Current formula used for all numbers</small>
-          </div>
-          <button class="btn-save" id="saveProfitBtn">💾 Save Profit Settings</button>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Manual Price Overrides</div>
-        <p style="font-size:13px; color:#8b5e3c; margin-bottom:14px;">
-          Override specific service prices. Example: set WhatsApp USA to a fixed ₦4,500.
-        </p>
-        <div class="form-grid">
-          <div class="form-field">
-            <label>Country</label>
-            <input type="text" id="overrideCountry" placeholder="e.g. US or UK">
-          </div>
-          <div class="form-field">
-            <label>Service</label>
-            <input type="text" id="overrideService" placeholder="e.g. WhatsApp or google">
-          </div>
-          <div class="form-field">
-            <label>Fixed Price (₦)</label>
-            <input type="number" id="overridePrice" placeholder="e.g. 4500" min="0">
-          </div>
-          <button class="btn-save" id="saveOverrideBtn">➕ Add Override</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- RATE PAGE -->
-    <div class="page" id="page-rate" style="display:none;">
-      <div class="page-title">📈 USD to <span>NGN Rate</span></div>
-      <div class="section">
-        <div class="section-title">Current Rate</div>
-        <div class="form-grid">
-          <div class="form-field">
-            <label>1 USD = ? NGN</label>
-            <input type="number" id="usdRate" placeholder="1550" min="1" step="1">
-            <small>Used for calculating number prices</small>
-          </div>
-          <div class="form-field">
-            <label>Example Calculation</label>
-            <input type="text" id="rateExample" disabled style="color:var(--brown-light);">
-            <small>WhatsApp ($2.50) → price shown to customer</small>
-          </div>
-          <button class="btn-save" id="saveRateBtn">💾 Save Rate</button>
-        </div>
-      </div>
-    </div>
-
-  </main>
+  <div class="footer-note">
+    <strong>Authorized admins only.</strong><br>
+    Unauthorized access is prohibited.
+  </div>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
-    getFirestore, doc, getDoc, setDoc, updateDoc,
-    collection, query, orderBy, limit, getDocs, serverTimestamp
+    getAuth, signInWithEmailAndPassword, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -513,294 +233,85 @@
   };
 
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
   const db = getFirestore(app);
 
-  /* ⚠️ CHANGE THIS PASSWORD BEFORE LAUNCH */
-  const ADMIN_PASSWORD = "ArknetAdmin2026";
-
-  const toast = document.getElementById('toast');
-  const showToast = (text, type = '') => {
-    toast.textContent = text;
-    toast.className = 'toast show ' + type;
-    setTimeout(() => toast.className = 'toast ' + type, 2800);
+  const msg = document.getElementById('msg');
+  const showMsg = (text, type = 'error') => {
+    msg.textContent = text;
+    msg.className = 'msg ' + type;
+  };
+  const setLoading = (btn, loading, text = '') => {
+    btn.disabled = loading;
+    btn.innerHTML = loading ? `<span class="spinner"></span>${text}` : text;
   };
 
-  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { maximumFractionDigits: 2 });
-  const formatDate = (ts) => {
-    if (!ts) return '—';
-    const d = ts.toDate ? ts.toDate() : new Date(ts);
-    return d.toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' });
-  };
-  const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-  /* LOGIN */
-  document.getElementById('loginBtn').addEventListener('click', () => {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === ADMIN_PASSWORD) {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('adminPanel').classList.add('show');
-      loadAll();
-    } else {
-      showToast('❌ Wrong password', 'error');
-    }
-  });
-
-  document.getElementById('adminPass').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') document.getElementById('loginBtn').click();
-  });
-
-  /* LOGOUT */
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    document.getElementById('loginScreen').classList.remove('hidden');
-    document.getElementById('adminPanel').classList.remove('show');
-    document.getElementById('adminPass').value = '';
-  });
-
-  /* MENU */
-  const sidebar = document.getElementById('sidebar');
-  document.getElementById('menuBtn').addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-  });
-
-  /* PAGE SWITCHING */
-  document.querySelectorAll('.side-item[data-page]').forEach(item => {
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-      document.getElementById('page-' + item.dataset.page).style.display = 'block';
-      sidebar.classList.remove('open');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Toggle password
+  document.querySelectorAll('.toggle-eye').forEach(eye => {
+    eye.addEventListener('click', () => {
+      const input = document.getElementById(eye.dataset.target);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      eye.textContent = input.type === 'password' ? '👁️' : '🙈';
     });
   });
 
-  /* LOAD EVERYTHING */
-  async function loadAll() {
-    loadStats();
-    loadUsers();
-    loadOrders();
-    loadActivations();
-    loadPricingSettings();
-    loadRateSettings();
-  }
+  // Login
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
 
-  /* STATS */
-  async function loadStats() {
+    if (!email || !password) return showMsg('Please enter email and password.');
+
+    setLoading(btn, true, 'Signing in...');
     try {
-      const usersSnap = await getDocs(collection(db, 'users'));
-      const users = [];
-      let totalBalance = 0;
-      usersSnap.forEach(d => {
-        users.push({ id: d.id, ...d.data() });
-        const b = Number(d.data().wallet ?? d.data().walletBalance ?? d.data().balance ?? 0);
-        totalBalance += b;
-      });
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      const uid = cred.user.uid;
 
-      document.getElementById('statUsers').textContent = users.length;
-      document.getElementById('statRevenue').textContent = formatNGN(totalBalance);
+      // Check if user is admin (admin flag in Firestore)
+      const userSnap = await getDoc(doc(db, 'users', uid));
+      const userData = userSnap.exists() ? userSnap.data() : {};
 
-      // Recent users (5 latest by createdAt)
-      users.sort((a,b) => {
-        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tb - ta;
-      });
-      const recentBody = document.getElementById('recentUsersBody');
-      if (!users.length) {
-        recentBody.innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-icon">👥</div><h3>No users yet</h3></div></td></tr>`;
-      } else {
-        recentBody.innerHTML = users.slice(0, 5).map(u => `
-          <tr>
-            <td>${escapeHtml(u.fullname || u.displayName || '—')}</td>
-            <td>${escapeHtml(u.email || '—')}</td>
-            <td>${formatNGN(u.wallet ?? u.walletBalance ?? u.balance ?? 0)}</td>
-            <td>${formatDate(u.createdAt)}</td>
-          </tr>
-        `).join('');
-      }
-    } catch (e) { console.warn(e); }
-  }
-
-  /* USERS */
-  async function loadUsers() {
-    try {
-      const snap = await getDocs(collection(db, 'users'));
-      const users = [];
-      snap.forEach(d => users.push({ id: d.id, ...d.data() }));
-
-      users.sort((a,b) => {
-        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tb - ta;
-      });
-
-      document.getElementById('usersCount').textContent = users.length + ' users';
-      const tbody = document.getElementById('usersBody');
-      if (!users.length) {
-        tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">👥</div><h3>No users yet</h3></div></td></tr>`;
+      if (!userData.isAdmin) {
+        // Not an admin → sign out and show error
+        await auth.signOut();
+        showMsg('❌ Access denied. You are not an admin.');
+        setLoading(btn, false, 'Login to Admin Panel');
         return;
       }
-      tbody.innerHTML = users.map(u => `
-        <tr>
-          <td>${escapeHtml(u.fullname || u.displayName || '—')}</td>
-          <td>${escapeHtml(u.email || '—')}</td>
-          <td>${escapeHtml(u.number || '—')}</td>
-          <td>${formatNGN(u.wallet ?? u.walletBalance ?? u.balance ?? 0)}</td>
-          <td>${formatDate(u.createdAt)}</td>
-        </tr>
-      `).join('');
-    } catch (e) { console.warn(e); }
-  }
 
-  /* ORDERS */
-  async function loadOrders() {
-    try {
-      const snap = await getDocs(collection(db, 'orders'));
-      const orders = [];
-      snap.forEach(d => orders.push({ id: d.id, ...d.data() }));
+      showMsg('✅ Welcome, Admin!', 'success');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 900);
 
-      orders.sort((a,b) => {
-        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tb - ta;
-      });
-
-      document.getElementById('statOrders').textContent = orders.length;
-      document.getElementById('ordersCount').textContent = orders.length + ' orders';
-      const tbody = document.getElementById('ordersBody');
-      if (!orders.length) {
-        tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">📦</div><h3>No orders yet</h3></div></td></tr>`;
-        return;
-      }
-      tbody.innerHTML = orders.map(o => `
-        <tr>
-          <td>${escapeHtml(o.userEmail || o.userId || '—')}</td>
-          <td>${escapeHtml(o.productName || o.service || '—')}</td>
-          <td>${formatNGN(o.price || o.amount || 0)}</td>
-          <td><span class="pill ${o.status || 'pending'}">${o.status || 'pending'}</span></td>
-          <td>${formatDate(o.createdAt)}</td>
-        </tr>
-      `).join('');
-    } catch (e) { console.warn(e); }
-  }
-
-  /* ACTIVATIONS */
-  async function loadActivations() {
-    try {
-      const usersSnap = await getDocs(collection(db, 'users'));
-      const allActivations = [];
-
-      for (const userDoc of usersSnap.docs) {
-        const actsSnap = await getDocs(collection(db, 'users', userDoc.id, 'activations'));
-        actsSnap.forEach(a => {
-          allActivations.push({ userId: userDoc.id, ...a.data() });
-        });
-      }
-
-      allActivations.sort((a,b) => {
-        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tb - ta;
-      });
-
-      document.getElementById('statActivations').textContent = allActivations.length;
-      document.getElementById('activationsCount').textContent = allActivations.length + ' activations';
-      const tbody = document.getElementById('activationsBody2');
-      if (!allActivations.length) {
-        tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📱</div><h3>No activations yet</h3></div></td></tr>`;
-        return;
-      }
-      tbody.innerHTML = allActivations.slice(0, 50).map(a => `
-        <tr>
-          <td style="font-size:11px;">${escapeHtml(a.userId.slice(0, 8))}...</td>
-          <td>${escapeHtml(a.service || '—')}</td>
-          <td>${escapeHtml(a.number || '—')}</td>
-          <td>${formatNGN(a.price || 0)}</td>
-          <td><span class="pill ${a.status || 'pending'}">${a.status || 'pending'}</span></td>
-          <td>${formatDate(a.createdAt)}</td>
-        </tr>
-      `).join('');
-    } catch (e) { console.warn(e); }
-  }
-
-  /* PRICING SETTINGS */
-  async function loadPricingSettings() {
-    try {
-      const snap = await getDoc(doc(db, 'admin_settings', 'pricing'));
-      if (snap.exists()) {
-        const data = snap.data();
-        document.getElementById('profitPerSale').value = data.profitPerSale || 850;
-        updateFormulaPreview();
-      }
-    } catch (e) { console.warn(e); }
-  }
-
-  document.getElementById('profitPerSale').addEventListener('input', updateFormulaPreview);
-
-  function updateFormulaPreview() {
-    const profit = Number(document.getElementById('profitPerSale').value) || 0;
-    const rate = Number(document.getElementById('usdRate')?.value) || 1550;
-    document.getElementById('formulaPreview').value = `(USD × ₦${rate}) + ₦${profit}`;
-    document.getElementById('rateExample').value = `$2.50 × ${rate} + ${profit} = ${formatNGN(2.5 * rate + profit)}`;
-  }
-
-  document.getElementById('saveProfitBtn').addEventListener('click', async () => {
-    try {
-      const profit = Number(document.getElementById('profitPerSale').value) || 850;
-      await setDoc(doc(db, 'admin_settings', 'pricing'), { profitPerSale: profit, updatedAt: serverTimestamp() }, { merge: true });
-      showToast('✅ Profit settings saved!', 'success');
-    } catch (e) {
-      showToast('❌ Failed to save', 'error');
+    } catch (err) {
+      console.error(err);
+      const map = {
+        'auth/invalid-credential': 'Wrong email or password.',
+        'auth/user-not-found': 'No account with this email.',
+        'auth/wrong-password': 'Incorrect password.',
+        'auth/too-many-requests': 'Too many attempts. Try again later.',
+        'auth/invalid-email': 'Invalid email format.'
+      };
+      showMsg(map[err.code] || err.message);
+      setLoading(btn, false, 'Login to Admin Panel');
     }
   });
 
-  /* MANUAL OVERRIDE */
-  document.getElementById('saveOverrideBtn').addEventListener('click', async () => {
-    try {
-      const country = document.getElementById('overrideCountry').value.trim().toUpperCase();
-      const service = document.getElementById('overrideService').value.trim().toLowerCase();
-      const price = Number(document.getElementById('overridePrice').value);
-      if (!country || !service || !price) {
-        showToast('Please fill all fields', 'error');
-        return;
-      }
-      const key = `${country}_${service}`;
-      await setDoc(doc(db, 'admin_settings', 'price_overrides'), {
-        [key]: { country, service, price, updatedAt: serverTimestamp() }
-      }, { merge: true });
-      showToast('✅ Override saved!', 'success');
-      document.getElementById('overrideCountry').value = '';
-      document.getElementById('overrideService').value = '';
-      document.getElementById('overridePrice').value = '';
-    } catch (e) {
-      showToast('❌ Failed to save override', 'error');
-    }
-  });
-
-  /* RATE SETTINGS */
-  async function loadRateSettings() {
-    try {
-      const snap = await getDoc(doc(db, 'admin_settings', 'rate'));
-      if (snap.exists()) {
-        const data = snap.data();
-        document.getElementById('usdRate').value = data.usdRate || 1550;
-      }
-      updateFormulaPreview();
-    } catch (e) { console.warn(e); }
-  }
-
-  document.getElementById('usdRate').addEventListener('input', updateFormulaPreview);
-
-  document.getElementById('saveRateBtn').addEventListener('click', async () => {
-    try {
-      const rate = Number(document.getElementById('usdRate').value) || 1550;
-      await setDoc(doc(db, 'admin_settings', 'rate'), { usdRate: rate, updatedAt: serverTimestamp() }, { merge: true });
-      showToast('✅ Rate saved!', 'success');
-    } catch (e) {
-      showToast('❌ Failed to save rate', 'error');
+  // Auto-redirect if already logged in as admin
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (snap.exists() && snap.data().isAdmin) {
+          window.location.href = 'dashboard.html';
+        }
+      } catch (e) {}
     }
   });
 </script>
 
 </body>
-  </html>
+</html>
