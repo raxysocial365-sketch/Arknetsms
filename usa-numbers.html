@@ -22,7 +22,6 @@
       --green: #22c55e;
       --red: #dc2626;
       --warning: #b45309;
-      --bottom-nav-height: 68px;
     }
     html, body { overflow-x: hidden; }
     body {
@@ -30,7 +29,7 @@
       color: var(--brown-dark);
       min-height: 100vh;
       line-height: 1.5;
-      padding-bottom: calc(var(--bottom-nav-height) + 20px);
+      padding-bottom: 110px;
       -webkit-font-smoothing: antialiased;
     }
     a { text-decoration: none; color: inherit; }
@@ -84,11 +83,41 @@
     .action-btn:hover:not(:disabled) { background: var(--brown-dark); transform: translateY(-2px); }
     .action-btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: var(--bottom-nav-height); background: #fff; border-top: 1px solid #f0dcd4; display: flex; justify-content: space-around; align-items: center; padding: 0 0.5rem; z-index: 700; box-shadow: 0 -4px 20px rgba(74,44,42,0.06); }
-    .bottom-nav-inner { width: 100%; max-width: 500px; margin: 0 auto; display: flex; justify-content: space-around; align-items: center; }
-    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem; padding: 0.5rem 0.25rem; color: #9ca3af; font-size: 0.68rem; font-weight: 500; text-decoration: none; }
-    .nav-item i { font-size: 1.15rem; }
-    .nav-item.active { color: var(--pink); font-weight: 600; }
+    /* ============================================
+       BOTTOM NAV — matches dashboard style
+       ============================================ */
+    .bottom-nav {
+      position: fixed; bottom: 14px; left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px); max-width: 500px;
+      background: var(--white);
+      border-radius: 22px;
+      box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
+      padding: 8px 6px; z-index: 400;
+    }
+    .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
+    .bn-item {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 3px;
+      background: transparent; border: none; color: #9ca3af;
+      font-size: 10px; font-weight: 600; cursor: pointer;
+      padding: 6px 2px; border-radius: 16px; transition: 0.25s;
+      font-family: inherit; text-decoration: none; min-height: 56px;
+    }
+    .bn-item .bn-icon {
+      width: 34px; height: 34px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .bn-item .bn-icon svg {
+      width: 20px; height: 20px;
+      stroke: currentColor; stroke-width: 2;
+      fill: none; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .bn-item.active { color: var(--brown-dark); font-weight: 700; }
+    .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
+    .bn-item.active .bn-icon svg { stroke: var(--pink); }
+    .bn-item.logout { color: #dc2626; }
+    .bn-item.logout:hover { color: #b91c1c; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(74,44,42,0.7); backdrop-filter: blur(3px); display: none; align-items: flex-end; justify-content: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
@@ -109,7 +138,13 @@
     .btn-cancel { flex: 1; padding: 0.9rem; border-radius: 12px; background: var(--cream); color: var(--brown-dark); font-weight: 600; font-size: 0.9rem; font-family: 'Poppins', sans-serif; }
     .btn-primary { flex: 2; padding: 0.9rem; border-radius: 12px; background: var(--pink); color: #fff; font-weight: 700; font-size: 0.9rem; box-shadow: 0 8px 20px rgba(236,72,153,0.3); font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
 
-    @media (min-width: 700px) { .container, .topbar-inner, .bottom-nav-inner, .modal { max-width: 640px; } }
+    @media (min-width: 700px) { .container, .topbar-inner, .modal { max-width: 640px; } }
+
+    @media (max-width: 600px) {
+      .bn-item { font-size: 8.5px; }
+      .bn-item .bn-icon { width: 30px; height: 30px; }
+      .bn-item .bn-icon svg { width: 18px; height: 18px; }
+    }
   </style>
 </head>
 <body>
@@ -163,12 +198,29 @@
   </div>
 </div>
 
+<!-- BOTTOM NAV — dashboard style -->
 <nav class="bottom-nav">
-  <div class="bottom-nav-inner">
-    <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="wallet.html" class="nav-item"><i class="fas fa-wallet"></i><span>Wallet</span></a>
-    <a href="dashboard.html#profile" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
-    <a href="https://wa.me/2349168165484" target="_blank" class="nav-item"><i class="fas fa-comment"></i><span>Contact</span></a>
+  <div class="bn-inner">
+    <a href="dashboard.html" class="bn-item">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <span>Service</span>
+    </a>
+    <a href="wallet.html" class="bn-item">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
+      <span>Deposit</span>
+    </a>
+    <a href="dashboard.html#profile" class="bn-item">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
+      <span>Profile</span>
+    </a>
+    <a href="https://wa.me/2349168165484" target="_blank" class="bn-item">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+      <span>Contact</span>
+    </a>
+    <button class="bn-item logout" id="bnLogout">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+      <span>Logout</span>
+    </button>
   </div>
 </nav>
 
@@ -178,7 +230,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
     getFirestore, doc, getDoc, updateDoc,
     collection, addDoc,
@@ -201,7 +253,6 @@
 
   const USA_API = "/api/textverified-buy";
 
-  /* Hidden pricing formula */
   const USD_TO_NGN = 1500;
   const PROFIT_NGN = 950;
 
@@ -240,6 +291,12 @@
     document.body.style.overflow = '';
   }
   modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+
+  /* Logout handler */
+  document.getElementById('bnLogout').addEventListener('click', async () => {
+    try { await signOut(auth); } catch (e) {}
+    window.location.replace('login.html');
+  });
 
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
@@ -385,7 +442,7 @@
     actionBtn.disabled = false;
   }
 
-  /* ✅ PURCHASE NOW — goes straight to processing, no confirm modal */
+  /* ✅ PURCHASE NOW — straight to processing, no confirm modal */
   actionBtn.addEventListener('click', async () => {
     if (!selectedService) return;
     const price = Number(selectedPriceNGN);
@@ -421,7 +478,6 @@
     const price = Number(selectedPriceNGN);
 
     try {
-      // 1. Fresh balance check
       const userRef = doc(db, 'users', currentUser.uid);
       const freshSnap = await getDoc(userRef);
       const freshData = freshSnap.data() || {};
@@ -430,19 +486,15 @@
       if (freshBalance < price) throw new Error('INSUFFICIENT');
       userWallet = freshBalance;
 
-      // 2. Request number from provider
       const genRes = await fetch(`${USA_API}?action=generate&service=${encodeURIComponent(selectedService.rawName)}`);
       const genData = await genRes.json();
 
-      if (!genRes.ok || !genData.success || !genData.id) {
-        throw new Error('OUT_OF_STOCK');
-      }
+      if (!genRes.ok || !genData.success || !genData.id) throw new Error('OUT_OF_STOCK');
 
       const verifyId = genData.id;
       const phoneNumber = genData.number;
       if (!phoneNumber) throw new Error('OUT_OF_STOCK');
 
-      // 3. Deduct balance
       const newBalance = freshBalance - price;
       await updateDoc(userRef, {
         wallet: newBalance,
@@ -451,34 +503,26 @@
       userWallet = newBalance;
       topBalance.textContent = fmtNaira(userWallet);
 
-      // 4. ✅ SAVE ACTIVATION where the dashboard reads it
       await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
         userId: currentUser.uid,
         userEmail: currentUser.email || '',
-
         service: selectedService.name,
         serviceId: selectedService.rawName,
         provider: 'textverified',
-
         country: 'USA',
         countryCode: 'us',
         flag: '🇺🇸',
-
         number: phoneNumber,
         requestId: verifyId,
         verificationId: verifyId,
-
         price: price,
         amount: price,
         currency: 'NGN',
-
         status: 'pending',
         code: '',
-
         createdAt: serverTimestamp()
       });
 
-      // 5. Save transaction in user subcollection
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
         type: 'purchase',
         icon: '📱',
@@ -489,7 +533,6 @@
         createdAt: serverTimestamp()
       });
 
-      // 6. Cache active order for other pages
       try {
         localStorage.setItem('activeOrder', JSON.stringify({
           verificationId: verifyId,
@@ -504,7 +547,6 @@
         }));
       } catch (e) {}
 
-      // 7. Redirect to dashboard
       window.location.href = 'dashboard.html';
 
     } catch (err) {
