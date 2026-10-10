@@ -83,7 +83,6 @@
     outline: none; border-color: var(--pink);
     background: var(--white); box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
-  .field input::placeholder { color: #b89b8f; }
 
   .pass-wrap { position: relative; }
   .pass-wrap input { padding-right: 44px; }
@@ -113,13 +112,6 @@
   }
   .msg.error { background: #fee2e2; color: #991b1b; display: block; }
   .msg.success { background: #dcfce7; color: #166534; display: block; }
-
-  .divider {
-    display: flex; align-items: center; gap: 12px;
-    margin: 20px 0 14px; color: #b89b8f;
-    font-size: 12px; font-weight: 600;
-  }
-  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #f0dcd4; }
 
   .bottom-text { text-align: center; font-size: 13px; color: var(--brown-light); margin-top: 18px; }
   .bottom-text a { color: var(--pink); font-weight: 700; text-decoration: none; cursor: pointer; }
@@ -170,31 +162,31 @@
   <form class="form active" id="signupForm" novalidate>
     <div class="field">
       <label for="fullname">Full Name</label>
-      <input type="text" id="fullname" placeholder="John Doe" required>
+      <input type="text" id="fullname" required>
     </div>
 
     <div class="field">
       <label for="email">Gmail Address</label>
-      <input type="email" id="email" placeholder="you@gmail.com" required>
+      <input type="email" id="email" required>
     </div>
 
     <div class="field">
       <label for="number">Phone Number</label>
-      <input type="tel" id="number" placeholder="+234 801 234 5678" required>
+      <input type="tel" id="number" required>
     </div>
 
     <div class="row-2">
       <div class="field">
         <label for="password">Password</label>
         <div class="pass-wrap">
-          <input type="password" id="password" placeholder="••••••••" required>
+          <input type="password" id="password" required>
           <span class="toggle-eye" data-target="password">👁️</span>
         </div>
       </div>
       <div class="field">
         <label for="confirm">Confirm</label>
         <div class="pass-wrap">
-          <input type="password" id="confirm" placeholder="••••••••" required>
+          <input type="password" id="confirm" required>
           <span class="toggle-eye" data-target="confirm">👁️</span>
         </div>
       </div>
@@ -208,21 +200,21 @@
     <button type="submit" class="btn-submit" id="signupBtn">Create Account</button>
 
     <div class="bottom-text">
-      Already have an account? <a href="login.html">Login</a>
+      Already have an account? <a data-switch="login">Login</a>
     </div>
   </form>
 
   <!-- LOGIN FORM -->
   <form class="form" id="loginForm" novalidate>
     <div class="field">
-      <label for="loginEmail">Email</label>
-      <input type="email" id="loginEmail" placeholder="you@gmail.com" required>
+      <label for="loginEmail">Gmail Address</label>
+      <input type="email" id="loginEmail" required>
     </div>
 
     <div class="field">
       <label for="loginPassword">Password</label>
       <div class="pass-wrap">
-        <input type="password" id="loginPassword" placeholder="••••••••" required>
+        <input type="password" id="loginPassword" required>
         <span class="toggle-eye" data-target="loginPassword">👁️</span>
       </div>
     </div>
