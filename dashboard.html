@@ -50,26 +50,72 @@
   .hb-sub { font-size: 12px; color: #1d4ed8; }
   .hb-arrow { font-size: 22px; color: #1d4ed8; font-weight: 800; }
 
-  /* ACTION CARDS */
-  .actions-top { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 12px; }
-  .actions-single { display: grid; grid-template-columns: 1fr; max-width: calc(50% - 6px); margin: 0 auto 22px; }
+  /* QUICK ACTIONS - 4 small cards */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .quick-card {
+    background: var(--white);
+    border: 1px solid #f5e6e0;
+    border-radius: 16px;
+    padding: 16px 6px 12px;
+    cursor: pointer;
+    transition: 0.25s;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .quick-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--pink-light);
+    box-shadow: 0 12px 26px rgba(236,72,153,0.14);
+  }
+  .qc-icon {
+    width: 44px; height: 44px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08);
+  }
+  .qc-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    line-height: 1.2;
+  }
 
+  /* MAIN ACTIONS - 2 big cards (USA / All Countries) */
+  .actions-top {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+  }
   .action-card {
     background: var(--white); border: 1px solid #f5e6e0; border-radius: 18px;
-    padding: 24px 12px 20px; cursor: pointer; transition: 0.28s;
+    padding: 26px 14px 22px;
+    cursor: pointer; transition: 0.28s;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; gap: 10px; min-height: 130px;
-    text-decoration: none; color: inherit; position: relative;
+    text-align: center; gap: 12px; min-height: 150px;
+    text-decoration: none; color: inherit;
+    position: relative;
   }
   .action-card:hover { transform: translateY(-4px); border-color: var(--pink-light); box-shadow: 0 16px 34px rgba(236,72,153,0.14); }
-  .action-card .ac-icon { width: 52px; height: 52px; border-radius: 16px; background: linear-gradient(135deg, var(--pink-soft), #fce7f3); display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08); }
-  .action-card .ac-title { font-size: 13px; font-weight: 800; color: var(--brown-dark); line-height: 1.25; }
-  .action-card .ac-sub { font-size: 11px; color: var(--brown-light); font-weight: 500; margin-top: -4px; }
-
-  .action-card.coming-soon { opacity: 0.7; cursor: not-allowed; background: #faf5f3; }
-  .action-card.coming-soon:hover { transform: none; border-color: #f5e6e0; box-shadow: none; }
-  .action-card.coming-soon .ac-icon { background: linear-gradient(135deg, #f5ebe7, #ece0da); }
-  .coming-badge { position: absolute; top: 10px; right: 10px; background: var(--pink); color: white; font-size: 8px; font-weight: 800; padding: 3px 8px; border-radius: 999px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .action-card .ac-icon {
+    width: 60px; height: 60px; border-radius: 18px;
+    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08);
+  }
+  .action-card .ac-title { font-size: 15px; font-weight: 800; color: var(--brown-dark); line-height: 1.25; }
+  .action-card .ac-sub { font-size: 12px; color: var(--brown-light); font-weight: 500; margin-top: -4px; }
 
   /* HOW VIEW */
   .how-view { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 22px 20px; margin-bottom: 22px; }
@@ -163,12 +209,15 @@
   .bn-item.logout { color: #dc2626; }
 
   @media (max-width: 600px) {
+    .quick-grid { gap: 8px; }
+    .quick-card { padding: 12px 4px 10px; border-radius: 14px; gap: 6px; }
+    .qc-icon { width: 38px; height: 38px; font-size: 18px; border-radius: 12px; }
+    .qc-title { font-size: 10px; }
     .actions-top { gap: 10px; }
-    .actions-single { max-width: calc(50% - 5px); }
-    .action-card { padding: 20px 8px 16px; border-radius: 16px; min-height: 120px; gap: 10px; }
-    .action-card .ac-icon { width: 48px; height: 48px; font-size: 22px; border-radius: 14px; }
-    .action-card .ac-title { font-size: 12px; }
-    .action-card .ac-sub { font-size: 10px; }
+    .action-card { padding: 20px 10px 18px; border-radius: 16px; min-height: 130px; gap: 10px; }
+    .action-card .ac-icon { width: 52px; height: 52px; font-size: 24px; border-radius: 16px; }
+    .action-card .ac-title { font-size: 13px; }
+    .action-card .ac-sub { font-size: 11px; }
     .bn-item { font-size: 8.5px; }
     .bn-item .bn-icon { width: 30px; height: 30px; }
     .bn-item .bn-icon svg { width: 18px; height: 18px; }
@@ -201,28 +250,38 @@
       <div class="hb-arrow">›</div>
     </button>
 
-    <!-- USA · All Countries -->
+    <!-- QUICK ACTION CARDS (4 SMALL) -->
+    <div class="quick-grid">
+      <a href="#" class="quick-card" data-page="profile">
+        <div class="qc-icon">👤</div>
+        <div class="qc-title">Profile</div>
+      </a>
+      <a href="wallet.html" class="quick-card">
+        <div class="qc-icon">💰</div>
+        <div class="qc-title">Deposit</div>
+      </a>
+      <a href="buy-account.html" class="quick-card">
+        <div class="qc-icon">🛒</div>
+        <div class="qc-title">Buy Account</div>
+      </a>
+      <a href="support.html" class="quick-card">
+        <div class="qc-icon">🎧</div>
+        <div class="qc-title">Support</div>
+      </a>
+    </div>
+
+    <!-- MAIN ACTION CARDS (USA · All Countries) -->
     <div class="actions-top">
       <a href="usa-numbers.html" class="action-card">
         <div class="ac-icon">🇺🇸</div>
-        <div class="ac-title">Buy USA Number</div>
+        <div class="ac-title">USA Numbers</div>
         <div class="ac-sub">High quality</div>
       </a>
       <a href="countries.html" class="action-card">
         <div class="ac-icon">🌍</div>
-        <div class="ac-title">Buy All Countries</div>
+        <div class="ac-title">All Countries</div>
         <div class="ac-sub">Global coverage</div>
       </a>
-    </div>
-
-    <!-- Social Media — Coming Soon -->
-    <div class="actions-single">
-      <div class="action-card coming-soon">
-        <div class="coming-badge">Coming Soon</div>
-        <div class="ac-icon">📱</div>
-        <div class="ac-title">Buy Social Media PVA</div>
-        <div class="ac-sub">Launching soon</div>
-      </div>
     </div>
 
     <!-- RECENT ACTIVATIONS -->
@@ -399,6 +458,9 @@
   }
 
   document.querySelectorAll('.bn-item[data-page]').forEach(item => {
+    item.addEventListener('click', (e) => { e.preventDefault(); showView(item.dataset.page); });
+  });
+  document.querySelectorAll('.quick-card[data-page]').forEach(item => {
     item.addEventListener('click', (e) => { e.preventDefault(); showView(item.dataset.page); });
   });
   document.querySelectorAll('[data-back]').forEach(btn => {
@@ -588,4 +650,4 @@
 </script>
 
 </body>
- </html>
+</html>
