@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deposit Funds — Arknet</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+  :root {
+    --brown-dark: #4a2c2a;
+    --brown: #6b4423;
+    --brown-light: #8b5e3c;
+    --pink: #ec4899;
+    --pink-light: #f9a8d4;
+    --pink-soft: #fdf2f8;
+    --white: #ffffff;
+    --cream: #fef9f5;
+    --green: #22c55e;
+    --red: #dc2626;
+    --sidebar-w: 260px;
+  }
+  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed; top: 0; left: 0;
+    width: var(--sidebar-w); height: 100vh;
+    background: var(--brown-dark); color: #e8d5cc;
+    display: flex; flex-direction: column;
+    z-index: 200; transition: transform 0.3s ease;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; padding-bottom: 30px;
+  }
+  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); }
+  .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; }
+  .sidebar-brand .logo span { color: var(--pink-light); }
+  .sidebar-brand p { font-size: 11px; color: #b89b8f; margin-top: 3px; }
+  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); }
+  .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
+  .side-user-info { overflow: hidden; }
+  .side-user-name { font-size: 14px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .side-user-email { font-size: 11px; color: #b89b8f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .side-nav { padding: 12px 10px; flex: 1; }
+  .side-label { font-size: 10px; font-weight: 800; color: #b89b8f; text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px; }
+  .side-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #e8d5cc; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 2px; }
+  .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
+  .side-item.active { background: var(--pink); color: white; }
+  .side-item .si-icon { font-size: 17px; width: 20px; text-align: center; }
+  .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 10px 14px; }
+  .side-logout { color: #fca5a5 !important; }
+
+  /* TOPBAR */
+  .topbar { display: flex; background: var(--brown-dark); padding: 14px 20px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150; gap: 12px; }
+  .topbar-left { display: flex; align-items: center; gap: 14px; }
+  .menu-btn { background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; display: none; }
+  .topbar .logo { font-size: 20px; font-weight: 800; color: white; }
+  .topbar .logo span { color: var(--pink-light); }
+  .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; }
+  .topbar-balance .b-val { color: var(--pink-light); }
+
+  /* MAIN */
+  .main { margin-left: var(--sidebar-w); padding: 22px 4% 140px; min-height: calc(100vh - 60px); }
+  .greeting { margin-bottom: 22px; }
+  .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
+  .greeting h1 span { color: var(--pink); }
+  .greeting p { color: var(--brown); font-size: 14px; }
+
+  .section { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 22px; margin-bottom: 22px; }
+
+  /* BALANCE HERO */
+  .balance-hero {
+    background: linear-gradient(135deg, var(--brown-dark), var(--brown));
+    color: white;
+    border-radius: 18px;
+    padding: 30px 24px;
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .balance-hero .bh-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--pink-light);
+    margin-bottom: 10px;
+  }
+  .balance-hero .bh-value {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: white;
+  }
+
+  .section-title { font-size: 16px; font-weight: 800; color: var(--brown-dark); margin-bottom: 14px; }
+
+  /* AMOUNT PICKER */
+  .amount-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .amount-pick {
+    background: var(--white);
+    border: 1.5px solid #f5e6e0;
+    border-radius: 12px;
+    padding: 16px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--brown-dark);
+    font-family: inherit;
+  }
+  .amount-pick:hover {
+    border-color: var(--pink);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(236,72,153,0.1);
+  }
+  .amount-pick.selected {
+    border-color: var(--pink);
+    background: var(--pink-soft);
+    color: var(--pink);
+    box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
+  }
+
+  /* FORM */
+  .form-field { margin-bottom: 16px; }
+  .form-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown-dark);
+    margin-bottom: 8px;
+  }
+  .form-field input {
+    width: 100%;
+    padding: 15px 16px;
+    border: 1.5px solid #f0dcd4;
+    border-radius: 12px;
+    font-size: 15px;
+    color: var(--brown-dark);
+    background: var(--cream);
+    font-family: inherit;
+    transition: 0.2s;
+  }
+  .form-field input:focus {
+    outline: none;
+    border-color: var(--pink);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
+  }
+
+  /* CONTINUE BUTTON */
+  .btn-continue {
+    width: 100%;
+    padding: 16px;
+    background: var(--pink);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 8px 20px rgba(236,72,153,0.3);
+  }
+  .btn-continue:hover { background: var(--brown-dark); transform: translateY(-2px); }
+  .btn-continue:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+  /* INFO NOTE */
+  .info-note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #1e40af;
+    line-height: 1.5;
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .info-note .in-icon { font-size: 18px; flex-shrink: 0; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 100px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--brown-dark); color: white;
+    padding: 13px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 600;
+    opacity: 0; transition: 0.3s; z-index: 999;
+    pointer-events: none; max-width: 90%;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
+
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
+  .overlay.show { display: block; }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    display: none; position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    width: calc(100% - 24px); max-width: 500px; background: var(--white); border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
+    padding: 8px 6px; z-index: 400;
+    transition: opacity 0.2s ease, transform 0.3s ease;
+  }
+  body.sidebar-open .bottom-nav { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(120px); }
+  .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
+  .bn-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 3px;
+    background: transparent; border: none;
+    color: #9ca3af; font-size: 10px; font-weight: 600;
+    cursor: pointer; padding: 6px 2px; border-radius: 16px;
+    transition: 0.25s; font-family: inherit; text-decoration: none; min-height: 56px;
+  }
+  .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .bn-item .bn-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .bn-item.active { color: var(--brown-dark); font-weight: 700; }
+  .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
+  .bn-item.active .bn-icon svg { stroke: var(--pink); }
+  .bn-item.logout { color: #dc2626; }
+
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); width: 280px; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 4% 140px; }
+    .menu-btn { display: block; }
+    .bottom-nav { display: block; }
+    body.sidebar-open { overflow: hidden; }
+  }
+  @media (max-width: 600px) {
+    .balance-hero { padding: 24px 20px; }
+    .balance-hero .bh-value { font-size: 34px; }
+    .amount-picker { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .amount-pick { padding: 14px 6px; font-size: 14px; }
+    .bn-item { font-size: 8.5px; }
+    .bn-item .bn-icon { width: 30px; height: 30px; }
+    .bn-item .bn-icon svg { width: 18px; height: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">Arknet<span>SMS</span></div>
+    <p>Virtual numbers & accounts</p>
+  </div>
+  <div class="side-user">
+    <div class="side-avatar" id="sideAvatar">A</div>
+    <div class="side-user-info">
+      <div class="side-user-name" id="sideName">Loading...</div>
+      <div class="side-user-email" id="sideEmail">—</div>
+    </div>
+  </div>
+  <nav class="side-nav">
+    <div class="side-label">Main</div>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">📊</span> Dashboard</a>
+    <a href="usa-numbers.html" class="side-item"><span class="si-icon">🇺🇸</span> USA Numbers</a>
+    <a href="countries.html" class="side-item"><span class="si-icon">🌍</span> All Countries</a>
+    <div class="side-divider"></div>
+    <div class="side-label">Account</div>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">👤</span> Profile</a>
+    <a href="wallet.html" class="side-item active"><span class="si-icon">💰</span> Deposit Funds</a>
+    <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
+    <a href="https://wa.me/+2348128748746" target="_blank" class="side-item"><span class="si-icon">💬</span> Contact Support</a>
+    <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
+  </nav>
+</aside>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="logo">Arknet<span>SMS</span></div>
+  </div>
+  <div class="topbar-balance">
+    <span class="b-icon">💰</span>
+    <span class="b-val" id="topBalance">₦0.00</span>
+  </div>
+</div>
+
+<main class="main">
+
+  <div class="greeting">
+    <h1>💰 Deposit <span>Funds</span></h1>
+    <p>Add money to your Arknet wallet.</p>
+  </div>
+
+  <!-- BALANCE HERO -->
+  <div class="balance-hero">
+    <div class="bh-label">Current Balance</div>
+    <div class="bh-value" id="balanceDisplay">₦0.00</div>
+  </div>
+
+  <!-- AMOUNT SECTION -->
+  <div class="section">
+    <div class="section-title">Choose Amount</div>
+
+    <div class="amount-picker" id="amountPicker">
+      <button class="amount-pick" data-amount="1000">₦1,000</button>
+      <button class="amount-pick" data-amount="2000">₦2,000</button>
+      <button class="amount-pick" data-amount="5000">₦5,000</button>
+      <button class="amount-pick" data-amount="10000">₦10,000</button>
+      <button class="amount-pick" data-amount="20000">₦20,000</button>
+      <button class="amount-pick" data-amount="50000">₦50,000</button>
+    </div>
+
+    <div class="form-field">
+      <label>Or enter custom amount (₦)</label>
+      <input type="number" id="customAmount" placeholder="e.g. 15000" min="100">
+    </div>
+
+    <button class="btn-continue" id="continueBtn">
+      Continue → 
+    </button>
+
+    <div class="info-note">
+      <div class="in-icon">ℹ️</div>
+      <div>You'll be redirected to <strong>Flutterwave</strong> to complete payment securely with your card, bank transfer, or USSD.</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-inner">
+    <a href="dashboard.html" class="bn-item" data-goto="service">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <span>Service</span>
+    </a>
+    <a href="wallet.html" class="bn-item active" data-goto="deposit">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
+      <span>Deposit</span>
+    </a>
+    <a href="dashboard.html" class="bn-item" data-goto="profile">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
+      <span>Profile</span>
+    </a>
+    <a href="https://wa.me/+2348128748746" target="_blank" class="bn-item" data-goto="contact">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+      <span>Contact</span>
+    </a>
+    <button class="bn-item logout" id="bnLogout">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+      <span>Logout</span>
+    </button>
+  </div>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
+    authDomain: "arknetsms-430ee.firebaseapp.com",
+    projectId: "arknetsms-430ee",
+    storageBucket: "arknetsms-430ee.firebasestorage.app",
+    messagingSenderId: "961504742152",
+    appId: "1:961504742152:web:a9ade98d13465bb3b8babd",
+    measurementId: "G-48V2T4CBJF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const toast = document.getElementById('toast');
+  const showToast = (text, type = '') => {
+    toast.textContent = text;
+    toast.className = 'toast show ' + type;
+    setTimeout(() => toast.className = 'toast ' + type, 2500);
+  };
+
+  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  let currentUser = null;
+  let currentBalance = 0;
+  let selectedAmount = 0;
+
+  /* MENU */
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    sidebar.classList.add('open'); overlay.classList.add('show');
+    document.body.classList.add('sidebar-open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('show');
+    document.body.classList.remove('sidebar-open');
+  });
+  async function doLogout(){ await signOut(auth); window.location.replace('login.html'); }
+  document.getElementById('logoutBtn').addEventListener('click', doLogout);
+  document.getElementById('bnLogout').addEventListener('click', doLogout);
+
+  /* AMOUNT PICKER */
+  const customInput = document.getElementById('customAmount');
+
+  document.querySelectorAll('.amount-pick').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.amount-pick').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedAmount = Number(btn.dataset.amount);
+      customInput.value = '';
+    });
+  });
+
+  customInput.addEventListener('input', () => {
+    document.querySelectorAll('.amount-pick').forEach(b => b.classList.remove('selected'));
+    selectedAmount = Number(customInput.value) || 0;
+  });
+
+  /* CONTINUE BUTTON */
+  document.getElementById('continueBtn').addEventListener('click', () => {
+    let amount = selectedAmount;
+
+    // If custom input has value, use that instead
+    if (customInput.value && Number(customInput.value) > 0) {
+      amount = Number(customInput.value);
+    }
+
+    // Validation
+    if (!amount || amount < 100) {
+      showToast('Minimum deposit is ₦100', 'error');
+      return;
+    }
+
+    // Flutterwave not configured yet
+    showToast('⏳ Payment gateway coming soon!', 'error');
+
+    // ============================================================
+    // TODO: WHEN YOU HAVE FLUTTERWAVE ACCOUNT:
+    // Replace the showToast above with this code:
+    // ============================================================
+    //
+    // const FLW_PUBLIC_KEY = "FLWPUBK_TEST-your-public-key-here";
+    // const tx_ref = 'ARKNET-' + Date.now() + '-' + currentUser.uid.slice(0, 6);
+    //
+    // FlutterwaveCheckout({
+    //   public_key: FLW_PUBLIC_KEY,
+    //   tx_ref: tx_ref,
+    //   amount: amount,
+    //   currency: 'NGN',
+    //   payment_options: 'card, banktransfer, ussd',
+    //   customer: {
+    //     email: currentUser.email,
+    //     name: currentUser.displayName || 'User',
+    //   },
+    //   customizations: {
+    //     title: 'Arknet SMS Wallet',
+    //     description: 'Fund your Arknet wallet',
+    //     logo: 'https://your-logo-url.com/logo.png'
+    //   },
+    //   callback: function (response) {
+    //     // Called on successful payment
+    //     if (response.status === 'successful') {
+    //       handleSuccessfulDeposit(amount, tx_ref, response);
+    //     }
+    //   },
+    //   onclose: function () {
+    //     showToast('Payment cancelled', 'error');
+    //   }
+    // });
+  });
+
+  /* ============================================================
+     HANDLE SUCCESSFUL DEPOSIT (call this from Flutterwave callback)
+     ============================================================ */
+  async function handleSuccessfulDeposit(amount, tx_ref, response) {
+    try {
+      // Add to wallet
+      const userRef = doc(db, 'users', currentUser.uid);
+      const snap = await getDoc(userRef);
+      const data = snap.data() || {};
+      const freshBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
+      const newBalance = freshBalance + Number(amount);
+
+      await updateDoc(userRef, { wallet: newBalance });
+
+      // Log transaction
+      await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
+        type: 'deposit',
+        icon: '💰',
+        title: 'Wallet Deposit',
+        subtitle: `Ref: ${tx_ref}`,
+        amount: Number(amount),
+        createdAt: serverTimestamp()
+      });
+
+      showToast(`✅ Deposit successful! +${formatNGN(amount)}`, 'success');
+
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 2000);
+
+    } catch (err) {
+      console.error('Deposit error:', err);
+      showToast('❌ Deposit failed. Contact support.', 'error');
+    }
+  }
+
+  /* AUTH */
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+    const name = user.displayName || 'User';
+    document.getElementById('sideName').textContent = name;
+    document.getElementById('sideEmail').textContent = user.email;
+    document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
+
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
+        document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+        document.getElementById('balanceDisplay').textContent = formatNGN(currentBalance);
+      }
+    } catch (e) {}
+  });
+</script>
+
+</body>
+</html>
