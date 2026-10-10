@@ -9,7 +9,6 @@
   :root {
     --brown-dark: #4a2c2a;
     --brown: #6b4423;
-    --brown-light: #8b5e3c;
     --pink: #ec4899;
     --pink-light: #f9a8d4;
     --pink-soft: #fdf2f8;
@@ -29,8 +28,7 @@
     background: var(--brown-dark); color: #e8d5cc;
     display: flex; flex-direction: column;
     z-index: 200; overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 30px;
+    -webkit-overflow-scrolling: touch; padding-bottom: 30px;
   }
   .sidebar-brand { padding: 20px 18px; border-bottom: 1px solid rgba(249,168,212,0.15); }
   .sidebar-brand .logo { font-size: 18px; font-weight: 800; color: white; }
@@ -56,8 +54,7 @@
     display: flex; background: var(--brown-dark);
     padding: 12px 18px; align-items: center;
     justify-content: space-between;
-    position: sticky; top: 0; z-index: 150;
-    gap: 12px;
+    position: sticky; top: 0; z-index: 150; gap: 12px;
   }
   .topbar-left { display: flex; align-items: center; gap: 12px; }
   .menu-btn { background: transparent; border: none; color: white; font-size: 22px; cursor: pointer; display: none; }
@@ -75,29 +72,28 @@
 
   /* MAIN */
   .main { margin-left: var(--sidebar-w); padding: 22px 4% 60px; min-height: calc(100vh - 60px); }
-
   .page-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 20px; }
   .page-title span { color: var(--pink); }
 
   /* STATS */
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
   }
   .stat-card {
     background: white; border: 1px solid #f5e6e0;
-    border-radius: 16px; padding: 18px;
+    border-radius: 16px; padding: 16px;
     display: flex; align-items: center; gap: 12px;
   }
   .stat-icon {
-    width: 46px; height: 46px; border-radius: 12px;
+    width: 44px; height: 44px; border-radius: 12px;
     background: var(--pink-soft);
     display: flex; align-items: center; justify-content: center;
     font-size: 20px; flex-shrink: 0;
   }
-  .stat-label { font-size: 11px; color: #8b5e3c; font-weight: 600; }
+  .stat-label { font-size: 10px; color: #8b5e3c; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
   .stat-value { font-size: 20px; font-weight: 800; color: var(--brown-dark); line-height: 1.2; }
 
   /* SECTION */
@@ -120,74 +116,28 @@
   th {
     text-align: left; font-size: 10px; font-weight: 800;
     color: #8b5e3c; text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 10px 12px;
+    letter-spacing: 0.6px; padding: 10px 12px;
     border-bottom: 2px solid #f5e6e0;
   }
   td {
-    padding: 12px;
-    font-size: 12px;
+    padding: 12px; font-size: 12px;
     color: var(--brown-dark);
     border-bottom: 1px solid #f5e6e0;
   }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: var(--pink-soft); }
 
-  .pill {
+  .role-pill {
     display: inline-block;
-    padding: 3px 9px;
+    padding: 3px 10px;
     border-radius: 20px;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.4px;
   }
-  .pill.active, .pill.delivered { background: #dcfce7; color: #166534; }
-  .pill.pending { background: #fef3c7; color: #92400e; }
-  .pill.rejected, .pill.cancelled { background: #fee2e2; color: #991b1b; }
-
-  /* FORM */
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
-  }
-  .form-field label {
-    display: block; font-size: 12px; font-weight: 700;
-    color: var(--brown-dark); margin-bottom: 6px;
-  }
-  .form-field input {
-    width: 100%; padding: 12px 14px;
-    border: 1.5px solid #f0dcd4; border-radius: 10px;
-    font-size: 14px; color: var(--brown-dark);
-    background: var(--cream); font-family: inherit;
-  }
-  .form-field input:focus {
-    outline: none; border-color: var(--pink);
-    background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
-  }
-  .form-field small { font-size: 11px; color: #8b5e3c; display: block; margin-top: 4px; }
-
-  .btn-save {
-    grid-column: 1 / -1;
-    padding: 14px;
-    background: var(--pink); color: white;
-    border: none; border-radius: 12px;
-    font-size: 15px; font-weight: 800;
-    cursor: pointer; font-family: inherit;
-    transition: 0.2s;
-    margin-top: 6px;
-  }
-  .btn-save:hover { background: var(--brown-dark); }
-
-  /* EMPTY */
-  .empty {
-    text-align: center; padding: 40px 20px;
-    border: 2px dashed #f0dcd4; border-radius: 12px;
-    color: #8b5e3c;
-  }
-  .empty-icon { font-size: 40px; margin-bottom: 10px; }
-  .empty h3 { color: var(--brown-dark); font-size: 15px; margin-bottom: 6px; }
+  .role-admin { background: var(--pink); color: white; }
+  .role-user { background: #dbeafe; color: #1e40af; }
 
   /* TOAST */
   .toast {
@@ -222,15 +172,8 @@
   <nav class="side-nav">
     <div class="side-label">Overview</div>
     <div class="side-item active" data-page="dashboard"><span class="si-icon">📊</span> Dashboard</div>
-    <div class="side-item" data-page="users"><span class="si-icon">👥</span> Users</div>
-    <div class="side-item" data-page="orders"><span class="si-icon">📦</span> Orders</div>
-    <div class="side-item" data-page="activations"><span class="si-icon">📱</span> Activations</div>
-
-    <div class="side-divider"></div>
-    <div class="side-label">Settings</div>
-    <div class="side-item" data-page="pricing"><span class="si-icon">💰</span> Pricing</div>
-    <div class="side-item" data-page="rate"><span class="si-icon">📈</span> USD Rate</div>
-
+    <div class="side-item" data-page="admins"><span class="si-icon">👑</span> Admins</div>
+    <div class="side-item" data-page="users"><span class="si-icon">👥</span> Customers</div>
     <div class="side-divider"></div>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
@@ -260,23 +203,23 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">📦</div>
+        <div class="stat-icon">👑</div>
         <div>
-          <div class="stat-label">Total Orders</div>
-          <div class="stat-value" id="statOrders">0</div>
+          <div class="stat-label">Admins</div>
+          <div class="stat-value" id="statAdmins">0</div>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">📱</div>
+        <div class="stat-icon">👤</div>
         <div>
-          <div class="stat-label">Total Activations</div>
-          <div class="stat-value" id="statActivations">0</div>
+          <div class="stat-label">Customers</div>
+          <div class="stat-value" id="statCustomers">0</div>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">💰</div>
         <div>
-          <div class="stat-label">Total Balance Held</div>
+          <div class="stat-label">Balance Held</div>
           <div class="stat-value" id="statRevenue">₦0</div>
         </div>
       </div>
@@ -287,23 +230,44 @@
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Name</th><th>Email</th><th>Balance</th><th>Joined</th></tr>
+            <tr><th>Name</th><th>Email</th><th>Role</th><th>Balance</th><th>Joined</th></tr>
           </thead>
           <tbody id="recentUsersBody">
-            <tr><td colspan="4"><div class="empty"><div class="empty-icon">👥</div><h3>Loading...</h3></div></td></tr>
+            <tr><td colspan="5"><div class="empty"><div class="empty-icon">👥</div><h3>Loading...</h3></div></td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- USERS -->
-  <div class="page" id="page-users" style="display:none;">
-    <div class="page-title">👥 All <span>Users</span></div>
+  <!-- ADMINS PAGE -->
+  <div class="page" id="page-admins" style="display:none;">
+    <div class="page-title">👑 All <span>Admins</span></div>
     <div class="section">
       <div class="section-title">
-        <span>Customers List</span>
-        <span id="usersCount" style="font-size:12px; color:var(--pink); font-weight:700;">0 users</span>
+        <span>Admin Users</span>
+        <span id="adminsCount" style="font-size:12px; color:var(--pink); font-weight:700;">0 admins</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Phone</th><th>Balance</th><th>Joined</th></tr>
+          </thead>
+          <tbody id="adminsBody">
+            <tr><td colspan="5"><div class="empty"><div class="empty-icon">👑</div><h3>Loading...</h3></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMERS PAGE -->
+  <div class="page" id="page-users" style="display:none;">
+    <div class="page-title">👥 All <span>Customers</span></div>
+    <div class="section">
+      <div class="section-title">
+        <span>Customer List</span>
+        <span id="usersCount" style="font-size:12px; color:var(--pink); font-weight:700;">0 customers</span>
       </div>
       <div class="table-wrap">
         <table>
@@ -318,113 +282,6 @@
     </div>
   </div>
 
-  <!-- ORDERS -->
-  <div class="page" id="page-orders" style="display:none;">
-    <div class="page-title">📦 All <span>Orders</span></div>
-    <div class="section">
-      <div class="section-title">
-        <span>Orders List</span>
-        <span id="ordersCount" style="font-size:12px; color:var(--pink); font-weight:700;">0 orders</span>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>User</th><th>Product</th><th>Price</th><th>Status</th><th>Date</th></tr>
-          </thead>
-          <tbody id="ordersBody">
-            <tr><td colspan="5"><div class="empty"><div class="empty-icon">📦</div><h3>Loading...</h3></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ACTIVATIONS -->
-  <div class="page" id="page-activations" style="display:none;">
-    <div class="page-title">📱 All <span>Activations</span></div>
-    <div class="section">
-      <div class="section-title">
-        <span>Numbers Bought</span>
-        <span id="activationsCount" style="font-size:12px; color:var(--pink); font-weight:700;">0 activations</span>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>User ID</th><th>Service</th><th>Number</th><th>Price</th><th>Status</th><th>Date</th></tr>
-          </thead>
-          <tbody id="activationsBody2">
-            <tr><td colspan="6"><div class="empty"><div class="empty-icon">📱</div><h3>Loading...</h3></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRICING -->
-  <div class="page" id="page-pricing" style="display:none;">
-    <div class="page-title">💰 <span>Pricing</span> Settings</div>
-
-    <div class="section">
-      <div class="section-title">Global Profit Settings</div>
-      <div class="form-grid">
-        <div class="form-field">
-          <label>Profit per Sale (₦)</label>
-          <input type="number" id="profitPerSale" placeholder="850" min="0">
-          <small>Added on top of every number sold</small>
-        </div>
-        <div class="form-field">
-          <label>Auto Price Formula</label>
-          <input type="text" id="formulaPreview" disabled style="color:#8b5e3c;">
-          <small>Current formula used for all numbers</small>
-        </div>
-        <button class="btn-save" id="saveProfitBtn">💾 Save Profit Settings</button>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Manual Price Overrides</div>
-      <p style="font-size:13px; color:#8b5e3c; margin-bottom:14px;">
-        Override specific service prices. Example: set WhatsApp USA to a fixed ₦4,500.
-      </p>
-      <div class="form-grid">
-        <div class="form-field">
-          <label>Country Code</label>
-          <input type="text" id="overrideCountry" placeholder="e.g. US1 or UK">
-        </div>
-        <div class="form-field">
-          <label>Service Name</label>
-          <input type="text" id="overrideService" placeholder="e.g. WhatsApp">
-        </div>
-        <div class="form-field">
-          <label>Fixed Price (₦)</label>
-          <input type="number" id="overridePrice" placeholder="e.g. 4500" min="0">
-        </div>
-        <button class="btn-save" id="saveOverrideBtn">➕ Add Override</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- RATE -->
-  <div class="page" id="page-rate" style="display:none;">
-    <div class="page-title">📈 USD to <span>NGN Rate</span></div>
-    <div class="section">
-      <div class="section-title">Current Rate</div>
-      <div class="form-grid">
-        <div class="form-field">
-          <label>1 USD = ? NGN</label>
-          <input type="number" id="usdRate" placeholder="1550" min="1" step="1">
-          <small>Used for calculating number prices</small>
-        </div>
-        <div class="form-field">
-          <label>Example Calculation</label>
-          <input type="text" id="rateExample" disabled style="color:#8b5e3c;">
-          <small>WhatsApp ($2.50) → price shown to customer</small>
-        </div>
-        <button class="btn-save" id="saveRateBtn">💾 Save Rate</button>
-      </div>
-    </div>
-  </div>
-
 </main>
 
 <div class="toast" id="toast"></div>
@@ -433,8 +290,8 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
-    getFirestore, doc, getDoc, setDoc,
-    collection, getDocs, serverTimestamp
+    getFirestore, doc, getDoc,
+    collection, getDocs
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -466,7 +323,7 @@
   };
   const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-  /* AUTH GUARD — check role OR isAdmin */
+  /* AUTH GUARD */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'index.html'; return; }
     try {
@@ -507,15 +364,6 @@
   });
 
   async function loadAll() {
-    loadStats();
-    loadUsers();
-    loadOrders();
-    loadActivations();
-    loadPricingSettings();
-    loadRateSettings();
-  }
-
-  async function loadStats() {
     try {
       const usersSnap = await getDocs(collection(db, 'users'));
       const users = [];
@@ -525,187 +373,92 @@
         users.push({ id: d.id, ...data });
         totalBalance += Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
       });
-      document.getElementById('statUsers').textContent = users.length;
-      document.getElementById('statRevenue').textContent = formatNGN(totalBalance);
 
-      users.sort((a,b) => {
+      // Separate admins vs customers
+      const admins = users.filter(u => u.role === 'admin' || u.isAdmin === true);
+      const customers = users.filter(u => u.role !== 'admin' && u.isAdmin !== true);
+
+      // Sort by createdAt desc
+      users.sort((a, b) => {
+        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+        return tb - ta;
+      });
+      admins.sort((a, b) => {
+        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+        return tb - ta;
+      });
+      customers.sort((a, b) => {
         const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
         const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
         return tb - ta;
       });
 
+      // Stats
+      document.getElementById('statUsers').textContent = users.length;
+      document.getElementById('statAdmins').textContent = admins.length;
+      document.getElementById('statCustomers').textContent = customers.length;
+      document.getElementById('statRevenue').textContent = formatNGN(totalBalance);
+
+      // Recent users (5 latest)
       const recentBody = document.getElementById('recentUsersBody');
       if (!users.length) {
-        recentBody.innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-icon">👥</div><h3>No users yet</h3></div></td></tr>`;
+        recentBody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">👥</div><h3>No users yet</h3></div></td></tr>`;
       } else {
-        recentBody.innerHTML = users.slice(0, 5).map(u => `
+        recentBody.innerHTML = users.slice(0, 5).map(u => {
+          const isAdmin = u.role === 'admin' || u.isAdmin === true;
+          return `
+            <tr>
+              <td>${escapeHtml(u.fullname || u.displayName || '—')}</td>
+              <td>${escapeHtml(u.email || '—')}</td>
+              <td><span class="role-pill ${isAdmin ? 'role-admin' : 'role-user'}">${isAdmin ? '👑 Admin' : '👤 User'}</span></td>
+              <td>${formatNGN(u.wallet ?? u.walletBalance ?? u.balance ?? 0)}</td>
+              <td>${formatDate(u.createdAt)}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // Admins page
+      document.getElementById('adminsCount').textContent = admins.length + ' admins';
+      const adminsBody = document.getElementById('adminsBody');
+      if (!admins.length) {
+        adminsBody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">👑</div><h3>No admins yet</h3></div></td></tr>`;
+      } else {
+        adminsBody.innerHTML = admins.map(u => `
           <tr>
             <td>${escapeHtml(u.fullname || u.displayName || '—')}</td>
             <td>${escapeHtml(u.email || '—')}</td>
+            <td>${escapeHtml(u.phone || u.number || '—')}</td>
             <td>${formatNGN(u.wallet ?? u.walletBalance ?? u.balance ?? 0)}</td>
             <td>${formatDate(u.createdAt)}</td>
           </tr>
         `).join('');
       }
-    } catch (e) { console.warn(e); }
-  }
 
-  async function loadUsers() {
-    try {
-      const snap = await getDocs(collection(db, 'users'));
-      const users = [];
-      snap.forEach(d => users.push({ id: d.id, ...d.data() }));
-      users.sort((a,b) => {
-        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tb - ta;
-      });
-
-      document.getElementById('usersCount').textContent = users.length + ' users';
-      const tbody = document.getElementById('usersBody');
-      if (!users.length) {
-        tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">👥</div><h3>No users yet</h3></div></td></tr>`;
-        return;
+      // Customers page
+      document.getElementById('usersCount').textContent = customers.length + ' customers';
+      const usersBody = document.getElementById('usersBody');
+      if (!customers.length) {
+        usersBody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">👥</div><h3>No customers yet</h3></div></td></tr>`;
+      } else {
+        usersBody.innerHTML = customers.map(u => `
+          <tr>
+            <td>${escapeHtml(u.fullname || u.displayName || '—')}</td>
+            <td>${escapeHtml(u.email || '—')}</td>
+            <td>${escapeHtml(u.phone || u.number || '—')}</td>
+            <td>${formatNGN(u.wallet ?? u.walletBalance ?? u.balance ?? 0)}</td>
+            <td>${formatDate(u.createdAt)}</td>
+          </tr>
+        `).join('');
       }
-      tbody.innerHTML = users.map(u => `
-        <tr>
-          <td>${escapeHtml(u.fullname || u.displayName || '—')}</td>
-          <td>${escapeHtml(u.email || '—')}</td>
-          <td>${escapeHtml(u.phone || u.number || '—')}</td>
-          <td>${formatNGN(u.wallet ?? u.walletBalance ?? u.balance ?? 0)}</td>
-          <td>${formatDate(u.createdAt)}</td>
-        </tr>
-      `).join('');
-    } catch (e) { console.warn(e); }
+
+    } catch (err) {
+      console.error('Load error:', err);
+      showToast('❌ Failed to load users', 'error');
+    }
   }
-
-  async function loadOrders() {
-    try {
-      const snap = await getDocs(collection(db, 'orders'));
-      const orders = [];
-      snap.forEach(d => orders.push({ id: d.id, ...d.data() }));
-      orders.sort((a,b) => {
-        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tb - ta;
-      });
-
-      document.getElementById('statOrders').textContent = orders.length;
-      document.getElementById('ordersCount').textContent = orders.length + ' orders';
-      const tbody = document.getElementById('ordersBody');
-      if (!orders.length) {
-        tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">📦</div><h3>No orders yet</h3></div></td></tr>`;
-        return;
-      }
-      tbody.innerHTML = orders.map(o => `
-        <tr>
-          <td>${escapeHtml(o.userEmail || o.userId?.slice(0,8) || '—')}</td>
-          <td>${escapeHtml(o.productName || o.service || '—')}</td>
-          <td>${formatNGN(o.price || o.amount || 0)}</td>
-          <td><span class="pill ${o.status || 'pending'}">${o.status || 'pending'}</span></td>
-          <td>${formatDate(o.createdAt)}</td>
-        </tr>
-      `).join('');
-    } catch (e) { console.warn(e); }
-  }
-
-  async function loadActivations() {
-    try {
-      const usersSnap = await getDocs(collection(db, 'users'));
-      const allActivations = [];
-      for (const userDoc of usersSnap.docs) {
-        const actsSnap = await getDocs(collection(db, 'users', userDoc.id, 'activations'));
-        actsSnap.forEach(a => allActivations.push({ userId: userDoc.id, ...a.data() }));
-      }
-      allActivations.sort((a,b) => {
-        const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tb - ta;
-      });
-      document.getElementById('statActivations').textContent = allActivations.length;
-      document.getElementById('activationsCount').textContent = allActivations.length + ' activations';
-      const tbody = document.getElementById('activationsBody2');
-      if (!allActivations.length) {
-        tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📱</div><h3>No activations yet</h3></div></td></tr>`;
-        return;
-      }
-      tbody.innerHTML = allActivations.slice(0, 50).map(a => `
-        <tr>
-          <td style="font-size:11px;">${escapeHtml(a.userId.slice(0, 8))}...</td>
-          <td>${escapeHtml(a.service || '—')}</td>
-          <td>${escapeHtml(a.number || '—')}</td>
-          <td>${formatNGN(a.price || 0)}</td>
-          <td><span class="pill ${a.status || 'pending'}">${a.status || 'pending'}</span></td>
-          <td>${formatDate(a.createdAt)}</td>
-        </tr>
-      `).join('');
-    } catch (e) { console.warn(e); }
-  }
-
-  async function loadPricingSettings() {
-    try {
-      const snap = await getDoc(doc(db, 'admin_settings', 'pricing'));
-      if (snap.exists()) {
-        document.getElementById('profitPerSale').value = snap.data().profitPerSale || 850;
-      }
-      updateFormulaPreview();
-    } catch (e) { console.warn(e); }
-  }
-
-  document.getElementById('profitPerSale').addEventListener('input', updateFormulaPreview);
-  document.getElementById('usdRate')?.addEventListener('input', updateFormulaPreview);
-
-  function updateFormulaPreview() {
-    const profit = Number(document.getElementById('profitPerSale')?.value) || 0;
-    const rate = Number(document.getElementById('usdRate')?.value) || 1550;
-    const preview = document.getElementById('formulaPreview');
-    const example = document.getElementById('rateExample');
-    if (preview) preview.value = `(USD × ₦${rate}) + ₦${profit}`;
-    if (example) example.value = `$2.50 × ${rate} + ${profit} = ${formatNGN(2.5 * rate + profit)}`;
-  }
-
-  document.getElementById('saveProfitBtn').addEventListener('click', async () => {
-    try {
-      const profit = Number(document.getElementById('profitPerSale').value) || 850;
-      await setDoc(doc(db, 'admin_settings', 'pricing'), { profitPerSale: profit, updatedAt: serverTimestamp() }, { merge: true });
-      showToast('✅ Profit settings saved!', 'success');
-    } catch (e) { showToast('❌ Failed to save', 'error'); }
-  });
-
-  document.getElementById('saveOverrideBtn').addEventListener('click', async () => {
-    try {
-      const country = document.getElementById('overrideCountry').value.trim().toUpperCase();
-      const service = document.getElementById('overrideService').value.trim();
-      const price = Number(document.getElementById('overridePrice').value);
-      if (!country || !service || !price) return showToast('Please fill all fields', 'error');
-      const key = `${country}_${service.toLowerCase().replace(/\s+/g, '_')}`;
-      await setDoc(doc(db, 'admin_settings', 'price_overrides'), {
-        [key]: { country, service, price, updatedAt: serverTimestamp() }
-      }, { merge: true });
-      showToast('✅ Override saved!', 'success');
-      document.getElementById('overrideCountry').value = '';
-      document.getElementById('overrideService').value = '';
-      document.getElementById('overridePrice').value = '';
-    } catch (e) { showToast('❌ Failed to save override', 'error'); }
-  });
-
-  async function loadRateSettings() {
-    try {
-      const snap = await getDoc(doc(db, 'admin_settings', 'rate'));
-      if (snap.exists()) {
-        document.getElementById('usdRate').value = snap.data().usdRate || 1550;
-      }
-      updateFormulaPreview();
-    } catch (e) { console.warn(e); }
-  }
-
-  document.getElementById('saveRateBtn').addEventListener('click', async () => {
-    try {
-      const rate = Number(document.getElementById('usdRate').value) || 1550;
-      await setDoc(doc(db, 'admin_settings', 'rate'), { usdRate: rate, updatedAt: serverTimestamp() }, { merge: true });
-      showToast('✅ Rate saved!', 'success');
-    } catch (e) { showToast('❌ Failed to save rate', 'error'); }
-  });
 </script>
 
 </body>
