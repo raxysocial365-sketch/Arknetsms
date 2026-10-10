@@ -21,12 +21,21 @@
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
 
-  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--brown-dark); color: #e8d5cc; display: flex; flex-direction: column; z-index: 200; transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: 30px; }
-  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed; top: 0; left: 0;
+    width: var(--sidebar-w); height: 100vh;
+    background: var(--brown-dark); color: #e8d5cc;
+    display: flex; flex-direction: column;
+    z-index: 200; transition: transform 0.3s ease;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; padding-bottom: 30px;
+  }
+  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); }
   .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; }
   .sidebar-brand .logo span { color: var(--pink-light); }
   .sidebar-brand p { font-size: 11px; color: #b89b8f; margin-top: 3px; }
-  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
+  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); }
   .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
   .side-user-info { overflow: hidden; }
   .side-user-name { font-size: 14px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -41,6 +50,7 @@
   .side-logout { color: #fca5a5 !important; }
   .side-logout:hover { background: rgba(220,38,38,0.15) !important; }
 
+  /* TOPBAR */
   .topbar { display: flex; background: var(--brown-dark); padding: 14px 20px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150; gap: 12px; }
   .topbar-left { display: flex; align-items: center; gap: 14px; }
   .menu-btn { background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; display: none; }
@@ -49,26 +59,42 @@
   .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; }
   .topbar-balance .b-val { color: var(--pink-light); }
 
+  /* MAIN */
   .main { margin-left: var(--sidebar-w); padding: 22px 4% 140px; min-height: calc(100vh - 60px); }
   .view { display: none; animation: fade 0.3s ease; }
   .view.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .actions-top { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 14px; }
-  .actions-single { display: grid; grid-template-columns: 1fr; max-width: calc(50% - 7px); margin: 0 auto 30px; }
+  /* ACTION CARDS */
+  .actions-top { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 30px; }
 
-  .action-card { background: var(--white); border: 1px solid #f5e6e0; border-radius: 22px; padding: 26px 16px 22px; cursor: pointer; transition: 0.28s; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; min-height: 150px; text-decoration: none; color: inherit; }
+  .action-card {
+    background: var(--white); border: 1px solid #f5e6e0; border-radius: 22px;
+    padding: 26px 16px 22px;
+    cursor: pointer; transition: 0.28s;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; gap: 14px; min-height: 150px;
+    text-decoration: none; color: inherit;
+  }
   .action-card:hover { transform: translateY(-4px); border-color: var(--pink-light); box-shadow: 0 16px 34px rgba(236,72,153,0.14); }
-  .action-card .ac-icon { width: 62px; height: 62px; border-radius: 20px; background: linear-gradient(135deg, var(--pink-soft), #fce7f3); display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08); }
+  .action-card .ac-icon {
+    width: 62px; height: 62px; border-radius: 20px;
+    background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    box-shadow: inset 0 0 0 1px rgba(236,72,153,0.08);
+  }
   .action-card .ac-title { font-size: 15px; font-weight: 800; color: var(--brown-dark); line-height: 1.25; }
   .action-card .ac-sub { font-size: 12px; color: var(--brown-light); font-weight: 500; margin-top: -8px; }
 
+  /* SECTION */
   .section { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 22px; margin-bottom: 22px; }
   .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
   .section-title { font-size: 16px; font-weight: 800; color: var(--brown-dark); display: flex; align-items: center; gap: 8px; }
   .btn-refresh { background: var(--pink-soft); color: var(--pink); border: 1px solid var(--pink-light); padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
   .btn-refresh:hover { background: var(--pink); color: white; }
 
+  /* TABLE */
   .table-wrap { overflow-x: auto; }
   table.act-table { width: 100%; border-collapse: collapse; min-width: 620px; }
   table.act-table th { text-align: left; font-size: 11px; font-weight: 800; color: var(--brown-light); text-transform: uppercase; letter-spacing: 0.6px; padding: 10px 12px; border-bottom: 2px solid #f5e6e0; }
@@ -84,14 +110,7 @@
   .status-expired, .status-cancelled { background: #fee2e2; color: #991b1b; }
   .status-completed { background: #dbeafe; color: #1e40af; }
 
-  .btn-cancel-row {
-    background: #fee2e2; color: #991b1b;
-    border: 1px solid #fca5a5;
-    padding: 6px 12px; border-radius: 8px;
-    font-size: 11px; font-weight: 700;
-    cursor: pointer; font-family: inherit;
-    transition: 0.2s; white-space: nowrap; margin-top: 6px;
-  }
+  .btn-cancel-row { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; transition: 0.2s; white-space: nowrap; margin-top: 6px; }
   .btn-cancel-row:hover { background: #dc2626; color: white; border-color: #dc2626; }
   .btn-cancel-row:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -100,28 +119,34 @@
   .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
   .empty p { color: var(--brown-light); font-size: 14px; }
 
+  /* GREETING */
   .greeting { margin-bottom: 22px; }
   .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
   .greeting h1 span { color: var(--pink); }
   .greeting p { color: var(--brown); font-size: 14px; }
 
+  /* BACK BUTTON */
   .back-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--pink-soft); color: var(--pink); border: 1px solid var(--pink-light); padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; margin-bottom: 18px; font-family: inherit; }
   .back-btn:hover { background: var(--pink); color: white; }
 
+  /* BUTTONS */
   .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
   .btn-pink:hover { background: var(--brown-dark); }
   .btn-full { width: 100%; }
 
+  /* FORMS */
+  .form-grid { display: grid; gap: 14px; }
   .form-field label { display: block; font-size: 13px; font-weight: 700; color: var(--brown-dark); margin-bottom: 6px; }
   .form-field input { width: 100%; padding: 13px 14px; border: 1.5px solid #f0dcd4; border-radius: 10px; font-size: 14px; color: var(--brown-dark); background: var(--cream); font-family: inherit; }
   .form-field input:focus { outline: none; border-color: var(--pink); background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1); }
-  .form-grid { display: grid; gap: 14px; }
 
+  /* PROFILE */
   .profile-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f5e6e0; gap: 10px; }
   .profile-row:last-child { border-bottom: none; }
   .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
   .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; text-align: right; word-break: break-word; }
 
+  /* TOAST */
   .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--brown-dark); color: white; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none; max-width: 90%; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
@@ -132,22 +157,13 @@
 
   /* BOTTOM NAV */
   .bottom-nav {
-    display: none;
-    position: fixed;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 24px);
-    max-width: 500px;
-    background: var(--white);
-    border-radius: 22px;
+    display: none; position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    width: calc(100% - 24px); max-width: 500px; background: var(--white); border-radius: 22px;
     box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
-    padding: 8px 6px;
-    z-index: 400;
+    padding: 8px 6px; z-index: 400;
     transition: opacity 0.2s ease, transform 0.3s ease;
   }
   body.sidebar-open .bottom-nav { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(120px); }
-
   .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
   .bn-item {
     flex: 1; display: flex; flex-direction: column;
@@ -155,11 +171,9 @@
     background: transparent; border: none;
     color: #9ca3af; font-size: 10px; font-weight: 600;
     cursor: pointer; padding: 6px 2px; border-radius: 16px;
-    transition: 0.25s; font-family: inherit;
-    -webkit-tap-highlight-color: transparent; min-height: 56px;
-    text-decoration: none;
+    transition: 0.25s; font-family: inherit; text-decoration: none; min-height: 56px;
   }
-  .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.25s; }
+  .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
   .bn-item .bn-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .bn-item.active { color: var(--brown-dark); font-weight: 700; }
   .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
@@ -176,12 +190,11 @@
   }
   @media (max-width: 600px) {
     .actions-top { gap: 10px; }
-    .actions-single { max-width: calc(50% - 5px); margin-bottom: 24px; }
-    .action-card { padding: 18px 8px 16px; border-radius: 18px; min-height: 130px; gap: 10px; }
-    .action-card .ac-icon { width: 52px; height: 52px; font-size: 24px; border-radius: 16px; }
+    .action-card { padding: 20px 10px 18px; min-height: 140px; gap: 12px; }
+    .action-card .ac-icon { width: 54px; height: 54px; font-size: 24px; }
     .action-card .ac-title { font-size: 13px; }
-    .action-card .ac-sub { font-size: 10px; }
-    .bn-item { font-size: 9px; }
+    .action-card .ac-sub { font-size: 11px; }
+    .bn-item { font-size: 8.5px; }
     .bn-item .bn-icon { width: 30px; height: 30px; }
     .bn-item .bn-icon svg { width: 18px; height: 18px; }
   }
@@ -191,6 +204,7 @@
 
 <div class="overlay" id="overlay"></div>
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
     <div class="logo">Arknet<span>SMS</span></div>
@@ -208,17 +222,18 @@
     <div class="side-item active" data-page="dashboard"><span class="si-icon">📊</span> Dashboard</div>
     <a href="usa-numbers.html" class="side-item"><span class="si-icon">🇺🇸</span> USA Numbers</a>
     <a href="countries.html" class="side-item"><span class="si-icon">🌍</span> All Countries</a>
-    <a href="social-logs.html" class="side-item"><span class="si-icon">📱</span> Social Media Logs</a>
     <div class="side-divider"></div>
     <div class="side-label">Account</div>
     <div class="side-item" data-page="profile"><span class="si-icon">👤</span> Profile</div>
     <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
     <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
     <div class="side-item" data-page="password"><span class="si-icon">🔒</span> Change Password</div>
+    <a href="https://wa.me/+2348128748746" target="_blank" class="side-item"><span class="si-icon">💬</span> Contact Support</a>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
 </aside>
 
+<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-left">
     <button class="menu-btn" id="menuBtn">☰</button>
@@ -230,6 +245,7 @@
   </div>
 </div>
 
+<!-- MAIN -->
 <main class="main">
 
   <!-- DASHBOARD -->
@@ -244,13 +260,6 @@
         <div class="ac-icon">🌍</div>
         <div class="ac-title">Buy All Countries</div>
         <div class="ac-sub">Global coverage</div>
-      </a>
-    </div>
-    <div class="actions-single">
-      <a href="social-logs.html" class="action-card">
-        <div class="ac-icon">📱</div>
-        <div class="ac-title">Buy Social Media Logs</div>
-        <div class="ac-sub">Verified accounts</div>
       </a>
     </div>
 
@@ -293,7 +302,7 @@
     </div>
   </div>
 
-  <!-- PASSWORD -->
+  <!-- CHANGE PASSWORD -->
   <div class="view" id="view-password">
     <div class="greeting"><h1>🔒 Change <span>Password</span></h1><p>Keep your account secure.</p></div>
     <button class="back-btn" data-back>← Back to Dashboard</button>
@@ -310,16 +319,12 @@
 
 </main>
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM NAV: Service · Deposit · Profile · Contact · Logout -->
 <nav class="bottom-nav">
   <div class="bn-inner">
     <a href="dashboard.html" class="bn-item active" data-goto="service">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
       <span>Service</span>
-    </a>
-    <a href="transactions.html" class="bn-item" data-goto="orders">
-      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
-      <span>Orders</span>
     </a>
     <a href="wallet.html" class="bn-item" data-goto="deposit">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
@@ -329,6 +334,10 @@
       <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
       <span>Profile</span>
     </button>
+    <a href="https://wa.me/+2348128748746" target="_blank" class="bn-item" data-goto="contact">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+      <span>Contact</span>
+    </a>
     <button class="bn-item logout" id="bnLogout">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
       <span>Logout</span>
@@ -369,7 +378,6 @@
 
   const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
-  const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
 
   let currentUser = null;
   let currentBalance = 0;
@@ -415,7 +423,6 @@
     btn.addEventListener('click', () => showView('dashboard'));
   });
 
-  /* AUTH */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
@@ -442,7 +449,6 @@
     cleanupOldCancelled();
   });
 
-  /* LOAD ACTIVATIONS */
   async function loadActivations() {
     if (!currentUser) return;
     const tbody = document.getElementById('activationsBody');
@@ -477,25 +483,21 @@
           expired: 'status-expired', completed: 'status-completed',
           cancelled: 'status-cancelled'
         }[a.status] || 'status-pending';
-
         let codeCell = '';
         if (a.status === 'cancelled') codeCell = `<span class="refund-pill">REFUNDED</span>`;
         else if (a.code) codeCell = `<span class="code-pill">${a.code}</span>`;
         else codeCell = `<span class="code-pill pending">Waiting…</span>`;
-
         const actionCell = canCancel
           ? `<button class="btn-cancel-row" data-cancel-id="${id}" data-phone="${a.number}" data-service-id="${a.serviceId || ''}" data-country="${a.countryCode || ''}" data-price="${a.price || 0}" data-provider="${a.provider || ''}" data-request-id="${a.requestId || ''}">✖ Cancel</button>`
           : '';
-
-        html += `
-          <tr>
-            <td>${a.flag ? a.flag + ' ' : ''}${a.service || '—'}</td>
-            <td>${a.number || '—'}</td>
-            <td>${codeCell}</td>
-            <td>${formatNGNshort(a.price)}</td>
-            <td><span class="status-badge ${statusClass}">${a.status || 'pending'}</span></td>
-            <td>${date}${actionCell ? '<br>' + actionCell : ''}</td>
-          </tr>`;
+        html += `<tr>
+          <td>${a.flag ? a.flag + ' ' : ''}${a.service || '—'}</td>
+          <td>${a.number || '—'}</td>
+          <td>${codeCell}</td>
+          <td>${formatNGNshort(a.price)}</td>
+          <td><span class="status-badge ${statusClass}">${a.status || 'pending'}</span></td>
+          <td>${date}${actionCell ? '<br>' + actionCell : ''}</td>
+        </tr>`;
       });
       tbody.innerHTML = html;
       tbody.querySelectorAll('[data-cancel-id]').forEach(btn => {
@@ -516,7 +518,6 @@
     const requestId = btn.dataset.requestId || '';
 
     if (!confirm(`Cancel this number and get ₦${price.toLocaleString()} refunded?`)) return;
-
     btn.disabled = true;
     btn.textContent = 'Cancelling…';
 
@@ -526,11 +527,9 @@
       } else {
         await fetch(`${API_URL}?action=blacklist&country=${encodeURIComponent(country)}&website=${encodeURIComponent(serviceId)}&phone_number=${encodeURIComponent(phone)}`, { cache: 'no-store' });
       }
-
       await updateDoc(doc(db, 'users', currentUser.uid, 'activations', id), {
         status: 'cancelled', cancelledAt: serverTimestamp()
       });
-
       const userRef = doc(db, 'users', currentUser.uid);
       const fresh = await getDoc(userRef);
       const freshData = fresh.data() || {};
@@ -539,13 +538,11 @@
       await updateDoc(userRef, { wallet: newBalance, updatedAt: serverTimestamp() });
       currentBalance = newBalance;
       document.getElementById('topBalance').textContent = formatNGN(currentBalance);
-
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
         type: 'deposit', icon: '↩️',
         title: `Refund — ${phone}`, subtitle: 'Cancelled activation',
         amount: price, createdAt: serverTimestamp()
       });
-
       showToast(`✅ Cancelled. ₦${price.toLocaleString()} refunded!`, 'success');
       loadActivations();
       setTimeout(cleanupOldCancelled, 4000);
@@ -588,11 +585,9 @@
     const cur = document.getElementById('currentPass').value;
     const nw = document.getElementById('newPass').value;
     const cf = document.getElementById('confirmPass').value;
-
     if (!cur || !nw || !cf) return showToast('Please fill all fields.', 'error');
     if (nw.length < 6) return showToast('New password must be at least 6 characters.', 'error');
     if (nw !== cf) return showToast('New passwords do not match.', 'error');
-
     try {
       const cred = EmailAuthProvider.credential(currentUser.email, cur);
       await reauthenticateWithCredential(currentUser, cred);
@@ -614,4 +609,4 @@
 </script>
 
 </body>
- </html>
+</html>
