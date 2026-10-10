@@ -3,262 +3,514 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buy Social Media Logs — Arknet</title>
+<title>Buy Social Logs — Arknet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-  :root {
-    --brown-dark: #4a2c2a;
-    --brown: #6b4423;
-    --brown-light: #8b5e3c;
-    --pink: #ec4899;
-    --pink-light: #f9a8d4;
-    --pink-soft: #fdf2f8;
-    --white: #ffffff;
-    --cream: #fef9f5;
-    --green: #22c55e;
-    --red: #dc2626;
-    --blue: #2563eb;
-    --sidebar-w: 260px;
-  }
-  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+:root {
+    --primary: #2563eb;
+    --secondary: #ec4899;
+    --purple: #7c3aed;
+    --purple-dark: #6d28d9;
+    --bg-page: #eef2f7;
+    --bg-soft: #f8fafc;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --gradient: linear-gradient(135deg, #2563eb 0%, #ec4899 100%);
+    --bottom-nav-height: 68px;
+    --success: #16a34a;
+    --error: #dc2626;
+    --warning: #b45309;
+}
+html, body { overflow-x: hidden; }
+body {
+    background: var(--bg-page); color: var(--text-dark);
+    min-height: 100vh; line-height: 1.5;
+    padding-bottom: calc(var(--bottom-nav-height) + 20px);
+    -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--brown-dark); color: #e8d5cc; display: flex; flex-direction: column; z-index: 200; transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: 30px; }
-  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
-  .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; }
-  .sidebar-brand .logo span { color: var(--pink-light); }
-  .sidebar-brand p { font-size: 11px; color: #b89b8f; margin-top: 3px; }
-  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
-  .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
-  .side-user-info { overflow: hidden; }
-  .side-user-name { font-size: 14px; font-weight: 700; color: white; }
-  .side-user-email { font-size: 11px; color: #b89b8f; }
-  .side-nav { padding: 12px 10px; flex: 1; }
-  .side-label { font-size: 10px; font-weight: 800; color: #b89b8f; text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px; }
-  .side-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #e8d5cc; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 2px; }
-  .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
-  .side-item.active { background: var(--pink); color: white; }
-  .side-item .si-icon { font-size: 17px; width: 20px; text-align: center; }
-  .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 10px 14px; }
-  .side-logout { color: #fca5a5 !important; }
-
-  .topbar { display: flex; background: var(--brown-dark); padding: 14px 20px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150; gap: 12px; }
-  .topbar-left { display: flex; align-items: center; gap: 14px; }
-  .menu-btn { background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; display: none; }
-  .topbar .logo { font-size: 20px; font-weight: 800; color: white; }
-  .topbar .logo span { color: var(--pink-light); }
-  .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; }
-  .topbar-balance .b-val { color: var(--pink-light); }
-
-  .main { margin-left: var(--sidebar-w); padding: 22px 4% 120px; min-height: calc(100vh - 60px); }
-  .greeting { margin-bottom: 22px; }
-  .greeting h1 { font-size: 24px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
-  .greeting h1 span { color: var(--pink); }
-  .greeting p { color: var(--brown); font-size: 14px; }
-
-  /* CATEGORY HEADER */
-  .cat-header {
-    background: linear-gradient(135deg, #4c1d95, #7c3aed);
-    color: white;
-    padding: 14px 20px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-    margin-top: 8px;
-    font-weight: 800;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  .cat-header:first-child { margin-top: 0; }
-  .view-all-btn {
-    background: rgba(255,255,255,0.2);
-    color: white;
-    border: 1px solid rgba(255,255,255,0.4);
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    text-transform: none;
-    letter-spacing: 0;
-  }
-  .view-all-btn:hover { background: rgba(255,255,255,0.3); }
-
-  /* PRODUCT CARD */
-  .product-row {
-    background: var(--white);
-    border: 1px solid #f0e0d8;
-    border-radius: 14px;
-    padding: 16px 18px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    transition: 0.2s;
-  }
-  .product-row:hover {
-    border-color: var(--pink-light);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(236,72,153,0.08);
-  }
-  .prod-icon {
-    width: 48px; height: 48px;
-    border-radius: 14px;
+/* TOPBAR */
+.topbar { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 500; }
+.topbar-inner {
+    max-width: 500px; margin: 0 auto; padding: 0.75rem 1rem;
+    display: flex; align-items: center; gap: 0.7rem;
+}
+.back-btn {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: var(--bg-soft); border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-    background: var(--pink-soft);
-    overflow: hidden;
-  }
-  .prod-icon img { width: 100%; height: 100%; object-fit: cover; }
+    font-size: 1rem; color: var(--text-dark); flex-shrink: 0;
+}
+.back-btn:active { background: #eef2ff; color: var(--primary); }
+.page-title { font-size: 0.95rem; font-weight: 700; flex: 1; }
+.balance-chip {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0.4rem 0.75rem; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: 10px;
+    font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+}
+.balance-chip i { color: var(--primary); font-size: 0.8rem; }
 
-  .prod-body { flex: 1; min-width: 0; }
-  .prod-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--brown-dark);
-    margin-bottom: 8px;
-    line-height: 1.35;
-    word-break: break-word;
-  }
-  .prod-pills { display: flex; gap: 8px; flex-wrap: wrap; }
-  .pill {
-    background: #1e293b;
-    color: white;
-    padding: 5px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-  }
-  .pill.price { background: #0f172a; }
-  .pill.pcs { background: #0f172a; }
+.container {
+    max-width: 500px; margin: 0 auto;
+    padding: 1rem 1rem 0;
+    display: flex; flex-direction: column; gap: 1rem;
+}
 
-  .buy-btn {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
-    color: white;
-    border: none;
+/* VIEW ORDERS */
+.view-orders-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.8rem; width: 100%;
+    padding: 1rem 1.1rem;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border: 1.5px solid #a7f3d0;
+    border-radius: 14px;
     cursor: pointer;
+    transition: all 0.2s;
+}
+.view-orders-btn:active { transform: scale(0.99); }
+.view-orders-btn .vo-left { display: flex; align-items: center; gap: 0.7rem; flex: 1; text-align: left; }
+.view-orders-btn .vo-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: #065f46; color: #fff;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    transition: 0.2s;
-    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
-  }
-  .buy-btn:hover { transform: scale(1.08); }
-  .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    font-size: 1.1rem; flex-shrink: 0;
+}
+.view-orders-btn .vo-text { flex: 1; min-width: 0; }
+.view-orders-btn .vo-label {
+    font-size: 0.9rem; font-weight: 700; color: #065f46;
+    display: flex; align-items: center; gap: 0.4rem;
+}
+.view-orders-btn .vo-sub { font-size: 0.72rem; color: #047857; margin-top: 2px; font-weight: 500; }
+.view-orders-btn .vo-badge {
+    padding: 0.2rem 0.6rem; background: #065f46; color: #fff;
+    border-radius: 20px; font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
+}
+.view-orders-btn .vo-arrow { color: #065f46; font-size: 1rem; flex-shrink: 0; }
 
-  .empty { text-align: center; padding: 60px 20px; background: var(--white); border-radius: 16px; border: 2px dashed #f0dcd4; }
-  .empty-icon { font-size: 46px; margin-bottom: 12px; }
-  .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
-  .empty p { color: var(--brown-light); font-size: 14px; }
+/* NOTICE BANNER */
+.notice-banner {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    padding: 0.9rem 1rem;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1.5px solid #fbbf24; border-radius: 14px;
+    color: #78350f; font-size: 0.78rem; line-height: 1.5;
+    position: relative; overflow: hidden;
+}
+.notice-banner::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; background: #d97706;
+}
+.notice-banner .nb-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: #f59e0b; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem; flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+}
+.notice-banner .nb-body { flex: 1; min-width: 0; }
+.notice-banner .nb-title {
+    font-size: 0.82rem; font-weight: 800; color: #92400e;
+    text-transform: uppercase; letter-spacing: 0.03em;
+    margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.35rem;
+}
+.notice-banner .nb-text { font-size: 0.76rem; color: #78350f; line-height: 1.55; font-weight: 500; }
+.notice-banner .nb-link {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    margin-top: 0.55rem; padding: 0.45rem 0.8rem;
+    background: #25D366; color: #fff; border-radius: 20px;
+    font-size: 0.72rem; font-weight: 700;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.35);
+    transition: transform 0.15s ease;
+}
+.notice-banner .nb-link:active { transform: scale(0.97); }
+.notice-banner .nb-link i { font-size: 0.85rem; }
 
-  .loading { text-align: center; padding: 60px 20px; color: var(--brown-light); font-size: 14px; }
+/* SECTION DIVIDER */
+.section-divider {
+    display: flex; align-items: center; gap: 0.7rem;
+    margin: 0.3rem 0 0.5rem;
+    color: var(--text-muted); font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em;
+}
+.section-divider::before, .section-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+}
 
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--brown-dark); color: white; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none; max-width: 90%; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .toast.success { background: var(--green); }
-  .toast.error { background: var(--red); }
+/* SEARCH */
+.search-wrap { position: relative; margin-bottom: 0.3rem; }
+.search-wrap input {
+    width: 100%; padding: 0.9rem 1rem 0.9rem 2.6rem;
+    border: 1.5px solid var(--border); outline: none;
+    border-radius: 12px; font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif; background: #fff;
+    transition: all 0.2s;
+}
+.search-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
+.search-wrap input::placeholder { color: #94a3b8; }
+.search-wrap .search-icon {
+    position: absolute; left: 0.9rem; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted); font-size: 0.9rem;
+    pointer-events: none;
+}
 
-  .modal-overlay { position: fixed; inset: 0; background: rgba(74,44,42,0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 998; padding: 20px; }
-  .modal-overlay.show { display: flex; }
-  .modal-box { background: white; border-radius: 24px; padding: 32px 26px; max-width: 440px; width: 100%; text-align: center; max-height: 90vh; overflow-y: auto; }
-  .modal-icon { font-size: 46px; margin-bottom: 10px; }
-  .modal-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 6px; }
-  .modal-sub { font-size: 14px; color: var(--brown-light); margin-bottom: 20px; line-height: 1.6; }
-  .modal-detail { background: var(--pink-soft); border-radius: 14px; padding: 16px; margin-bottom: 22px; text-align: left; }
-  .md-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: var(--brown-dark); gap: 12px; }
-  .md-row span { color: var(--brown-light); font-weight: 600; }
-  .md-row b { font-weight: 800; text-align: right; }
-  .md-row.total { border-top: 1px solid var(--pink-light); margin-top: 6px; padding-top: 12px; font-size: 15px; }
-  .md-row.total b { color: var(--pink); font-size: 16px; }
-  .modal-actions { display: flex; gap: 12px; }
-  .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
-  .btn-pink:hover { background: var(--brown-dark); }
-  .btn-cancel { padding: 13px; border-radius: 10px; background: #e5e7eb; color: var(--brown-dark); font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; border: none; }
+/* CATEGORY GROUP */
+.category-group {
+    display: flex; flex-direction: column;
+    border-radius: 14px; overflow: hidden;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+    margin-bottom: 1rem;
+}
+.category-header {
+    background: linear-gradient(135deg, #6d28d9 0%, #2563eb 100%);
+    color: #fff; padding: 0.85rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.7rem;
+}
+.category-header h3 { font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.view-all-btn {
+    padding: 0.3rem 0.75rem;
+    background: rgba(255, 255, 255, 0.2); color: #fff;
+    border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.15s;
+}
+.view-all-btn:active { background: rgba(255, 255, 255, 0.3); }
 
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
-  .overlay.show { display: block; }
+.cat-prod-list { background: #fff; }
+.cat-prod-item {
+    display: flex; align-items: center; gap: 0.9rem;
+    padding: 0.95rem 1rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer; transition: background 0.15s;
+}
+.cat-prod-item:last-child { border-bottom: none; }
+.cat-prod-item:active { background: #f8fafc; }
 
-  @media (max-width: 900px) {
-    .sidebar { transform: translateX(-100%); width: 280px; }
-    .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 4% 60px; }
-    .menu-btn { display: block; }
-    body.sidebar-open { overflow: hidden; }
-  }
+.cat-icon {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: #eff6ff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem; flex-shrink: 0;
+    color: var(--primary);
+}
+.cat-icon.fb { background: #eff6ff; color: #1877f2; }
+.cat-icon.ig { background: linear-gradient(135deg, #f58529 0%, #dd2a7b 50%, #8134af 100%); color: #fff; }
+.cat-icon.tt { background: #000; color: #fff; }
+.cat-icon.tw { background: #1da1f2; color: #fff; }
+.cat-icon.wa { background: #25D366; color: #fff; }
+.cat-icon.tg { background: #0088cc; color: #fff; }
+.cat-icon.gg { background: #4285F4; color: #fff; }
+.cat-icon.snap { background: #FFFC00; color: #000; }
+.cat-icon.yt { background: #ff0000; color: #fff; }
+.cat-icon.dc { background: #5865F2; color: #fff; }
+.cat-icon.rd { background: #ff4500; color: #fff; }
+
+.cat-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.cat-title {
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--text-muted); line-height: 1.3;
+    text-transform: uppercase; letter-spacing: 0.02em;
+}
+.cat-pills { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.pill {
+    display: inline-flex; align-items: center;
+    padding: 0.35rem 0.75rem; border-radius: 30px;
+    background: #0f172a; color: #fff;
+    font-size: 0.78rem; font-weight: 700;
+}
+.pill.stock { background: #1e293b; }
+.pill.stock.low { background: #b45309; }
+.pill.stock.out { background: #dc2626; }
+
+.cat-action {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem; flex-shrink: 0;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+.cat-action:active { transform: scale(0.94); }
+.cat-action:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
+
+/* EMPTY */
+.empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
+.empty-icon-box {
+    width: 60px; height: 60px; margin: 0 auto 1rem;
+    background: #fff; border: 1.5px solid #cbd5e1;
+    border-radius: 16px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 1.5rem; color: #94a3b8;
+}
+.empty-state p { font-size: 0.85rem; }
+
+/* SKELETON */
+.skeleton-wrap { display: flex; flex-direction: column; gap: 1rem; }
+.skeleton-box {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 14px;
+}
+.skeleton-box.h-64 { height: 64px; }
+.skeleton-box.h-90 { height: 90px; }
+.skeleton-box.h-120 { height: 120px; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* BOTTOM NAV */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: var(--bottom-nav-height); background: #fff;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-around;
+    align-items: center; padding: 0 0.5rem;
+    z-index: 700; box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.06);
+}
+.bottom-nav-inner {
+    width: 100%; max-width: 500px; margin: 0 auto;
+    display: flex; justify-content: space-around; align-items: center;
+}
+.nav-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.2rem; padding: 0.5rem 0.25rem;
+    color: var(--text-muted); font-size: 0.68rem; font-weight: 500;
+}
+.nav-item i { font-size: 1.15rem; }
+.nav-item.active { color: var(--primary); font-weight: 600; }
+
+/* MODAL */
+.modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(3px);
+    display: none; align-items: flex-end;
+    justify-content: center; z-index: 1000;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+    width: 100%; max-width: 500px;
+    background: #fff; border-radius: 22px 22px 0 0;
+    padding: 1.5rem 1.3rem 1.8rem;
+    max-height: 90vh; overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+.modal-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.7rem; margin-bottom: 1rem;
+    padding-bottom: 0.85rem; border-bottom: 1px solid var(--border);
+}
+.modal-head h3 { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+.modal-head h3 i { color: #065f46; }
+.modal-head .mh-count {
+    font-size: 0.68rem; font-weight: 700;
+    background: #065f46; color: #fff;
+    padding: 0.2rem 0.6rem; border-radius: 20px;
+}
+
+.modal-icon-top {
+    width: 64px; height: 64px; border-radius: 18px;
+    background: #eff6ff; color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.7rem; margin: 0 auto 1rem;
+}
+.modal-icon-top.warning { background: #fef3c7; color: var(--warning); }
+.modal-icon-top.error { background: #fee2e2; color: var(--error); }
+.modal-icon-top.success { background: #dcfce7; color: var(--success); }
+.modal-title { text-align: center; font-size: 1.15rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.4rem; }
+.modal-sub { text-align: center; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.3rem; }
+
+/* MY ORDERS */
+.my-order {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 12px; padding: 0.85rem; margin-bottom: 0.7rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+}
+.my-order:last-child { margin-bottom: 0; }
+.my-order-top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.5rem; padding-bottom: 0.6rem; border-bottom: 1px dashed var(--border);
+}
+.my-order-name { font-size: 0.85rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 0.4rem; }
+.my-order-name i { color: var(--primary); font-size: 0.8rem; }
+.my-order-date { font-size: 0.68rem; color: var(--text-muted); background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 20px; font-weight: 600; }
+.my-order-details { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 0.7rem 0.8rem; }
+.my-order-details-label {
+    font-size: 0.68rem; font-weight: 700; color: var(--success);
+    text-transform: uppercase; letter-spacing: 0.04em;
+    margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.3rem;
+}
+.my-order-details-text {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem; color: var(--text-dark);
+    white-space: pre-wrap; word-break: break-all;
+    background: #fff; padding: 0.55rem 0.65rem;
+    border-radius: 6px; line-height: 1.5;
+    margin-bottom: 0.5rem; max-height: 140px; overflow-y: auto;
+}
+.copy-order-btn {
+    display: inline-flex; align-items: center;
+    gap: 0.35rem; padding: 0.45rem 0.8rem;
+    background: var(--success); color: #fff;
+    border-radius: 8px; font-size: 0.72rem;
+    font-weight: 700; font-family: 'Poppins', sans-serif;
+}
+.copy-order-btn:active { transform: scale(0.96); }
+.orders-empty { text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); }
+.orders-empty i { font-size: 2rem; color: #cbd5e1; display: block; margin-bottom: 0.7rem; }
+.orders-empty p { font-size: 0.85rem; }
+
+/* CONFIRM */
+.confirm-box { background: var(--bg-soft); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1.2rem; }
+.confirm-row { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0; font-size: 0.85rem; }
+.confirm-row .label { color: var(--text-muted); }
+.confirm-row .value { color: var(--text-dark); font-weight: 700; }
+.confirm-row.total { border-top: 1px solid var(--border); margin-top: 0.4rem; padding-top: 0.7rem; font-size: 0.95rem; }
+.confirm-row.total .value { color: var(--primary); font-size: 1.05rem; }
+
+.desc-box { background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 0.9rem 1rem; margin-bottom: 1.2rem; }
+.desc-box .desc-label {
+    font-size: 0.72rem; font-weight: 700; color: #1d4ed8;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;
+}
+.desc-box .desc-text { font-size: 0.82rem; color: var(--text-dark); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+
+.delivery-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.delivery-box h4 { font-size: 0.85rem; font-weight: 700; color: var(--success); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+.delivery-box pre {
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem; color: var(--text-dark);
+    white-space: pre-wrap; word-break: break-all;
+    background: #fff; padding: 0.75rem 0.85rem;
+    border-radius: 8px; line-height: 1.5; margin-bottom: 0.6rem;
+}
+.copy-btn {
+    display: inline-flex; align-items: center;
+    gap: 0.4rem; padding: 0.5rem 0.9rem;
+    background: var(--success); color: #fff;
+    border-radius: 8px; font-size: 0.78rem;
+    font-weight: 600; font-family: 'Poppins', sans-serif;
+}
+
+.modal-actions { display: flex; gap: 0.7rem; margin-top: 1rem; }
+.btn-cancel {
+    flex: 1; padding: 0.9rem; border-radius: 12px;
+    background: var(--bg-soft); color: var(--text-dark);
+    font-weight: 600; font-size: 0.9rem; font-family: 'Poppins', sans-serif;
+}
+.btn-primary {
+    flex: 2; padding: 0.9rem; border-radius: 12px;
+    background: var(--gradient); color: #fff;
+    font-weight: 700; font-size: 0.9rem;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    font-family: 'Poppins', sans-serif;
+    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+}
+.btn-primary:disabled { opacity: 0.6; }
+.btn-primary.green { background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%); box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3); }
+
+@media (min-width: 700px) {
+    .container, .topbar-inner, .bottom-nav-inner, .modal { max-width: 640px; }
+}
 </style>
 </head>
 <body>
 
-<div class="overlay" id="overlay"></div>
-
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-brand">
-    <div class="logo">Arknet<span>SMS</span></div>
-    <p>Virtual numbers & accounts</p>
-  </div>
-  <div class="side-user">
-    <div class="side-avatar" id="sideAvatar">A</div>
-    <div class="side-user-info">
-      <div class="side-user-name" id="sideName">Loading...</div>
-      <div class="side-user-email" id="sideEmail">—</div>
+<header class="topbar">
+    <div class="topbar-inner">
+        <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        <span class="page-title">📱 Buy Social Logs</span>
+        <div class="balance-chip">
+            <i class="fas fa-wallet"></i>
+            <span id="topBalance">₦0</span>
+        </div>
     </div>
-  </div>
-  <nav class="side-nav">
-    <div class="side-label">Main</div>
-    <a href="dashboard.html" class="side-item"><span class="si-icon">📊</span> Dashboard</a>
-    <a href="usa-numbers.html" class="side-item"><span class="si-icon">🇺🇸</span> USA Numbers</a>
-    <a href="countries.html" class="side-item"><span class="si-icon">🌍</span> All Countries</a>
-    <a href="social-logs.html" class="side-item active"><span class="si-icon">📱</span> Social Media Logs</a>
-    <div class="side-divider"></div>
-    <div class="side-label">Account</div>
-    <a href="dashboard.html#profile" class="side-item"><span class="si-icon">👤</span> Profile</a>
-    <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
-    <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
-    <a href="dashboard.html#password" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
-    <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
-  </nav>
-</aside>
+</header>
 
-<div class="topbar">
-  <div class="topbar-left">
-    <button class="menu-btn" id="menuBtn">☰</button>
-    <div class="logo">Arknet<span>SMS</span></div>
-  </div>
-  <div class="topbar-balance">
-    <span class="b-icon">💰</span>
-    <span class="b-val" id="topBalance">₦0.00</span>
-  </div>
+<div class="container">
+
+    <button class="view-orders-btn" id="viewOrdersBtn">
+        <div class="vo-left">
+            <div class="vo-icon"><i class="fas fa-box-open"></i></div>
+            <div class="vo-text">
+                <div class="vo-label">
+                    View All My Orders
+                    <span class="vo-badge" id="ordersBadge">0</span>
+                </div>
+                <div class="vo-sub">Tap to see your social account deliveries</div>
+            </div>
+        </div>
+        <i class="fas fa-chevron-right vo-arrow"></i>
+    </button>
+
+    <div class="notice-banner">
+        <div class="nb-icon"><i class="fas fa-triangle-exclamation"></i></div>
+        <div class="nb-body">
+            <div class="nb-title"><i class="fas fa-bullhorn"></i> Important Notice</div>
+            <div class="nb-text">
+                Hello users! If you get issues with your Orders, please contact our customer service for replacement or fix <strong>within 30 minutes</strong>. Thank you.
+            </div>
+            <a class="nb-link" href="https://wa.me/+2348128748746" target="_blank" rel="noopener">
+                <i class="fab fa-whatsapp"></i> Contact Customer Service
+            </a>
+        </div>
+    </div>
+
+    <div class="section-divider">Browse Products</div>
+
+    <div class="search-wrap">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search product..." autocomplete="off">
+    </div>
+
+    <div id="groupsWrap">
+        <div class="skeleton-wrap">
+            <div class="skeleton-box h-90"></div>
+            <div class="skeleton-box h-120"></div>
+            <div class="skeleton-box h-90"></div>
+        </div>
+    </div>
+
 </div>
 
-<main class="main">
-  <div class="greeting">
-    <h1>📱 Buy <span>Social Media Logs</span></h1>
-    <p>Verified accounts for Facebook, Instagram, TikTok, and more.</p>
-  </div>
+<nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="social-logs.html" class="nav-item active"><i class="fas fa-share-nodes"></i><span>Social Logs</span></a>
+        <a href="wallet.html" class="nav-item"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a href="transactions.html" class="nav-item"><i class="fas fa-receipt"></i><span>History</span></a>
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+    </div>
+</nav>
 
-  <div id="catalogContainer">
-    <div class="loading">Loading products...</div>
-  </div>
-</main>
-
-<div class="modal-overlay" id="purchaseModal">
-  <div class="modal-box" id="modalContent"></div>
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modalContent" onclick="event.stopPropagation()"></div>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, updateDoc, deleteField, collection, query, orderBy, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+    getFirestore, doc, getDoc, updateDoc,
+    collection, getDocs, addDoc,
+    query, where,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
     authDomain: "arknetsms-430ee.firebaseapp.com",
     projectId: "arknetsms-430ee",
@@ -266,262 +518,457 @@
     messagingSenderId: "961504742152",
     appId: "1:961504742152:web:a9ade98d13465bb3b8babd",
     measurementId: "G-48V2T4CBJF"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+};
 
-  const toast = document.getElementById('toast');
-  const showToast = (t, type='') => {
-    toast.textContent = t;
-    toast.className = 'toast show ' + type;
-    setTimeout(() => toast.className = 'toast ' + type, 2800);
-  };
-  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
-  const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-  let currentUser = null;
-  let currentBalance = 0;
-  let allCategories = [];
-  let allProducts = [];
+let currentUser = null;
+let userWallet = 0;
+let allProducts = [];
+let myOrders = [];
 
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  document.getElementById('menuBtn').addEventListener('click', () => {
-    sidebar.classList.add('open'); overlay.classList.add('show');
-    document.body.classList.add('sidebar-open');
-  });
-  overlay.addEventListener('click', () => {
-    sidebar.classList.remove('open'); overlay.classList.remove('show');
-    document.body.classList.remove('sidebar-open');
-  });
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await signOut(auth); window.location.replace('login.html');
-  });
+const topBalance = document.getElementById('topBalance');
+const searchInput = document.getElementById('searchInput');
+const groupsWrap = document.getElementById('groupsWrap');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalContent = document.getElementById('modalContent');
+const viewOrdersBtn = document.getElementById('viewOrdersBtn');
+const ordersBadge = document.getElementById('ordersBadge');
 
-  function openModal(html){
-    document.getElementById('modalContent').innerHTML = html;
-    document.getElementById('purchaseModal').classList.add('show');
+function fmtNaira(n) {
+    return '₦' + Number(n || 0).toLocaleString('en-NG', { maximumFractionDigits: 0 });
+}
+function fmtDate(ts) {
+    if (!ts) return '—';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    return d.toLocaleDateString('en-NG', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+function escapeHtml(v) {
+    return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+function openModal(html) {
+    modalContent.innerHTML = html;
+    modalOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-  }
-  function closeModal(){
-    document.getElementById('purchaseModal').classList.remove('show');
+}
+function closeModal() {
+    modalOverlay.classList.remove('active');
     document.body.style.overflow = '';
-  }
-  document.getElementById('purchaseModal').addEventListener('click', e => {
-    if (e.target.id === 'purchaseModal') closeModal();
-  });
+}
+modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+});
 
-  /* LOAD CATALOG */
-  async function loadCatalog() {
-    const container = document.getElementById('catalogContainer');
+onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+
     try {
-      // Load categories (ordered)
-      const catQ = query(collection(db, 'social_categories'), orderBy('createdAt', 'asc'));
-      const catSnap = await getDocs(catQ);
-      allCategories = [];
-      catSnap.forEach(d => allCategories.push({ id: d.id, ...d.data() }));
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (snap.exists()) {
+            const data = snap.data();
+            userWallet = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
+            topBalance.textContent = fmtNaira(userWallet);
+        }
+    } catch (err) { console.warn(err.message); }
 
-      // Load products (ordered)
-      const prodQ = query(collection(db, 'social_products'), orderBy('createdAt', 'asc'));
-      const prodSnap = await getDocs(prodQ);
-      allProducts = [];
-      prodSnap.forEach(d => allProducts.push({ id: d.id, ...d.data() }));
+    await Promise.all([loadProducts(), loadMyOrders()]);
+});
 
-      if (!allCategories.length) {
-        container.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">📦</div>
-            <h3>No products yet</h3>
-            <p>Check back soon! Our team is adding new accounts.</p>
-          </div>`;
-        return;
-      }
-
-      let html = '';
-      allCategories.forEach(cat => {
-        const catProducts = allProducts.filter(p => p.categoryId === cat.id && p.active !== false);
-        if (!catProducts.length) return;
-
-        html += `
-          <div class="cat-header">
-            <span>${escapeHtml(cat.name).toUpperCase()}</span>
-            <button class="view-all-btn" data-cat="${escapeHtml(cat.id)}">View all</button>
-          </div>
-        `;
-
-        catProducts.forEach(p => {
-          const iconHtml = p.image
-            ? `<img src="${escapeHtml(p.image)}" onerror="this.parentNode.textContent='${p.icon || '📦'}'">`
-            : (p.icon || '📦');
-
-          html += `
-            <div class="product-row">
-              <div class="prod-icon">${iconHtml}</div>
-              <div class="prod-body">
-                <div class="prod-name">${escapeHtml(p.name)}</div>
-                <div class="prod-pills">
-                  <span class="pill price">${formatNGNshort(p.price)}</span>
-                  <span class="pill pcs">${escapeHtml(p.pcs || '1')} Pcs</span>
-                </div>
-              </div>
-              <button class="buy-btn" data-id="${escapeHtml(p.id)}" title="Buy">🔒</button>
-            </div>
-          `;
+async function loadMyOrders() {
+    try {
+        const q = query(collection(db, 'orders'), where('userId', '==', currentUser.uid));
+        const snap = await getDocs(q);
+        myOrders = [];
+        snap.forEach(d => {
+            const o = { id: d.id, ...d.data() };
+            if (o.category === 'Social') myOrders.push(o);
         });
-      });
+        myOrders.sort((a, b) => {
+            const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+            const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+            return tb - ta;
+        });
+        ordersBadge.textContent = myOrders.length;
+    } catch (err) { console.warn('Orders:', err.message); }
+}
 
-      if (!html) {
-        container.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">📦</div>
-            <h3>No products available</h3>
-            <p>Please check back later.</p>
-          </div>`;
+viewOrdersBtn.addEventListener('click', () => {
+    if (myOrders.length === 0) {
+        openModal(`
+            <div class="modal-head">
+                <h3><i class="fas fa-box-open"></i> My Social Orders</h3>
+                <button class="btn-cancel" style="flex:0; padding:0.4rem 0.8rem; font-size:0.78rem;" id="mCloseEmptyOrders">Close</button>
+            </div>
+            <div class="orders-empty">
+                <i class="fas fa-inbox"></i>
+                <p>No social orders yet.</p>
+                <p style="margin-top:0.4rem; font-size:0.78rem;">Browse products below and make your first purchase.</p>
+            </div>
+        `);
+        document.getElementById('mCloseEmptyOrders').onclick = closeModal;
         return;
-      }
-
-      container.innerHTML = html;
-
-      // Bind buy buttons
-      container.querySelectorAll('.buy-btn').forEach(btn => {
-        btn.addEventListener('click', () => handleBuy(btn.dataset.id, btn));
-      });
-    } catch (err) {
-      console.error('Catalog error:', err);
-      container.innerHTML = `
-        <div class="empty">
-          <div class="empty-icon">⚠️</div>
-          <h3>Could not load products</h3>
-          <p>Please refresh and try again.</p>
-        </div>`;
-    }
-  }
-
-  /* BUY PRODUCT */
-  function handleBuy(productId, btn) {
-    const product = allProducts.find(p => p.id === productId);
-    if (!product) return;
-    const price = Number(product.price || 0);
-
-    if (currentBalance < price) {
-      const shortfall = price - currentBalance;
-      openModal(`
-        <div class="modal-icon">⚠️</div>
-        <div class="modal-title">Not Enough Balance</div>
-        <div class="modal-sub">You need <b>${formatNGN(shortfall)}</b> more to buy this product.</div>
-        <div class="modal-detail">
-          <div class="md-row"><span>Product</span><b>${escapeHtml(product.name)}</b></div>
-          <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
-          <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
-          <div class="md-row total"><span>Shortfall</span><b>${formatNGN(shortfall)}</b></div>
-        </div>
-        <div class="modal-actions">
-          <button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
-          <button class="btn-pink" style="flex:2;" id="mFund">💰 Fund Wallet</button>
-        </div>
-      `);
-      document.getElementById('mCancel').onclick = closeModal;
-      document.getElementById('mFund').onclick = () => { window.location.href = 'wallet.html'; };
-      return;
     }
 
     openModal(`
-      <div class="modal-icon">🛒</div>
-      <div class="modal-title">Confirm Purchase</div>
-      <div class="modal-sub">You're about to buy:</div>
-      <div class="modal-detail">
-        <div class="md-row"><span>Product</span><b>${escapeHtml(product.name)}</b></div>
-        <div class="md-row"><span>Quantity</span><b>${escapeHtml(product.pcs || '1')} Pcs</b></div>
-        <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
-        <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
-        <div class="md-row total"><span>After</span><b>${formatNGN(currentBalance - price)}</b></div>
-      </div>
-      <div class="modal-actions">
-        <button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
-        <button class="btn-pink" style="flex:2;" id="mBuy">✅ PURCHASE NOW</button>
-      </div>
+        <div class="modal-head">
+            <h3><i class="fas fa-box-open"></i> My Social Orders</h3>
+            <span class="mh-count">${myOrders.length}</span>
+        </div>
+        ${myOrders.map(o => `
+            <div class="my-order">
+                <div class="my-order-top">
+                    <div class="my-order-name">
+                        <i class="fas fa-shopping-bag"></i>
+                        ${escapeHtml(o.service || 'Product')}
+                    </div>
+                    <span class="my-order-date">${fmtDate(o.createdAt)}</span>
+                </div>
+                <div class="my-order-details">
+                    <div class="my-order-details-label">
+                        <i class="fas fa-key"></i> Delivery Details
+                    </div>
+                    <pre class="my-order-details-text">${escapeHtml(o.delivery || 'Contact support')}</pre>
+                    <button class="copy-order-btn" data-copy="${escapeHtml(o.delivery || '')}">
+                        <i class="fas fa-copy"></i> Copy Details
+                    </button>
+                </div>
+            </div>
+        `).join('')}
+        <div class="modal-actions">
+            <button class="btn-cancel" id="mCloseOrders">Close</button>
+        </div>
+    `);
+
+    modalContent.querySelectorAll('.copy-order-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const text = btn.dataset.copy;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i> Copy Details'; }, 1500);
+            });
+        });
+    });
+
+    document.getElementById('mCloseOrders').onclick = closeModal;
+});
+
+async function loadProducts() {
+    try {
+        const snap = await getDocs(collection(db, 'socialProducts'));
+        allProducts = [];
+        snap.forEach(d => {
+            const p = { id: d.id, ...d.data() };
+            if (p.active !== false) allProducts.push(p);
+        });
+        renderGroups();
+    } catch (err) { console.warn(err.message); }
+}
+
+function getAvailableCount(p) {
+    const items = p.items || [];
+    return items.filter(x => !x.used).length;
+}
+
+function iconClass(icon) {
+    const map = {
+        'fa-facebook': 'fab fa-facebook-f',
+        'fa-instagram': 'fab fa-instagram',
+        'fa-tiktok': 'fab fa-tiktok',
+        'fa-twitter': 'fab fa-twitter',
+        'fa-whatsapp': 'fab fa-whatsapp',
+        'fa-telegram': 'fab fa-telegram',
+        'fa-google': 'fab fa-google',
+        'fa-snapchat': 'fab fa-snapchat',
+        'fa-youtube': 'fab fa-youtube',
+        'fa-discord': 'fab fa-discord',
+        'fa-reddit': 'fab fa-reddit',
+        'fa-user': 'fas fa-user'
+    };
+    return map[icon] || 'fas fa-user';
+}
+function iconClassCircle(icon) {
+    const map = {
+        'fa-facebook': 'fb', 'fa-instagram': 'ig', 'fa-tiktok': 'tt',
+        'fa-twitter': 'tw', 'fa-whatsapp': 'wa', 'fa-telegram': 'tg',
+        'fa-google': 'gg', 'fa-snapchat': 'snap', 'fa-youtube': 'yt',
+        'fa-discord': 'dc', 'fa-reddit': 'rd'
+    };
+    return map[icon] || '';
+}
+
+function renderGroups() {
+    const q = searchInput.value.trim().toLowerCase();
+    let filtered = allProducts;
+    if (q) {
+        filtered = allProducts.filter(p =>
+            (p.title || '').toLowerCase().includes(q) ||
+            (p.category || '').toLowerCase().includes(q)
+        );
+    }
+
+    if (filtered.length === 0) {
+        groupsWrap.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon-box"><i class="fas fa-box"></i></div>
+                <p>${q ? 'No products match your search' : 'No products available right now'}</p>
+            </div>`;
+        return;
+    }
+
+    const groups = {};
+    filtered.forEach(p => {
+        const cat = p.category || 'Other';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(p);
+    });
+
+    const sortedCats = Object.keys(groups).sort((a, b) => a.localeCompare(b));
+
+    groupsWrap.innerHTML = sortedCats.map(cat => {
+        const prods = groups[cat];
+        prods.sort((a, b) => {
+            const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+            const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+            return ta - tb;
+        });
+
+        return `
+            <div class="category-group">
+                <div class="category-header">
+                    <h3>${escapeHtml(cat)}</h3>
+                    <button class="view-all-btn" data-cat="${escapeHtml(cat)}">View all</button>
+                </div>
+                <div class="cat-prod-list">
+                    ${prods.map(p => {
+                        const avail = getAvailableCount(p);
+                        let stockClass = '';
+                        if (avail === 0) stockClass = 'out';
+                        else if (avail < 3) stockClass = 'low';
+
+                        return `
+                            <div class="cat-prod-item" data-id="${p.id}">
+                                <div class="cat-icon ${iconClassCircle(p.icon)}">
+                                    <i class="${iconClass(p.icon)}"></i>
+                                </div>
+                                <div class="cat-info">
+                                    <div class="cat-title">${escapeHtml(p.title)}</div>
+                                    <div class="cat-pills">
+                                        <span class="pill">${fmtNaira(p.price)}</span>
+                                        <span class="pill stock ${stockClass}">${avail} Pcs</span>
+                                    </div>
+                                </div>
+                                <button class="cat-action" data-id="${p.id}" ${avail === 0 ? 'disabled' : ''}>
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>`;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    groupsWrap.querySelectorAll('.cat-action').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); onPurchase(btn.dataset.id); });
+    });
+    groupsWrap.querySelectorAll('.cat-prod-item').forEach(row => {
+        row.addEventListener('click', () => onPurchase(row.dataset.id));
+    });
+    groupsWrap.querySelectorAll('.view-all-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            searchInput.value = btn.dataset.cat;
+            renderGroups();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+}
+
+searchInput.addEventListener('input', renderGroups);
+
+function onPurchase(id) {
+    const p = allProducts.find(x => x.id === id);
+    if (!p) return;
+
+    const price = Number(p.price || 0);
+    const available = getAvailableCount(p);
+
+    if (available === 0) {
+        openModal(`
+            <div class="modal-icon-top error"><i class="fas fa-ban"></i></div>
+            <div class="modal-title">Out of Stock</div>
+            <div class="modal-sub">This product is currently sold out. Please check back later.</div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="mClose" style="flex:1;">Close</button>
+            </div>
+        `);
+        document.getElementById('mClose').onclick = closeModal;
+        return;
+    }
+
+    if (userWallet < price) {
+        const shortfall = price - userWallet;
+        openModal(`
+            <div class="modal-icon-top warning"><i class="fas fa-wallet"></i></div>
+            <div class="modal-title">Not Enough Balance</div>
+            <div class="modal-sub">You need ${fmtNaira(shortfall)} more to buy <strong>${escapeHtml(p.title)}</strong>.</div>
+            <div class="confirm-box">
+                <div class="confirm-row"><span class="label">Product</span><span class="value">${escapeHtml(p.title)}</span></div>
+                <div class="confirm-row"><span class="label">Price</span><span class="value">${fmtNaira(price)}</span></div>
+                <div class="confirm-row"><span class="label">Your Balance</span><span class="value">${fmtNaira(userWallet)}</span></div>
+                <div class="confirm-row total"><span class="label">Shortfall</span><span class="value" style="color:var(--warning);">${fmtNaira(shortfall)}</span></div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="mCancel">Cancel</button>
+                <a href="wallet.html" class="btn-primary"><i class="fas fa-plus-circle"></i> Fund Wallet</a>
+            </div>
+        `);
+        document.getElementById('mCancel').onclick = closeModal;
+        return;
+    }
+
+    const descHtml = p.description && p.description.trim()
+        ? `
+            <div class="desc-box">
+                <div class="desc-label"><i class="fas fa-info-circle"></i> Read Description Before Purchase</div>
+                <div class="desc-text">${escapeHtml(p.description)}</div>
+            </div>
+        ` : '';
+
+    openModal(`
+        <div class="modal-icon-top"><i class="fas fa-shopping-cart"></i></div>
+        <div class="modal-title">Confirm Purchase</div>
+        <div class="modal-sub">You're about to buy <strong>${escapeHtml(p.title)}</strong>.</div>
+        ${descHtml}
+        <div class="confirm-box">
+            <div class="confirm-row"><span class="label">Product</span><span class="value">${escapeHtml(p.title)}</span></div>
+            <div class="confirm-row"><span class="label">Category</span><span class="value">${escapeHtml(p.category || '—')}</span></div>
+            <div class="confirm-row"><span class="label">Price</span><span class="value">${fmtNaira(price)}</span></div>
+            <div class="confirm-row"><span class="label">Your Balance</span><span class="value">${fmtNaira(userWallet)}</span></div>
+            <div class="confirm-row total"><span class="label">After Purchase</span><span class="value">${fmtNaira(userWallet - price)}</span></div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" id="mCancel">Cancel</button>
+            <button class="btn-primary" id="mBuy"><i class="fas fa-check"></i> Purchase Now</button>
+        </div>
     `);
     document.getElementById('mCancel').onclick = closeModal;
-    document.getElementById('mBuy').onclick = () => processPurchase(product, price);
-  }
+    document.getElementById('mBuy').onclick = () => processPurchase(p);
+}
 
-  async function processPurchase(product, price) {
+async function processPurchase(p) {
     const buyBtn = document.getElementById('mBuy');
-    buyBtn.disabled = true;
-    buyBtn.textContent = '⏳ Processing...';
-
-    try {
-      const userRef = doc(db, 'users', currentUser.uid);
-      const freshSnap = await getDoc(userRef);
-      const freshData = freshSnap.data() || {};
-      const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
-      if (freshBalance < price) throw new Error('INSUFFICIENT');
-
-      const newBalance = freshBalance - price;
-      await updateDoc(userRef, { wallet: newBalance, updatedAt: serverTimestamp() });
-      currentBalance = newBalance;
-      document.getElementById('topBalance').textContent = formatNGN(currentBalance);
-
-      // Save order for admin
-      await addDoc(collection(db, 'orders'), {
-        userId: currentUser.uid,
-        userEmail: currentUser.email || '',
-        userName: currentUser.displayName || '',
-        type: 'social',
-        productId: product.id,
-        productName: product.name,
-        price: price,
-        quantity: product.pcs || '1',
-        status: 'pending',
-        createdAt: serverTimestamp()
-      });
-
-      // Log transaction
-      await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'purchase',
-        icon: '📱',
-        title: `Bought: ${product.name}`,
-        subtitle: `${product.pcs || '1'} pcs`,
-        amount: price,
-        createdAt: serverTimestamp()
-      });
-
-      closeModal();
-      showToast(`✅ Order placed! Check your orders soon.`, 'success');
-
-      // Redirect to dashboard
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1400);
-    } catch (err) {
-      const msg = err.message === 'INSUFFICIENT' ? 'Insufficient balance.' : (err.message || 'Something went wrong.');
-      showToast(msg, 'error');
-      buyBtn.disabled = false;
-      buyBtn.textContent = '✅ PURCHASE NOW';
+    if (buyBtn) {
+        buyBtn.disabled = true;
+        buyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
     }
-  }
-
-  /* AUTH */
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) { window.location.href = 'login.html'; return; }
-    currentUser = user;
-    const name = user.displayName || 'User';
-    document.getElementById('sideName').textContent = name;
-    document.getElementById('sideEmail').textContent = user.email;
-    document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
 
     try {
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      if (snap.exists()) {
-        const data = snap.data();
-        currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
-        document.getElementById('topBalance').textContent = formatNGN(currentBalance);
-      }
-    } catch (e) {}
+        const itemsArr = Array.isArray(p.items) ? [...p.items] : [];
+        const availIndex = itemsArr.findIndex(x => !x.used);
+        if (availIndex === -1) throw new Error('OUT_OF_STOCK');
 
-    loadCatalog();
-  });
+        const myItem = itemsArr[availIndex];
+        const deliveryText = myItem.text;
+
+        itemsArr[availIndex] = { ...myItem, used: true, soldAt: new Date().toISOString() };
+        const newStock = itemsArr.filter(x => !x.used).length;
+        const newBalance = userWallet - Number(p.price);
+        const orderId = 'ORD_' + Date.now();
+
+        await addDoc(collection(db, 'orders'), {
+            orderId,
+            userId: currentUser.uid,
+            userEmail: currentUser.email,
+            productId: p.id,
+            service: p.title,
+            category: 'Social',
+            price: Number(p.price),
+            status: 'active',
+            delivery: deliveryText,
+            deliveryItemIndex: availIndex,
+            createdAt: serverTimestamp()
+        });
+
+        await updateDoc(doc(db, 'users', currentUser.uid), { wallet: newBalance });
+        await updateDoc(doc(db, 'socialProducts', p.id), {
+            items: itemsArr,
+            stock: newStock
+        });
+
+        await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
+            type: 'purchase',
+            icon: '📱',
+            title: 'Bought ' + p.title,
+            subtitle: 'Social account',
+            amount: Number(p.price),
+            createdAt: serverTimestamp()
+        });
+
+        userWallet = newBalance;
+        topBalance.textContent = fmtNaira(userWallet);
+        p.items = itemsArr;
+        p.stock = newStock;
+
+        myOrders.unshift({
+            id: orderId,
+            service: p.title,
+            delivery: deliveryText,
+            createdAt: { toDate: () => new Date() }
+        });
+        ordersBadge.textContent = myOrders.length;
+
+        openModal(`
+            <div class="modal-icon-top success"><i class="fas fa-check"></i></div>
+            <div class="modal-title">Purchase Successful! 🎉</div>
+            <div class="modal-sub">Your delivery details are saved in "View All My Orders".</div>
+
+            <div class="delivery-box">
+                <h4><i class="fas fa-box-open"></i> Your Delivery Details</h4>
+                <pre id="deliveryText">${escapeHtml(deliveryText)}</pre>
+                <button class="copy-btn" id="copyBtn">
+                    <i class="fas fa-copy"></i> Copy Details
+                </button>
+            </div>
+
+            <div class="confirm-box">
+                <div class="confirm-row"><span class="label">Product</span><span class="value">${escapeHtml(p.title)}</span></div>
+                <div class="confirm-row"><span class="label">New Balance</span><span class="value">${fmtNaira(newBalance)}</span></div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" id="mClose">Close</button>
+                <button class="btn-primary green" id="mViewOrders"><i class="fas fa-box"></i> View My Orders</button>
+            </div>
+        `);
+
+        document.getElementById('copyBtn').onclick = () => {
+            navigator.clipboard.writeText(deliveryText).then(() => {
+                document.getElementById('copyBtn').innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    document.getElementById('copyBtn').innerHTML = '<i class="fas fa-copy"></i> Copy Details';
+                }, 1500);
+            });
+        };
+        document.getElementById('mClose').onclick = () => { closeModal(); renderGroups(); };
+        document.getElementById('mViewOrders').onclick = () => { closeModal(); viewOrdersBtn.click(); };
+
+    } catch (err) {
+        console.error('Purchase error:', err);
+        let msg = err.message || 'Something went wrong. Please try again.';
+        if (msg === 'OUT_OF_STOCK') msg = 'This product just went out of stock.';
+        openModal(`
+            <div class="modal-icon-top error"><i class="fas fa-triangle-exclamation"></i></div>
+            <div class="modal-title">Purchase Failed</div>
+            <div class="modal-sub">${msg}</div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="mClose" style="flex:1;">Close</button>
+            </div>
+        `);
+        document.getElementById('mClose').onclick = closeModal;
+    }
+}
 </script>
-
 </body>
 </html>
