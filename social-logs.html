@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Social Media Logs — Arknet</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+  :root {
+    --brown-dark: #4a2c2a;
+    --brown: #6b4423;
+    --brown-light: #8b5e3c;
+    --pink: #ec4899;
+    --pink-light: #f9a8d4;
+    --pink-soft: #fdf2f8;
+    --white: #ffffff;
+    --cream: #fef9f5;
+    --green: #22c55e;
+    --red: #dc2626;
+    --blue: #2563eb;
+    --sidebar-w: 260px;
+  }
+  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+
+  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--brown-dark); color: #e8d5cc; display: flex; flex-direction: column; z-index: 200; transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: 30px; }
+  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
+  .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; }
+  .sidebar-brand .logo span { color: var(--pink-light); }
+  .sidebar-brand p { font-size: 11px; color: #b89b8f; margin-top: 3px; }
+  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
+  .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
+  .side-user-info { overflow: hidden; }
+  .side-user-name { font-size: 14px; font-weight: 700; color: white; }
+  .side-user-email { font-size: 11px; color: #b89b8f; }
+  .side-nav { padding: 12px 10px; flex: 1; }
+  .side-label { font-size: 10px; font-weight: 800; color: #b89b8f; text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px; }
+  .side-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #e8d5cc; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 2px; }
+  .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
+  .side-item.active { background: var(--pink); color: white; }
+  .side-item .si-icon { font-size: 17px; width: 20px; text-align: center; }
+  .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 10px 14px; }
+  .side-logout { color: #fca5a5 !important; }
+
+  .topbar { display: flex; background: var(--brown-dark); padding: 14px 20px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150; gap: 12px; }
+  .topbar-left { display: flex; align-items: center; gap: 14px; }
+  .menu-btn { background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; display: none; }
+  .topbar .logo { font-size: 20px; font-weight: 800; color: white; }
+  .topbar .logo span { color: var(--pink-light); }
+  .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; }
+  .topbar-balance .b-val { color: var(--pink-light); }
+
+  .main { margin-left: var(--sidebar-w); padding: 22px 4% 120px; min-height: calc(100vh - 60px); }
+  .greeting { margin-bottom: 22px; }
+  .greeting h1 { font-size: 24px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
+  .greeting h1 span { color: var(--pink); }
+  .greeting p { color: var(--brown); font-size: 14px; }
+
+  /* CATEGORY HEADER */
+  .cat-header {
+    background: linear-gradient(135deg, #4c1d95, #7c3aed);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    margin-top: 8px;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .cat-header:first-child { margin-top: 0; }
+  .view-all-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .view-all-btn:hover { background: rgba(255,255,255,0.3); }
+
+  /* PRODUCT CARD */
+  .product-row {
+    background: var(--white);
+    border: 1px solid #f0e0d8;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: 0.2s;
+  }
+  .product-row:hover {
+    border-color: var(--pink-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(236,72,153,0.08);
+  }
+  .prod-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    background: var(--pink-soft);
+    overflow: hidden;
+  }
+  .prod-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+  .prod-body { flex: 1; min-width: 0; }
+  .prod-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    margin-bottom: 8px;
+    line-height: 1.35;
+    word-break: break-word;
+  }
+  .prod-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    background: #1e293b;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .pill.price { background: #0f172a; }
+  .pill.pcs { background: #0f172a; }
+
+  .buy-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: 0.2s;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+  }
+  .buy-btn:hover { transform: scale(1.08); }
+  .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .empty { text-align: center; padding: 60px 20px; background: var(--white); border-radius: 16px; border: 2px dashed #f0dcd4; }
+  .empty-icon { font-size: 46px; margin-bottom: 12px; }
+  .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
+  .empty p { color: var(--brown-light); font-size: 14px; }
+
+  .loading { text-align: center; padding: 60px 20px; color: var(--brown-light); font-size: 14px; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--brown-dark); color: white; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none; max-width: 90%; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
+
+  .modal-overlay { position: fixed; inset: 0; background: rgba(74,44,42,0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 998; padding: 20px; }
+  .modal-overlay.show { display: flex; }
+  .modal-box { background: white; border-radius: 24px; padding: 32px 26px; max-width: 440px; width: 100%; text-align: center; max-height: 90vh; overflow-y: auto; }
+  .modal-icon { font-size: 46px; margin-bottom: 10px; }
+  .modal-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 6px; }
+  .modal-sub { font-size: 14px; color: var(--brown-light); margin-bottom: 20px; line-height: 1.6; }
+  .modal-detail { background: var(--pink-soft); border-radius: 14px; padding: 16px; margin-bottom: 22px; text-align: left; }
+  .md-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: var(--brown-dark); gap: 12px; }
+  .md-row span { color: var(--brown-light); font-weight: 600; }
+  .md-row b { font-weight: 800; text-align: right; }
+  .md-row.total { border-top: 1px solid var(--pink-light); margin-top: 6px; padding-top: 12px; font-size: 15px; }
+  .md-row.total b { color: var(--pink); font-size: 16px; }
+  .modal-actions { display: flex; gap: 12px; }
+  .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .btn-pink:hover { background: var(--brown-dark); }
+  .btn-cancel { padding: 13px; border-radius: 10px; background: #e5e7eb; color: var(--brown-dark); font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; border: none; }
+
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
+  .overlay.show { display: block; }
+
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); width: 280px; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 4% 60px; }
+    .menu-btn { display: block; }
+    body.sidebar-open { overflow: hidden; }
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">Arknet<span>SMS</span></div>
+    <p>Virtual numbers & accounts</p>
+  </div>
+  <div class="side-user">
+    <div class="side-avatar" id="sideAvatar">A</div>
+    <div class="side-user-info">
+      <div class="side-user-name" id="sideName">Loading...</div>
+      <div class="side-user-email" id="sideEmail">—</div>
+    </div>
+  </div>
+  <nav class="side-nav">
+    <div class="side-label">Main</div>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">📊</span> Dashboard</a>
+    <a href="usa-numbers.html" class="side-item"><span class="si-icon">🇺🇸</span> USA Numbers</a>
+    <a href="countries.html" class="side-item"><span class="si-icon">🌍</span> All Countries</a>
+    <a href="social-logs.html" class="side-item active"><span class="si-icon">📱</span> Social Media Logs</a>
+    <div class="side-divider"></div>
+    <div class="side-label">Account</div>
+    <a href="dashboard.html#profile" class="side-item"><span class="si-icon">👤</span> Profile</a>
+    <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
+    <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
+    <a href="dashboard.html#password" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
+    <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
+  </nav>
+</aside>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="logo">Arknet<span>SMS</span></div>
+  </div>
+  <div class="topbar-balance">
+    <span class="b-icon">💰</span>
+    <span class="b-val" id="topBalance">₦0.00</span>
+  </div>
+</div>
+
+<main class="main">
+  <div class="greeting">
+    <h1>📱 Buy <span>Social Media Logs</span></h1>
+    <p>Verified accounts for Facebook, Instagram, TikTok, and more.</p>
+  </div>
+
+  <div id="catalogContainer">
+    <div class="loading">Loading products...</div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="purchaseModal">
+  <div class="modal-box" id="modalContent"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, updateDoc, deleteField, collection, query, orderBy, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
+    authDomain: "arknetsms-430ee.firebaseapp.com",
+    projectId: "arknetsms-430ee",
+    storageBucket: "arknetsms-430ee.firebasestorage.app",
+    messagingSenderId: "961504742152",
+    appId: "1:961504742152:web:a9ade98d13465bb3b8babd",
+    measurementId: "G-48V2T4CBJF"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const toast = document.getElementById('toast');
+  const showToast = (t, type='') => {
+    toast.textContent = t;
+    toast.className = 'toast show ' + type;
+    setTimeout(() => toast.className = 'toast ' + type, 2800);
+  };
+  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
+  const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+
+  let currentUser = null;
+  let currentBalance = 0;
+  let allCategories = [];
+  let allProducts = [];
+
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    sidebar.classList.add('open'); overlay.classList.add('show');
+    document.body.classList.add('sidebar-open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('show');
+    document.body.classList.remove('sidebar-open');
+  });
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth); window.location.replace('login.html');
+  });
+
+  function openModal(html){
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('purchaseModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    document.getElementById('purchaseModal').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('purchaseModal').addEventListener('click', e => {
+    if (e.target.id === 'purchaseModal') closeModal();
+  });
+
+  /* LOAD CATALOG */
+  async function loadCatalog() {
+    const container = document.getElementById('catalogContainer');
+    try {
+      // Load categories (ordered)
+      const catQ = query(collection(db, 'social_categories'), orderBy('createdAt', 'asc'));
+      const catSnap = await getDocs(catQ);
+      allCategories = [];
+      catSnap.forEach(d => allCategories.push({ id: d.id, ...d.data() }));
+
+      // Load products (ordered)
+      const prodQ = query(collection(db, 'social_products'), orderBy('createdAt', 'asc'));
+      const prodSnap = await getDocs(prodQ);
+      allProducts = [];
+      prodSnap.forEach(d => allProducts.push({ id: d.id, ...d.data() }));
+
+      if (!allCategories.length) {
+        container.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">📦</div>
+            <h3>No products yet</h3>
+            <p>Check back soon! Our team is adding new accounts.</p>
+          </div>`;
+        return;
+      }
+
+      let html = '';
+      allCategories.forEach(cat => {
+        const catProducts = allProducts.filter(p => p.categoryId === cat.id && p.active !== false);
+        if (!catProducts.length) return;
+
+        html += `
+          <div class="cat-header">
+            <span>${escapeHtml(cat.name).toUpperCase()}</span>
+            <button class="view-all-btn" data-cat="${escapeHtml(cat.id)}">View all</button>
+          </div>
+        `;
+
+        catProducts.forEach(p => {
+          const iconHtml = p.image
+            ? `<img src="${escapeHtml(p.image)}" onerror="this.parentNode.textContent='${p.icon || '📦'}'">`
+            : (p.icon || '📦');
+
+          html += `
+            <div class="product-row">
+              <div class="prod-icon">${iconHtml}</div>
+              <div class="prod-body">
+                <div class="prod-name">${escapeHtml(p.name)}</div>
+                <div class="prod-pills">
+                  <span class="pill price">${formatNGNshort(p.price)}</span>
+                  <span class="pill pcs">${escapeHtml(p.pcs || '1')} Pcs</span>
+                </div>
+              </div>
+              <button class="buy-btn" data-id="${escapeHtml(p.id)}" title="Buy">🔒</button>
+            </div>
+          `;
+        });
+      });
+
+      if (!html) {
+        container.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">📦</div>
+            <h3>No products available</h3>
+            <p>Please check back later.</p>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = html;
+
+      // Bind buy buttons
+      container.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.addEventListener('click', () => handleBuy(btn.dataset.id, btn));
+      });
+    } catch (err) {
+      console.error('Catalog error:', err);
+      container.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">⚠️</div>
+          <h3>Could not load products</h3>
+          <p>Please refresh and try again.</p>
+        </div>`;
+    }
+  }
+
+  /* BUY PRODUCT */
+  function handleBuy(productId, btn) {
+    const product = allProducts.find(p => p.id === productId);
+    if (!product) return;
+    const price = Number(product.price || 0);
+
+    if (currentBalance < price) {
+      const shortfall = price - currentBalance;
+      openModal(`
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">Not Enough Balance</div>
+        <div class="modal-sub">You need <b>${formatNGN(shortfall)}</b> more to buy this product.</div>
+        <div class="modal-detail">
+          <div class="md-row"><span>Product</span><b>${escapeHtml(product.name)}</b></div>
+          <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
+          <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
+          <div class="md-row total"><span>Shortfall</span><b>${formatNGN(shortfall)}</b></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
+          <button class="btn-pink" style="flex:2;" id="mFund">💰 Fund Wallet</button>
+        </div>
+      `);
+      document.getElementById('mCancel').onclick = closeModal;
+      document.getElementById('mFund').onclick = () => { window.location.href = 'wallet.html'; };
+      return;
+    }
+
+    openModal(`
+      <div class="modal-icon">🛒</div>
+      <div class="modal-title">Confirm Purchase</div>
+      <div class="modal-sub">You're about to buy:</div>
+      <div class="modal-detail">
+        <div class="md-row"><span>Product</span><b>${escapeHtml(product.name)}</b></div>
+        <div class="md-row"><span>Quantity</span><b>${escapeHtml(product.pcs || '1')} Pcs</b></div>
+        <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
+        <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
+        <div class="md-row total"><span>After</span><b>${formatNGN(currentBalance - price)}</b></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
+        <button class="btn-pink" style="flex:2;" id="mBuy">✅ PURCHASE NOW</button>
+      </div>
+    `);
+    document.getElementById('mCancel').onclick = closeModal;
+    document.getElementById('mBuy').onclick = () => processPurchase(product, price);
+  }
+
+  async function processPurchase(product, price) {
+    const buyBtn = document.getElementById('mBuy');
+    buyBtn.disabled = true;
+    buyBtn.textContent = '⏳ Processing...';
+
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      const freshSnap = await getDoc(userRef);
+      const freshData = freshSnap.data() || {};
+      const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
+      if (freshBalance < price) throw new Error('INSUFFICIENT');
+
+      const newBalance = freshBalance - price;
+      await updateDoc(userRef, { wallet: newBalance, updatedAt: serverTimestamp() });
+      currentBalance = newBalance;
+      document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+
+      // Save order for admin
+      await addDoc(collection(db, 'orders'), {
+        userId: currentUser.uid,
+        userEmail: currentUser.email || '',
+        userName: currentUser.displayName || '',
+        type: 'social',
+        productId: product.id,
+        productName: product.name,
+        price: price,
+        quantity: product.pcs || '1',
+        status: 'pending',
+        createdAt: serverTimestamp()
+      });
+
+      // Log transaction
+      await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
+        type: 'purchase',
+        icon: '📱',
+        title: `Bought: ${product.name}`,
+        subtitle: `${product.pcs || '1'} pcs`,
+        amount: price,
+        createdAt: serverTimestamp()
+      });
+
+      closeModal();
+      showToast(`✅ Order placed! Check your orders soon.`, 'success');
+
+      // Redirect to dashboard
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1400);
+    } catch (err) {
+      const msg = err.message === 'INSUFFICIENT' ? 'Insufficient balance.' : (err.message || 'Something went wrong.');
+      showToast(msg, 'error');
+      buyBtn.disabled = false;
+      buyBtn.textContent = '✅ PURCHASE NOW';
+    }
+  }
+
+  /* AUTH */
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+    const name = user.displayName || 'User';
+    document.getElementById('sideName').textContent = name;
+    document.getElementById('sideEmail').textContent = user.email;
+    document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
+
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
+        document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+      }
+    } catch (e) {}
+
+    loadCatalog();
+  });
+</script>
+
+</body>
+</html>
