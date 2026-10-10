@@ -20,76 +20,58 @@
     --sidebar-w: 260px;
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
-
-  /* SIDEBAR */
-  .sidebar {
-    position: fixed; top: 0; left: 0;
-    width: var(--sidebar-w); height: 100vh;
-    background: var(--brown-dark); color: #e8d5cc;
-    display: flex; flex-direction: column;
-    z-index: 200; transition: transform 0.3s ease;
-    overflow-y: auto; overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    padding-bottom: 30px;
-  }
+  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--brown-dark); color: #e8d5cc; display: flex; flex-direction: column; z-index: 200; transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: 30px; }
   .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
-  .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; letter-spacing: -0.5px; }
+  .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; }
   .sidebar-brand .logo span { color: var(--pink-light); }
   .sidebar-brand p { font-size: 11px; color: #b89b8f; margin-top: 3px; }
-
-  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
-  .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0; }
+  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); }
+  .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
   .side-user-info { overflow: hidden; }
   .side-user-name { font-size: 14px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .side-user-email { font-size: 11px; color: #b89b8f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
   .side-nav { padding: 12px 10px; flex: 1; }
   .side-label { font-size: 10px; font-weight: 800; color: #b89b8f; text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px; }
-  .side-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #e8d5cc; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-bottom: 2px; text-decoration: none; }
+  .side-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #e8d5cc; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 2px; }
   .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
-  .side-item.active { background: var(--pink); color: white; box-shadow: 0 4px 14px rgba(236,72,153,0.4); }
+  .side-item.active { background: var(--pink); color: white; }
   .side-item .si-icon { font-size: 17px; width: 20px; text-align: center; }
   .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 10px 14px; }
   .side-logout { color: #fca5a5 !important; }
-  .side-logout:hover { background: rgba(220,38,38,0.15) !important; }
 
-  /* TOPBAR */
   .topbar { display: flex; background: var(--brown-dark); padding: 14px 20px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150; gap: 12px; }
   .topbar-left { display: flex; align-items: center; gap: 14px; }
   .menu-btn { background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; display: none; }
-  .topbar .logo { font-size: 20px; font-weight: 800; color: white; letter-spacing: -0.5px; }
+  .topbar .logo { font-size: 20px; font-weight: 800; color: white; }
   .topbar .logo span { color: var(--pink-light); }
-  .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; box-shadow: 0 4px 14px rgba(236,72,153,0.25); }
+  .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; }
   .topbar-balance .b-val { color: var(--pink-light); }
 
-  /* MAIN */
-  .main { margin-left: var(--sidebar-w); padding: 22px 4% 120px; min-height: calc(100vh - 60px); }
+  .main { margin-left: var(--sidebar-w); padding: 22px 4% 140px; min-height: calc(100vh - 60px); }
   .greeting { margin-bottom: 22px; }
-  .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; margin-bottom: 4px; }
+  .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
   .greeting h1 span { color: var(--pink); }
   .greeting p { color: var(--brown); font-size: 14px; }
 
   .section { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 22px; margin-bottom: 22px; }
   .section-title { font-size: 16px; font-weight: 800; color: var(--brown-dark); display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-
   .form-field label { display: block; font-size: 13px; font-weight: 700; color: var(--brown-dark); margin-bottom: 6px; }
-  .form-field input { width: 100%; padding: 13px 14px; border: 1.5px solid #f0dcd4; border-radius: 10px; font-size: 14px; color: var(--brown-dark); background: var(--cream); transition: 0.2s; font-family: inherit; }
+  .form-field input { width: 100%; padding: 13px 14px; border: 1.5px solid #f0dcd4; border-radius: 10px; font-size: 14px; color: var(--brown-dark); background: var(--cream); font-family: inherit; }
   .form-field input:focus { outline: none; border-color: var(--pink); background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1); }
-  .form-field input:disabled { background: #f8f5f3; cursor: not-allowed; }
+  .form-field input:disabled { background: #f8f5f3; }
   .form-hint { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
   .req { color: var(--red); margin-left: 2px; }
 
   .search-wrap { position: relative; }
   .search-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--white); border: 1.5px solid var(--pink); border-radius: 12px; box-shadow: 0 12px 30px rgba(236,72,153,0.18); max-height: 300px; overflow-y: auto; z-index: 100; display: none; }
   .search-results.show { display: block; }
-  .search-item { width: 100%; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; border-bottom: 1px solid #f0dcd4; background: var(--white); text-align: left; font-family: inherit; border-left: none; border-right: none; border-top: none; }
+  .search-item { width: 100%; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; background: var(--white); text-align: left; font-family: inherit; border: none; border-bottom: 1px solid #f0dcd4; }
   .search-item:last-child { border-bottom: none; }
   .search-item:hover { background: var(--pink-soft); }
   .search-item .si-left { display: flex; align-items: center; gap: 12px; }
   .search-item .si-icon { font-size: 22px; }
   .search-item .si-name { font-weight: 700; font-size: 14px; color: var(--brown-dark); }
-  .search-item .si-price { font-weight: 800; font-size: 14px; color: var(--pink); flex-shrink: 0; }
+  .search-item .si-price { font-weight: 800; font-size: 14px; color: var(--pink); }
   .search-empty { padding: 18px; text-align: center; font-size: 13px; color: var(--brown-light); }
 
   .selected-chip { background: var(--pink-soft); border-radius: 12px; padding: 12px 16px; margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; border: 1px solid var(--pink-light); }
@@ -99,16 +81,15 @@
   .price-card .price { font-size: 26px; font-weight: 800; color: var(--pink); }
   .price-card .price-note { font-size: 12px; color: var(--brown-light); margin-top: 6px; }
 
-  .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.25s; font-family: inherit; }
+  .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
   .btn-pink:hover { background: var(--brown-dark); }
   .btn-pink:disabled { opacity: 0.55; cursor: not-allowed; }
   .btn-full { width: 100%; }
-
   .btn-cancel { padding: 13px; border-radius: 10px; background: #e5e7eb; color: var(--brown-dark); font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; border: none; }
 
   .modal-overlay { position: fixed; inset: 0; background: rgba(74,44,42,0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 998; padding: 20px; }
   .modal-overlay.show { display: flex; }
-  .modal-box { background: white; border-radius: 24px; padding: 32px 26px; max-width: 440px; width: 100%; box-shadow: 0 25px 60px rgba(0,0,0,0.35); text-align: center; max-height: 90vh; overflow-y: auto; }
+  .modal-box { background: white; border-radius: 24px; padding: 32px 26px; max-width: 440px; width: 100%; text-align: center; max-height: 90vh; overflow-y: auto; }
   .modal-icon { font-size: 46px; margin-bottom: 10px; }
   .modal-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 6px; }
   .modal-sub { font-size: 14px; color: var(--brown-light); margin-bottom: 20px; line-height: 1.6; }
@@ -120,7 +101,7 @@
   .md-row.total b { color: var(--pink); font-size: 16px; }
   .modal-actions { display: flex; gap: 12px; }
 
-  .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--brown-dark); color: white; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.25); opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none; max-width: 90%; }
+  .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--brown-dark); color: white; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none; max-width: 90%; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
   .toast.error { background: var(--red); }
@@ -128,12 +109,42 @@
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
   .overlay.show { display: block; }
 
+  /* BOTTOM NAV */
+  .bottom-nav {
+    display: none; position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    width: calc(100% - 24px); max-width: 500px;
+    background: var(--white); border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
+    padding: 8px 6px; z-index: 400;
+    transition: opacity 0.2s ease, transform 0.3s ease;
+  }
+  body.sidebar-open .bottom-nav { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(120px); }
+  .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
+  .bn-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    background: transparent; border: none; color: #9ca3af; font-size: 10px; font-weight: 600;
+    cursor: pointer; padding: 6px 2px; border-radius: 16px; transition: 0.25s; font-family: inherit;
+    text-decoration: none; min-height: 56px;
+  }
+  .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .bn-item .bn-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .bn-item.active { color: var(--brown-dark); font-weight: 700; }
+  .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
+  .bn-item.active .bn-icon svg { stroke: var(--pink); }
+  .bn-item.logout { color: #dc2626; }
+
   @media (max-width: 900px) {
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 4% 60px; }
+    .main { margin-left: 0; padding: 20px 4% 140px; }
     .menu-btn { display: block; }
+    .bottom-nav { display: block; }
     body.sidebar-open { overflow: hidden; }
+  }
+  @media (max-width: 600px) {
+    .bn-item { font-size: 9px; }
+    .bn-item .bn-icon { width: 30px; height: 30px; }
+    .bn-item .bn-icon svg { width: 18px; height: 18px; }
   }
 </style>
 </head>
@@ -141,18 +152,11 @@
 
 <div class="overlay" id="overlay"></div>
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-brand">
-    <div class="logo">Arknet<span>SMS</span></div>
-    <p>Virtual numbers & accounts</p>
-  </div>
+  <div class="sidebar-brand"><div class="logo">Arknet<span>SMS</span></div><p>Virtual numbers & accounts</p></div>
   <div class="side-user">
     <div class="side-avatar" id="sideAvatar">A</div>
-    <div class="side-user-info">
-      <div class="side-user-name" id="sideName">Loading...</div>
-      <div class="side-user-email" id="sideEmail">—</div>
-    </div>
+    <div class="side-user-info"><div class="side-user-name" id="sideName">Loading...</div><div class="side-user-email" id="sideEmail">—</div></div>
   </div>
   <nav class="side-nav">
     <div class="side-label">Main</div>
@@ -162,10 +166,10 @@
     <a href="social-logs.html" class="side-item"><span class="si-icon">📱</span> Social Media Logs</a>
     <div class="side-divider"></div>
     <div class="side-label">Account</div>
-    <a href="dashboard.html#profile" class="side-item"><span class="si-icon">👤</span> Profile</a>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">👤</span> Profile</a>
     <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
     <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
-    <a href="dashboard.html#password" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
 </aside>
@@ -175,18 +179,14 @@
     <button class="menu-btn" id="menuBtn">☰</button>
     <div class="logo">Arknet<span>SMS</span></div>
   </div>
-  <div class="topbar-balance">
-    <span class="b-icon">💰</span>
-    <span class="b-val" id="topBalance">₦0.00</span>
-  </div>
+  <div class="topbar-balance"><span class="b-icon">💰</span><span class="b-val" id="topBalance">₦0.00</span></div>
 </div>
 
 <main class="main">
   <div class="greeting">
     <h1>🇺🇸 Buy <span>USA Number</span></h1>
-    <p>Real US carrier numbers from TextVerified. Best for WhatsApp, Google, and strict platforms.</p>
+    <p>Real US carrier numbers from TextVerified.</p>
   </div>
-
   <div class="section">
     <div class="section-title">
       <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
@@ -198,37 +198,53 @@
         <input type="text" id="usaServiceInput" placeholder="Loading services..." autocomplete="off" disabled>
         <div class="search-results" id="usaServiceDropdown"></div>
       </div>
-      <div class="form-hint">Choose the platform you want to verify (WhatsApp, Google, etc.)</div>
     </div>
     <div class="selected-chip" id="usaSelectedChip" style="display:none;">
-      <span class="lbl">Selected:</span>
-      <span class="val" id="usaSelectedName">—</span>
+      <span class="lbl">Selected:</span><span class="val" id="usaSelectedName">—</span>
     </div>
     <div class="price-card" id="usaPriceCard" style="display:none;">
       <div class="price" id="usaSelectedPrice">₦0.00</div>
       <div class="price-note">Charged only when the number is successfully issued.</div>
     </div>
   </div>
-
   <div class="section" id="usaBuySection" style="display: none;">
-    <div class="section-title">
-      <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
-      Confirm & Buy
-    </div>
     <button class="btn-pink btn-full" id="usaActionBtn" disabled>🛒 Buy USA Number</button>
   </div>
 </main>
 
-<div class="modal-overlay" id="purchaseModal">
-  <div class="modal-box" id="modalContent"></div>
-</div>
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-inner">
+    <a href="dashboard.html" class="bn-item" data-goto="service">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <span>Service</span>
+    </a>
+    <a href="transactions.html" class="bn-item" data-goto="orders">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+      <span>Orders</span>
+    </a>
+    <a href="wallet.html" class="bn-item" data-goto="deposit">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
+      <span>Deposit</span>
+    </a>
+    <a href="dashboard.html" class="bn-item" data-goto="profile">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
+      <span>Profile</span>
+    </a>
+    <button class="bn-item logout" id="bnLogout">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+      <span>Logout</span>
+    </button>
+  </div>
+</nav>
 
+<div class="modal-overlay" id="purchaseModal"><div class="modal-box" id="modalContent"></div></div>
 <div class="toast" id="toast"></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, updateDoc, deleteField, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
@@ -239,7 +255,6 @@
     appId: "1:961504742152:web:a9ade98d13465bb3b8babd",
     measurementId: "G-48V2T4CBJF"
   };
-
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
@@ -254,21 +269,15 @@
     toast.className = 'toast show ' + type;
     setTimeout(() => toast.className = 'toast ' + type, 2800);
   };
-
   const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
   const capitalize = (v) => String(v || '').replace(/\b\w/g, c => c.toUpperCase());
   const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-
   const calcPrice = (usd) => Math.ceil((Number(usd || 0) * USD_TO_NGN) + PROFIT_NGN);
   const calcCost = (usd) => Math.ceil(Number(usd || 0) * USD_TO_NGN);
 
-  let currentUser = null;
-  let currentBalance = 0;
-  let usaSelectedService = null;
-  let usaAvailableServices = [];
+  let currentUser = null, currentBalance = 0, usaSelectedService = null, usaAvailableServices = [];
 
-  /* MENU */
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   document.getElementById('menuBtn').addEventListener('click', () => {
@@ -279,9 +288,9 @@
     sidebar.classList.remove('open'); overlay.classList.remove('show');
     document.body.classList.remove('sidebar-open');
   });
-
   async function doLogout(){ await signOut(auth); window.location.replace('login.html'); }
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
+  document.getElementById('bnLogout').addEventListener('click', doLogout);
 
   function openModal(html){
     document.getElementById('modalContent').innerHTML = html;
@@ -296,50 +305,19 @@
     if (e.target.id === 'purchaseModal') closeModal();
   });
 
-  /* AUTH */
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) { window.location.href = 'login.html'; return; }
-    currentUser = user;
-
-    const name = user.displayName || 'User';
-    document.getElementById('sideName').textContent = name;
-    document.getElementById('sideEmail').textContent = user.email;
-    document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
-
-    try {
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      if (snap.exists()) {
-        const data = snap.data();
-        currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
-        document.getElementById('topBalance').textContent = formatNGN(currentBalance);
-      }
-    } catch (e) {}
-
-    loadUsaServices();
-  });
-
-  /* LOAD SERVICES */
   async function loadUsaServices() {
     const input = document.getElementById('usaServiceInput');
     try {
       const res = await fetch(`${TV_API_URL}?action=servicelist`, { cache: 'no-store' });
       const data = await res.json();
-      if (!res.ok || !data.success) {
-        input.placeholder = data.message || 'Failed to load services';
-        return;
-      }
-      usaAvailableServices = (data.services || []).map(s => ({
-        id: String(s.id), name: String(s.name), price: Number(s.price || 0.25)
-      }));
+      if (!res.ok || !data.success) { input.placeholder = data.message || 'Failed'; return; }
+      usaAvailableServices = (data.services || []).map(s => ({ id: String(s.id), name: String(s.name), price: Number(s.price || 0.25) }));
       if (!usaAvailableServices.length) { input.placeholder = 'No services available'; return; }
       input.placeholder = `🔍 Search among ${usaAvailableServices.length} services...`;
       input.disabled = false;
-    } catch (err) {
-      input.placeholder = 'Failed to load services';
-    }
+    } catch (err) { input.placeholder = 'Failed to load services'; }
   }
 
-  /* SEARCH */
   const usaInput = document.getElementById('usaServiceInput');
   const usaDrop = document.getElementById('usaServiceDropdown');
 
@@ -354,11 +332,9 @@
     }
     usaDrop.innerHTML = matches.map(s => {
       const price = calcPrice(s.price);
-      return `
-        <button type="button" class="search-item" data-id="${escapeHtml(s.id)}">
-          <div class="si-left"><span class="si-icon">🇺🇸</span><span class="si-name">${escapeHtml(capitalize(s.name))}</span></div>
-          <span class="si-price">${formatNGNshort(price)}</span>
-        </button>`;
+      return `<button type="button" class="search-item" data-id="${escapeHtml(s.id)}">
+        <div class="si-left"><span class="si-icon">🇺🇸</span><span class="si-name">${escapeHtml(capitalize(s.name))}</span></div>
+        <span class="si-price">${formatNGNshort(price)}</span></button>`;
     }).join('');
     usaDrop.classList.add('show');
     usaDrop.querySelectorAll('.search-item').forEach(btn => {
@@ -385,11 +361,9 @@
     document.getElementById('usaActionBtn').disabled = false;
   }
 
-  /* BUY BUTTON */
   document.getElementById('usaActionBtn').addEventListener('click', () => {
     if (!currentUser || !usaSelectedService) return;
     const price = calcPrice(usaSelectedService.price);
-
     if (currentBalance < price) {
       const shortfall = price - currentBalance;
       openModal(`
@@ -397,27 +371,24 @@
         <div class="modal-title">Not Enough Balance</div>
         <div class="modal-sub">You need <b>${formatNGN(shortfall)}</b> more.</div>
         <div class="modal-detail">
-          <div class="md-row"><span>Service</span><b>🇺🇸 ${escapeHtml(capitalize(usaSelectedService.name))}</b></div>
+          <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(usaSelectedService.name))}</b></div>
           <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
           <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
           <div class="md-row total"><span>Shortfall</span><b>${formatNGN(shortfall)}</b></div>
         </div>
         <div class="modal-actions">
           <button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
-          <button class="btn-pink" style="flex:2;" id="mFund">💰 Fund Wallet</button>
-        </div>
-      `);
+          <button class="btn-pink" style="flex:2;" id="mFund">💰 Fund</button>
+        </div>`);
       document.getElementById('mCancel').onclick = closeModal;
       document.getElementById('mFund').onclick = () => { window.location.href = 'wallet.html'; };
       return;
     }
-
     openModal(`
       <div class="modal-icon">🛒</div>
-      <div class="modal-title">Confirm USA Purchase</div>
-      <div class="modal-sub">Buy a real US <b>${escapeHtml(capitalize(usaSelectedService.name))}</b> number from TextVerified.</div>
+      <div class="modal-title">Confirm Purchase</div>
+      <div class="modal-sub">Buy <b>${escapeHtml(capitalize(usaSelectedService.name))}</b> US number.</div>
       <div class="modal-detail">
-        <div class="md-row"><span>Country</span><b>🇺🇸 United States</b></div>
         <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(usaSelectedService.name))}</b></div>
         <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
         <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
@@ -426,83 +397,77 @@
       <div class="modal-actions">
         <button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
         <button class="btn-pink" style="flex:2;" id="mBuy">✅ PURCHASE NOW</button>
-      </div>
-    `);
+      </div>`);
     document.getElementById('mCancel').onclick = closeModal;
     document.getElementById('mBuy').onclick = processUsaPurchase;
   });
 
   async function processUsaPurchase() {
     const buyBtn = document.getElementById('mBuy');
-    if (!buyBtn) return;
-    buyBtn.disabled = true;
-    buyBtn.textContent = '⏳ Processing...';
-
+    buyBtn.disabled = true; buyBtn.textContent = '⏳ Processing...';
     const price = calcPrice(usaSelectedService.price);
     const providerCost = calcCost(usaSelectedService.price);
     const profit = price - providerCost;
-
     try {
       const userRef = doc(db, 'users', currentUser.uid);
       const freshSnap = await getDoc(userRef);
       const freshData = freshSnap.data() || {};
       const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
       if (freshBalance < price) throw new Error('INSUFFICIENT');
-
       const genRes = await fetch(`${TV_API_URL}?action=generate&service=${encodeURIComponent(usaSelectedService.name)}`, { cache: 'no-store' });
       const genData = await genRes.json();
       if (!genRes.ok || !genData.success) throw new Error(genData.message || 'OUT_OF_STOCK');
-
       const phoneNumber = genData.number;
       const requestId = genData.request_id;
       if (!phoneNumber) throw new Error('OUT_OF_STOCK');
-
       const newBalance = freshBalance - price;
       await updateDoc(userRef, { wallet: newBalance, walletBalance: deleteField(), balance: deleteField(), updatedAt: serverTimestamp() });
       currentBalance = newBalance;
       document.getElementById('topBalance').textContent = formatNGN(currentBalance);
-
       await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
-        service: capitalize(usaSelectedService.name),
-        serviceId: usaSelectedService.id,
+        service: capitalize(usaSelectedService.name), serviceId: usaSelectedService.id,
         country: 'United States', countryCode: 'US', flag: '🇺🇸',
         number: phoneNumber, requestId: requestId, code: '',
-        price, providerCost, profit,
-        status: 'pending', provider: 'textverified',
+        price, providerCost, profit, status: 'pending', provider: 'textverified',
         createdAt: serverTimestamp()
       });
-
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
         type: 'purchase', icon: '🇺🇸',
         title: `USA — ${capitalize(usaSelectedService.name)}`,
-        subtitle: `Number: ${phoneNumber}`,
-        amount: price, createdAt: serverTimestamp()
+        subtitle: `Number: ${phoneNumber}`, amount: price, createdAt: serverTimestamp()
       });
-
       closeModal();
       showToast(`✅ Number: ${phoneNumber}`, 'success');
-
-      usaSelectedService = null;
-      usaInput.value = '';
-      document.getElementById('usaSelectedChip').style.display = 'none';
-      document.getElementById('usaPriceCard').style.display = 'none';
-      document.getElementById('usaBuySection').style.display = 'none';
-
       setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
     } catch (err) {
-      let msg = err.message === 'INSUFFICIENT' ? 'Insufficient balance.' : (err.message || 'Something went wrong.');
+      const msg = err.message === 'INSUFFICIENT' ? 'Insufficient balance.' : (err.message || 'Something went wrong.');
       openModal(`
         <div class="modal-icon">❌</div>
         <div class="modal-title">Purchase Failed</div>
         <div class="modal-sub">${escapeHtml(msg)}</div>
-        <div class="modal-actions">
-          <button class="btn-cancel" style="flex:1;" id="mClose">Close</button>
-        </div>
-      `);
+        <div class="modal-actions"><button class="btn-cancel" style="flex:1;" id="mClose">Close</button></div>`);
       document.getElementById('mClose').onclick = closeModal;
     }
   }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+    const name = user.displayName || 'User';
+    document.getElementById('sideName').textContent = name;
+    document.getElementById('sideEmail').textContent = user.email;
+    document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
+        document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+      }
+    } catch (e) {}
+    loadUsaServices();
+  });
 </script>
 
 </body>
-</html>
+ </html>
