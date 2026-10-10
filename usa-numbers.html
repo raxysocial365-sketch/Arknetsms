@@ -21,14 +21,13 @@
     --cream: #fef9f5;
     --green: #22c55e;
     --red: #dc2626;
+    --warning: #b45309;
     --bottom-nav-height: 68px;
 }
 html, body { overflow-x: hidden; }
 body {
-    background: var(--cream);
-    color: var(--brown-dark);
-    min-height: 100vh;
-    line-height: 1.5;
+    background: var(--cream); color: var(--brown-dark);
+    min-height: 100vh; line-height: 1.5;
     padding-bottom: calc(var(--bottom-nav-height) + 20px);
     -webkit-font-smoothing: antialiased;
 }
@@ -37,7 +36,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .topbar { background: var(--brown-dark); position: sticky; top: 0; z-index: 500; }
 .topbar-inner { max-width: 500px; margin: 0 auto; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.7rem; }
-.back-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--white); border: none; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--brown-dark); flex-shrink: 0; }
+.back-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--brown-dark); flex-shrink: 0; }
 .page-title { font-size: 0.95rem; font-weight: 700; flex: 1; color: white; }
 .balance-chip { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.75rem; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 10px; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; color: var(--pink-light); }
 
@@ -48,10 +47,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .subtitle { text-align: center; margin-bottom: 1rem; }
 .subtitle .flag { font-size: 1.6rem; margin-bottom: 0.3rem; display: block; }
 .subtitle h3 { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.02em; }
-.subtitle p { font-size: 0.82rem; color: var(--brown-light); margin-top: 0.3rem; line-height: 1.5; }
+.subtitle p { font-size: 0.82rem; color: var(--brown-light); margin-top: 0.3rem; }
 
 .main-card { background: var(--white); border: 1px solid #f5e6e0; border-radius: 20px; padding: 1.4rem 1.2rem; box-shadow: 0 4px 20px rgba(74,44,42,0.06); }
-
 .field-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; display: block; }
 .field-label .req { color: var(--red); margin-left: 2px; }
 
@@ -94,7 +92,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .modal { width: 100%; max-width: 500px; background: #fff; border-radius: 22px 22px 0 0; padding: 1.5rem 1.3rem 1.8rem; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .modal-icon-top { width: 64px; height: 64px; border-radius: 18px; background: var(--pink-soft); color: var(--pink); display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin: 0 auto 1rem; }
-.modal-icon-top.warning { background: #fef3c7; color: #b45309; }
+.modal-icon-top.warning { background: #fef3c7; color: var(--warning); }
 .modal-icon-top.error { background: #fee2e2; color: var(--red); }
 .modal-icon-top.success { background: #dcfce7; color: var(--green); }
 .modal-title { text-align: center; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
@@ -203,15 +201,16 @@ const db = getFirestore(app);
 
 const USA_API = "/api/textverified-buy";
 
-let USD_TO_NGN = 1650;
-let PROFIT_NGN = 1650;
+/* ✅ YOUR PRICING: (Provider USD × 1500) + 950 */
+let USD_TO_NGN = 1500;
+let PROFIT_NGN = 950;
 
 async function loadPricingSettings() {
     try {
         const snap = await getDoc(doc(db, 'usa_settings', 'pricing'));
         if (snap.exists()) {
-            USD_TO_NGN = Number(snap.data().usdToNgn || 1650);
-            PROFIT_NGN = Number(snap.data().profitNgn || 1650);
+            USD_TO_NGN = Number(snap.data().usdToNgn || 1500);
+            PROFIT_NGN = Number(snap.data().profitNgn || 950);
         }
     } catch (err) { console.warn('Pricing:', err.message); }
 }
@@ -281,6 +280,7 @@ async function loadServices() {
 
         const tvServices = data.services;
 
+        /* ✅ Read your price overrides from Firestore */
         const overridesSnap = await getDocs(collection(db, 'usa_price_overrides'));
         const overrides = {};
         overridesSnap.forEach(d => {
@@ -292,12 +292,12 @@ async function loadServices() {
             .filter(s => {
                 const o = overrides[s.name];
                 if (!o || o.enabled === false) return false;
-                const hasProvider = Number(o.providerUSD || 0) > 0;
-                return hasProvider;
+                return Number(o.providerUSD || 0) > 0;
             })
             .map(s => {
                 const o = overrides[s.name];
                 const providerUSD = Number(o.providerUSD || 0);
+                /* ✅ Your formula: (USD × 1500) + 950 */
                 const finalPrice = Math.ceil((providerUSD * USD_TO_NGN) + PROFIT_NGN);
 
                 return {
@@ -365,7 +365,6 @@ function selectService(id) {
 
     selectedChip.style.display = 'flex';
     selectedName.textContent = svc.name;
-
     selectedPrice.textContent = fmtNaira(svc.price);
     priceCard.style.display = 'block';
 
@@ -375,11 +374,9 @@ function selectService(id) {
 
 actionBtn.addEventListener('click', () => {
     if (!selectedService) return;
-
     const price = Number(selectedService.price || 0);
-    const hasEnough = userWallet >= price;
 
-    if (!hasEnough) {
+    if (userWallet < price) {
         const shortfall = price - userWallet;
         openModal(`
             <div class="modal-icon-top warning"><i class="fas fa-wallet"></i></div>
@@ -433,7 +430,6 @@ async function processPurchase() {
 
         if (freshBalance < price) throw new Error('INSUFFICIENT');
         userWallet = freshBalance;
-        topBalance.textContent = fmtNaira(userWallet);
 
         const genRes = await fetch(`${USA_API}?action=generate&service=${encodeURIComponent(selectedService.rawName)}`);
         const genData = await genRes.json();
@@ -496,7 +492,7 @@ async function processPurchase() {
                 provider: 'textverified',
                 createdAt: Date.now()
             }));
-        } catch (e) { console.warn('LocalStorage:', e); }
+        } catch (e) {}
 
         closeModal();
         window.location.href = 'dashboard.html';
