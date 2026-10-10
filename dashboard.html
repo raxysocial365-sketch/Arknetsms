@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arknet — Dashboard</title>
+<title>Arknet SMS — Dashboard</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
   :root {
@@ -17,7 +17,6 @@
     --cream: #fef9f5;
     --green: #22c55e;
     --red: #dc2626;
-    --blue: #2563eb;
     --sidebar-w: 260px;
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
@@ -32,10 +31,6 @@
     z-index: 200;
     transition: transform 0.3s ease;
     overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    padding-bottom: 30px;
   }
   .sidebar-brand {
     padding: 22px 20px;
@@ -69,7 +64,6 @@
     padding: 12px 14px; border-radius: 10px;
     color: #e8d5cc; font-size: 14px; font-weight: 600;
     cursor: pointer; transition: 0.2s; margin-bottom: 2px;
-    text-decoration: none;
   }
   .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
   .side-item.active { background: var(--pink); color: white; box-shadow: 0 4px 14px rgba(236,72,153,0.4); }
@@ -104,24 +98,19 @@
   .topbar-balance .b-val { color: var(--pink-light); }
 
   /* MAIN */
-  .main { margin-left: var(--sidebar-w); padding: 22px 4% 120px; min-height: calc(100vh - 60px); }
-  .view { display: none; animation: fade 0.3s ease; }
-  .view.active { display: block; }
+  .main { margin-left: var(--sidebar-w); padding: 26px 4% 60px; min-height: calc(100vh - 60px); }
+  .page { display: none; animation: fade 0.3s ease; }
+  .page.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+  .greeting { margin-bottom: 26px; }
+  .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; margin-bottom: 4px; }
+  .greeting h1 span { color: var(--pink); }
+  .greeting p { color: var(--brown); font-size: 14px; }
+
   /* ACTION CARDS */
-  .actions-top {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    margin-bottom: 14px;
-  }
-  .actions-single {
-    display: grid;
-    grid-template-columns: 1fr;
-    max-width: calc(50% - 7px);
-    margin: 0 auto 30px;
-  }
+  .actions-top { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+  .actions-bottom { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 66%; margin: 0 auto 30px; }
 
   .action-card {
     background: var(--white); border: 1px solid #f5e6e0; border-radius: 22px;
@@ -129,7 +118,6 @@
     cursor: pointer; transition: 0.28s;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; gap: 14px; min-height: 150px;
-    text-decoration: none; color: inherit;
   }
   .action-card:hover { transform: translateY(-4px); border-color: var(--pink-light); box-shadow: 0 16px 34px rgba(236,72,153,0.14); }
   .action-card .ac-icon {
@@ -153,10 +141,12 @@
     display: flex; align-items: center; gap: 6px;
   }
   .btn-refresh:hover { background: var(--pink); color: white; border-color: var(--pink); }
+  .btn-refresh.spinning span { display: inline-block; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   /* TABLE */
   .table-wrap { overflow-x: auto; }
-  table.act-table { width: 100%; border-collapse: collapse; min-width: 400px; }
+  table.act-table { width: 100%; border-collapse: collapse; min-width: 620px; }
   table.act-table th {
     text-align: left; font-size: 11px; font-weight: 800;
     color: var(--brown-light); text-transform: uppercase; letter-spacing: 0.6px;
@@ -168,29 +158,74 @@
   }
   table.act-table tr:last-child td { border-bottom: none; }
   table.act-table tr:hover td { background: var(--pink-soft); }
-
+  .status-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+  .status-active { background: #dcfce7; color: #166534; }
+  .status-pending { background: #fef3c7; color: #92400e; }
+  .status-expired { background: #fee2e2; color: #991b1b; }
+  .status-completed { background: #dbeafe; color: #1e40af; }
   .code-pill { background: var(--pink-soft); color: var(--pink); padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 13px; letter-spacing: 1px; font-family: 'Consolas', monospace; }
   .code-pill.pending { background: #fef3c7; color: #92400e; }
-  .refund-pill { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 12px; }
 
   .empty { text-align: center; padding: 40px 20px; border: 2px dashed #f0dcd4; border-radius: 12px; }
   .empty-icon { font-size: 46px; margin-bottom: 12px; }
   .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
   .empty p { color: var(--brown-light); font-size: 14px; }
 
+  /* BUTTONS */
+  .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.25s; font-family: inherit; }
+  .btn-pink:hover { background: var(--brown-dark); transform: translateY(-1px); }
+  .btn-full { width: 100%; }
+
   /* FORMS */
   .form-grid { display: grid; gap: 14px; }
   .form-field label { display: block; font-size: 13px; font-weight: 700; color: var(--brown-dark); margin-bottom: 6px; }
-  .form-field input {
+  .form-field input, .form-field select {
     width: 100%; padding: 13px 14px;
     border: 1.5px solid #f0dcd4; border-radius: 10px;
     font-size: 14px; color: var(--brown-dark);
     background: var(--cream); transition: 0.2s; font-family: inherit;
   }
-  .form-field input:focus {
+  .form-field input:focus, .form-field select:focus {
     outline: none; border-color: var(--pink);
     background: white; box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
+
+  /* PICKERS */
+  .country-picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .country-pick {
+    background: var(--white); border: 1.5px solid #f5e6e0; border-radius: 14px;
+    padding: 14px 12px; cursor: pointer; transition: 0.25s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .country-pick:hover { border-color: var(--pink); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(236,72,153,0.12); }
+  .country-pick.selected { border-color: var(--pink); background: var(--pink-soft); box-shadow: 0 0 0 4px rgba(236,72,153,0.1); }
+  .country-pick .cp-flag { font-size: 26px; }
+  .country-pick .cp-name { font-weight: 700; font-size: 13px; color: var(--brown-dark); }
+  .country-pick .cp-price { font-size: 11px; color: var(--pink); font-weight: 700; margin-top: 2px; }
+
+  .service-picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+  .service-pick {
+    background: var(--white); border: 1.5px solid #f5e6e0; border-radius: 14px;
+    padding: 16px 10px; text-align: center; cursor: pointer; transition: 0.25s;
+  }
+  .service-pick:hover { border-color: var(--pink); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(236,72,153,0.12); }
+  .service-pick.selected { border-color: var(--pink); background: var(--pink-soft); box-shadow: 0 0 0 4px rgba(236,72,153,0.1); }
+  .service-pick .sp-icon { font-size: 28px; margin-bottom: 6px; }
+  .service-pick .sp-name { font-weight: 700; font-size: 13px; color: var(--brown-dark); }
+  .service-pick .sp-price { font-size: 11px; color: var(--pink); font-weight: 700; margin-top: 3px; }
+
+  /* LIST ROWS */
+  .list-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f5e6e0; gap: 12px; }
+  .list-row:last-child { border-bottom: none; }
+  .lr-left { display: flex; align-items: center; gap: 12px; }
+  .lr-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--pink-soft); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .lr-title { font-weight: 700; color: var(--brown-dark); font-size: 14px; }
+  .lr-sub { font-size: 12px; color: var(--brown-light); }
+  .lr-right { text-align: right; }
+  .lr-amount { font-weight: 800; font-size: 15px; }
+  .lr-amount.plus { color: var(--green); }
+  .lr-amount.minus { color: var(--red); }
+  .lr-date { font-size: 11px; color: var(--brown-light); margin-top: 2px; }
 
   /* PROFILE ROWS */
   .profile-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f5e6e0; gap: 10px; }
@@ -198,33 +233,9 @@
   .pr-label { font-size: 13px; color: var(--brown-light); font-weight: 600; }
   .pr-val { font-size: 14px; color: var(--brown-dark); font-weight: 700; word-break: break-word; text-align: right; }
 
-  /* GREETING */
-  .greeting { margin-bottom: 22px; }
-  .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; margin-bottom: 4px; }
-  .greeting h1 span { color: var(--pink); }
-  .greeting p { color: var(--brown); font-size: 14px; }
-
-  /* BACK BUTTON */
-  .back-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--pink-soft); color: var(--pink);
-    border: 1px solid var(--pink-light);
-    padding: 10px 16px; border-radius: 10px;
-    font-size: 13px; font-weight: 700;
-    cursor: pointer; margin-bottom: 18px;
-    font-family: inherit;
-  }
-  .back-btn:hover { background: var(--pink); color: white; border-color: var(--pink); }
-
-  /* BUTTONS */
-  .btn-pink { background: var(--pink); color: white; padding: 13px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.25s; font-family: inherit; }
-  .btn-pink:hover { background: var(--brown-dark); transform: translateY(-1px); }
-  .btn-pink:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
-  .btn-full { width: 100%; }
-
   /* TOAST */
   .toast {
-    position: fixed; bottom: 100px; left: 50%;
+    position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: var(--brown-dark); color: white;
     padding: 13px 22px; border-radius: 10px;
@@ -237,84 +248,58 @@
   .toast.success { background: var(--green); }
   .toast.error { background: var(--red); }
 
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(74,44,42,0.7);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 998; padding: 20px;
+  }
+  .modal-overlay.show { display: flex; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-box {
+    background: white; border-radius: 24px; padding: 32px 26px;
+    max-width: 440px; width: 100%;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    text-align: center; animation: popIn 0.3s ease;
+  }
+  @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-icon { font-size: 46px; margin-bottom: 10px; }
+  .modal-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 6px; }
+  .modal-sub { font-size: 14px; color: var(--brown-light); margin-bottom: 20px; }
+  .modal-detail { background: var(--pink-soft); border-radius: 14px; padding: 16px; margin-bottom: 22px; text-align: left; }
+  .md-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: var(--brown-dark); }
+  .md-row span { color: var(--brown-light); font-weight: 600; }
+  .md-row b { font-weight: 800; }
+  .modal-actions { display: flex; gap: 12px; }
+
   /* OVERLAY */
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
   .overlay.show { display: block; }
-
-  /* BOTTOM NAV */
-  .bottom-nav {
-    display: none;
-    position: fixed;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 24px);
-    max-width: 500px;
-    background: var(--white);
-    border-radius: 22px;
-    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
-    padding: 8px 6px;
-    z-index: 400;
-    transition: opacity 0.2s ease, transform 0.3s ease;
-  }
-  /* Hide bottom nav when sidebar is open */
-  body.sidebar-open .bottom-nav {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-50%) translateY(120px);
-  }
-
-  .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
-  .bn-item {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 3px;
-    background: transparent; border: none;
-    color: #9ca3af; font-size: 10px; font-weight: 600;
-    cursor: pointer; padding: 6px 2px; border-radius: 16px;
-    transition: 0.25s; font-family: inherit;
-    -webkit-tap-highlight-color: transparent; min-height: 56px;
-    text-decoration: none;
-  }
-  .bn-item .bn-icon {
-    width: 34px; height: 34px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    transition: 0.25s;
-  }
-  .bn-item .bn-icon svg {
-    width: 20px; height: 20px;
-    stroke: currentColor; stroke-width: 2;
-    fill: none; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .bn-item.active { color: var(--brown-dark); font-weight: 700; }
-  .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
-  .bn-item.active .bn-icon svg { stroke: var(--pink); }
-  .bn-item.logout { color: #dc2626; }
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 4% 120px; }
+    .main { margin-left: 0; padding: 20px 4% 60px; }
     .menu-btn { display: block; }
-    .bottom-nav { display: block; }
-    body.sidebar-open { overflow: hidden; }
+    .greeting h1 { font-size: 22px; }
+    .actions-top { grid-template-columns: repeat(3, 1fr); }
+    .actions-bottom { max-width: 100%; }
   }
   @media (max-width: 600px) {
-    .actions-top { gap: 10px; }
-    .actions-single { max-width: calc(50% - 5px); margin-bottom: 24px; }
-    .action-card { padding: 18px 8px 16px; border-radius: 18px; min-height: 130px; gap: 10px; }
-    .action-card .ac-icon { width: 52px; height: 52px; font-size: 24px; border-radius: 16px; }
-    .action-card .ac-title { font-size: 13px; }
+    .actions-top { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .actions-bottom { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .action-card { padding: 18px 8px 16px; border-radius: 18px; min-height: 120px; gap: 10px; }
+    .action-card .ac-icon { width: 48px; height: 48px; font-size: 22px; border-radius: 14px; }
+    .action-card .ac-title { font-size: 12px; }
     .action-card .ac-sub { font-size: 10px; }
-    .bn-item { font-size: 9px; }
-    .bn-item .bn-icon { width: 30px; height: 30px; }
-    .bn-item .bn-icon svg { width: 18px; height: 18px; }
-    .greeting h1 { font-size: 22px; }
   }
   @media (max-width: 380px) {
-    .action-card .ac-title { font-size: 12px; }
-    .action-card .ac-icon { width: 46px; height: 46px; font-size: 22px; }
-    .bn-item { font-size: 8.5px; }
+    .action-card .ac-title { font-size: 11px; }
+    .action-card .ac-icon { width: 42px; height: 42px; font-size: 20px; }
   }
 </style>
 </head>
@@ -339,17 +324,20 @@
 
   <nav class="side-nav">
     <div class="side-label">Main</div>
+
     <div class="side-item active" data-page="dashboard"><span class="si-icon">📊</span> Dashboard</div>
-    <a href="usa-numbers.html" class="side-item"><span class="si-icon">🇺🇸</span> USA Numbers</a>
-    <a href="countries.html" class="side-item"><span class="si-icon">🌍</span> All Countries</a>
-    <a href="social-logs.html" class="side-item"><span class="si-icon">📱</span> Social Media Logs</a>
+    <div class="side-item" data-page="usa"><span class="si-icon">🇺🇸</span> Buy USA Number</div>
+    <div class="side-item" data-page="countries"><span class="si-icon">🌍</span> Buy All Countries</div>
+    <div class="side-item" data-page="gmail"><span class="si-icon">📧</span> Buy Gmail Account</div>
+    <div class="side-item" data-page="social"><span class="si-icon">📱</span> Buy Social Media</div>
+    <div class="side-item" data-page="boost"><span class="si-icon">🚀</span> Boost Your Social Media</div>
 
     <div class="side-divider"></div>
     <div class="side-label">Account</div>
 
     <div class="side-item" data-page="profile"><span class="si-icon">👤</span> Profile</div>
-    <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
-    <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
+    <div class="side-item" data-page="deposit"><span class="si-icon">💰</span> Deposit Funds</div>
+    <div class="side-item" data-page="history"><span class="si-icon">📜</span> Transaction History</div>
     <div class="side-item" data-page="password"><span class="si-icon">🔒</span> Change Password</div>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
   </nav>
@@ -370,33 +358,44 @@
 <!-- MAIN -->
 <main class="main">
 
-  <!-- ========== VIEW: DASHBOARD ========== -->
-  <div class="view active" id="view-dashboard">
+  <!-- ========== DASHBOARD ========== -->
+  <div class="page active" id="page-dashboard">
+    <div class="greeting">
+      <h1>Hi <span id="welcomeName">User</span> 👋</h1>
+      <p>Here's a quick overview of your Arknet SMS account.</p>
+    </div>
 
-    <!-- TOP ROW: USA · All Countries -->
     <div class="actions-top">
-      <a href="usa-numbers.html" class="action-card">
-        <div class="ac-icon">🇺🇸</div>
-        <div class="ac-title">Buy USA Number</div>
-        <div class="ac-sub">High quality</div>
-      </a>
-      <a href="countries.html" class="action-card">
-        <div class="ac-icon">🌍</div>
-        <div class="ac-title">Buy All Countries</div>
-        <div class="ac-sub">Global coverage</div>
-      </a>
-    </div>
-
-    <!-- SINGLE CARD CENTERED: Social Media Logs -->
-    <div class="actions-single">
-      <a href="social-logs.html" class="action-card">
+      <div class="action-card" data-goto="gmail">
+        <div class="ac-icon">📧</div>
+        <div class="ac-title">Buy Gmail</div>
+        <div class="ac-sub">Fresh & aged accounts</div>
+      </div>
+      <div class="action-card" data-goto="social">
         <div class="ac-icon">📱</div>
-        <div class="ac-title">Buy Social Media Logs</div>
+        <div class="ac-title">Social Media</div>
         <div class="ac-sub">Verified accounts</div>
-      </a>
+      </div>
+      <div class="action-card" data-goto="boost">
+        <div class="ac-icon">🚀</div>
+        <div class="ac-title">Boost Social</div>
+        <div class="ac-sub">Followers & likes</div>
+      </div>
     </div>
 
-    <!-- RECENT ACTIVATIONS -->
+    <div class="actions-bottom">
+      <div class="action-card" data-goto="usa">
+        <div class="ac-icon">🇺🇸</div>
+        <div class="ac-title">USA Numbers</div>
+        <div class="ac-sub">High quality</div>
+      </div>
+      <div class="action-card" data-goto="countries">
+        <div class="ac-icon">🌍</div>
+        <div class="ac-title">All Countries</div>
+        <div class="ac-sub">Global coverage</div>
+      </div>
+    </div>
+
     <div class="section">
       <div class="section-head">
         <div class="section-title">🕐 Recent Activations</div>
@@ -405,10 +404,13 @@
       <div class="table-wrap">
         <table class="act-table">
           <thead>
-            <tr><th>Service</th><th>Number</th><th>SMS Code</th></tr>
+            <tr>
+              <th>Service</th><th>Number</th><th>SMS Code</th>
+              <th>Price</th><th>Status</th><th>Date</th>
+            </tr>
           </thead>
           <tbody id="activationsBody">
-            <tr><td colspan="3">
+            <tr><td colspan="6">
               <div class="empty">
                 <div class="empty-icon">📭</div>
                 <h3>No activations yet</h3>
@@ -421,15 +423,213 @@
     </div>
   </div>
 
-  <!-- ========== VIEW: PROFILE ========== -->
-  <div class="view" id="view-profile">
+  <!-- ========== BUY USA NUMBER ========== -->
+  <div class="page" id="page-usa">
     <div class="greeting">
-      <h1>👤 My <span>Profile</span></h1>
-      <p>Your account information.</p>
+      <h1>🇺🇸 Buy <span>USA Number</span></h1>
+      <p>Get a US virtual number for SMS verification.</p>
     </div>
 
-    <button class="back-btn" data-back>← Back to Dashboard</button>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Select Service</div>
+      <div class="service-picker" id="usaServices">
+        <div class="service-pick selected" data-service="whatsapp"><div class="sp-icon">💬</div><div class="sp-name">WhatsApp</div><div class="sp-price">₦3,800</div></div>
+        <div class="service-pick" data-service="telegram"><div class="sp-icon">✈️</div><div class="sp-name">Telegram</div><div class="sp-price">₦3,800</div></div>
+        <div class="service-pick" data-service="instagram"><div class="sp-icon">📸</div><div class="sp-name">Instagram</div><div class="sp-price">₦4,200</div></div>
+        <div class="service-pick" data-service="facebook"><div class="sp-icon">📘</div><div class="sp-name">Facebook</div><div class="sp-price">₦3,800</div></div>
+        <div class="service-pick" data-service="google"><div class="sp-icon">🔵</div><div class="sp-name">Google</div><div class="sp-price">₦4,500</div></div>
+        <div class="service-pick" data-service="discord"><div class="sp-icon">💻</div><div class="sp-name">Discord</div><div class="sp-price">₦4,200</div></div>
+      </div>
+    </div>
 
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
+      <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val">🇺🇸 United States</span></div>
+      <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="usaServiceName">WhatsApp</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="usaPrice">₦3,800</span></div>
+      <button class="btn-pink btn-full" style="margin-top: 18px;" id="usaBuyBtn">Buy Now →</button>
+    </div>
+  </div>
+
+  <!-- ========== BUY ALL COUNTRIES ========== -->
+  <div class="page" id="page-countries">
+    <div class="greeting">
+      <h1>🌍 Buy <span>All Countries</span></h1>
+      <p>Search a country, pick a service, and purchase instantly.</p>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="section" id="step1">
+      <div class="section-title" style="margin-bottom: 12px;">
+        <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
+        Search Country
+      </div>
+      <div class="form-field">
+        <input type="text" id="countrySearch" placeholder="🔍 Search country... (e.g. Poland, USA, Nigeria)" autocomplete="off">
+      </div>
+      <div class="country-picker" id="countryResults" style="margin-top: 14px;"></div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="section" id="step2" style="display: none;">
+      <div class="section-title" style="margin-bottom: 12px;">
+        <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
+        Search App / Service
+      </div>
+      <div class="form-field">
+        <input type="text" id="serviceSearch" placeholder="🔍 Search service... (e.g. WhatsApp, Gmail)" autocomplete="off">
+      </div>
+      <div class="service-picker" id="serviceResults" style="margin-top: 14px;"></div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="section" id="step3" style="display: none;">
+      <div class="section-title" style="margin-bottom: 12px;">
+        <span style="background: var(--pink); color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
+        Confirm Purchase
+      </div>
+      <div class="profile-row"><span class="pr-label">Country</span><span class="pr-val" id="sumCountry">—</span></div>
+      <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="sumService">—</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="sumPrice">—</span></div>
+      <div class="profile-row"><span class="pr-label">Your Balance</span><span class="pr-val" id="sumBalance">—</span></div>
+      <div style="margin-top: 18px; display: flex; gap: 12px;">
+        <button class="btn-pink" style="flex: 1;" id="purchaseNowBtn">PURCHASE NOW →</button>
+        <button class="btn-pink" style="flex: 1; background: #e5e7eb; color: var(--brown-dark);" id="cancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BUY GMAIL ========== -->
+  <div class="page" id="page-gmail">
+    <div class="greeting">
+      <h1>📧 Buy <span>Gmail Account</span></h1>
+      <p>Fresh, verified Gmail accounts ready to use.</p>
+    </div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Available Gmail Accounts</div>
+
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Fresh Gmail Account</div><div class="lr-sub">New account • Full access</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦1,800</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Fresh" data-buy-price="1800">Buy</button>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Aged Gmail (3+ Months)</div><div class="lr-sub">Trusted • Recovery email</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦5,250</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Aged" data-buy-price="5250">Buy</button>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">USA Gmail Account</div><div class="lr-sub">US-based • Verified phone</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦3,000</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail USA" data-buy-price="3000">Buy</button>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">📧</div><div><div class="lr-title">Bulk Gmail (10 pcs)</div><div class="lr-sub">Wholesale • Discounted rate</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦13,500</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Gmail Bulk x10" data-buy-price="13500">Buy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BUY SOCIAL ========== -->
+  <div class="page" id="page-social">
+    <div class="greeting">
+      <h1>📱 Buy <span>Social Media Accounts</span></h1>
+      <p>Verified social media accounts for your needs.</p>
+    </div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Available Accounts</div>
+
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">📘</div><div><div class="lr-title">Facebook Account</div><div class="lr-sub">Aged • Verified</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦3,750</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Facebook Account" data-buy-price="3750">Buy</button>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">📸</div><div><div class="lr-title">Instagram Account</div><div class="lr-sub">Real followers • Aged</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦4,500</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Instagram Account" data-buy-price="4500">Buy</button>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">✈️</div><div><div class="lr-title">Telegram Account</div><div class="lr-sub">Verified • Ready</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦2,250</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Telegram Account" data-buy-price="2250">Buy</button>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">🎵</div><div><div class="lr-title">TikTok Account</div><div class="lr-sub">Fresh • Clean</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦3,000</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="TikTok Account" data-buy-price="3000">Buy</button>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">🐦</div><div><div class="lr-title">Twitter / X Account</div><div class="lr-sub">Aged • Verified</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦3,750</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Twitter X Account" data-buy-price="3750">Buy</button>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="lr-left"><div class="lr-icon">💻</div><div><div class="lr-title">Discord Account</div><div class="lr-sub">Verified email attached</div></div></div>
+        <div class="lr-right"><div class="lr-amount">₦2,700</div>
+          <button class="btn-pink" style="margin-top:6px;padding:8px 16px;font-size:12px;" data-buy-item="Discord Account" data-buy-price="2700">Buy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BOOST ========== -->
+  <div class="page" id="page-boost">
+    <div class="greeting">
+      <h1>🚀 Boost <span>Your Social Media</span></h1>
+      <p>Buy followers, likes, views & engagement for any platform.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Choose Platform</div>
+      <div class="service-picker" id="boostPlatform">
+        <div class="service-pick selected" data-platform="instagram"><div class="sp-icon">📸</div><div class="sp-name">Instagram</div></div>
+        <div class="service-pick" data-platform="tiktok"><div class="sp-icon">🎵</div><div class="sp-name">TikTok</div></div>
+        <div class="service-pick" data-platform="facebook"><div class="sp-icon">📘</div><div class="sp-name">Facebook</div></div>
+        <div class="service-pick" data-platform="twitter"><div class="sp-icon">🐦</div><div class="sp-name">Twitter / X</div></div>
+        <div class="service-pick" data-platform="youtube"><div class="sp-icon">▶️</div><div class="sp-name">YouTube</div></div>
+        <div class="service-pick" data-platform="telegram"><div class="sp-icon">✈️</div><div class="sp-name">Telegram</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Choose Service</div>
+      <div class="service-picker" id="boostService">
+        <div class="service-pick selected" data-service="followers" data-price="4500"><div class="sp-icon">👥</div><div class="sp-name">Followers</div><div class="sp-price">From ₦4,500</div></div>
+        <div class="service-pick" data-service="likes" data-price="3000"><div class="sp-icon">❤️</div><div class="sp-name">Likes</div><div class="sp-price">From ₦3,000</div></div>
+        <div class="service-pick" data-service="views" data-price="2250"><div class="sp-icon">👁️</div><div class="sp-name">Views</div><div class="sp-price">From ₦2,250</div></div>
+        <div class="service-pick" data-service="comments" data-price="6000"><div class="sp-icon">💬</div><div class="sp-name">Comments</div><div class="sp-price">From ₦6,000</div></div>
+        <div class="service-pick" data-service="shares" data-price="3750"><div class="sp-icon">🔁</div><div class="sp-name">Shares</div><div class="sp-price">From ₦3,750</div></div>
+        <div class="service-pick" data-service="subscribers" data-price="7500"><div class="sp-icon">🔔</div><div class="sp-name">Subscribers</div><div class="sp-price">From ₦7,500</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">📋 Order Summary</div>
+      <div class="profile-row"><span class="pr-label">Platform</span><span class="pr-val" id="boostPlatformVal">Instagram</span></div>
+      <div class="profile-row"><span class="pr-label">Service</span><span class="pr-val" id="boostServiceVal">Followers</span></div>
+      <div class="profile-row"><span class="pr-label">Quantity</span><span class="pr-val">1,000</span></div>
+      <div class="profile-row"><span class="pr-label">Price</span><span class="pr-val" style="color: var(--pink);" id="boostPrice">₦4,500</span></div>
+      <button class="btn-pink btn-full" style="margin-top: 18px;" id="boostBuyBtn">Boost Now →</button>
+    </div>
+  </div>
+
+  <!-- ========== PROFILE ========== -->
+  <div class="page" id="page-profile">
+    <div class="greeting">
+      <h1>👤 My <span>Profile</span></h1>
+      <p>Your account details.</p>
+    </div>
     <div class="section">
       <div class="section-title" style="margin-bottom: 14px;">Account Information</div>
       <div class="profile-row"><span class="pr-label">Full Name</span><span class="pr-val" id="pName">—</span></div>
@@ -441,15 +641,70 @@
     </div>
   </div>
 
-  <!-- ========== VIEW: CHANGE PASSWORD ========== -->
-  <div class="view" id="view-password">
+  <!-- ========== DEPOSIT ========== -->
+  <div class="page" id="page-deposit">
+    <div class="greeting">
+      <h1>💰 Deposit <span>Funds</span></h1>
+      <p>Add money to your Arknet SMS wallet.</p>
+    </div>
+
+    <div class="section" style="text-align: center;">
+      <div class="section-title" style="justify-content: center;">Current Balance</div>
+      <div style="font-size: 40px; font-weight: 800; color: var(--pink); padding: 12px 0;">
+        <span id="depositBalance">₦0.00</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Choose Amount</div>
+      <div class="service-picker" id="amountPicker">
+        <div class="service-pick" data-amount="1000"><div class="sp-icon">💵</div><div class="sp-name">₦1,000</div></div>
+        <div class="service-pick selected" data-amount="5000"><div class="sp-icon">💵</div><div class="sp-name">₦5,000</div></div>
+        <div class="service-pick" data-amount="10000"><div class="sp-icon">💵</div><div class="sp-name">₦10,000</div></div>
+        <div class="service-pick" data-amount="25000"><div class="sp-icon">💵</div><div class="sp-name">₦25,000</div></div>
+        <div class="service-pick" data-amount="50000"><div class="sp-icon">💵</div><div class="sp-name">₦50,000</div></div>
+      </div>
+      <div class="form-field" style="margin-top: 16px;">
+        <label for="customAmount">Or enter custom amount (₦)</label>
+        <input type="number" id="customAmount" placeholder="e.g. 20000" min="100">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" style="margin-bottom: 14px;">Payment Method</div>
+      <div class="service-picker" id="paymentPicker">
+        <div class="service-pick selected" data-method="card"><div class="sp-icon">💳</div><div class="sp-name">Card</div></div>
+        <div class="service-pick" data-method="bank"><div class="sp-icon">🏦</div><div class="sp-name">Bank Transfer</div></div>
+        <div class="service-pick" data-method="ussd"><div class="sp-icon">📲</div><div class="sp-name">USSD</div></div>
+        <div class="service-pick" data-method="crypto"><div class="sp-icon">₿</div><div class="sp-name">Crypto</div></div>
+      </div>
+      <button class="btn-pink btn-full" style="margin-top: 18px;" id="depositBtn">Deposit Now →</button>
+    </div>
+  </div>
+
+  <!-- ========== HISTORY ========== -->
+  <div class="page" id="page-history">
+    <div class="greeting">
+      <h1>📜 Transaction <span>History</span></h1>
+      <p>All your deposits and purchases.</p>
+    </div>
+    <div class="section">
+      <div id="txList">
+        <div class="empty">
+          <div class="empty-icon">🧾</div>
+          <h3>No transactions yet</h3>
+          <p>When you deposit or buy something, it will show here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CHANGE PASSWORD ========== -->
+  <div class="page" id="page-password">
     <div class="greeting">
       <h1>🔒 Change <span>Password</span></h1>
       <p>Keep your account secure with a strong password.</p>
     </div>
-
-    <button class="back-btn" data-back>← Back to Dashboard</button>
-
     <div class="section" style="max-width: 520px;">
       <div class="section-title" style="margin-bottom: 14px;">Update Password</div>
       <div class="form-grid">
@@ -463,31 +718,26 @@
 
 </main>
 
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <div class="bn-inner">
-    <a href="dashboard.html" class="bn-item active" data-goto="service">
-      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
-      <span>Service</span>
-    </a>
-    <a href="transactions.html" class="bn-item" data-goto="orders">
-      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
-      <span>Orders</span>
-    </a>
-    <a href="wallet.html" class="bn-item" data-goto="deposit">
-      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
-      <span>Deposit</span>
-    </a>
-    <button class="bn-item" data-page="profile" id="bnProfile">
-      <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
-      <span>Profile</span>
-    </button>
-    <button class="bn-item logout" id="bnLogout">
-      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
-      <span>Logout</span>
-    </button>
+<!-- PURCHASE MODAL -->
+<div class="modal-overlay" id="purchaseModal">
+  <div class="modal-box">
+    <div class="modal-icon">🛒</div>
+    <h2 class="modal-title">Confirm Purchase</h2>
+    <p class="modal-sub">You are about to buy a virtual number:</p>
+
+    <div class="modal-detail">
+      <div class="md-row"><span>Country</span><b id="mCountry">—</b></div>
+      <div class="md-row"><span>Service</span><b id="mService">—</b></div>
+      <div class="md-row"><span>Price</span><b style="color: var(--pink);" id="mPrice">—</b></div>
+      <div class="md-row"><span>Balance After</span><b id="mAfter">—</b></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-pink" style="flex: 1; background: #e5e7eb; color: var(--brown-dark);" id="modalCancel">Cancel</button>
+      <button class="btn-pink" style="flex: 1;" id="modalConfirm">PURCHASE NOW</button>
+    </div>
   </div>
-</nav>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -499,7 +749,8 @@
     EmailAuthProvider, reauthenticateWithCredential, updatePassword
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
-    getFirestore, doc, getDoc, collection, query, orderBy, getDocs, deleteDoc
+    getFirestore, doc, getDoc, setDoc,
+    collection, addDoc, query, orderBy, getDocs, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -523,72 +774,306 @@
     setTimeout(() => toast.className = 'toast ' + type, 2800);
   };
 
-  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
   let currentUser = null;
+  let currentBalance = 0;
 
-  /* MENU — hide bottom nav when sidebar opens */
+  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
+
+  // Sidebar switching
+  document.querySelectorAll('.side-item[data-page]').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.side-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + item.dataset.page).classList.add('active');
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  document.querySelectorAll('[data-goto]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = document.querySelector(`.side-item[data-page="${btn.dataset.goto}"]`);
+      if (item) item.click();
+    });
+  });
+
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
-
   document.getElementById('menuBtn').addEventListener('click', () => {
     sidebar.classList.add('open');
     overlay.classList.add('show');
-    document.body.classList.add('sidebar-open');
   });
-
   overlay.addEventListener('click', () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
-    document.body.classList.remove('sidebar-open');
   });
 
-  /* LOGOUT */
-  async function doLogout(){
-    await signOut(auth);
-    window.location.replace('login.html');
+  // Pickers
+  const wirePicker = (containerId, callback) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('.service-pick').forEach(el => {
+      el.addEventListener('click', () => {
+        container.querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
+        el.classList.add('selected');
+        if (callback) callback(el);
+      });
+    });
+  };
+
+  wirePicker('usaServices', el => {
+    document.getElementById('usaServiceName').textContent = el.querySelector('.sp-name').textContent;
+    document.getElementById('usaPrice').textContent = el.querySelector('.sp-price').textContent;
+  });
+
+  wirePicker('amountPicker', () => {
+    document.getElementById('customAmount').value = '';
+  });
+  document.getElementById('customAmount').addEventListener('input', () => {
+    document.getElementById('amountPicker').querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
+  });
+  wirePicker('paymentPicker');
+
+  wirePicker('boostPlatform', el => {
+    document.getElementById('boostPlatformVal').textContent = el.querySelector('.sp-name').textContent;
+  });
+  wirePicker('boostService', el => {
+    document.getElementById('boostServiceVal').textContent = el.querySelector('.sp-name').textContent;
+    document.getElementById('boostPrice').textContent = '₦' + Number(el.dataset.price).toLocaleString('en-NG');
+  });
+
+  // ============================================================
+  //          ALL COUNTRIES — 3-STEP FLOW
+  // ============================================================
+  const COUNTRIES_DB = [
+    { code: 'PL', name: 'Poland', flag: '🇵🇱', markup: 1.0 },
+    { code: 'US', name: 'United States', flag: '🇺🇸', markup: 1.0 },
+    { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', markup: 1.1 },
+    { code: 'CA', name: 'Canada', flag: '🇨🇦', markup: 1.0 },
+    { code: 'DE', name: 'Germany', flag: '🇩🇪', markup: 1.2 },
+    { code: 'FR', name: 'France', flag: '🇫🇷', markup: 1.2 },
+    { code: 'NG', name: 'Nigeria', flag: '🇳🇬', markup: 0.9 },
+    { code: 'IN', name: 'India', flag: '🇮🇳', markup: 0.8 },
+    { code: 'PH', name: 'Philippines', flag: '🇵🇭', markup: 0.9 },
+    { code: 'ID', name: 'Indonesia', flag: '🇮🇩', markup: 0.9 },
+    { code: 'BR', name: 'Brazil', flag: '🇧🇷', markup: 1.0 },
+    { code: 'MX', name: 'Mexico', flag: '🇲🇽', markup: 1.0 },
+    { code: 'ES', name: 'Spain', flag: '🇪🇸', markup: 1.1 },
+    { code: 'IT', name: 'Italy', flag: '🇮🇹', markup: 1.1 },
+    { code: 'NL', name: 'Netherlands', flag: '🇳🇱', markup: 1.1 },
+    { code: 'RU', name: 'Russia', flag: '🇷🇺', markup: 1.0 },
+    { code: 'UA', name: 'Ukraine', flag: '🇺🇦', markup: 1.0 },
+    { code: 'KE', name: 'Kenya', flag: '🇰🇪', markup: 0.9 },
+    { code: 'GH', name: 'Ghana', flag: '🇬🇭', markup: 0.9 },
+    { code: 'ZA', name: 'South Africa', flag: '🇿🇦', markup: 0.9 },
+  ];
+
+  const SERVICES_DB = [
+    { id: 'whatsapp',  name: 'WhatsApp',   icon: '💬', base: 4500 },
+    { id: 'telegram',  name: 'Telegram',   icon: '✈️', base: 4500 },
+    { id: 'instagram', name: 'Instagram',  icon: '📸', base: 5000 },
+    { id: 'facebook',  name: 'Facebook',   icon: '📘', base: 4500 },
+    { id: 'google',    name: 'Google',     icon: '🔵', base: 5200 },
+    { id: 'discord',   name: 'Discord',    icon: '💻', base: 4800 },
+    { id: 'tiktok',    name: 'TikTok',     icon: '🎵', base: 4800 },
+    { id: 'twitter',   name: 'Twitter / X', icon: '🐦', base: 5000 },
+    { id: 'gmail',     name: 'Gmail',      icon: '📧', base: 3200 },
+    { id: 'openai',    name: 'OpenAI',     icon: '🤖', base: 5200 },
+    { id: 'uber',      name: 'Uber',       icon: '🚗', base: 4500 },
+    { id: 'paypal',    name: 'PayPal',     icon: '🅿️', base: 6000 },
+    { id: 'amazon',    name: 'Amazon',     icon: '📦', base: 4500 },
+    { id: 'tinder',    name: 'Tinder',     icon: '🔥', base: 5000 },
+  ];
+
+  let selectedCountry = null;
+  let selectedService = null;
+  let selectedPrice = 0;
+
+  function renderCountries(filter = '') {
+    const container = document.getElementById('countryResults');
+    const term = filter.trim().toLowerCase();
+    const list = term
+      ? COUNTRIES_DB.filter(c => c.name.toLowerCase().includes(term) || c.code.toLowerCase().includes(term))
+      : COUNTRIES_DB;
+
+    if (!list.length) {
+      container.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><div class="empty-icon">🔍</div><h3>No country found</h3><p>Try another search term.</p></div>`;
+      return;
+    }
+
+    container.innerHTML = list.map(c => `
+      <div class="country-pick" data-code="${c.code}" data-name="${c.name}" data-flag="${c.flag}" data-markup="${c.markup}">
+        <div class="cp-flag">${c.flag}</div>
+        <div>
+          <div class="cp-name">${c.name}</div>
+          <div class="cp-price">Tap to select</div>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.country-pick').forEach(el => {
+      el.addEventListener('click', () => {
+        container.querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
+        el.classList.add('selected');
+
+        selectedCountry = {
+          code: el.dataset.code,
+          name: el.dataset.name,
+          flag: el.dataset.flag,
+          markup: parseFloat(el.dataset.markup)
+        };
+        selectedService = null;
+        selectedPrice = 0;
+
+        document.getElementById('step2').style.display = 'block';
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('serviceSearch').value = '';
+        renderServices('');
+
+        document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
   }
-  document.getElementById('logoutBtn').addEventListener('click', doLogout);
-  document.getElementById('bnLogout').addEventListener('click', doLogout);
 
-  /* VIEW SWITCHER */
-  function showView(page) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    const target = document.getElementById('view-' + page);
-    if (target) target.classList.add('active');
+  function renderServices(filter = '') {
+    const container = document.getElementById('serviceResults');
+    const term = filter.trim().toLowerCase();
+    const list = term
+      ? SERVICES_DB.filter(s => s.name.toLowerCase().includes(term))
+      : SERVICES_DB;
 
-    document.querySelectorAll('.side-item[data-page]').forEach(item => {
-      item.classList.toggle('active', item.dataset.page === page);
+    if (!list.length) {
+      container.innerHTML = `<div class="empty" style="grid-column: 1/-1;"><div class="empty-icon">🔍</div><h3>No service found</h3><p>Try another search term.</p></div>`;
+      return;
+    }
+
+    container.innerHTML = list.map(s => {
+      const price = Math.round(s.base * (selectedCountry?.markup || 1));
+      return `
+        <div class="service-pick" data-id="${s.id}" data-name="${s.name}" data-icon="${s.icon}" data-price="${price}">
+          <div class="sp-icon">${s.icon}</div>
+          <div class="sp-name">${s.name}</div>
+          <div class="sp-price">${formatNGNshort(price)}</div>
+        </div>
+      `;
+    }).join('');
+
+    container.querySelectorAll('.service-pick').forEach(el => {
+      el.addEventListener('click', () => {
+        container.querySelectorAll('.selected').forEach(s => s.classList.remove('selected'));
+        el.classList.add('selected');
+
+        selectedService = { id: el.dataset.id, name: el.dataset.name, icon: el.dataset.icon };
+        selectedPrice = parseFloat(el.dataset.price);
+
+        document.getElementById('sumCountry').textContent = `${selectedCountry.flag} ${selectedCountry.name}`;
+        document.getElementById('sumService').textContent = `${selectedService.icon} ${selectedService.name}`;
+        document.getElementById('sumPrice').textContent = formatNGNshort(selectedPrice);
+        document.getElementById('sumBalance').textContent = formatNGN(currentBalance);
+
+        document.getElementById('step3').style.display = 'block';
+        document.getElementById('step3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     });
-    document.querySelectorAll('.bn-item[data-page]').forEach(item => {
-      item.classList.toggle('active', item.dataset.page === page);
-    });
-
-    sidebar.classList.remove('open');
-    overlay.classList.remove('show');
-    document.body.classList.remove('sidebar-open');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  document.querySelectorAll('.side-item[data-page]').forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      showView(item.dataset.page);
-    });
+  document.getElementById('countrySearch').addEventListener('input', (e) => renderCountries(e.target.value));
+  document.getElementById('serviceSearch').addEventListener('input', (e) => renderServices(e.target.value));
+
+  renderCountries('');
+
+  document.getElementById('cancelBtn').addEventListener('click', () => {
+    selectedService = null; selectedPrice = 0;
+    document.querySelectorAll('#serviceResults .selected').forEach(s => s.classList.remove('selected'));
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
-  document.querySelectorAll('.bn-item[data-page]').forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      showView(item.dataset.page);
-    });
+  document.getElementById('purchaseNowBtn').addEventListener('click', () => {
+    if (!selectedCountry || !selectedService) return showToast('Please pick country and service.', 'error');
+    if (currentBalance < selectedPrice) return showToast('Insufficient balance. Deposit funds first.', 'error');
+
+    document.getElementById('mCountry').textContent = `${selectedCountry.flag} ${selectedCountry.name}`;
+    document.getElementById('mService').textContent = `${selectedService.icon} ${selectedService.name}`;
+    document.getElementById('mPrice').textContent = formatNGNshort(selectedPrice);
+    document.getElementById('mAfter').textContent = formatNGN(currentBalance - selectedPrice);
+    document.getElementById('purchaseModal').classList.add('show');
   });
 
-  document.querySelectorAll('[data-back]').forEach(btn => {
-    btn.addEventListener('click', () => showView('dashboard'));
+  document.getElementById('modalCancel').addEventListener('click', () => {
+    document.getElementById('purchaseModal').classList.remove('show');
   });
 
-  /* AUTH GUARD */
+  document.getElementById('modalConfirm').addEventListener('click', async () => {
+    const btn = document.getElementById('modalConfirm');
+    btn.disabled = true;
+    btn.innerHTML = 'Processing…';
+
+    const countryName = selectedCountry.name;
+    const countryFlag = selectedCountry.flag;
+    const serviceName = selectedService.name;
+    const price = selectedPrice;
+    const countryCode = selectedCountry.code;
+    const serviceId = selectedService.id;
+
+    try {
+      currentBalance -= price;
+      await saveBalance();
+
+      await addTransaction({
+        type: 'purchase', icon: countryFlag,
+        title: `${countryName} — ${serviceName}`,
+        subtitle: 'Virtual number',
+        amount: price
+      });
+
+      // ⚠️ When AutoFications backend is ready, call your Cloud Function here:
+      // const buyFn = httpsCallable(getFunctions(), 'buyAllCountries');
+      // const result = await buyFn({ country: countryCode, service: serviceId });
+      // const realNumber = result.data.number;
+
+      const fakeNumber = '+' + Math.floor(1000000000 + Math.random() * 8999999999);
+      await addActivation({
+        service: serviceName,
+        number: fakeNumber,
+        code: '',
+        price: price,
+        status: 'pending',
+        country: countryName
+      });
+
+      document.getElementById('purchaseModal').classList.remove('show');
+      showToast(`✅ ${serviceName} purchased! Redirecting…`, 'success');
+
+      // Reset
+      selectedCountry = null; selectedService = null; selectedPrice = 0;
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step3').style.display = 'none';
+      document.getElementById('countrySearch').value = '';
+      renderCountries('');
+
+      // Redirect to dashboard
+      setTimeout(() => {
+        document.querySelector('.side-item[data-page="dashboard"]').click();
+        loadTransactions();
+        loadActivations();
+      }, 800);
+
+    } catch (err) {
+      console.error(err);
+      showToast('❌ Purchase failed. Try again.', 'error');
+      currentBalance += price;
+      await saveBalance();
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'PURCHASE NOW';
+    }
+  });
+
+  // AUTH GUARD
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
@@ -597,6 +1082,7 @@
     document.getElementById('sideName').textContent = name;
     document.getElementById('sideEmail').textContent = user.email;
     document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
+    document.getElementById('welcomeName').textContent = name.split(' ')[0];
 
     document.getElementById('pName').textContent = name;
     document.getElementById('pEmail').textContent = user.email;
@@ -611,97 +1097,187 @@
           document.getElementById('pSince').textContent =
             new Date(data.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
         }
-        const balance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
-        document.getElementById('topBalance').textContent = formatNGN(balance);
+        currentBalance = data.balance || 0;
+        updateBalanceUI();
       }
     } catch (e) { console.warn(e); }
 
+    loadTransactions();
     loadActivations();
-    cleanupOldCancelled();
   });
 
-  /* LOAD ACTIVATIONS */
-  async function loadActivations() {
+  const updateBalanceUI = () => {
+    const txt = formatNGN(currentBalance);
+    document.getElementById('topBalance').textContent = txt;
+    document.getElementById('depositBalance').textContent = txt;
+  };
+
+  async function loadTransactions() {
     if (!currentUser) return;
-    const tbody = document.getElementById('activationsBody');
-
     try {
-      const q = query(
-        collection(db, 'users', currentUser.uid, 'activations'),
-        orderBy('createdAt', 'desc')
-      );
+      const q = query(collection(db, 'users', currentUser.uid, 'transactions'), orderBy('createdAt', 'desc'));
       const snap = await getDocs(q);
-      const now = Date.now();
+      const txList = document.getElementById('txList');
 
-      const visible = [];
-      snap.forEach(d => {
-        const a = d.data();
-        if (a.status === 'cancelled' && a.cancelledAt?.toDate) {
-          const age = (now - a.cancelledAt.toDate().getTime()) / 60000;
-          if (age > 3) return;
-        }
-        visible.push({ id: d.id, ...a });
-      });
-
-      const recent = visible.slice(0, 3);
-
-      if (!recent.length) {
-        tbody.innerHTML = `<tr><td colspan="3"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
+      if (snap.empty) {
+        txList.innerHTML = `<div class="empty"><div class="empty-icon">🧾</div><h3>No transactions yet</h3><p>When you deposit or buy something, it will show here.</p></div>`;
         return;
       }
 
       let html = '';
-      recent.forEach(a => {
-        let codeCell = '';
-        if (a.status === 'cancelled') codeCell = `<span class="refund-pill">REFUNDED</span>`;
-        else if (a.code) codeCell = `<span class="code-pill">${a.code}</span>`;
-        else codeCell = `<span class="code-pill pending">Waiting…</span>`;
+      snap.forEach(docSnap => {
+        const t = docSnap.data();
+        const isPlus = t.type === 'deposit';
+        const date = t.createdAt?.toDate
+          ? t.createdAt.toDate().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+          : 'Just now';
+        html += `
+          <div class="list-row">
+            <div class="lr-left">
+              <div class="lr-icon">${t.icon || '🧾'}</div>
+              <div>
+                <div class="lr-title">${t.title || 'Transaction'}</div>
+                <div class="lr-sub">${t.subtitle || ''}</div>
+              </div>
+            </div>
+            <div class="lr-right">
+              <div class="lr-amount ${isPlus ? 'plus' : 'minus'}">${isPlus ? '+' : '-'}${formatNGN(t.amount)}</div>
+              <div class="lr-date">${date}</div>
+            </div>
+          </div>`;
+      });
+      txList.innerHTML = html;
+    } catch (e) { console.warn(e); }
+  }
+
+  async function loadActivations() {
+    if (!currentUser) return;
+    const tbody = document.getElementById('activationsBody');
+    try {
+      const q = query(collection(db, 'users', currentUser.uid, 'activations'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+
+      if (snap.empty) {
+        tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
+        return;
+      }
+
+      let html = '';
+      snap.forEach(d => {
+        const a = d.data();
+        const date = a.createdAt?.toDate
+          ? a.createdAt.toDate().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+          : 'Just now';
+        const statusClass = {
+          active: 'status-active', pending: 'status-pending',
+          expired: 'status-expired', completed: 'status-completed'
+        }[a.status] || 'status-pending';
 
         html += `
           <tr>
-            <td>${a.flag ? a.flag + ' ' : ''}${a.service || '—'}</td>
+            <td>${a.service || '—'}</td>
             <td>${a.number || '—'}</td>
-            <td>${codeCell}</td>
+            <td>${a.code ? `<span class="code-pill">${a.code}</span>` : `<span class="code-pill pending">Waiting…</span>`}</td>
+            <td>${formatNGNshort(a.price)}</td>
+            <td><span class="status-badge ${statusClass}">${a.status || 'pending'}</span></td>
+            <td>${date}</td>
           </tr>`;
       });
       tbody.innerHTML = html;
     } catch (e) {
       console.warn(e);
-      tbody.innerHTML = `<tr><td colspan="3"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3></div></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3><p>Your activated numbers will appear here.</p></div></td></tr>`;
     }
   }
 
-  /* CLEANUP */
-  async function cleanupOldCancelled() {
-    if (!currentUser) return;
-    try {
-      const snap = await getDocs(collection(db, 'users', currentUser.uid, 'activations'));
-      const now = Date.now();
-      const toDelete = [];
-      snap.forEach(d => {
-        const a = d.data();
-        if (a.status === 'cancelled' && a.cancelledAt?.toDate) {
-          const age = (now - a.cancelledAt.toDate().getTime()) / 60000;
-          if (age > 3) toDelete.push(d.id);
-        }
-      });
-      for (const id of toDelete) {
-        await deleteDoc(doc(db, 'users', currentUser.uid, 'activations', id));
-      }
-    } catch (e) { console.warn(e); }
-  }
-
-  /* REFRESH */
   document.getElementById('refreshBtn').addEventListener('click', async (e) => {
     const btn = e.currentTarget;
-    btn.textContent = '⏳ Loading...';
-    await cleanupOldCancelled();
+    btn.classList.add('spinning');
     await loadActivations();
+    await loadTransactions();
     showToast('✅ Refreshed', 'success');
-    btn.innerHTML = '<span>🔄</span> Refresh';
+    setTimeout(() => btn.classList.remove('spinning'), 600);
   });
 
-  /* CHANGE PASSWORD */
+  async function addTransaction(data) {
+    if (!currentUser) return;
+    await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), { ...data, createdAt: serverTimestamp() });
+  }
+  async function addActivation(data) {
+    if (!currentUser) return;
+    await addDoc(collection(db, 'users', currentUser.uid, 'activations'), { ...data, createdAt: serverTimestamp() });
+  }
+  async function saveBalance() {
+    await setDoc(doc(db, 'users', currentUser.uid), { balance: currentBalance }, { merge: true });
+    updateBalanceUI();
+  }
+
+  // BUY USA
+  document.getElementById('usaBuyBtn').addEventListener('click', async () => {
+    const service = document.getElementById('usaServiceName').textContent;
+    const price = Number(document.getElementById('usaPrice').textContent.replace(/[₦,]/g, ''));
+    if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+
+    currentBalance -= price;
+    await saveBalance();
+
+    const fakeNumber = '+1' + Math.floor(2000000000 + Math.random() * 7999999999);
+    await addTransaction({ type: 'purchase', icon: '🇺🇸', title: `USA Number — ${service}`, subtitle: 'United States virtual number', amount: price });
+    await addActivation({ service, number: fakeNumber, code: '', price, status: 'pending' });
+
+    showToast(`✅ USA ${service} number purchased!`, 'success');
+    loadTransactions();
+    loadActivations();
+  });
+
+  // BUY ITEM
+  document.querySelectorAll('[data-buy-item]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const item = btn.dataset.buyItem;
+      const price = Number(btn.dataset.buyPrice);
+      if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+
+      currentBalance -= price;
+      await saveBalance();
+      await addTransaction({ type: 'purchase', icon: '🛒', title: item, subtitle: 'Account purchase', amount: price });
+      showToast(`✅ ${item} purchased!`, 'success');
+      loadTransactions();
+    });
+  });
+
+  // BOOST
+  document.getElementById('boostBuyBtn').addEventListener('click', async () => {
+    const platform = document.getElementById('boostPlatformVal').textContent;
+    const service = document.getElementById('boostServiceVal').textContent;
+    const price = Number(document.getElementById('boostPrice').textContent.replace(/[₦,]/g, ''));
+    if (currentBalance < price) return showToast('Insufficient balance. Deposit funds first.', 'error');
+
+    currentBalance -= price;
+    await saveBalance();
+    await addTransaction({ type: 'purchase', icon: '🚀', title: `${platform} ${service}`, subtitle: 'Boost order', amount: price });
+    showToast(`✅ ${platform} ${service} boost ordered!`, 'success');
+    loadTransactions();
+  });
+
+  // DEPOSIT
+  document.getElementById('depositBtn').addEventListener('click', async () => {
+    let amount = Number(document.getElementById('customAmount').value);
+    if (!amount || amount <= 0) {
+      const sel = document.querySelector('#amountPicker .selected');
+      amount = sel ? Number(sel.dataset.amount) : 5000;
+    }
+    const method = document.querySelector('#paymentPicker .selected')?.dataset.method || 'card';
+
+    currentBalance += amount;
+    await saveBalance();
+    await addTransaction({ type: 'deposit', icon: '💰', title: `Deposit via ${method}`, subtitle: 'Funds added', amount });
+
+    showToast(`✅ ${formatNGN(amount)} deposited via ${method}!`, 'success');
+    document.getElementById('customAmount').value = '';
+    loadTransactions();
+  });
+
+  // CHANGE PASSWORD
   document.getElementById('changePassBtn').addEventListener('click', async () => {
     const cur = document.getElementById('currentPass').value;
     const nw = document.getElementById('newPass').value;
@@ -719,7 +1295,6 @@
       document.getElementById('currentPass').value = '';
       document.getElementById('newPass').value = '';
       document.getElementById('confirmPass').value = '';
-      setTimeout(() => showView('dashboard'), 900);
     } catch (err) {
       const map = {
         'auth/wrong-password': 'Current password is incorrect.',
@@ -728,6 +1303,12 @@
       };
       showToast(map[err.code] || err.message, 'error');
     }
+  });
+
+  // LOGOUT
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.href = 'login.html';
   });
 </script>
 
