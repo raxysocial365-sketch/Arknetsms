@@ -20,21 +20,16 @@
     --pink-soft: #fdf2f8;
     --white: #ffffff;
     --cream: #fef9f5;
-    --cream-2: #fffbf8;
     --text: #4a2c2a;
-    --text-mute: #8b5e3c;
     --border: #f0dcd4;
     --green: #22c55e;
     --green-soft: #f0fdf4;
     --green-border: #bbf7d0;
-    --blue: #2563eb;
   }
   body { background: var(--cream); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
   a { text-decoration: none; }
 
-  /* ============================================
-     HEADER
-     ============================================ */
+  /* HEADER */
   header {
     background: var(--white);
     padding: 16px 5%;
@@ -74,9 +69,7 @@
   }
   .btn-signup:hover { background: var(--pink-dark); border-color: var(--pink-dark); transform: translateY(-1px); }
 
-  /* ============================================
-     HERO — Brown / dark warm gradient
-     ============================================ */
+  /* HERO */
   .hero {
     background:
       radial-gradient(circle at 80% 0%, rgba(236,72,153,0.28) 0%, transparent 55%),
@@ -113,7 +106,6 @@
     70% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
     100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
   }
-
   .hero h1 {
     font-size: 60px; line-height: 1.05;
     font-weight: 900; letter-spacing: -2px;
@@ -121,18 +113,12 @@
     color: #fff;
     max-width: 780px;
   }
-  .hero h1 .accent {
-    color: var(--pink-light);
-    position: relative;
-    display: inline-block;
-  }
+  .hero h1 .accent { color: var(--pink-light); position: relative; display: inline-block; }
   .hero h1 .accent::after {
     content: '';
     position: absolute; left: 0; bottom: -8px; right: 0;
-    height: 8px;
-    background: var(--pink);
-    border-radius: 4px;
-    opacity: 0.7;
+    height: 8px; background: var(--pink);
+    border-radius: 4px; opacity: 0.7;
     transform: rotate(-1deg) skewX(-8deg);
   }
   .hero p.lead {
@@ -146,16 +132,14 @@
     margin-bottom: 60px;
   }
   .btn-hero-primary {
-    background: var(--pink);
-    color: white;
-    padding: 16px 34px;
-    border-radius: 12px;
+    background: var(--pink); color: white;
+    padding: 16px 34px; border-radius: 12px;
     font-weight: 700; font-size: 15.5px;
     transition: 0.25s;
     box-shadow: 0 12px 32px rgba(236,72,153,0.45);
     display: inline-flex; align-items: center; gap: 8px;
   }
-  .btn-hero-primary:hover { background: var(--pink-dark); transform: translateY(-2px); box-shadow: 0 16px 40px rgba(236,72,153,0.55); }
+  .btn-hero-primary:hover { background: var(--pink-dark); transform: translateY(-2px); }
   .btn-hero-outline {
     background: transparent; color: white;
     padding: 16px 34px; border-radius: 12px;
@@ -165,7 +149,7 @@
   }
   .btn-hero-outline:hover { background: rgba(249,168,212,0.1); border-color: var(--pink-light); }
 
-  /* Stats 2x2 grid — collapses to 1-2 / 3-4 on mobile */
+  /* HERO STATS — 2x2 grid */
   .hero-stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -191,7 +175,7 @@
   .hero-stat-text { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.2; }
   .hero-stat-text small { display: block; font-size: 11px; color: #d4b5a8; font-weight: 500; margin-top: 2px; }
 
-  /* Live SMS Feed */
+  /* LIVE SMS FEED */
   .hero-visual { position: relative; padding: 20px; max-width: 480px; width: 100%; margin: auto; }
   .live-feed {
     background: var(--white);
@@ -242,10 +226,7 @@
     font-size: 14px; font-weight: 800; color: var(--brown-dark);
     display: flex; align-items: center; gap: 9px;
   }
-  .sms-app-logo {
-    width: 22px; height: 22px;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .sms-app-logo { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
   .sms-app-logo svg { width: 100%; height: 100%; }
   .sms-time { font-size: 11px; color: var(--brown-light); font-weight: 600; }
   .sms-code-row { font-size: 15px; color: var(--brown); font-weight: 600; padding-left: 31px; }
@@ -273,9 +254,7 @@
     50% { transform: translateY(-8px); }
   }
 
-  /* ============================================
-     SECTIONS COMMON
-     ============================================ */
+  /* SECTIONS */
   section { padding: 80px 5%; }
   .section-center { max-width: 1200px; margin: auto; }
   .section-head { text-align: center; margin-bottom: 55px; }
@@ -291,7 +270,7 @@
     line-height: 1.65;
   }
 
-  /* FEATURES — 2x2 grid */
+  /* FEATURES — 2x2 */
   .features-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -318,47 +297,50 @@
     font-size: 26px; margin-bottom: 20px;
     box-shadow: 0 10px 24px rgba(236,72,153,0.28);
   }
-  .feature-card h3 {
-    color: var(--brown-dark); font-size: 19px;
-    margin-bottom: 10px; font-weight: 800;
-  }
+  .feature-card h3 { color: var(--brown-dark); font-size: 19px; margin-bottom: 10px; font-weight: 800; }
   .feature-card p { color: var(--brown-light); font-size: 15px; line-height: 1.6; }
 
-  /* STATS — brown */
+  /* STATS SECTION */
   .stats-section {
-    background: linear-gradient(135deg, var(--brown-dark) 0%, var(--brown-deep) 100%);
+    background:
+      radial-gradient(circle at 20% 20%, rgba(236,72,153,0.15) 0%, transparent 50%),
+      linear-gradient(135deg, #3d2422 0%, #2a1a19 100%);
     color: white; position: relative; overflow: hidden;
-  }
-  .stats-section::before {
-    content: ''; position: absolute;
-    top: -100px; right: -100px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(236,72,153,0.25) 0%, transparent 70%);
-    border-radius: 50%;
   }
   .stats-section .section-head h2 { color: white; }
   .stats-section .section-head h2 span { color: var(--pink-light); }
   .stats-section .section-head p { color: #d4b5a8; }
+
+  /* STATS CARDS — 2x2 grid */
   .stats-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 22px; max-width: 1000px; margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    max-width: 800px;
+    margin: auto;
     position: relative; z-index: 2;
   }
   .stat-card {
     text-align: center;
-    background: rgba(255,255,255,0.06);
-    padding: 32px 20px;
-    border-radius: 18px;
-    border: 1px solid rgba(249,168,212,0.2);
+    background: rgba(255,255,255,0.05);
+    padding: 40px 24px;
+    border-radius: 20px;
+    border: 1px solid rgba(249,168,212,0.15);
     backdrop-filter: blur(8px);
+    transition: 0.3s;
   }
-  .stat-icon { font-size: 32px; margin-bottom: 14px; }
+  .stat-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(249,168,212,0.35);
+    transform: translateY(-4px);
+  }
+  .stat-icon { font-size: 40px; margin-bottom: 18px; display: block; }
   .stat-num {
-    font-size: 38px; font-weight: 900;
-    color: var(--pink-light); margin-bottom: 6px;
-    letter-spacing: -1px;
+    font-size: 44px; font-weight: 900;
+    color: var(--pink-light); margin-bottom: 8px;
+    letter-spacing: -1.5px;
   }
-  .stat-label { font-size: 14px; color: #d4b5a8; font-weight: 500; }
+  .stat-label { font-size: 15px; color: #c9b0a3; font-weight: 500; }
 
   /* HOW IT WORKS — 2x2 */
   .steps-grid {
@@ -393,19 +375,15 @@
   .step-card h3 { color: var(--brown-dark); font-size: 19px; margin-bottom: 10px; font-weight: 800; }
   .step-card p { color: var(--brown-light); font-size: 14.5px; line-height: 1.6; }
 
-  /* ============================================
-     WHAT WE OFFER
-     ============================================ */
+  /* WHAT WE OFFER */
   .offer-section { background: var(--white); }
   .offer-section .section-head h2 { font-size: 44px; }
   .offer-section .section-head h2 .pink-swash { color: var(--pink); position: relative; display: inline-block; }
   .offer-section .section-head h2 .pink-swash::after {
     content: '';
     position: absolute; left: 0; bottom: -10px; right: 0;
-    height: 10px;
-    background: var(--pink);
-    border-radius: 5px;
-    opacity: 0.85;
+    height: 10px; background: var(--pink);
+    border-radius: 5px; opacity: 0.85;
     transform: rotate(-1.5deg) skewX(-10deg);
   }
   .offer-box {
@@ -449,7 +427,7 @@
     border: 2px solid white;
   }
 
-  /* CTA — brown + pink gradient */
+  /* CTA */
   .cta-section {
     background:
       radial-gradient(circle at 20% 20%, rgba(236,72,153,0.35) 0%, transparent 45%),
@@ -486,18 +464,9 @@
   }
   .btn-cta-white:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,0.35); background: var(--pink-soft); color: var(--pink-dark); }
 
-  /* ============================================
-     FOOTER — brand only
-     ============================================ */
-  footer {
-    background: var(--brown-deep);
-    color: #d4b5a8;
-    padding: 60px 5% 30px;
-  }
-  .footer-inner {
-    max-width: 1200px;
-    margin: auto;
-  }
+  /* FOOTER */
+  footer { background: var(--brown-deep); color: #d4b5a8; padding: 60px 5% 30px; }
+  .footer-inner { max-width: 1200px; margin: auto; }
   .footer-brand-block {
     display: flex; flex-direction: column;
     gap: 14px;
@@ -517,18 +486,8 @@
     box-shadow: 0 8px 20px rgba(236,72,153,0.35);
   }
   .footer-logo span { color: var(--pink-light); }
-  .footer-tagline {
-    color: #d4b5a8;
-    font-size: 15px;
-    line-height: 1.7;
-    max-width: 620px;
-  }
-  .footer-bottom {
-    text-align: center;
-    padding-top: 26px;
-    font-size: 13.5px;
-    color: #8b5e3c;
-  }
+  .footer-tagline { color: #d4b5a8; font-size: 15px; line-height: 1.7; max-width: 620px; }
+  .footer-bottom { text-align: center; padding-top: 26px; font-size: 13.5px; color: #8b5e3c; }
 
   /* ============================================
      RESPONSIVE
@@ -542,14 +501,12 @@
     .cta-section h2 { font-size: 32px; }
     .cta-section p { font-size: 16px; }
     section { padding: 60px 5%; }
-    .features-grid, .steps-grid { gap: 16px; }
+    .features-grid, .steps-grid, .stats-grid { gap: 16px; }
   }
-  @media (max-width: 700px) {
-    .offer-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .offer-box { padding: 18px 14px; border-radius: 18px; }
-    .offer-tile { padding: 12px; border-radius: 12px; }
-    .offer-check { width: 20px; height: 20px; font-size: 11px; top: -6px; right: -6px; }
-  }
+
+  /* ============================================
+     MOBILE — all 4-box sections stay 2x2 (1-2 / 3-4)
+     ============================================ */
   @media (max-width: 560px) {
     header { padding: 12px 4%; gap: 8px; }
     .logo { font-size: 18px; }
@@ -560,18 +517,11 @@
     .hero-badge { font-size: 12px; padding: 8px 14px; }
     .hero h1 { font-size: 32px; letter-spacing: -1px; }
     .hero p.lead { font-size: 15px; }
-    /* Stats grid: keeps 1-2 / 3-4 layout on phone */
-    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 40px; }
-    .hero-stat { padding: 12px 10px; gap: 8px; }
-    .hero-stat-num { width: 30px; height: 30px; font-size: 13px; }
-    .hero-stat-text { font-size: 12px; }
-    .hero-stat-text small { font-size: 10px; }
     .live-feed { padding: 20px 18px; }
     .floating-badge { display: none; }
     .section-head h2 { font-size: 26px; }
     .offer-section .section-head h2 { font-size: 26px; }
     .section-head p { font-size: 14.5px; }
-    .features-grid, .steps-grid { grid-template-columns: 1fr; }
     .cta-section { padding: 65px 5%; }
     .cta-section h2 { font-size: 26px; }
     .cta-section p { font-size: 15px; margin-bottom: 30px; }
@@ -580,6 +530,55 @@
     .footer-logo { font-size: 20px; }
     .footer-logo-mark { width: 36px; height: 36px; font-size: 18px; }
     .footer-tagline { font-size: 14px; }
+
+    /* ========== ALL 4-BOX GRIDS STAY 2x2 on mobile ========== */
+
+    /* 1. Hero stats — 1-2 / 3-4 */
+    .hero-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+    .hero-stat { padding: 10px 8px; gap: 7px; border-radius: 12px; }
+    .hero-stat-num { width: 26px; height: 26px; font-size: 12px; border-radius: 7px; }
+    .hero-stat-text { font-size: 11px; }
+    .hero-stat-text small { font-size: 9.5px; }
+
+    /* 2. Why Choose (features) — 1-2 / 3-4 */
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .feature-card { padding: 20px 16px; border-radius: 14px; }
+    .feature-icon { width: 42px; height: 42px; font-size: 20px; border-radius: 11px; margin-bottom: 14px; }
+    .feature-card h3 { font-size: 15px; margin-bottom: 8px; }
+    .feature-card p { font-size: 12.5px; line-height: 1.5; }
+
+    /* 3. Stats — 1-2 / 3-4 */
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .stat-card { padding: 24px 14px; border-radius: 16px; }
+    .stat-icon { font-size: 30px; margin-bottom: 12px; }
+    .stat-num { font-size: 28px; letter-spacing: -1px; margin-bottom: 4px; }
+    .stat-label { font-size: 12.5px; }
+
+    /* 4. How It Works — 1-2 / 3-4 */
+    .steps-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .step-card { padding: 20px 16px; border-radius: 14px; }
+    .step-num { font-size: 34px; margin-bottom: 10px; letter-spacing: -1.5px; }
+    .step-card h3 { font-size: 15px; margin-bottom: 8px; }
+    .step-card p { font-size: 12.5px; line-height: 1.5; }
+
+    /* 5. What we offer — 4 columns still (icons are small squares) */
+    .offer-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .offer-box { padding: 16px 12px; border-radius: 16px; }
+    .offer-tile { padding: 10px; border-radius: 11px; }
+    .offer-check { width: 18px; height: 18px; font-size: 10px; top: -5px; right: -5px; border-width: 1.5px; }
   }
 </style>
 </head>
@@ -605,7 +604,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-badge">Receive SMS &amp; OTP from 1,900+ services</div>
+    <div class="hero-badge">Receive SMS &amp; OTP from 3,650+ services</div>
 
     <h1>Don't want to give out your phone number? No problem. Use <span class="accent">ours.</span></h1>
 
@@ -635,7 +634,6 @@
       </div>
     </div>
 
-    <!-- Live SMS Feed -->
     <div class="hero-visual">
       <div class="floating-badge fb-1">
         <div class="fb-icon">⚡</div>
@@ -741,7 +739,7 @@
   </div>
 </section>
 
-<!-- STATS -->
+<!-- STATS — 2x2 grid -->
 <section class="stats-section" id="stats">
   <div class="section-center">
     <div class="section-head">
@@ -750,24 +748,24 @@
     </div>
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon">👤</div>
-        <div class="stat-num">150K+</div>
+        <span class="stat-icon">👤</span>
+        <div class="stat-num">100K+</div>
         <div class="stat-label">Active Users</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">💬</div>
-        <div class="stat-num">1.2M+</div>
+        <span class="stat-icon">💬</span>
+        <div class="stat-num">5.5M+</div>
         <div class="stat-label">SMS Verified</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">🌐</div>
-        <div class="stat-num">175+</div>
+        <span class="stat-icon">🌐</span>
+        <div class="stat-num">138+</div>
         <div class="stat-label">Countries</div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">⭐</div>
-        <div class="stat-num">4.8</div>
-        <div class="stat-label">App Rating</div>
+        <span class="stat-icon">⭐</span>
+        <div class="stat-num">4.9</div>
+        <div class="stat-label">Site Rating</div>
       </div>
     </div>
   </div>
@@ -902,7 +900,7 @@
         <div class="footer-logo-mark">A</div>
         Arknet <span>SMS</span>
       </div>
-      <p class="footer-tagline">Instant virtual phone numbers for SMS verification. USA, Canada, UK and 175+ countries supported.</p>
+      <p class="footer-tagline">Instant virtual phone numbers for SMS verification. USA, Canada, UK and 138+ countries supported.</p>
     </div>
     <div class="footer-bottom">© 2026 Arknet SMS. All Rights Reserved.</div>
   </div>
