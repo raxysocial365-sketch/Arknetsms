@@ -233,6 +233,9 @@
   .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
   .bn-item.active .bn-icon svg { stroke: var(--pink); }
   .bn-item.logout { color: #dc2626; }
+  .bn-item.logout.active { color: #dc2626; }
+  .bn-item.logout.active .bn-icon { background: #fee2e2; color: #dc2626; }
+  .bn-item.logout.active .bn-icon svg { stroke: #dc2626; }
 
   @media (max-width: 600px) {
     .quick-grid { gap: 8px; }
@@ -406,19 +409,19 @@
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-inner">
-    <a href="dashboard.html" class="bn-item active" data-goto="service">
+    <button class="bn-item active" data-page="dashboard" data-nav="service">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
       <span>Service</span>
-    </a>
-    <a href="wallet.html" class="bn-item" data-goto="deposit">
+    </button>
+    <a href="wallet.html" class="bn-item" data-nav="deposit">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
       <span>Deposit</span>
     </a>
-    <button class="bn-item" data-page="profile">
+    <button class="bn-item" data-page="profile" data-nav="profile">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
       <span>Profile</span>
     </button>
-    <a href="https://wa.me/2349168165484" target="_blank" class="bn-item" data-goto="contact">
+    <a href="https://wa.me/2349168165484" target="_blank" class="bn-item" data-nav="contact">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
       <span>Contact</span>
     </a>
@@ -463,7 +466,7 @@
   const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
 
-  /* ✅ Country code map — add more countries as needed */
+  /* Country dial codes */
   const COUNTRY_DIAL = {
     us: '1', usa: '1', 'united states': '1',
     ca: '1', canada: '1',
@@ -501,12 +504,10 @@
   };
 
   function getDialCode(a) {
-    // Try country code first (us, uk, etc.)
     if (a.countryCode) {
       const key = String(a.countryCode).toLowerCase().trim();
       if (COUNTRY_DIAL[key]) return COUNTRY_DIAL[key];
     }
-    // Try country name
     if (a.country) {
       const key = String(a.country).toLowerCase().trim();
       if (COUNTRY_DIAL[key]) return COUNTRY_DIAL[key];
@@ -514,20 +515,14 @@
     return '';
   }
 
-  /* ✅ Build full number with dial code prefix.
-     - If provider already returned number WITH +, keep it.
-     - Otherwise prepend +<dial> */
   function buildFullNumber(a) {
     const raw = String(a.number || '').trim();
     if (!raw) return '';
-    // If already has + at start, leave alone
     if (raw.startsWith('+')) return raw;
-    // Strip non-digits to check
     const digits = raw.replace(/\D/g, '');
     if (!digits) return raw;
     const dial = getDialCode(a);
     if (!dial) return raw;
-    // If number already starts with dial code, don't double-prefix
     if (digits.startsWith(dial) && digits.length > dial.length + 4) {
       return '+' + digits;
     }
@@ -543,23 +538,51 @@
   }
   document.getElementById('bnLogout').addEventListener('click', doLogout);
 
+  /* ✅ Navigate to a view + update active nav pill */
   function showView(page) {
+    // Switch view
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     const target = document.getElementById('view-' + page);
     if (target) target.classList.add('active');
+
+    // Update bottom nav active state
+    document.querySelectorAll('.bn-item').forEach(item => {
+      const navKey = item.dataset.nav;
+      // Map views to nav keys
+      const viewToNav = {
+        'dashboard': 'service',
+        'profile': 'profile',
+        'howto': 'service'
+      };
+      const targetNav = viewToNav[page] || page;
+      item.classList.toggle('active', navKey === targetNav);
+    });
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  /* Bottom nav — buttons with data-page switch views */
   document.querySelectorAll('.bn-item[data-page]').forEach(item => {
-    item.addEventListener('click', (e) => { e.preventDefault(); showView(item.dataset.page); });
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView(item.dataset.page);
+    });
   });
+
+  /* Quick cards — Profile opens profile view */
   document.querySelectorAll('.quick-card[data-page]').forEach(item => {
-    item.addEventListener('click', (e) => { e.preventDefault(); showView(item.dataset.page); });
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView(item.dataset.page);
+    });
   });
+
+  /* Back buttons */
   document.querySelectorAll('[data-back]').forEach(btn => {
     btn.addEventListener('click', () => showView('dashboard'));
   });
 
+  /* How to use */
   document.getElementById('howToUseBtn').addEventListener('click', () => showView('howto'));
 
   onAuthStateChanged(auth, async (user) => {
@@ -625,7 +648,6 @@
         else if (a.code) codeCell = `<span class="code-pill">${a.code}</span>`;
         else codeCell = `<span class="code-pill pending">Waiting…</span>`;
 
-        // ✅ Build full number with country code + copy button
         const fullNumber = buildFullNumber(a);
         const rawNumber = String(a.number || '—');
         const displayNumber = fullNumber || rawNumber;
@@ -666,12 +688,10 @@
       });
       tbody.innerHTML = html;
 
-      // Hook cancel buttons
       tbody.querySelectorAll('[data-cancel-id]').forEach(btn => {
         btn.addEventListener('click', () => cancelActivation(btn));
       });
 
-      // ✅ Hook copy buttons
       tbody.querySelectorAll('[data-copy]').forEach(btn => {
         btn.addEventListener('click', () => copyToClipboard(btn));
       });
@@ -682,7 +702,6 @@
     }
   }
 
-  /* ✅ Copy helper */
   async function copyToClipboard(btn) {
     const text = btn.dataset.copy;
     if (!text) return;
@@ -690,7 +709,6 @@
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
       } else {
-        // Fallback for older/insecure contexts
         const ta = document.createElement('textarea');
         ta.value = text;
         ta.style.position = 'fixed';
@@ -812,4 +830,4 @@
 </script>
 
 </body>
-</html>
+ </html>
