@@ -9,6 +9,7 @@
   :root {
     --brown-dark: #4a2c2a;
     --brown: #6b4423;
+    --brown-light: #8b5e3c;
     --pink: #ec4899;
     --pink-light: #f9a8d4;
     --pink-soft: #fdf2f8;
@@ -16,6 +17,7 @@
     --cream: #fef9f5;
     --green: #22c55e;
     --red: #dc2626;
+    --blue: #2563eb;
     --sidebar-w: 240px;
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
@@ -80,33 +82,33 @@
   /* STATS */
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 14px;
     margin-bottom: 24px;
   }
   .stat-card {
     background: white; border: 1px solid #f5e6e0;
-    border-radius: 16px; padding: 20px;
-    display: flex; align-items: center; gap: 14px;
+    border-radius: 16px; padding: 18px;
+    display: flex; align-items: center; gap: 12px;
   }
   .stat-icon {
-    width: 50px; height: 50px; border-radius: 12px;
+    width: 46px; height: 46px; border-radius: 12px;
     background: var(--pink-soft);
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px; flex-shrink: 0;
+    font-size: 20px; flex-shrink: 0;
   }
-  .stat-label { font-size: 12px; color: #8b5e3c; font-weight: 600; }
-  .stat-value { font-size: 22px; font-weight: 800; color: var(--brown-dark); line-height: 1.2; }
+  .stat-label { font-size: 11px; color: #8b5e3c; font-weight: 600; }
+  .stat-value { font-size: 20px; font-weight: 800; color: var(--brown-dark); line-height: 1.2; }
 
   /* SECTION */
   .section {
     background: white; border: 1px solid #f5e6e0;
-    border-radius: 16px; padding: 22px;
+    border-radius: 16px; padding: 20px;
     margin-bottom: 20px;
   }
   .section-title {
-    font-size: 16px; font-weight: 800;
-    color: var(--brown-dark); margin-bottom: 16px;
+    font-size: 15px; font-weight: 800;
+    color: var(--brown-dark); margin-bottom: 14px;
     display: flex; align-items: center;
     justify-content: space-between;
     gap: 10px; flex-wrap: wrap;
@@ -116,7 +118,7 @@
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; min-width: 620px; }
   th {
-    text-align: left; font-size: 11px; font-weight: 800;
+    text-align: left; font-size: 10px; font-weight: 800;
     color: #8b5e3c; text-transform: uppercase;
     letter-spacing: 0.6px;
     padding: 10px 12px;
@@ -124,7 +126,7 @@
   }
   td {
     padding: 12px;
-    font-size: 13px;
+    font-size: 12px;
     color: var(--brown-dark);
     border-bottom: 1px solid #f5e6e0;
   }
@@ -371,7 +373,7 @@
           <small>Added on top of every number sold</small>
         </div>
         <div class="form-field">
-          <label>Auto Price = (USD × Rate) + Profit</label>
+          <label>Auto Price Formula</label>
           <input type="text" id="formulaPreview" disabled style="color:#8b5e3c;">
           <small>Current formula used for all numbers</small>
         </div>
@@ -429,9 +431,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import {
-    getAuth, onAuthStateChanged, signOut
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
     getFirestore, doc, getDoc, setDoc,
     collection, getDocs, serverTimestamp
@@ -466,18 +466,15 @@
   };
   const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-  /* AUTH GUARD — only admins */
+  /* AUTH GUARD — check role OR isAdmin */
   onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = 'index.html';
-      return;
-    }
+    if (!user) { window.location.href = 'index.html'; return; }
     try {
       const snap = await getDoc(doc(db, 'users', user.uid));
-      if (!snap.exists() || !snap.data().isAdmin) {
-        window.location.href = 'index.html';
-        return;
-      }
+      if (!snap.exists()) { window.location.href = 'index.html'; return; }
+      const data = snap.data();
+      const isAdmin = data.role === 'admin' || data.isAdmin === true;
+      if (!isAdmin) { window.location.href = 'index.html'; return; }
     } catch (e) {
       window.location.href = 'index.html';
       return;
@@ -574,7 +571,7 @@
         <tr>
           <td>${escapeHtml(u.fullname || u.displayName || '—')}</td>
           <td>${escapeHtml(u.email || '—')}</td>
-          <td>${escapeHtml(u.number || '—')}</td>
+          <td>${escapeHtml(u.phone || u.number || '—')}</td>
           <td>${formatNGN(u.wallet ?? u.walletBalance ?? u.balance ?? 0)}</td>
           <td>${formatDate(u.createdAt)}</td>
         </tr>
