@@ -263,7 +263,7 @@
     <div class="hero-stats">
       <div class="hero-stat">
         <span class="s-lbl">Countries</span>
-        <span class="s-val">59</span>
+        <span class="s-val">58</span>
       </div>
       <div class="hero-stat">
         <span class="s-lbl">Type</span>
@@ -361,6 +361,7 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+
   const API_URL = "/api/autofications-buy";
   const USD_TO_NGN = 1550, PROFIT_NGN = 850;
 
@@ -398,7 +399,7 @@
     if (e.target.id === 'purchaseModal') closeModal();
   });
 
-  /* ✅ All 59 countries — codes match AutoFications COUNTRY_MAP */
+  /* ✅ 58 countries — codes match AutoFications COUNTRY_MAP */
   const COUNTRIES = [
     {name:"United Kingdom", code:"gb", flag:"🇬🇧"},
     {name:"United States", code:"us", flag:"🇺🇸"},
@@ -517,8 +518,15 @@
     try {
       const res = await fetch(`${API_URL}?action=servicelist&country=${encodeURIComponent(country.code)}`, { cache: 'no-store' });
       const data = await res.json();
-      if (!res.ok || !data.success) { serviceInput.placeholder = data.message || data.error || 'Failed'; return; }
-      availableServices = (data.services || []).map(s => ({ id: String(s.id), name: String(s.name), price: Number(s.price || 0) }));
+      if (!res.ok || !data.success) {
+        serviceInput.placeholder = data.message || data.error || 'Failed';
+        return;
+      }
+      availableServices = (data.services || []).map(s => ({
+        id: String(s.id),
+        name: String(s.name),
+        price: Number(s.price || 0)
+      }));
       if (!availableServices.length) { serviceInput.placeholder = 'No services'; return; }
       serviceInput.placeholder = `🔍 Search among ${availableServices.length} services...`;
       serviceInput.disabled = false;
