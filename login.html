@@ -19,106 +19,64 @@
     --red: #dc2626;
   }
   body {
-    background: var(--cream);
-    color: var(--brown-dark);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 16px;
-    position: relative;
-    overflow-x: hidden;
+    background: var(--cream); color: var(--brown-dark);
+    min-height: 100vh; display: flex; align-items: center;
+    justify-content: center; padding: 30px 16px;
+    position: relative; overflow-x: hidden;
   }
   .bg-blob { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.4; z-index: 0; pointer-events: none; }
   .blob-1 { width: 320px; height: 320px; background: var(--pink); top: -80px; left: -80px; }
   .blob-2 { width: 280px; height: 280px; background: var(--brown-light); bottom: -60px; right: -60px; }
-
   .auth-card {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 40px 34px;
-    max-width: 420px;
-    width: 100%;
+    background: var(--white); border-radius: 24px;
+    padding: 40px 34px; max-width: 420px; width: 100%;
     box-shadow: 0 25px 60px rgba(74,44,42,0.18);
-    border: 1px solid #f5e6e0;
-    position: relative;
-    z-index: 2;
+    border: 1px solid #f5e6e0; position: relative; z-index: 2;
   }
   .brand { text-align: center; margin-bottom: 26px; }
   .logo { font-size: 26px; font-weight: 800; color: var(--brown-dark); letter-spacing: -0.5px; }
   .logo span { color: var(--pink); }
   .brand p { font-size: 13px; color: var(--brown-light); margin-top: 6px; }
-
   .field { margin-bottom: 16px; }
   .field label { display: block; font-size: 13px; font-weight: 700; color: var(--brown-dark); margin-bottom: 6px; }
   .field input {
-    width: 100%; padding: 13px 14px;
-    border: 1.5px solid #f0dcd4; border-radius: 10px;
-    font-size: 14px; color: var(--brown-dark); background: var(--cream);
-    transition: 0.2s; font-family: inherit;
+    width: 100%; padding: 13px 14px; border: 1.5px solid #f0dcd4;
+    border-radius: 10px; font-size: 14px; color: var(--brown-dark);
+    background: var(--cream); transition: 0.2s; font-family: inherit;
   }
-  .field input:focus {
-    outline: none; border-color: var(--pink);
-    background: var(--white); box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
-  }
-  .field input::placeholder { color: #b89b8f; }
-
+  .field input:focus { outline: none; border-color: var(--pink); background: var(--white); box-shadow: 0 0 0 4px rgba(236,72,153,0.1); }
   .pass-wrap { position: relative; }
   .pass-wrap input { padding-right: 44px; }
-  .toggle-eye {
-    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    cursor: pointer; font-size: 16px; color: var(--brown-light);
-    user-select: none; padding: 4px;
-  }
-
+  .toggle-eye { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 16px; color: var(--brown-light); padding: 4px; }
   .forgot { text-align: right; margin-top: 8px; margin-bottom: 18px; }
   .forgot a { color: var(--pink); font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; }
-  .forgot a:hover { text-decoration: underline; }
-
-  .btn-submit {
-    width: 100%; padding: 14px;
-    background: var(--pink); color: white;
-    border: none; border-radius: 10px;
-    font-size: 15px; font-weight: 700;
-    cursor: pointer; transition: 0.25s;
-    font-family: inherit;
-  }
-  .btn-submit:hover { background: var(--brown-dark); transform: translateY(-1px); }
-  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-  .msg {
-    padding: 11px 14px; border-radius: 10px;
-    font-size: 13px; font-weight: 600;
-    margin-bottom: 14px; display: none; text-align: center;
-  }
+  .btn-submit { width: 100%; padding: 14px; background: var(--pink); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .btn-submit:hover { background: var(--brown-dark); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .msg { padding: 11px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 14px; display: none; text-align: center; word-break: break-word; }
   .msg.error { background: #fee2e2; color: #991b1b; display: block; }
   .msg.success { background: #dcfce7; color: #166534; display: block; }
   .msg.info { background: #dbeafe; color: #1e40af; display: block; }
-
-  .divider {
-    display: flex; align-items: center; gap: 12px;
-    margin: 20px 0 14px; color: #b89b8f;
-    font-size: 12px; font-weight: 600;
-  }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0 14px; color: #b89b8f; font-size: 12px; font-weight: 600; }
   .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #f0dcd4; }
-
   .bottom-text { text-align: center; font-size: 13px; color: var(--brown-light); margin-top: 18px; }
-  .bottom-text a { color: var(--pink); font-weight: 700; text-decoration: none; cursor: pointer; }
-  .bottom-text a:hover { text-decoration: underline; }
-
-  .spinner {
-    display: inline-block; width: 14px; height: 14px;
-    border: 2px solid rgba(255,255,255,0.4);
-    border-top-color: white; border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    margin-right: 8px; vertical-align: middle;
+  .bottom-text a { color: var(--pink); font-weight: 700; text-decoration: none; }
+  .debug-box {
+    display: none;
+    margin-top: 16px;
+    padding: 12px;
+    background: #1e293b;
+    color: #86efac;
+    border-radius: 10px;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    max-height: 200px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
   }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  @media (max-width: 480px) {
-    .auth-card { padding: 30px 22px; border-radius: 20px; }
-    .logo { font-size: 22px; }
-  }
+  .debug-box.show { display: block; }
 </style>
 </head>
 <body>
@@ -139,7 +97,6 @@
       <label for="email">Email Address</label>
       <input type="email" id="email" placeholder="you@gmail.com" autocomplete="email" required>
     </div>
-
     <div class="field">
       <label for="password">Password</label>
       <div class="pass-wrap">
@@ -147,29 +104,24 @@
         <span class="toggle-eye" data-target="password">👁️</span>
       </div>
     </div>
-
     <div class="forgot">
       <a id="forgotLink">Forgot password?</a>
     </div>
-
     <button type="submit" class="btn-submit" id="loginBtn">Login</button>
-
     <div class="divider">OR</div>
-
     <div class="bottom-text">
       Don't have an account? <a href="signup.html">Create Account</a>
     </div>
   </form>
+
+  <!-- Debug output -->
+  <div class="debug-box" id="debugBox"></div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import {
-    getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import {
-    getFirestore, doc, getDoc
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
@@ -186,96 +138,99 @@
   const db = getFirestore(app);
 
   const msg = document.getElementById('msg');
+  const debugBox = document.getElementById('debugBox');
+  const log = (text) => {
+    console.log(text);
+    debugBox.textContent += text + '\n';
+    debugBox.classList.add('show');
+  };
+
   const showMsg = (text, type = 'error') => {
     msg.textContent = text;
     msg.className = 'msg ' + type;
     if (type === 'success') setTimeout(() => msg.className = 'msg', 4000);
-  };
-  const setLoading = (btn, loading, text = '') => {
-    btn.disabled = loading;
-    btn.innerHTML = loading ? `<span class="spinner"></span>${text}` : text;
   };
 
   document.querySelectorAll('.toggle-eye').forEach(eye => {
     eye.addEventListener('click', () => {
       const input = document.getElementById(eye.dataset.target);
       input.type = input.type === 'password' ? 'text' : 'password';
-      eye.textContent = input.type === 'password' ? '👁️' : '🙈';
+      eye.eye.textContent = input.type === 'password' ? '👁️' : '🙈';
     });
   });
 
-  /* ============ LOGIN ============ */
   document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    debugBox.textContent = '';
     const btn = document.getElementById('loginBtn');
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
     if (!email || !password) return showMsg('Please enter email and password.');
 
-    setLoading(btn, true, 'Logging in...');
+    btn.disabled = true;
+    btn.textContent = 'Logging in...';
+
     try {
-      // Step 1: Sign in with Firebase Auth
+      log('▶ Attempting login...');
+      log('  Email: ' + email);
+
       const cred = await signInWithEmailAndPassword(auth, email, password);
       const uid = cred.user.uid;
+      log('✅ Firebase Auth OK');
+      log('  UID: ' + uid);
 
-      console.log('Logged in UID:', uid);
+      log('▶ Checking Firestore for admin...');
+      const snap = await getDoc(doc(db, 'users', uid));
+      log('  Doc exists: ' + snap.exists());
 
-      // Step 2: Check if user is admin (Firestore)
       let isAdmin = false;
-      try {
-        const snap = await getDoc(doc(db, 'users', uid));
-        if (snap.exists()) {
-          const data = snap.data();
-          console.log('User doc:', data);
-          if (data.isAdmin === true) {
-            isAdmin = true;
-          }
-        }
-      } catch (err) {
-        console.warn('Could not check admin status:', err.message);
+      if (snap.exists()) {
+        const data = snap.data();
+        log('  isAdmin value: ' + JSON.stringify(data.isAdmin));
+        log('  isAdmin type: ' + typeof data.isAdmin);
+        if (data.isAdmin === true) isAdmin = true;
       }
 
-      // Step 3: Redirect based on role
       if (isAdmin) {
+        log('✅ User IS admin');
         showMsg('✅ Welcome, Admin! Redirecting...', 'success');
         setTimeout(() => {
           window.location.href = 'admin/dashboard.html';
-        }, 900);
+        }, 1200);
       } else {
+        log('ℹ️ User is NOT admin');
         showMsg('Login successful! Redirecting...', 'success');
         setTimeout(() => {
           window.location.href = 'dashboard.html';
-        }, 900);
+        }, 1200);
       }
 
     } catch (err) {
-      console.error(err);
+      log('❌ Error: ' + err.code);
+      log('  Message: ' + err.message);
       const map = {
         'auth/invalid-credential': 'Wrong email or password.',
-        'auth/user-not-found': 'No account found with this email.',
+        'auth/user-not-found': 'No account found.',
         'auth/wrong-password': 'Incorrect password.',
-        'auth/too-many-requests': 'Too many attempts. Try again later.',
-        'auth/invalid-email': 'Invalid email address.'
+        'permission-denied': 'Firestore permission denied. Check rules.'
       };
       showMsg(map[err.code] || err.message);
-      setLoading(btn, false, 'Login');
+      btn.disabled = false;
+      btn.textContent = 'Login';
     }
   });
 
-  /* ============ FORGOT PASSWORD ============ */
   document.getElementById('forgotLink').addEventListener('click', async () => {
     const email = document.getElementById('email').value.trim();
-    if (!email) return showMsg('Enter your email first, then click Forgot password.');
+    if (!email) return showMsg('Enter your email first.');
     try {
       await sendPasswordResetEmail(auth, email);
-      showMsg('Reset link sent! Check your inbox.', 'success');
-    } catch (err) {
-      showMsg(err.message);
-    }
+      showMsg('Reset link sent!', 'success');
+    } catch (err) { showMsg(err.message); }
   });
 
-  /* ============ AUTO-REDIRECT IF LOGGED IN ============ */
+  // Auto-redirect if already logged in
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       let isAdmin = false;
@@ -283,7 +238,6 @@
         const snap = await getDoc(doc(db, 'users', user.uid));
         if (snap.exists() && snap.data().isAdmin === true) isAdmin = true;
       } catch (e) {}
-
       if (isAdmin) {
         window.location.href = 'admin/dashboard.html';
       } else {
