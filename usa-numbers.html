@@ -201,19 +201,12 @@ const db = getFirestore(app);
 
 const USA_API = "/api/textverified-buy";
 
-/* ✅ YOUR PRICING: (Provider USD × 1500) + 950 */
+/* ✅ YOUR PRICING FORMULA */
 let USD_TO_NGN = 1500;
 let PROFIT_NGN = 950;
 
-async function loadPricingSettings() {
-    try {
-        const snap = await getDoc(doc(db, 'usa_settings', 'pricing'));
-        if (snap.exists()) {
-            USD_TO_NGN = Number(snap.data().usdToNgn || 1500);
-            PROFIT_NGN = Number(snap.data().profitNgn || 950);
-        }
-    } catch (err) { console.warn('Pricing:', err.message); }
-}
+/* ✅ Default USD prices if no override exists */
+const DEFAULT_USD = 2; // $2 per service
 
 let currentUser = null;
 let userWallet = 0;
@@ -261,6 +254,16 @@ onAuthStateChanged(auth, async (user) => {
     await loadServices();
 });
 
+async function loadPricingSettings() {
+    try {
+        const snap = await getDoc(doc(db, 'usa_settings', 'pricing'));
+        if (snap.exists()) {
+            USD_TO_NGN = Number(snap.data().usdToNgn || 1500);
+            PROFIT_NGN = Number(snap.data().profitNgn || 950);
+        }
+    } catch (err) { console.warn('Pricing:', err.message); }
+}
+
 async function loadWallet() {
     try {
         const snap = await getDoc(doc(db, 'users', currentUser.uid));
@@ -274,42 +277,54 @@ async function loadWallet() {
 
 async function loadServices() {
     try {
+        console.log('Loading services from', USA_API);
         const res = await fetch(`${USA_API}?action=servicelist`);
         const data = await res.json();
-        if (!data.success || !Array.isArray(data.services)) throw new Error('Failed');
+        console.log('API response:', data);
+
+        if (!data.success || !Array.isArray(data.services)) {
+            throw new Error(data.error || 'Failed to load services');
+        }
 
         const tvServices = data.services;
+        console.log('Got', tvServices.length, 'services from TextVerified');
 
-        /* ✅ Read your price overrides from Firestore */
-        const overridesSnap = await getDocs(collection(db, 'usa_price_overrides'));
-        const overrides = {};
-        overridesSnap.forEach(d => {
-            const od = d.data();
-            overrides[od.serviceName] = od;
-        });
-
-        allServices = tvServices
-            .filter(s => {
-                const o = overrides[s.name];
-                if (!o || o.enabled === false) return false;
-                return Number(o.providerUSD || 0) > 0;
-            })
-            .map(s => {
-                const o = overrides[s.name];
-                const providerUSD = Number(o.providerUSD || 0);
-                /* ✅ Your formula: (USD × 1500) + 950 */
-                const finalPrice = Math.ceil((providerUSD * USD_TO_NGN) + PROFIT_NGN);
-
-                return {
-                    id: s.name,
-                    name: capitalize(s.name),
-                    rawName: s.name,
-                    price: finalPrice
-                };
+        /* ✅ Try to load price overrides, but don't fail if collection is missing */
+        let overrides = {};
+        try {
+            const overridesSnap = await getDocs(collection(db, 'usa_price_overrides'));
+            overridesSnap.forEach(d => {
+                const od = d.data();
+                overrides[od.serviceName || d.id] = od;
             });
+            console.log('Loaded', Object.keys(overrides).length, 'price overrides');
+        } catch (overrideErr) {
+            console.warn('Could not load overrides:', overrideErr.message);
+        }
+
+        /* ✅ Build final service list */
+        allServices = tvServices.map(s => {
+            const o = overrides[s.name] || {};
+            const providerUSD = Number(o.providerUSD || DEFAULT_USD);
+            const enabled = o.enabled !== false;
+
+            /* ✅ Skip disabled services only if override exists and is disabled */
+            if (overrides[s.name] && !enabled) return null;
+
+            const finalPrice = Math.ceil((providerUSD * USD_TO_NGN) + PROFIT_NGN);
+
+            return {
+                id: s.name,
+                name: capitalize(s.name.replace(/[_-]/g, ' ')),
+                rawName: s.name,
+                price: finalPrice
+            };
+        }).filter(Boolean);
+
+        console.log('Final services:', allServices.length);
 
         if (allServices.length === 0) {
-            searchInput.placeholder = 'No services available yet';
+            searchInput.placeholder = 'No services available';
             searchInput.disabled = true;
             return;
         }
@@ -318,7 +333,7 @@ async function loadServices() {
         searchInput.disabled = false;
 
     } catch (err) {
-        console.error('Services load:', err);
+        console.error('Services load error:', err);
         searchInput.placeholder = 'Failed to load services';
         searchInput.disabled = true;
     }
@@ -329,8 +344,8 @@ searchInput.addEventListener('input', () => {
     if (!q) { dropdown.classList.remove('active'); return; }
 
     const matches = allServices
-        .filter(s => s.name.toLowerCase().includes(q))
-        .slice(0, 8);
+        .filter(s => s.name.toLowerCase().includes(q) || s.rawName.toLowerCase().includes(q))
+        .slice(0, 10);
 
     if (matches.length === 0) {
         dropdown.innerHTML = '<div class="dropdown-empty">No services found</div>';
