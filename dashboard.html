@@ -50,7 +50,7 @@
   .hb-sub { font-size: 12px; color: #1d4ed8; }
   .hb-arrow { font-size: 22px; color: #1d4ed8; font-weight: 800; }
 
-  /* QUICK ACTIONS - 4 small cards */
+  /* QUICK ACTIONS */
   .quick-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -90,7 +90,7 @@
     line-height: 1.2;
   }
 
-  /* MAIN ACTIONS - 2 big cards (USA / All Countries) */
+  /* MAIN ACTIONS */
   .actions-top {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -250,7 +250,7 @@
       <div class="hb-arrow">›</div>
     </button>
 
-    <!-- QUICK ACTION CARDS (4 SMALL) -->
+    <!-- QUICK ACTION CARDS -->
     <div class="quick-grid">
       <a href="#" class="quick-card" data-page="profile">
         <div class="qc-icon">👤</div>
@@ -270,7 +270,7 @@
       </a>
     </div>
 
-    <!-- MAIN ACTION CARDS (USA · All Countries) -->
+    <!-- MAIN ACTION CARDS -->
     <div class="actions-top">
       <a href="usa-numbers.html" class="action-card">
         <div class="ac-icon">🇺🇸</div>
@@ -502,6 +502,7 @@
       const visible = [];
       snap.forEach(d => {
         const a = d.data();
+        // Hide cancelled activations older than 3 minutes
         if (a.status === 'cancelled' && a.cancelledAt?.toDate) {
           const age = (now - a.cancelledAt.toDate().getTime()) / 60000;
           if (age > 3) return;
@@ -526,13 +527,24 @@
           expired: 'status-expired', completed: 'status-completed',
           cancelled: 'status-cancelled'
         }[a.status] || 'status-pending';
+
         let codeCell = '';
         if (a.status === 'cancelled') codeCell = `<span class="refund-pill">REFUNDED</span>`;
         else if (a.code) codeCell = `<span class="code-pill">${a.code}</span>`;
         else codeCell = `<span class="code-pill pending">Waiting…</span>`;
+
         const actionCell = canCancel
-          ? `<button class="btn-cancel-row" data-cancel-id="${id}" data-phone="${a.number}" data-service-id="${a.serviceId || ''}" data-country="${a.countryCode || ''}" data-price="${a.price || 0}" data-provider="${a.provider || ''}" data-request-id="${a.requestId || ''}">✖ Cancel</button>`
+          ? `<button class="btn-cancel-row"
+                data-cancel-id="${id}"
+                data-phone="${a.number || ''}"
+                data-service-id="${a.serviceId || ''}"
+                data-country="${a.countryCode || ''}"
+                data-price="${a.price || 0}"
+                data-provider="${a.provider || ''}"
+                data-request-id="${a.requestId || a.verificationId || ''}"
+              >✖ Cancel</button>`
           : '';
+
         html += `<tr>
           <td>${a.flag ? a.flag + ' ' : ''}${a.service || '—'}</td>
           <td>${a.number || '—'}</td>
