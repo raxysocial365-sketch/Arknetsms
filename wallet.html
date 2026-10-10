@@ -61,7 +61,7 @@
   /* MAIN */
   .main { margin-left: var(--sidebar-w); padding: 22px 4% 140px; min-height: calc(100vh - 60px); }
   .greeting { margin-bottom: 22px; }
-  .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
+  .greeting h1 { font-size: 24px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
   .greeting h1 span { color: var(--pink); }
   .greeting p { color: var(--brown); font-size: 14px; }
 
@@ -72,7 +72,7 @@
     background: linear-gradient(135deg, var(--brown-dark), var(--brown));
     color: white;
     border-radius: 18px;
-    padding: 30px 24px;
+    padding: 26px 24px;
     text-align: center;
     margin-bottom: 22px;
   }
@@ -82,51 +82,19 @@
     letter-spacing: 1.2px;
     text-transform: uppercase;
     color: var(--pink-light);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .balance-hero .bh-value {
-    font-size: 42px;
+    font-size: 38px;
     font-weight: 800;
     letter-spacing: -1px;
     color: white;
   }
 
-  .section-title { font-size: 16px; font-weight: 800; color: var(--brown-dark); margin-bottom: 14px; }
+  .section-title { font-size: 15px; font-weight: 800; color: var(--brown-dark); margin-bottom: 12px; }
 
-  /* AMOUNT PICKER */
-  .amount-picker {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .amount-pick {
-    background: var(--white);
-    border: 1.5px solid #f5e6e0;
-    border-radius: 12px;
-    padding: 16px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.2s;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--brown-dark);
-    font-family: inherit;
-  }
-  .amount-pick:hover {
-    border-color: var(--pink);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(236,72,153,0.1);
-  }
-  .amount-pick.selected {
-    border-color: var(--pink);
-    background: var(--pink-soft);
-    color: var(--pink);
-    box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
-  }
-
-  /* FORM */
-  .form-field { margin-bottom: 16px; }
+  /* AMOUNT FIELD */
+  .form-field { margin-bottom: 12px; }
   .form-field label {
     display: block;
     font-size: 13px;
@@ -152,64 +120,117 @@
     box-shadow: 0 0 0 4px rgba(236,72,153,0.1);
   }
 
+  /* QUICK AMOUNT ROW */
+  .quick-amounts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .quick-amount {
+    padding: 10px 16px;
+    background: var(--white);
+    border: 1px solid #f0dcd4;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown-dark);
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.2s;
+  }
+  .quick-amount:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+    background: var(--pink-soft);
+  }
+
+  .amount-hint {
+    font-size: 12px;
+    color: var(--brown-light);
+    margin-bottom: 16px;
+  }
+
   /* CONTINUE BUTTON */
   .btn-continue {
     width: 100%;
     padding: 16px;
-    background: var(--brown-dark);
+    background: var(--pink);
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 800;
     cursor: pointer;
     font-family: inherit;
     transition: 0.25s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: 0 8px 20px rgba(74,44,42,0.25);
-    margin-bottom: 12px;
-  }
-  .btn-continue:hover { background: var(--pink); transform: translateY(-2px); }
-  .btn-continue:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
-
-  /* VIEW TRANSACTIONS BUTTON */
-  .btn-view-tx {
-    width: 100%;
-    padding: 16px;
-    background: var(--white);
-    color: var(--brown-dark);
-    border: 1.5px solid var(--brown-dark);
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: 0.25s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(236,72,153,0.3);
     margin-bottom: 20px;
   }
-  .btn-view-tx:hover { background: var(--brown-dark); color: white; transform: translateY(-2px); }
+  .btn-continue:hover { background: var(--brown-dark); transform: translateY(-2px); }
+  .btn-continue:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 
   /* INFO NOTE */
   .info-note {
     background: #eff6ff;
     border: 1px solid #bfdbfe;
     border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 13px;
+    padding: 12px 14px;
+    font-size: 12px;
     color: #1e40af;
     line-height: 1.5;
     display: flex;
     gap: 10px;
   }
-  .info-note .in-icon { font-size: 18px; flex-shrink: 0; }
+  .info-note .in-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* DEPOSITS LIST */
+  .deposits-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--brown-dark);
+    margin-bottom: 14px;
+  }
+  .deposit-list { }
+
+  .deposit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f5e6e0;
+  }
+  .deposit-item:last-child { border-bottom: none; }
+
+  .di-left { flex: 1; min-width: 0; }
+  .di-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brown-dark);
+    margin-bottom: 4px;
+  }
+  .di-date {
+    font-size: 12px;
+    color: var(--brown-light);
+    font-weight: 500;
+  }
+  .di-amount {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--green);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--brown-light);
+  }
+  .empty-icon { font-size: 42px; margin-bottom: 10px; }
+  .empty h3 { color: var(--brown-dark); font-size: 16px; margin-bottom: 6px; }
+  .empty p { font-size: 13px; }
 
   /* TOAST */
   .toast {
@@ -262,10 +283,9 @@
     body.sidebar-open { overflow: hidden; }
   }
   @media (max-width: 600px) {
-    .balance-hero { padding: 24px 20px; }
-    .balance-hero .bh-value { font-size: 34px; }
-    .amount-picker { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .amount-pick { padding: 14px 6px; font-size: 14px; }
+    .balance-hero { padding: 22px 18px; }
+    .balance-hero .bh-value { font-size: 30px; }
+    .quick-amount { padding: 9px 14px; font-size: 12px; }
     .bn-item { font-size: 8.5px; }
     .bn-item .bn-icon { width: 30px; height: 30px; }
     .bn-item .bn-icon svg { width: 18px; height: 18px; }
@@ -297,7 +317,6 @@
     <div class="side-label">Account</div>
     <a href="dashboard.html" class="side-item"><span class="si-icon">👤</span> Profile</a>
     <a href="wallet.html" class="side-item active"><span class="si-icon">💰</span> Deposit Funds</a>
-    <a href="transactions.html" class="side-item"><span class="si-icon">📜</span> Transactions</a>
     <a href="dashboard.html" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
     <a href="https://wa.me/+2348128748746" target="_blank" class="side-item"><span class="si-icon">💬</span> Contact Support</a>
     <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
@@ -322,39 +341,48 @@
     <p>Add money to your Arknet wallet.</p>
   </div>
 
+  <!-- BALANCE HERO -->
   <div class="balance-hero">
     <div class="bh-label">Current Balance</div>
     <div class="bh-value" id="balanceDisplay">₦0.00</div>
   </div>
 
+  <!-- DEPOSIT FORM -->
   <div class="section">
-    <div class="section-title">Choose Amount</div>
-
-    <div class="amount-picker" id="amountPicker">
-      <button class="amount-pick" data-amount="1000">₦1,000</button>
-      <button class="amount-pick" data-amount="2000">₦2,000</button>
-      <button class="amount-pick" data-amount="5000">₦5,000</button>
-      <button class="amount-pick" data-amount="10000">₦10,000</button>
-      <button class="amount-pick" data-amount="20000">₦20,000</button>
-      <button class="amount-pick" data-amount="50000">₦50,000</button>
-    </div>
+    <div class="section-title">Amount (NGN)</div>
 
     <div class="form-field">
-      <label>Or enter custom amount (₦)</label>
-      <input type="number" id="customAmount" placeholder="e.g. 15000" min="100">
+      <input type="number" id="amountInput" placeholder="Enter amount" min="500" max="1000000">
     </div>
 
+    <div class="quick-amounts">
+      <button class="quick-amount" data-amount="1000">1,000 NGN</button>
+      <button class="quick-amount" data-amount="2000">2,000 NGN</button>
+      <button class="quick-amount" data-amount="5000">5,000 NGN</button>
+      <button class="quick-amount" data-amount="10000">10,000 NGN</button>
+    </div>
+
+    <div class="amount-hint">min: 500 &nbsp; max: 1000000</div>
+
     <button class="btn-continue" id="continueBtn">
-      Continue → 
+      Continue to payment
     </button>
 
-    <a href="transactions.html" class="btn-view-tx">
-      📜 View Transactions History
-    </a>
-
     <div class="info-note">
-      <div class="in-icon">ℹ️</div>
-      <div>You'll be redirected to <strong>Flutterwave</strong> to complete payment securely with your card, bank transfer, or USSD.</div>
+      <div class="in-icon">🔒</div>
+      <div>Payments are processed by our payment partners. Card details never reach Arknet.</div>
+    </div>
+  </div>
+
+  <!-- DEPOSITS LIST -->
+  <div class="section">
+    <div class="deposits-title">Deposits</div>
+    <div class="deposit-list" id="depositList">
+      <div class="empty">
+        <div class="empty-icon">💳</div>
+        <h3>No deposits yet</h3>
+        <p>Your deposit history will appear here.</p>
+      </div>
     </div>
   </div>
 
@@ -391,7 +419,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, updateDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, updateDoc, addDoc, collection, query, orderBy, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
@@ -415,11 +443,23 @@
   };
 
   const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
+  const formatDateTime = (ts) => {
+    if (!ts) return '—';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const hours = d.getHours();
+    const mins = String(d.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const h12 = hours % 12 || 12;
+    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}, ${h12}:${mins} ${ampm}`;
+  };
+  const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
   let currentUser = null;
   let currentBalance = 0;
-  let selectedAmount = 0;
 
+  /* MENU */
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   document.getElementById('menuBtn').addEventListener('click', () => {
@@ -434,45 +474,39 @@
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
   document.getElementById('bnLogout').addEventListener('click', doLogout);
 
-  const customInput = document.getElementById('customAmount');
-
-  document.querySelectorAll('.amount-pick').forEach(btn => {
+  /* QUICK AMOUNT */
+  const amountInput = document.getElementById('amountInput');
+  document.querySelectorAll('.quick-amount').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.amount-pick').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedAmount = Number(btn.dataset.amount);
-      customInput.value = '';
+      amountInput.value = btn.dataset.amount;
     });
   });
 
-  customInput.addEventListener('input', () => {
-    document.querySelectorAll('.amount-pick').forEach(b => b.classList.remove('selected'));
-    selectedAmount = Number(customInput.value) || 0;
-  });
-
+  /* CONTINUE BUTTON */
   document.getElementById('continueBtn').addEventListener('click', () => {
-    let amount = selectedAmount;
-    if (customInput.value && Number(customInput.value) > 0) {
-      amount = Number(customInput.value);
+    const amount = Number(amountInput.value);
+    if (!amount || amount < 500) {
+      showToast('Minimum deposit is ₦500', 'error');
+      return;
     }
-    if (!amount || amount < 100) {
-      showToast('Minimum deposit is ₦100', 'error');
+    if (amount > 1000000) {
+      showToast('Maximum deposit is ₦1,000,000', 'error');
       return;
     }
 
     // ============================================================
-    // Flutterwave integration goes here when you have your account
+    // TODO: Flutterwave integration (when you have the account)
     // ============================================================
     showToast('⏳ Payment gateway coming soon!', 'error');
 
     // ============================================================
     // WHEN YOU HAVE FLUTTERWAVE:
     // 1. Add <script src="https://checkout.flutterwave.com/v3.js"></script> in <head>
-    // 2. Delete the showToast line above
-    // 3. Uncomment the code below and replace the public key:
+    // 2. Delete the showToast above
+    // 3. Uncomment:
     // ============================================================
     //
-    // const FLW_PUBLIC_KEY = "FLWPUBK_TEST-your-public-key-here";
+    // const FLW_PUBLIC_KEY = "FLWPUBK_TEST-your-key-here";
     // const tx_ref = 'ARKNET-' + Date.now() + '-' + currentUser.uid.slice(0, 6);
     //
     // FlutterwaveCheckout({
@@ -508,19 +542,74 @@
       const freshBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
       const newBalance = freshBalance + Number(amount);
       await updateDoc(userRef, { wallet: newBalance });
+
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'deposit', icon: '💰',
-        title: 'Wallet Deposit', subtitle: `Ref: ${tx_ref}`,
-        amount: Number(amount), createdAt: serverTimestamp()
+        type: 'deposit',
+        icon: '💰',
+        title: 'Bank/Card Payment',
+        subtitle: `Ref: ${tx_ref}`,
+        amount: Number(amount),
+        createdAt: serverTimestamp()
       });
+
       showToast(`✅ Deposit successful! +${formatNGN(amount)}`, 'success');
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 2000);
+      amountInput.value = '';
+      currentBalance = newBalance;
+      document.getElementById('topBalance').textContent = formatNGN(currentBalance);
+      document.getElementById('balanceDisplay').textContent = formatNGN(currentBalance);
+      loadDeposits();
     } catch (err) {
       console.error('Deposit error:', err);
       showToast('❌ Deposit failed. Contact support.', 'error');
     }
   }
 
+  /* LOAD DEPOSITS (only type='deposit') */
+  async function loadDeposits() {
+    if (!currentUser) return;
+    const list = document.getElementById('depositList');
+    try {
+      const q = query(
+        collection(db, 'users', currentUser.uid, 'transactions'),
+        orderBy('createdAt', 'desc')
+      );
+      const snap = await getDocs(q);
+
+      const deposits = [];
+      snap.forEach(d => {
+        const t = d.data();
+        if (t.type === 'deposit') deposits.push(t);
+      });
+
+      if (!deposits.length) {
+        list.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">💳</div>
+            <h3>No deposits yet</h3>
+            <p>Your deposit history will appear here.</p>
+          </div>`;
+        return;
+      }
+
+      let html = '';
+      deposits.forEach(t => {
+        html += `
+          <div class="deposit-item">
+            <div class="di-left">
+              <div class="di-title">${escapeHtml(t.title || 'Bank/Card Payment')}</div>
+              <div class="di-date">${formatDateTime(t.createdAt)}</div>
+            </div>
+            <div class="di-amount">+${Number(t.amount || 0).toLocaleString('en-NG')} NGN</div>
+          </div>`;
+      });
+      list.innerHTML = html;
+    } catch (e) {
+      console.warn(e);
+      list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Could not load deposits</h3></div>`;
+    }
+  }
+
+  /* AUTH */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
@@ -538,6 +627,8 @@
         document.getElementById('balanceDisplay').textContent = formatNGN(currentBalance);
       }
     } catch (e) {}
+
+    loadDeposits();
   });
 </script>
 
