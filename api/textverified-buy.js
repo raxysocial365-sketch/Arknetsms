@@ -1,5 +1,6 @@
 // api/textverified-buy.js
 // TextVerified API proxy for Arknet SMS
+// Uses bearer token authentication
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,13 +20,43 @@ export default async function handler(req, res) {
     });
   }
 
-  const headers = {
-    'X-API-KEY': API_KEY,
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
-
   try {
+    // ============================================================
+    // STEP 1: Get bearer token using API key
+    // ============================================================
+    const tokenRes = await fetch(`${BASE}/auth`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': API_KEY
+      },
+      body: JSON.stringify({ api_key: API_KEY })
+    });
+
+    let tokenData;
+    const tokenText = await tokenRes.text();
+    try { tokenData = JSON.parse(tokenText); } catch { tokenData = { raw: tokenText }; }
+
+    // Try multiple possible token field names
+    const bearerToken = tokenData.token || tokenData.bearer_token || tokenData.access_token || tokenData.bearer;
+
+    if (!bearerToken) {
+      return res.status(401).json({
+        success: false,
+        message: 'TextVerified authentication failed. Check your API key.',
+        debug: tokenData
+      });
+    }
+
+    // ============================================================
+    // STEP 2: Use bearer token for all requests
+    // ============================================================
+    const headers = {
+      'Authorization': `Bearer ${bearerToken}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+
     // ---------- BALANCE ----------
     if (action === 'balance') {
       const r = await fetch(`${BASE}/balance`, { headers });
@@ -43,16 +74,16 @@ export default async function handler(req, res) {
       if (!r.ok) {
         return res.status(r.status).json({
           success: false,
-          message: data?.message || `TextVerified returned ${r.status}`,
+          message: data?.message || data?.error || `TextVerified returned ${r.status}`,
           debug: data
         });
       }
 
-      // Normalize: TextVerified returns array OR {services: [...]}
       let list = [];
       if (Array.isArray(data)) list = data;
       else if (Array.isArray(data.services)) list = data.services;
       else if (Array.isArray(data.data)) list = data.data;
+      else if (Array.isArray(data.targets)) list = data.targets;
 
       const services = list.map(s => ({
         id: String(s.id || s.serviceId || s.name || ''),
@@ -131,10 +162,7 @@ export default async function handler(req, res) {
       });
       const text = await r.text();
       let data; try { data = JSON.parse(text); } catch { data = { raw: text }; }
-      return res.status(200).json({
-        success: r.ok,
-        raw: data
-      });
+      return res.status(200).json({ success: r.ok, raw: data });
     }
 
     return res.status(400).json({ success: false, message: 'Unknown action' });
