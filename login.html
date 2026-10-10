@@ -166,6 +166,9 @@
   import {
     getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
@@ -179,6 +182,7 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
   const msg = document.getElementById('msg');
   const showMsg = (text, type = 'error') => {
@@ -209,11 +213,31 @@
 
     setLoading(btn, true, 'Logging in...');
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      showMsg('Login successful! Redirecting...', 'success');
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 900);
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      const uid = cred.user.uid;
+
+      // Check if this user is an admin
+      let isAdmin = false;
+      try {
+        const snap = await getDoc(doc(db, 'users', uid));
+        if (snap.exists() && snap.data().isAdmin === true) {
+          isAdmin = true;
+        }
+      } catch (err) {
+        console.warn('Admin check failed:', err.message);
+      }
+
+      if (isAdmin) {
+        showMsg('✅ Welcome, Admin! Redirecting...', 'success');
+        setTimeout(() => {
+          window.location.href = 'admin/dashboard.html';
+        }, 900);
+      } else {
+        showMsg('Login successful! Redirecting...', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 900);
+      }
     } catch (err) {
       console.error(err);
       const map = {
@@ -239,8 +263,20 @@
     }
   });
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) window.location.href = 'dashboard.html';
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // Auto-redirect based on admin status
+      let isAdmin = false;
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (snap.exists() && snap.data().isAdmin === true) isAdmin = true;
+      } catch (e) {}
+      if (isAdmin) {
+        window.location.href = 'admin/dashboard.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
+    }
   });
 </script>
 
