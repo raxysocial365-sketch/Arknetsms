@@ -180,7 +180,7 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
-    getFirestore, doc, getDoc, updateDoc, deleteField,
+    getFirestore, doc, getDoc, updateDoc,
     collection, addDoc,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -201,6 +201,7 @@
 
   const USA_API = "/api/textverified-buy";
 
+  /* Hidden pricing formula */
   const USD_TO_NGN = 1500;
   const PROFIT_NGN = 950;
 
@@ -220,7 +221,6 @@
   const selectedPrice = document.getElementById('selectedPrice');
   const priceCard = document.getElementById('priceCard');
   const actionBtn = document.getElementById('actionBtn');
-  const actionBtnText = document.getElementById('actionBtnText');
   const modalOverlay = document.getElementById('modalOverlay');
   const modalContent = document.getElementById('modalContent');
 
@@ -246,7 +246,6 @@
     currentUser = user;
     const name = user.displayName || user.email.split('@')[0];
     userFirstName.textContent = capitalize(name.split(' ')[0]);
-
     await loadWallet();
     await loadServiceList();
   });
@@ -279,10 +278,8 @@
         searchInput.disabled = true;
         return;
       }
-
       searchInput.placeholder = `🔍 Search among ${allServices.length} services...`;
       searchInput.disabled = false;
-
     } catch (err) {
       console.error('Services load:', err);
       searchInput.placeholder = 'Failed to load services';
@@ -292,21 +289,17 @@
 
   async function fetchPriceForService(serviceName) {
     if (priceCache[serviceName] !== undefined) return priceCache[serviceName];
-
     try {
       const res = await fetch(`${USA_API}?action=price&service=${encodeURIComponent(serviceName)}`);
       const data = await res.json();
-
       if (!data.success) {
         priceCache[serviceName] = null;
         return null;
       }
-
       const usd = Number(data.priceUSD || 0);
       const ngn = Math.ceil((usd * USD_TO_NGN) + PROFIT_NGN);
       priceCache[serviceName] = { usd, ngn };
       return priceCache[serviceName];
-
     } catch (err) {
       console.warn('Price error:', serviceName, err.message);
       priceCache[serviceName] = null;
@@ -329,20 +322,16 @@
   searchInput.addEventListener('input', () => {
     const q = searchInput.value.trim().toLowerCase();
     if (!q) { dropdown.classList.remove('active'); return; }
-
     const matches = allServices
       .filter(s => s.name.toLowerCase().includes(q))
       .slice(0, 8);
-
     if (matches.length === 0) {
       dropdown.innerHTML = '<div class="dropdown-empty">No services found</div>';
       dropdown.classList.add('active');
       return;
     }
-
     dropdown.innerHTML = '<div class="dropdown-loading">Loading prices...</div>';
     dropdown.classList.add('active');
-
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(async () => {
       const withPrices = await fetchPricesForList(matches);
@@ -368,7 +357,6 @@
         </button>
       `;
     }).join('');
-
     dropdown.querySelectorAll('.dropdown-item').forEach(btn => {
       btn.addEventListener('click', () => {
         if (btn.disabled) return;
@@ -384,24 +372,17 @@
   function selectService(id) {
     const svc = allServices.find(s => s.id === id);
     if (!svc) return;
-
     const pd = priceCache[svc.rawName];
     if (!pd) return;
-
     selectedService = svc;
     selectedPriceNGN = pd.ngn;
-
     searchInput.value = svc.name;
     dropdown.classList.remove('active');
-
     selectedChip.style.display = 'flex';
     selectedName.textContent = svc.name;
-
     selectedPrice.textContent = fmtNaira(pd.ngn);
     priceCard.style.display = 'block';
-
     actionBtn.disabled = false;
-    actionBtnText.textContent = 'Purchase Now';
   }
 
   /* ✅ PURCHASE NOW — goes straight to processing, no confirm modal */
@@ -409,7 +390,6 @@
     if (!selectedService) return;
     const price = Number(selectedPriceNGN);
 
-    // Check balance before anything else
     if (userWallet < price) {
       const shortfall = price - userWallet;
       openModal(`
@@ -431,19 +411,17 @@
       return;
     }
 
-    // Process purchase immediately
     await processPurchase();
   });
 
   async function processPurchase() {
-    // Disable button and show processing state
     actionBtn.disabled = true;
     actionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
     const price = Number(selectedPriceNGN);
 
     try {
-      // 1. Check balance and get fresh user data
+      // 1. Fresh balance check
       const userRef = doc(db, 'users', currentUser.uid);
       const freshSnap = await getDoc(userRef);
       const freshData = freshSnap.data() || {};
@@ -456,62 +434,64 @@
       const genRes = await fetch(`${USA_API}?action=generate&service=${encodeURIComponent(selectedService.rawName)}`);
       const genData = await genRes.json();
 
-      // If provider has no number or no coin, show stock error
       if (!genRes.ok || !genData.success || !genData.id) {
         throw new Error('OUT_OF_STOCK');
       }
 
       const verifyId = genData.id;
       const phoneNumber = genData.number;
+      if (!phoneNumber) throw new Error('OUT_OF_STOCK');
 
-      if (!phoneNumber) {
-        throw new Error('OUT_OF_STOCK');
-      }
-
-      // 3. Deduct balance from user wallet
+      // 3. Deduct balance
       const newBalance = freshBalance - price;
       await updateDoc(userRef, {
         wallet: newBalance,
         updatedAt: serverTimestamp()
       });
-
       userWallet = newBalance;
       topBalance.textContent = fmtNaira(userWallet);
 
-      // 4. Save order — matches your Firestore rules
-      const orderRef = await addDoc(collection(db, 'orders'), {
+      // 4. ✅ SAVE ACTIVATION where the dashboard reads it
+      await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
         userId: currentUser.uid,
         userEmail: currentUser.email || '',
+
         service: selectedService.name,
-        serviceName: selectedService.rawName,
+        serviceId: selectedService.rawName,
         provider: 'textverified',
-        category: 'USA',
+
         country: 'USA',
         countryCode: 'us',
         flag: '🇺🇸',
+
+        number: phoneNumber,
+        requestId: verifyId,
         verificationId: verifyId,
-        phone: phoneNumber,
+
         price: price,
         amount: price,
         currency: 'NGN',
-        status: 'waiting',
+
+        status: 'pending',
+        code: '',
+
         createdAt: serverTimestamp()
       });
 
-      // 5. Save transaction inside user's subcollection (matches your rules)
+      // 5. Save transaction in user subcollection
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
         type: 'purchase',
+        icon: '📱',
+        title: `Bought ${selectedService.name} (USA)`,
+        subtitle: phoneNumber,
         amount: price,
         currency: 'NGN',
-        description: 'Bought ' + selectedService.name + ' (USA)',
-        orderId: orderRef.id,
         createdAt: serverTimestamp()
       });
 
-      // 6. Store active order in localStorage for dashboard
+      // 6. Cache active order for other pages
       try {
         localStorage.setItem('activeOrder', JSON.stringify({
-          orderId: orderRef.id,
           verificationId: verifyId,
           country: 'us',
           countryName: 'USA',
@@ -528,7 +508,6 @@
       window.location.href = 'dashboard.html';
 
     } catch (err) {
-      // Restore button
       actionBtn.disabled = false;
       actionBtn.innerHTML = '<i class="fas fa-bolt"></i><span id="actionBtnText">Purchase Now</span>';
 
