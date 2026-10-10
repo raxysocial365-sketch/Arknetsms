@@ -61,10 +61,6 @@
     .search-wrap input::placeholder { color: #b89b8f; }
     .search-wrap input:disabled { background: #f8f5f3; cursor: not-allowed; }
     .search-wrap .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--brown-light); font-size: 0.9rem; pointer-events: none; }
-    .search-wrap .search-loading {
-      position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%);
-      color: var(--pink); font-size: 0.9rem; display: none;
-    }
 
     .dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1.5px solid var(--pink); border-radius: 12px; box-shadow: 0 12px 30px rgba(236,72,153,0.15); max-height: 320px; overflow-y: auto; z-index: 100; display: none; }
     .dropdown.active { display: block; }
@@ -101,7 +97,6 @@
     .modal-icon-top { width: 64px; height: 64px; border-radius: 18px; background: var(--pink-soft); color: var(--pink); display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin: 0 auto 1rem; }
     .modal-icon-top.warning { background: #fef3c7; color: var(--warning); }
     .modal-icon-top.error { background: #fee2e2; color: var(--red); }
-    .modal-icon-top.success { background: #dcfce7; color: var(--green); }
     .modal-title { text-align: center; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
     .modal-sub { text-align: center; font-size: 0.85rem; color: var(--brown-light); line-height: 1.6; margin-bottom: 1.3rem; }
     .confirm-box { background: var(--cream); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1.2rem; }
@@ -113,7 +108,6 @@
     .modal-actions { display: flex; gap: 0.7rem; }
     .btn-cancel { flex: 1; padding: 0.9rem; border-radius: 12px; background: var(--cream); color: var(--brown-dark); font-weight: 600; font-size: 0.9rem; font-family: 'Poppins', sans-serif; }
     .btn-primary { flex: 2; padding: 0.9rem; border-radius: 12px; background: var(--pink); color: #fff; font-weight: 700; font-size: 0.9rem; box-shadow: 0 8px 20px rgba(236,72,153,0.3); font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
-    .btn-primary:disabled { opacity: 0.6; }
 
     @media (min-width: 700px) { .container, .topbar-inner, .bottom-nav-inner, .modal { max-width: 640px; } }
   </style>
@@ -147,7 +141,6 @@
     <div class="search-wrap">
       <i class="fas fa-search search-icon"></i>
       <input type="text" id="searchInput" placeholder="Loading services..." autocomplete="off" disabled>
-      <i class="fas fa-spinner fa-spin search-loading" id="searchLoading"></i>
       <div class="dropdown" id="dropdown"></div>
     </div>
     <p style="font-size:0.78rem;color:var(--brown-light);margin-top:-0.4rem;margin-bottom:1.2rem;">
@@ -164,7 +157,7 @@
     </div>
 
     <button class="action-btn" id="actionBtn" disabled>
-      <i class="fas fa-sim-card"></i>
+      <i class="fas fa-bolt"></i>
       <span id="actionBtnText">Purchase Now</span>
     </button>
   </div>
@@ -208,7 +201,6 @@
 
   const USA_API = "/api/textverified-buy";
 
-  /* ✅ YOUR PRICING — hidden from customer */
   const USD_TO_NGN = 1500;
   const PROFIT_NGN = 950;
 
@@ -222,7 +214,6 @@
   const topBalance = document.getElementById('topBalance');
   const userFirstName = document.getElementById('userFirstName');
   const searchInput = document.getElementById('searchInput');
-  const searchLoading = document.getElementById('searchLoading');
   const dropdown = document.getElementById('dropdown');
   const selectedChip = document.getElementById('selectedChip');
   const selectedName = document.getElementById('selectedName');
@@ -413,10 +404,12 @@
     actionBtnText.textContent = 'Purchase Now';
   }
 
-  actionBtn.addEventListener('click', () => {
+  /* ✅ PURCHASE NOW — goes straight to processing, no confirm modal */
+  actionBtn.addEventListener('click', async () => {
     if (!selectedService) return;
     const price = Number(selectedPriceNGN);
 
+    // Check balance before anything else
     if (userWallet < price) {
       const shortfall = price - userWallet;
       openModal(`
@@ -435,36 +428,22 @@
         </div>
       `);
       document.getElementById('mCancel').onclick = closeModal;
-    } else {
-      openModal(`
-        <div class="modal-icon-top"><i class="fas fa-sim-card"></i></div>
-        <div class="modal-title">Confirm Purchase</div>
-        <div class="modal-sub">You're about to purchase a <strong>${selectedService.name}</strong> USA number.</div>
-        <div class="confirm-box">
-          <div class="confirm-row"><span class="label">Service</span><span class="value">${selectedService.name}</span></div>
-          <div class="confirm-row"><span class="label">Country</span><span class="value">🇺🇸 USA</span></div>
-          <div class="confirm-row"><span class="label">Price</span><span class="value">${fmtNaira(price)}</span></div>
-          <div class="confirm-row"><span class="label">Your Balance</span><span class="value">${fmtNaira(userWallet)}</span></div>
-          <div class="confirm-row total"><span class="label">After Purchase</span><span class="value">${fmtNaira(userWallet - price)}</span></div>
-        </div>
-        <div class="modal-actions">
-          <button class="btn-cancel" id="mCancel">Cancel</button>
-          <button class="btn-primary" id="mBuy"><i class="fas fa-check"></i> Buy Now</button>
-        </div>
-      `);
-      document.getElementById('mCancel').onclick = closeModal;
-      document.getElementById('mBuy').onclick = processPurchase;
+      return;
     }
+
+    // Process purchase immediately
+    await processPurchase();
   });
 
   async function processPurchase() {
-    const buyBtn = document.getElementById('mBuy');
-    if (buyBtn) { buyBtn.disabled = true; buyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...'; }
+    // Disable button and show processing state
+    actionBtn.disabled = true;
+    actionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
     const price = Number(selectedPriceNGN);
 
     try {
-      // 1. Check balance and generate number from provider first
+      // 1. Check balance and get fresh user data
       const userRef = doc(db, 'users', currentUser.uid);
       const freshSnap = await getDoc(userRef);
       const freshData = freshSnap.data() || {};
@@ -477,7 +456,7 @@
       const genRes = await fetch(`${USA_API}?action=generate&service=${encodeURIComponent(selectedService.rawName)}`);
       const genData = await genRes.json();
 
-      // If generation fails, show stock error
+      // If provider has no number or no coin, show stock error
       if (!genRes.ok || !genData.success || !genData.id) {
         throw new Error('OUT_OF_STOCK');
       }
@@ -489,7 +468,7 @@
         throw new Error('OUT_OF_STOCK');
       }
 
-      // 3. Deduct balance
+      // 3. Deduct balance from user wallet
       const newBalance = freshBalance - price;
       await updateDoc(userRef, {
         wallet: newBalance,
@@ -499,7 +478,7 @@
       userWallet = newBalance;
       topBalance.textContent = fmtNaira(userWallet);
 
-      // 4. Save order for dashboard
+      // 4. Save order — matches your Firestore rules
       const orderRef = await addDoc(collection(db, 'orders'), {
         userId: currentUser.uid,
         userEmail: currentUser.email || '',
@@ -519,9 +498,8 @@
         createdAt: serverTimestamp()
       });
 
-      // 5. Save transaction
-      await addDoc(collection(db, 'transactions'), {
-        userId: currentUser.uid,
+      // 5. Save transaction inside user's subcollection (matches your rules)
+      await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
         type: 'purchase',
         amount: price,
         currency: 'NGN',
@@ -530,7 +508,7 @@
         createdAt: serverTimestamp()
       });
 
-      // 6. Store active order for dashboard
+      // 6. Store active order in localStorage for dashboard
       try {
         localStorage.setItem('activeOrder', JSON.stringify({
           orderId: orderRef.id,
@@ -546,15 +524,18 @@
         }));
       } catch (e) {}
 
-      // 7. Success — go to dashboard
-      closeModal();
+      // 7. Redirect to dashboard
       window.location.href = 'dashboard.html';
 
     } catch (err) {
+      // Restore button
+      actionBtn.disabled = false;
+      actionBtn.innerHTML = '<i class="fas fa-bolt"></i><span id="actionBtnText">Purchase Now</span>';
+
       let msg = 'Something went wrong. Please try again.';
       if (err.message === 'OUT_OF_STOCK') msg = 'Number out of stock. Please try again later.';
       else if (err.message === 'INSUFFICIENT') msg = 'Insufficient wallet balance.';
-      else if (err.message.includes('permission')) msg = 'Account permission error. Please contact support.';
+      else if (err.message && err.message.includes('permission')) msg = 'Account permission error. Please contact support.';
       else if (err.message) msg = err.message;
 
       openModal(`
@@ -562,7 +543,7 @@
         <div class="modal-title">Purchase Failed</div>
         <div class="modal-sub">${msg}</div>
         <div class="modal-actions">
-          <button class="btn-cancel" id="mClose">Close</button>
+          <button class="btn-cancel" id="mClose" style="flex:1;">Close</button>
         </div>
       `);
       document.getElementById('mClose').onclick = closeModal;
