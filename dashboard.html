@@ -104,7 +104,7 @@
   .topbar-balance .b-val { color: var(--pink-light); }
 
   /* MAIN */
-  .main { margin-left: var(--sidebar-w); padding: 22px 4% 40px; min-height: calc(100vh - 60px); }
+  .main { margin-left: var(--sidebar-w); padding: 22px 4% 120px; min-height: calc(100vh - 60px); }
   .view { display: none; animation: fade 0.3s ease; }
   .view.active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -224,7 +224,7 @@
 
   /* TOAST */
   .toast {
-    position: fixed; bottom: 24px; left: 50%;
+    position: fixed; bottom: 100px; left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: var(--brown-dark); color: white;
     padding: 13px 22px; border-radius: 10px;
@@ -241,13 +241,63 @@
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
   .overlay.show { display: block; }
 
+  /* BOTTOM NAV */
+  .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 500px;
+    background: var(--white);
+    border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
+    padding: 8px 6px;
+    z-index: 400;
+    transition: opacity 0.2s ease, transform 0.3s ease;
+  }
+  /* Hide bottom nav when sidebar is open */
+  body.sidebar-open .bottom-nav {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(120px);
+  }
+
+  .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
+  .bn-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 3px;
+    background: transparent; border: none;
+    color: #9ca3af; font-size: 10px; font-weight: 600;
+    cursor: pointer; padding: 6px 2px; border-radius: 16px;
+    transition: 0.25s; font-family: inherit;
+    -webkit-tap-highlight-color: transparent; min-height: 56px;
+    text-decoration: none;
+  }
+  .bn-item .bn-icon {
+    width: 34px; height: 34px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.25s;
+  }
+  .bn-item .bn-icon svg {
+    width: 20px; height: 20px;
+    stroke: currentColor; stroke-width: 2;
+    fill: none; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .bn-item.active { color: var(--brown-dark); font-weight: 700; }
+  .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
+  .bn-item.active .bn-icon svg { stroke: var(--pink); }
+  .bn-item.logout { color: #dc2626; }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     .sidebar { transform: translateX(-100%); width: 280px; }
     .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 4% 40px; }
+    .main { margin-left: 0; padding: 20px 4% 120px; }
     .menu-btn { display: block; }
-    body.sidebar-open { overflow: hidden; position: fixed; width: 100%; }
+    .bottom-nav { display: block; }
+    body.sidebar-open { overflow: hidden; }
   }
   @media (max-width: 600px) {
     .actions-top { gap: 10px; }
@@ -256,11 +306,15 @@
     .action-card .ac-icon { width: 52px; height: 52px; font-size: 24px; border-radius: 16px; }
     .action-card .ac-title { font-size: 13px; }
     .action-card .ac-sub { font-size: 10px; }
+    .bn-item { font-size: 9px; }
+    .bn-item .bn-icon { width: 30px; height: 30px; }
+    .bn-item .bn-icon svg { width: 18px; height: 18px; }
     .greeting h1 { font-size: 22px; }
   }
   @media (max-width: 380px) {
     .action-card .ac-title { font-size: 12px; }
     .action-card .ac-icon { width: 46px; height: 46px; font-size: 22px; }
+    .bn-item { font-size: 8.5px; }
   }
 </style>
 </head>
@@ -288,7 +342,7 @@
     <div class="side-item active" data-page="dashboard"><span class="si-icon">📊</span> Dashboard</div>
     <a href="usa-numbers.html" class="side-item"><span class="si-icon">🇺🇸</span> USA Numbers</a>
     <a href="countries.html" class="side-item"><span class="si-icon">🌍</span> All Countries</a>
-    <a href="social-logs.html" class="side-item"><span class="si-icon">📱</span> Social Media</a>
+    <a href="social-logs.html" class="side-item"><span class="si-icon">📱</span> Social Media Logs</a>
 
     <div class="side-divider"></div>
     <div class="side-label">Account</div>
@@ -323,7 +377,7 @@
     <div class="actions-top">
       <a href="usa-numbers.html" class="action-card">
         <div class="ac-icon">🇺🇸</div>
-        <div class="ac-title">Buy USA Numbers</div>
+        <div class="ac-title">Buy USA Number</div>
         <div class="ac-sub">High quality</div>
       </a>
       <a href="countries.html" class="action-card">
@@ -333,11 +387,11 @@
       </a>
     </div>
 
-    <!-- SINGLE CARD CENTERED: Social Media -->
+    <!-- SINGLE CARD CENTERED: Social Media Logs -->
     <div class="actions-single">
       <a href="social-logs.html" class="action-card">
         <div class="ac-icon">📱</div>
-        <div class="ac-title">Buy Social Media</div>
+        <div class="ac-title">Buy Social Media Logs</div>
         <div class="ac-sub">Verified accounts</div>
       </a>
     </div>
@@ -409,6 +463,32 @@
 
 </main>
 
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-inner">
+    <a href="dashboard.html" class="bn-item active" data-goto="service">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <span>Service</span>
+    </a>
+    <a href="transactions.html" class="bn-item" data-goto="orders">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+      <span>Orders</span>
+    </a>
+    <a href="wallet.html" class="bn-item" data-goto="deposit">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
+      <span>Deposit</span>
+    </a>
+    <button class="bn-item" data-page="profile" id="bnProfile">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
+      <span>Profile</span>
+    </button>
+    <button class="bn-item logout" id="bnLogout">
+      <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+      <span>Logout</span>
+    </button>
+  </div>
+</nav>
+
 <div class="toast" id="toast"></div>
 
 <!-- FIREBASE -->
@@ -447,7 +527,7 @@
 
   let currentUser = null;
 
-  /* MENU */
+  /* MENU — hide bottom nav when sidebar opens */
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
 
@@ -469,6 +549,7 @@
     window.location.replace('login.html');
   }
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
+  document.getElementById('bnLogout').addEventListener('click', doLogout);
 
   /* VIEW SWITCHER */
   function showView(page) {
@@ -479,6 +560,9 @@
     document.querySelectorAll('.side-item[data-page]').forEach(item => {
       item.classList.toggle('active', item.dataset.page === page);
     });
+    document.querySelectorAll('.bn-item[data-page]').forEach(item => {
+      item.classList.toggle('active', item.dataset.page === page);
+    });
 
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
@@ -487,6 +571,13 @@
   }
 
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView(item.dataset.page);
+    });
+  });
+
+  document.querySelectorAll('.bn-item[data-page]').forEach(item => {
     item.addEventListener('click', (e) => {
       e.preventDefault();
       showView(item.dataset.page);
