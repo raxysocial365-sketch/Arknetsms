@@ -1,338 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buy USA Numbers — Arknet SMS</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    :root {
-      --brown-dark: #4a2c2a;
-      --brown: #6b4423;
-      --brown-light: #8b5e3c;
-      --pink: #ec4899;
-      --pink-dark: #be185d;
-      --pink-light: #f9a8d4;
-      --pink-soft: #fdf2f8;
-      --white: #ffffff;
-      --cream: #fef9f5;
-      --green: #22c55e;
-      --red: #dc2626;
-      --warning: #b45309;
-    }
-    html, body { overflow-x: hidden; }
-    body {
-      background: var(--cream);
-      color: var(--brown-dark);
-      min-height: 100vh;
-      line-height: 1.5;
-      padding-bottom: 110px;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { text-decoration: none; color: inherit; }
-    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy USA Numbers — Arknet SMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+  :root {
+    --brown-dark: #4a2c2a;
+    --brown: #6b4423;
+    --brown-light: #8b5e3c;
+    --pink: #ec4899;
+    --pink-dark: #be185d;
+    --pink-light: #f9a8d4;
+    --pink-soft: #fdf2f8;
+    --white: #ffffff;
+    --cream: #fef9f5;
+    --green: #22c55e;
+    --red: #dc2626;
+  }
+  html, body { overflow-x: hidden; }
+  body {
+    background: var(--cream); color: var(--brown-dark);
+    min-height: 100vh; line-height: 1.5;
+    padding-bottom: 110px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-    .topbar { background: var(--brown-dark); position: sticky; top: 0; z-index: 500; }
-    .topbar-inner { max-width: 500px; margin: 0 auto; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.7rem; }
-    .back-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--brown-dark); flex-shrink: 0; }
-    .page-title { font-size: 0.95rem; font-weight: 700; flex: 1; color: white; }
-    .balance-chip { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.75rem; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 10px; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; color: var(--pink-light); }
+  /* TOPBAR */
+  .topbar { background: var(--brown-dark); position: sticky; top: 0; z-index: 500; }
+  .topbar-inner { max-width: 560px; margin: 0 auto; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.7rem; }
+  .back-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--brown-dark); flex-shrink: 0; }
+  .page-title { font-size: 0.95rem; font-weight: 700; flex: 1; color: white; }
 
-    .container { max-width: 500px; margin: 0 auto; padding: 1rem 1rem 0; display: flex; flex-direction: column; gap: 1rem; }
+  /* CONTAINER */
+  .container { max-width: 560px; margin: 0 auto; padding: 1rem 1rem 0; display: flex; flex-direction: column; gap: 1rem; }
 
-    /* ==========================================
-       NEW HERO HEADER
-       ========================================== */
-    .hero {
-      position: relative;
-      border-radius: 24px;
-      padding: 1.4rem 1.3rem 1.5rem;
-      background:
-        radial-gradient(circle at 90% 10%, rgba(255,255,255,0.25) 0%, transparent 45%),
-        radial-gradient(circle at 10% 90%, rgba(255,255,255,0.15) 0%, transparent 40%),
-        linear-gradient(135deg, #ec4899 0%, #be185d 55%, #7f1d1d 130%);
-      box-shadow: 0 18px 40px -18px rgba(190, 24, 93, 0.65);
-      overflow: hidden;
-      color: white;
-    }
+  /* HERO */
+  .hero {
+    position: relative;
+    border-radius: 24px;
+    padding: 1.4rem 1.3rem 1.5rem;
+    background:
+      radial-gradient(circle at 90% 10%, rgba(255,255,255,0.25) 0%, transparent 45%),
+      radial-gradient(circle at 10% 90%, rgba(255,255,255,0.15) 0%, transparent 40%),
+      linear-gradient(135deg, #ec4899 0%, #be185d 55%, #7f1d1d 130%);
+    box-shadow: 0 18px 40px -18px rgba(190, 24, 93, 0.65);
+    overflow: hidden;
+    color: white;
+  }
+  .hero-top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.6rem; margin-bottom: 1rem;
+    position: relative; z-index: 1;
+  }
+  .hero-greet {
+    font-size: 0.82rem; font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .hero-greet strong { color: #fff; font-weight: 700; font-size: 0.9rem; }
+  .hero-wallet {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 0.78rem; font-weight: 700; color: #fff;
+    backdrop-filter: blur(8px);
+  }
+  .hero-main {
+    display: flex; align-items: center; gap: 0.9rem;
+    position: relative; z-index: 1;
+  }
+  .hero-flag {
+    width: 58px; height: 58px; border-radius: 18px;
+    background: rgba(255,255,255,0.18);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.9rem; flex-shrink: 0;
+    backdrop-filter: blur(8px);
+  }
+  .hero-text { flex: 1; min-width: 0; }
+  .hero-title {
+    font-size: 1.05rem; font-weight: 800;
+    letter-spacing: 0.01em; line-height: 1.2;
+    display: flex; align-items: center; gap: 8px;
+    flex-wrap: wrap;
+  }
+  .live-pill {
+    font-size: 0.6rem; font-weight: 800;
+    padding: 3px 7px; border-radius: 999px;
+    background: #fff; color: var(--pink-dark);
+    letter-spacing: 0.06em;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .live-pill::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
+    animation: pulse 1.6s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  }
+  .hero-sub {
+    font-size: 0.75rem; color: rgba(255,255,255,0.85);
+    margin-top: 4px; line-height: 1.4;
+  }
+  .hero-stats {
+    display: flex; gap: 6px; margin-top: 1rem;
+    position: relative; z-index: 1;
+  }
+  .hero-stat {
+    flex: 1; background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 10px; padding: 7px 6px;
+    text-align: center; backdrop-filter: blur(6px);
+  }
+  .hero-stat .s-lbl {
+    font-size: 0.6rem; font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    display: block; margin-bottom: 2px;
+  }
+  .hero-stat .s-val { font-size: 0.76rem; font-weight: 800; color: #fff; }
 
-    /* tiny decorative dots */
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 18px; right: 70px;
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.35);
-      box-shadow:
-        20px 25px 0 rgba(255,255,255,0.2),
-        50px -5px 0 rgba(255,255,255,0.25),
-        80px 30px 0 rgba(255,255,255,0.15);
-      pointer-events: none;
-    }
+  /* MAIN CARD */
+  .main-card { background: var(--white); border: 1px solid #f5e6e0; border-radius: 20px; padding: 1.4rem 1.2rem; box-shadow: 0 4px 20px rgba(74,44,42,0.06); }
+  .field-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; display: block; }
+  .field-label .req { color: var(--red); margin-left: 2px; }
 
-    .hero-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.6rem;
-      margin-bottom: 1rem;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-greet {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.85);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .hero-greet strong {
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-    .hero-wallet {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.3);
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #fff;
-      backdrop-filter: blur(8px);
-    }
-    .hero-wallet i { font-size: 0.72rem; opacity: 0.9; }
+  .step-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.85rem; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--pink); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.82rem; font-weight: 800; flex-shrink: 0;
+  }
+  .step-title { font-size: 0.95rem; font-weight: 800; color: var(--brown-dark); }
 
-    .hero-main {
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-flag {
-      width: 58px;
-      height: 58px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.18);
-      border: 1.5px solid rgba(255,255,255,0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.9rem;
-      flex-shrink: 0;
-      backdrop-filter: blur(8px);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
-    }
-    .hero-text { flex: 1; min-width: 0; }
-    .hero-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: 0.01em;
-      line-height: 1.2;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .live-pill {
-      font-size: 0.6rem;
-      font-weight: 800;
-      padding: 3px 7px;
-      border-radius: 999px;
-      background: #fff;
-      color: var(--pink-dark);
-      letter-spacing: 0.06em;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .live-pill::before {
-      content: '';
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
-      animation: pulse 1.6s infinite;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
-      70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
-      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-    }
+  .search-wrap { position: relative; margin-bottom: 0.6rem; }
+  .search-wrap input { width: 100%; padding: 0.9rem 1rem; border: 1.5px solid #f0dcd4; outline: none; border-radius: 12px; font-size: 0.9rem; font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--brown-dark); }
+  .search-wrap input:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(236,72,153,0.12); background: white; }
+  .search-wrap input::placeholder { color: #b89b8f; }
+  .search-wrap input:disabled { background: #f8f5f3; cursor: not-allowed; }
 
-    .hero-sub {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.85);
-      margin-top: 4px;
-      line-height: 1.4;
-    }
+  .dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1.5px solid var(--pink); border-radius: 12px; box-shadow: 0 12px 30px rgba(236,72,153,0.15); max-height: 320px; overflow-y: auto; z-index: 100; display: none; }
+  .dropdown.active { display: block; }
+  .dropdown-item { width: 100%; padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; cursor: pointer; border-bottom: 1px solid #f0dcd4; text-align: left; }
+  .dropdown-item:last-child { border-bottom: none; }
+  .dropdown-item:hover { background: var(--pink-soft); }
+  .dropdown-item .dd-left { display: flex; align-items: center; gap: 0.6rem; }
+  .dropdown-item .dd-flag { font-size: 1.2rem; }
+  .dropdown-item .dd-name { font-size: 0.88rem; font-weight: 600; color: var(--brown-dark); text-transform: capitalize; }
+  .dropdown-item .dd-price { font-size: 0.88rem; font-weight: 800; color: var(--pink); flex-shrink: 0; }
+  .dropdown-empty { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
 
-    .hero-stats {
-      display: flex;
-      gap: 6px;
-      margin-top: 1rem;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-stat {
-      flex: 1;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 10px;
-      padding: 7px 6px;
-      text-align: center;
-      backdrop-filter: blur(6px);
-    }
-    .hero-stat .s-lbl {
-      font-size: 0.6rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.75);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      display: block;
-      margin-bottom: 2px;
-    }
-    .hero-stat .s-val {
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: #fff;
-    }
+  .selected-chip { background: var(--pink-soft); border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; border: 1px solid var(--pink-light); }
+  .selected-chip .lbl { color: var(--brown-light); font-weight: 500; }
+  .selected-chip .val { font-weight: 700; color: var(--brown-dark); text-transform: capitalize; }
 
-    /* ==========================================
-       MAIN CARD
-       ========================================== */
-    .main-card { background: var(--white); border: 1px solid #f5e6e0; border-radius: 20px; padding: 1.4rem 1.2rem; box-shadow: 0 4px 20px rgba(74,44,42,0.06); }
-    .field-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; display: block; }
-    .field-label .req { color: var(--red); margin-left: 2px; }
+  .price-card { background: linear-gradient(135deg, var(--pink-soft), #fce7f3); border-radius: 14px; padding: 1.2rem 1rem; text-align: center; margin-bottom: 0.9rem; }
+  .price-card .price { font-size: 1.5rem; font-weight: 800; color: var(--pink); }
+  .price-card .price-note { font-size: 0.75rem; color: var(--brown-light); margin-top: 0.35rem; }
 
-    .search-wrap { position: relative; margin-bottom: 1rem; }
-    .search-wrap input { width: 100%; padding: 0.9rem 1rem 0.9rem 2.6rem; border: 1.5px solid #f0dcd4; outline: none; border-radius: 12px; font-size: 0.9rem; font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--brown-dark); }
-    .search-wrap input:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(236,72,153,0.12); background: white; }
-    .search-wrap input::placeholder { color: #b89b8f; }
-    .search-wrap input:disabled { background: #f8f5f3; cursor: not-allowed; }
-    .search-wrap .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--brown-light); font-size: 0.9rem; pointer-events: none; }
+  .action-btn { width: 100%; padding: 1rem; border-radius: 14px; background: var(--pink); color: #fff; font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem; box-shadow: 0 10px 30px rgba(236,72,153,0.3); transition: 0.25s; }
+  .action-btn:hover:not(:disabled) { background: var(--brown-dark); transform: translateY(-2px); }
+  .action-btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
-    .dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1.5px solid var(--pink); border-radius: 12px; box-shadow: 0 12px 30px rgba(236,72,153,0.15); max-height: 320px; overflow-y: auto; z-index: 100; display: none; }
-    .dropdown.active { display: block; }
-    .dropdown-item { width: 100%; padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; cursor: pointer; border-bottom: 1px solid #f0dcd4; text-align: left; }
-    .dropdown-item:last-child { border-bottom: none; }
-    .dropdown-item:hover { background: var(--pink-soft); }
-    .dropdown-item .dd-name { font-size: 0.88rem; font-weight: 600; color: var(--brown-dark); text-transform: capitalize; }
-    .dropdown-item .dd-price { font-size: 0.88rem; font-weight: 800; color: var(--pink); flex-shrink: 0; }
-    .dropdown-item .dd-price.loading { color: #b89b8f; font-weight: 500; font-size: 0.78rem; }
-    .dropdown-empty { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
-    .dropdown-loading { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(74,44,42,0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 998; padding: 20px; }
+  .modal-overlay.show { display: flex; }
+  .modal-box { background: white; border-radius: 24px; padding: 32px 26px; max-width: 440px; width: 100%; text-align: center; max-height: 90vh; overflow-y: auto; }
+  .modal-icon { font-size: 46px; margin-bottom: 10px; }
+  .modal-title { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 6px; }
+  .modal-sub { font-size: 14px; color: var(--brown-light); margin-bottom: 20px; line-height: 1.6; }
+  .modal-detail { background: var(--pink-soft); border-radius: 14px; padding: 16px; margin-bottom: 22px; text-align: left; }
+  .md-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: var(--brown-dark); gap: 12px; }
+  .md-row span { color: var(--brown-light); font-weight: 600; }
+  .md-row b { font-weight: 800; text-align: right; }
+  .md-row.total { border-top: 1px solid var(--pink-light); margin-top: 6px; padding-top: 12px; font-size: 15px; }
+  .md-row.total b { color: var(--pink); font-size: 16px; }
+  .modal-actions { display: flex; gap: 12px; }
+  .btn-cancel { padding: 13px; border-radius: 10px; background: #e5e7eb; color: var(--brown-dark); font-weight: 700; font-size: 14px; font-family: inherit; border: none; }
+  .btn-primary { background: var(--pink); color: white; padding: 13px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .btn-primary:hover { background: var(--brown-dark); }
+  .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
 
-    .selected-chip { background: var(--pink-soft); border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; border: 1px solid var(--pink-light); }
-    .selected-chip .lbl { color: var(--brown-light); font-weight: 500; }
-    .selected-chip .val { font-weight: 700; color: var(--brown-dark); text-transform: capitalize; }
+  /* TOAST */
+  .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--brown-dark); color: white; padding: 13px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none; max-width: 90%; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
 
-    .price-card { background: linear-gradient(135deg, var(--pink-soft), #fce7f3); border-radius: 14px; padding: 1.2rem 1rem; text-align: center; margin: 1rem 0; }
-    .price-card .price { font-size: 1.5rem; font-weight: 800; color: var(--pink); }
+  /* BOTTOM NAV */
+  .bottom-nav {
+    position: fixed; bottom: 14px; left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px); max-width: 500px;
+    background: var(--white); border-radius: 22px;
+    box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
+    padding: 8px 6px; z-index: 400;
+  }
+  .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
+  .bn-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: transparent; border: none; color: #9ca3af; font-size: 10px; font-weight: 600; cursor: pointer; padding: 6px 2px; border-radius: 16px; transition: 0.25s; font-family: inherit; text-decoration: none; min-height: 56px; }
+  .bn-item .bn-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .bn-item .bn-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .bn-item.active { color: var(--brown-dark); font-weight: 700; }
+  .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
+  .bn-item.active .bn-icon svg { stroke: var(--pink); }
+  .bn-item.logout { color: #dc2626; }
 
-    .action-btn { width: 100%; padding: 1rem; border-radius: 14px; background: var(--pink); color: #fff; font-size: 0.95rem; font-weight: 700; font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem; box-shadow: 0 10px 30px rgba(236,72,153,0.3); transition: 0.25s; }
-    .action-btn:hover:not(:disabled) { background: var(--brown-dark); transform: translateY(-2px); }
-    .action-btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
-
-    /* ==========================================
-       BOTTOM NAV (dashboard style)
-       ========================================== */
-    .bottom-nav {
-      position: fixed; bottom: 14px; left: 50%;
-      transform: translateX(-50%);
-      width: calc(100% - 24px); max-width: 500px;
-      background: var(--white);
-      border-radius: 22px;
-      box-shadow: 0 12px 36px rgba(74,44,42,0.18), 0 2px 8px rgba(74,44,42,0.08);
-      padding: 8px 6px; z-index: 400;
-    }
-    .bn-inner { width: 100%; display: flex; justify-content: space-around; align-items: center; }
-    .bn-item {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 3px;
-      background: transparent; border: none; color: #9ca3af;
-      font-size: 10px; font-weight: 600; cursor: pointer;
-      padding: 6px 2px; border-radius: 16px; transition: 0.25s;
-      font-family: inherit; text-decoration: none; min-height: 56px;
-    }
-    .bn-item .bn-icon {
-      width: 34px; height: 34px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .bn-item .bn-icon svg {
-      width: 20px; height: 20px;
-      stroke: currentColor; stroke-width: 2;
-      fill: none; stroke-linecap: round; stroke-linejoin: round;
-    }
-    .bn-item.active { color: var(--brown-dark); font-weight: 700; }
-    .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
-    .bn-item.active .bn-icon svg { stroke: var(--pink); }
-    .bn-item.logout { color: #dc2626; }
-
-    .modal-overlay { position: fixed; inset: 0; background: rgba(74,44,42,0.7); backdrop-filter: blur(3px); display: none; align-items: flex-end; justify-content: center; z-index: 1000; }
-    .modal-overlay.active { display: flex; }
-    .modal { width: 100%; max-width: 500px; background: #fff; border-radius: 22px 22px 0 0; padding: 1.5rem 1.3rem 1.8rem; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    .modal-icon-top { width: 64px; height: 64px; border-radius: 18px; background: var(--pink-soft); color: var(--pink); display: flex; align-items: center; justify-content: center; font-size: 1.7rem; margin: 0 auto 1rem; }
-    .modal-icon-top.warning { background: #fef3c7; color: var(--warning); }
-    .modal-icon-top.error { background: #fee2e2; color: var(--red); }
-    .modal-title { text-align: center; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .modal-sub { text-align: center; font-size: 0.85rem; color: var(--brown-light); line-height: 1.6; margin-bottom: 1.3rem; }
-    .confirm-box { background: var(--cream); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1.2rem; }
-    .confirm-row { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0; font-size: 0.85rem; }
-    .confirm-row .label { color: var(--brown-light); }
-    .confirm-row .value { color: var(--brown-dark); font-weight: 700; }
-    .confirm-row.total { border-top: 1px solid #f0dcd4; margin-top: 0.4rem; padding-top: 0.7rem; font-size: 0.95rem; }
-    .confirm-row.total .value { color: var(--pink); font-size: 1.05rem; }
-    .modal-actions { display: flex; gap: 0.7rem; }
-    .btn-cancel { flex: 1; padding: 0.9rem; border-radius: 12px; background: var(--cream); color: var(--brown-dark); font-weight: 600; font-size: 0.9rem; font-family: 'Poppins', sans-serif; }
-    .btn-primary { flex: 2; padding: 0.9rem; border-radius: 12px; background: var(--pink); color: #fff; font-weight: 700; font-size: 0.9rem; box-shadow: 0 8px 20px rgba(236,72,153,0.3); font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
-
-    @media (min-width: 700px) { .container, .topbar-inner, .modal { max-width: 640px; } }
-
-    @media (max-width: 600px) {
-      .bn-item { font-size: 8.5px; }
-      .bn-item .bn-icon { width: 30px; height: 30px; }
-      .bn-item .bn-icon svg { width: 18px; height: 18px; }
-    }
-  </style>
+  @media (min-width: 700px) { .container, .topbar-inner, .modal-box { max-width: 640px; } }
+  @media (max-width: 600px) {
+    .bn-item { font-size: 8.5px; }
+    .bn-item .bn-icon { width: 30px; height: 30px; }
+    .bn-item .bn-icon svg { width: 18px; height: 18px; }
+  }
+</style>
 </head>
 <body>
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <a href="dashboard.html" class="back-btn">←</a>
     <span class="page-title">🇺🇸 Buy USA Numbers</span>
-    <div class="balance-chip">
-      <i class="fas fa-wallet"></i>
-      <span id="topBalance">₦0</span>
-    </div>
   </div>
 </header>
 
 <div class="container">
 
-  <!-- ============================
-       NEW HERO HEADER
-       ============================ -->
   <div class="hero">
     <div class="hero-top">
       <div class="hero-greet">
         <span>👋</span>
-        <span>Hi, <strong id="userFirstName">there</strong></span>
+        <span>Hi, <strong id="heroName">there</strong></span>
       </div>
       <div class="hero-wallet">
-        <i class="fas fa-wallet"></i>
-        <span id="heroBalance">₦0</span>
+        💰 <span id="heroBalance">₦0.00</span>
       </div>
     </div>
 
@@ -363,17 +275,16 @@
     </div>
   </div>
 
-  <!-- MAIN CARD -->
   <div class="main-card">
-    <label class="field-label" for="searchInput">Select Service <span class="req">*</span></label>
-    <div class="search-wrap">
-      <i class="fas fa-search search-icon"></i>
-      <input type="text" id="searchInput" placeholder="Loading services..." autocomplete="off" disabled>
-      <div class="dropdown" id="dropdown"></div>
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <span class="step-title">Search Service</span>
     </div>
-    <p style="font-size:0.78rem;color:var(--brown-light);margin-top:-0.4rem;margin-bottom:1.2rem;">
-      Search and select the service you want to verify
-    </p>
+    <label class="field-label" for="serviceInput">Select Service <span class="req">*</span></label>
+    <div class="search-wrap">
+      <input type="text" id="serviceInput" placeholder="Loading services..." autocomplete="off" disabled>
+      <div class="dropdown" id="serviceDropdown"></div>
+    </div>
 
     <div class="selected-chip" id="selectedChip" style="display:none;">
       <span class="lbl">Selected:</span>
@@ -381,12 +292,12 @@
     </div>
 
     <div class="price-card" id="priceCard" style="display:none;">
-      <div class="price" id="selectedPrice">₦0</div>
+      <div class="price" id="selectedPrice">₦0.00</div>
+      <div class="price-note">Charged only when number is issued.</div>
     </div>
 
     <button class="action-btn" id="actionBtn" disabled>
-      <i class="fas fa-bolt"></i>
-      <span id="actionBtnText">Purchase Now</span>
+      🛒 Purchase Now
     </button>
   </div>
 </div>
@@ -394,19 +305,19 @@
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-inner">
-    <a href="dashboard.html" class="bn-item">
+    <a href="dashboard.html" class="bn-item active" data-nav="service">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
       <span>Service</span>
     </a>
-    <a href="wallet.html" class="bn-item">
+    <a href="wallet.html" class="bn-item" data-nav="deposit">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h3"/></svg></span>
       <span>Deposit</span>
     </a>
-    <a href="dashboard.html#profile" class="bn-item">
+    <a href="dashboard.html#profile" class="bn-item" data-nav="profile">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></span>
       <span>Profile</span>
     </a>
-    <a href="https://wa.me/2349168165484" target="_blank" class="bn-item">
+    <a href="https://wa.me/2349168165484" target="_blank" class="bn-item" data-nav="contact">
       <span class="bn-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
       <span>Contact</span>
     </a>
@@ -417,18 +328,13 @@
   </div>
 </nav>
 
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modalContent" onclick="event.stopPropagation()"></div>
-</div>
+<div class="modal-overlay" id="purchaseModal"><div class="modal-box" id="modalContent"></div></div>
+<div class="toast" id="toast"></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import {
-    getFirestore, doc, getDoc, updateDoc,
-    collection, addDoc,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, updateDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
@@ -445,325 +351,263 @@
   const db = getFirestore(app);
 
   const USA_API = "/api/textverified-buy";
+  const USD_TO_NGN = 1500, PROFIT_NGN = 950;
 
-  const USD_TO_NGN = 1500;
-  const PROFIT_NGN = 950;
+  const toast = document.getElementById('toast');
+  const showToast = (text, type = '') => {
+    toast.textContent = text;
+    toast.className = 'toast show ' + type;
+    setTimeout(() => toast.className = 'toast ' + type, 2800);
+  };
+  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
+  const capitalize = (v) => String(v || '').replace(/\b\w/g, c => c.toUpperCase());
+  const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  const calcPrice = (usd) => Math.ceil((Number(usd || 0) * USD_TO_NGN) + PROFIT_NGN);
+  const calcCost = (usd) => Math.ceil(Number(usd || 0) * USD_TO_NGN);
 
-  let currentUser = null;
-  let userWallet = 0;
-  let allServices = [];
-  let priceCache = {};
-  let selectedService = null;
-  let selectedPriceNGN = 0;
+  let currentUser = null, currentBalance = 0, selectedService = null, availableServices = [];
+  const priceCache = {};
 
-  const topBalance = document.getElementById('topBalance');
-  const heroBalance = document.getElementById('heroBalance');
-  const userFirstName = document.getElementById('userFirstName');
-  const searchInput = document.getElementById('searchInput');
-  const dropdown = document.getElementById('dropdown');
-  const selectedChip = document.getElementById('selectedChip');
-  const selectedName = document.getElementById('selectedName');
-  const selectedPrice = document.getElementById('selectedPrice');
-  const priceCard = document.getElementById('priceCard');
-  const actionBtn = document.getElementById('actionBtn');
-  const modalOverlay = document.getElementById('modalOverlay');
-  const modalContent = document.getElementById('modalContent');
-
-  function fmtNaira(n) {
-    return '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-  function capitalize(s) {
-    return String(s || '').replace(/\b\w/g, c => c.toUpperCase());
-  }
-  function openModal(html) {
-    modalContent.innerHTML = html;
-    modalOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal() {
-    modalOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-  modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-
+  /* Logout */
   document.getElementById('bnLogout').addEventListener('click', async () => {
     try { await signOut(auth); } catch (e) {}
     window.location.replace('login.html');
   });
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) { window.location.href = 'login.html'; return; }
-    currentUser = user;
-    const name = user.displayName || user.email.split('@')[0];
-    userFirstName.textContent = capitalize(name.split(' ')[0]);
-    await loadWallet();
-    await loadServiceList();
+  function openModal(html){
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('purchaseModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    document.getElementById('purchaseModal').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('purchaseModal').addEventListener('click', e => {
+    if (e.target.id === 'purchaseModal') closeModal();
   });
 
-  async function loadWallet() {
-    try {
-      const snap = await getDoc(doc(db, 'users', currentUser.uid));
-      if (snap.exists()) {
-        const data = snap.data();
-        userWallet = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
-        topBalance.textContent = fmtNaira(userWallet);
-        heroBalance.textContent = fmtNaira(userWallet);
-      }
-    } catch (err) { console.warn('Wallet:', err.message); }
-  }
+  const serviceInput = document.getElementById('serviceInput');
+  const serviceDropdown = document.getElementById('serviceDropdown');
 
-  async function loadServiceList() {
+  async function loadServices() {
+    serviceInput.disabled = true;
+    serviceInput.placeholder = 'Loading services...';
     try {
-      const res = await fetch(`${USA_API}?action=servicelist`);
+      const res = await fetch(`${USA_API}?action=servicelist`, { cache: 'no-store' });
       const data = await res.json();
-      if (!data.success || !Array.isArray(data.services)) throw new Error('Failed');
-
-      allServices = data.services.map(s => ({
-        id: s.id,
-        name: capitalize(s.name),
-        rawName: s.name
-      }));
-
-      if (allServices.length === 0) {
-        searchInput.placeholder = 'No services available';
-        searchInput.disabled = true;
+      if (!res.ok || !data.success || !Array.isArray(data.services)) {
+        serviceInput.placeholder = 'Failed to load services';
         return;
       }
-      searchInput.placeholder = `🔍 Search among ${allServices.length} services...`;
-      searchInput.disabled = false;
+      availableServices = data.services.map(s => ({
+        id: String(s.id),
+        name: String(s.name),
+        rawName: String(s.id)
+      }));
+      if (!availableServices.length) {
+        serviceInput.placeholder = 'No services available';
+        return;
+      }
+      serviceInput.placeholder = `🔍 Search among ${availableServices.length} services...`;
+      serviceInput.disabled = false;
     } catch (err) {
-      console.error('Services load:', err);
-      searchInput.placeholder = 'Failed to load services';
-      searchInput.disabled = true;
+      serviceInput.placeholder = 'Failed to load services';
     }
   }
 
-  async function fetchPriceForService(serviceName) {
+  async function fetchPrice(serviceName) {
     if (priceCache[serviceName] !== undefined) return priceCache[serviceName];
     try {
-      const res = await fetch(`${USA_API}?action=price&service=${encodeURIComponent(serviceName)}`);
+      const res = await fetch(`${USA_API}?action=price&service=${encodeURIComponent(serviceName)}`, { cache: 'no-store' });
       const data = await res.json();
-      if (!data.success) {
-        priceCache[serviceName] = null;
-        return null;
-      }
+      if (!data.success) { priceCache[serviceName] = null; return null; }
       const usd = Number(data.priceUSD || 0);
-      const ngn = Math.ceil((usd * USD_TO_NGN) + PROFIT_NGN);
+      const ngn = calcPrice(usd);
       priceCache[serviceName] = { usd, ngn };
       return priceCache[serviceName];
-    } catch (err) {
-      console.warn('Price error:', serviceName, err.message);
-      priceCache[serviceName] = null;
-      return null;
-    }
-  }
-
-  async function fetchPricesForList(services) {
-    return Promise.all(
-      services.map(async s => {
-        const cached = priceCache[s.rawName];
-        if (cached !== undefined) return { ...s, priceData: cached };
-        const priceData = await fetchPriceForService(s.rawName);
-        return { ...s, priceData };
-      })
-    );
+    } catch { priceCache[serviceName] = null; return null; }
   }
 
   let searchTimeout = null;
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase();
-    if (!q) { dropdown.classList.remove('active'); return; }
-    const matches = allServices
+  serviceInput.addEventListener('input', () => {
+    const q = serviceInput.value.trim().toLowerCase();
+    if (!q) { serviceDropdown.classList.remove('active'); return; }
+    const matches = availableServices
       .filter(s => s.name.toLowerCase().includes(q))
-      .slice(0, 8);
-    if (matches.length === 0) {
-      dropdown.innerHTML = '<div class="dropdown-empty">No services found</div>';
-      dropdown.classList.add('active');
+      .slice(0, 12);
+
+    if (!matches.length) {
+      serviceDropdown.innerHTML = `<div class="dropdown-empty">🔍 No service found</div>`;
+      serviceDropdown.classList.add('active');
       return;
     }
-    dropdown.innerHTML = '<div class="dropdown-loading">Loading prices...</div>';
-    dropdown.classList.add('active');
+
+    serviceDropdown.innerHTML = `<div class="dropdown-empty">⏳ Loading prices…</div>`;
+    serviceDropdown.classList.add('active');
+
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(async () => {
-      const withPrices = await fetchPricesForList(matches);
-      renderDropdown(withPrices);
-    }, 250);
+      const withPrices = await Promise.all(matches.map(async s => {
+        const p = await fetchPrice(s.rawName);
+        return { ...s, priceData: p };
+      }));
+      renderServiceResults(withPrices);
+    }, 220);
   });
 
-  function renderDropdown(services) {
-    dropdown.innerHTML = services.map(s => {
+  function renderServiceResults(services) {
+    serviceDropdown.innerHTML = services.map(s => {
       const pd = s.priceData;
-      let priceText = '—';
-      let loadingClass = '';
-      if (pd === null) {
-        priceText = 'N/A';
-        loadingClass = ' loading';
-      } else if (pd) {
-        priceText = fmtNaira(pd.ngn);
-      }
-      return `
-        <button class="dropdown-item" data-id="${s.id}" ${pd === null ? 'disabled' : ''}>
-          <div><div class="dd-name">${s.name}</div></div>
-          <div class="dd-price${loadingClass}">${priceText}</div>
-        </button>
-      `;
+      const priceText = pd ? formatNGNshort(pd.ngn) : 'N/A';
+      const disabled = !pd;
+      return `<button type="button" class="dropdown-item" data-id="${escapeHtml(s.id)}" ${disabled ? 'disabled' : ''}>
+        <div class="dd-left"><span class="dd-flag">📱</span><span class="dd-name">${escapeHtml(capitalize(s.name))}</span></div>
+        <span class="dd-price" ${disabled ? 'style="color:#b89b8f;font-weight:600;"' : ''}>${priceText}</span>
+      </button>`;
     }).join('');
-    dropdown.querySelectorAll('.dropdown-item').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (btn.disabled) return;
-        selectService(btn.dataset.id);
-      });
+    serviceDropdown.classList.add('active');
+    serviceDropdown.querySelectorAll('.dropdown-item').forEach(btn => {
+      if (btn.disabled) return;
+      btn.addEventListener('click', () => selectService(btn.dataset.id));
     });
   }
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-wrap')) dropdown.classList.remove('active');
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#serviceInput') && !serviceDropdown.contains(e.target)) serviceDropdown.classList.remove('active');
   });
 
   function selectService(id) {
-    const svc = allServices.find(s => s.id === id);
-    if (!svc) return;
-    const pd = priceCache[svc.rawName];
+    const service = availableServices.find(s => String(s.id) === String(id));
+    if (!service) return;
+    const pd = priceCache[service.rawName];
     if (!pd) return;
-    selectedService = svc;
-    selectedPriceNGN = pd.ngn;
-    searchInput.value = svc.name;
-    dropdown.classList.remove('active');
-    selectedChip.style.display = 'flex';
-    selectedName.textContent = svc.name;
-    selectedPrice.textContent = fmtNaira(pd.ngn);
-    priceCard.style.display = 'block';
-    actionBtn.disabled = false;
+    selectedService = service;
+    serviceInput.value = capitalize(service.name);
+    serviceDropdown.classList.remove('active');
+    document.getElementById('selectedChip').style.display = 'flex';
+    document.getElementById('selectedName').textContent = `🇺🇸 ${capitalize(service.name)}`;
+    document.getElementById('selectedPrice').textContent = formatNGN(pd.ngn);
+    document.getElementById('priceCard').style.display = 'block';
+    document.getElementById('actionBtn').disabled = false;
   }
 
-  actionBtn.addEventListener('click', async () => {
-    if (!selectedService) return;
-    const price = Number(selectedPriceNGN);
+  document.getElementById('actionBtn').addEventListener('click', () => {
+    if (!currentUser || !selectedService) return;
+    const pd = priceCache[selectedService.rawName];
+    if (!pd) return;
+    const price = pd.ngn;
 
-    if (userWallet < price) {
-      const shortfall = price - userWallet;
-      openModal(`
-        <div class="modal-icon-top warning"><i class="fas fa-wallet"></i></div>
-        <div class="modal-title">Not Enough Balance</div>
-        <div class="modal-sub">You need ${fmtNaira(shortfall)} more to buy <strong>${selectedService.name}</strong>.</div>
-        <div class="confirm-box">
-          <div class="confirm-row"><span class="label">Service</span><span class="value">${selectedService.name}</span></div>
-          <div class="confirm-row"><span class="label">Price</span><span class="value">${fmtNaira(price)}</span></div>
-          <div class="confirm-row"><span class="label">Your Balance</span><span class="value">${fmtNaira(userWallet)}</span></div>
-          <div class="confirm-row total"><span class="label">Shortfall</span><span class="value" style="color:var(--warning);">${fmtNaira(shortfall)}</span></div>
+    if (currentBalance < price) {
+      const shortfall = price - currentBalance;
+      openModal(`<div class="modal-icon">⚠️</div><div class="modal-title">Not Enough Balance</div>
+        <div class="modal-sub">You need <b>${formatNGN(shortfall)}</b> more.</div>
+        <div class="modal-detail">
+          <div class="md-row"><span>Service</span><b>${escapeHtml(capitalize(selectedService.name))}</b></div>
+          <div class="md-row"><span>Country</span><b>🇺🇸 United States</b></div>
+          <div class="md-row"><span>Price</span><b>${formatNGN(price)}</b></div>
+          <div class="md-row"><span>Balance</span><b>${formatNGN(currentBalance)}</b></div>
+          <div class="md-row total"><span>Shortfall</span><b>${formatNGN(shortfall)}</b></div>
         </div>
-        <div class="modal-actions">
-          <button class="btn-cancel" id="mCancel">Cancel</button>
-          <a href="wallet.html" class="btn-primary"><i class="fas fa-plus-circle"></i> Fund Wallet</a>
-        </div>
-      `);
+        <div class="modal-actions"><button class="btn-cancel" style="flex:1;" id="mCancel">Cancel</button>
+        <button class="btn-primary" style="flex:2;" id="mFund">💰 Fund</button></div>`);
       document.getElementById('mCancel').onclick = closeModal;
+      document.getElementById('mFund').onclick = () => { window.location.href = 'wallet.html'; };
       return;
     }
-
-    await processPurchase();
+    processPurchase();
   });
 
   async function processPurchase() {
-    actionBtn.disabled = true;
-    actionBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    const btn = document.getElementById('actionBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Processing...';
 
-    const price = Number(selectedPriceNGN);
+    const pd = priceCache[selectedService.rawName];
+    const price = pd.ngn;
+    const providerCost = calcCost(pd.usd);
+    const profit = price - providerCost;
 
     try {
       const userRef = doc(db, 'users', currentUser.uid);
       const freshSnap = await getDoc(userRef);
       const freshData = freshSnap.data() || {};
       const freshBalance = Number(freshData.wallet ?? freshData.walletBalance ?? freshData.balance ?? 0);
-
       if (freshBalance < price) throw new Error('INSUFFICIENT');
-      userWallet = freshBalance;
 
-      const genRes = await fetch(`${USA_API}?action=generate&service=${encodeURIComponent(selectedService.rawName)}`);
+      const genRes = await fetch(`${USA_API}?action=generate&service=${encodeURIComponent(selectedService.rawName)}`, { cache: 'no-store' });
       const genData = await genRes.json();
-
       if (!genRes.ok || !genData.success || !genData.id) throw new Error('OUT_OF_STOCK');
-
       const verifyId = genData.id;
       const phoneNumber = genData.number;
       if (!phoneNumber) throw new Error('OUT_OF_STOCK');
 
       const newBalance = freshBalance - price;
-      await updateDoc(userRef, {
-        wallet: newBalance,
-        updatedAt: serverTimestamp()
-      });
-      userWallet = newBalance;
-      topBalance.textContent = fmtNaira(userWallet);
-      heroBalance.textContent = fmtNaira(userWallet);
+      await updateDoc(userRef, { wallet: newBalance, updatedAt: serverTimestamp() });
+      currentBalance = newBalance;
+      document.getElementById('heroBalance').textContent = formatNGN(currentBalance);
 
       await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
-        userId: currentUser.uid,
-        userEmail: currentUser.email || '',
-        service: selectedService.name,
+        service: capitalize(selectedService.name),
         serviceId: selectedService.rawName,
-        provider: 'textverified',
         country: 'USA',
         countryCode: 'us',
         flag: '🇺🇸',
         number: phoneNumber,
         requestId: verifyId,
         verificationId: verifyId,
-        price: price,
-        amount: price,
-        currency: 'NGN',
-        status: 'pending',
         code: '',
+        price: price,
+        providerCost: providerCost,
+        profit: profit,
+        status: 'pending',
+        provider: 'textverified',
         createdAt: serverTimestamp()
       });
 
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'purchase',
-        icon: '📱',
-        title: `Bought ${selectedService.name} (USA)`,
-        subtitle: phoneNumber,
+        type: 'purchase', icon: '🇺🇸',
+        title: `USA — ${capitalize(selectedService.name)}`,
+        subtitle: `Number: ${phoneNumber}`,
         amount: price,
-        currency: 'NGN',
         createdAt: serverTimestamp()
       });
 
-      try {
-        localStorage.setItem('activeOrder', JSON.stringify({
-          verificationId: verifyId,
-          country: 'us',
-          countryName: 'USA',
-          flag: '🇺🇸',
-          phone: phoneNumber,
-          price: price,
-          serviceName: selectedService.name,
-          provider: 'textverified',
-          createdAt: Date.now()
-        }));
-      } catch (e) {}
-
-      window.location.href = 'dashboard.html';
+      showToast(`✅ Number: ${phoneNumber}`, 'success');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
 
     } catch (err) {
-      actionBtn.disabled = false;
-      actionBtn.innerHTML = '<i class="fas fa-bolt"></i><span id="actionBtnText">Purchase Now</span>';
-
+      btn.disabled = false;
+      btn.textContent = '🛒 Purchase Now';
       let msg = 'Something went wrong. Please try again.';
       if (err.message === 'OUT_OF_STOCK') msg = 'Number out of stock. Please try again later.';
       else if (err.message === 'INSUFFICIENT') msg = 'Insufficient wallet balance.';
       else if (err.message && err.message.includes('permission')) msg = 'Account permission error. Please contact support.';
       else if (err.message) msg = err.message;
-
-      openModal(`
-        <div class="modal-icon-top error"><i class="fas fa-triangle-exclamation"></i></div>
-        <div class="modal-title">Purchase Failed</div>
-        <div class="modal-sub">${msg}</div>
-        <div class="modal-actions">
-          <button class="btn-cancel" id="mClose" style="flex:1;">Close</button>
-        </div>
-      `);
+      openModal(`<div class="modal-icon">❌</div><div class="modal-title">Purchase Failed</div>
+        <div class="modal-sub">${escapeHtml(msg)}</div>
+        <div class="modal-actions"><button class="btn-cancel" style="flex:1;" id="mClose">Close</button></div>`);
       document.getElementById('mClose').onclick = closeModal;
     }
   }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+    const name = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+    document.getElementById('heroName').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        currentBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
+        document.getElementById('heroBalance').textContent = formatNGN(currentBalance);
+      }
+    } catch (e) {}
+
+    await loadServices();
+  });
 </script>
 
 </body>
