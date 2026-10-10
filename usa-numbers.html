@@ -165,7 +165,7 @@
 
     <button class="action-btn" id="actionBtn" disabled>
       <i class="fas fa-sim-card"></i>
-      <span id="actionBtnText">Rent USA Number</span>
+      <span id="actionBtnText">Purchase Now</span>
     </button>
   </div>
 </div>
@@ -410,7 +410,7 @@
     priceCard.style.display = 'block';
 
     actionBtn.disabled = false;
-    actionBtnText.textContent = 'Rent USA Number';
+    actionBtnText.textContent = 'Purchase Now';
   }
 
   actionBtn.addEventListener('click', () => {
@@ -439,7 +439,7 @@
       openModal(`
         <div class="modal-icon-top"><i class="fas fa-sim-card"></i></div>
         <div class="modal-title">Confirm Purchase</div>
-        <div class="modal-sub">You're about to rent a <strong>${selectedService.name}</strong> USA number.</div>
+        <div class="modal-sub">You're about to purchase a <strong>${selectedService.name}</strong> USA number.</div>
         <div class="confirm-box">
           <div class="confirm-row"><span class="label">Service</span><span class="value">${selectedService.name}</span></div>
           <div class="confirm-row"><span class="label">Country</span><span class="value">🇺🇸 USA</span></div>
@@ -464,6 +464,7 @@
     const price = Number(selectedPriceNGN);
 
     try {
+      // 1. Check balance and generate number from provider first
       const userRef = doc(db, 'users', currentUser.uid);
       const freshSnap = await getDoc(userRef);
       const freshData = freshSnap.data() || {};
@@ -472,11 +473,11 @@
       if (freshBalance < price) throw new Error('INSUFFICIENT');
       userWallet = freshBalance;
 
-      // First check if number is available by requesting generation
+      // 2. Request number from provider
       const genRes = await fetch(`${USA_API}?action=generate&service=${encodeURIComponent(selectedService.rawName)}`);
       const genData = await genRes.json();
 
-      // If generation fails (out of stock/provider issue), show error
+      // If generation fails, show stock error
       if (!genRes.ok || !genData.success || !genData.id) {
         throw new Error('OUT_OF_STOCK');
       }
@@ -488,19 +489,17 @@
         throw new Error('OUT_OF_STOCK');
       }
 
-      // Now deduct balance
+      // 3. Deduct balance
       const newBalance = freshBalance - price;
       await updateDoc(userRef, {
         wallet: newBalance,
-        walletBalance: deleteField(),
-        balance: deleteField(),
         updatedAt: serverTimestamp()
       });
 
       userWallet = newBalance;
       topBalance.textContent = fmtNaira(userWallet);
 
-      // Save order — include all needed fields for dashboard
+      // 4. Save order for dashboard
       const orderRef = await addDoc(collection(db, 'orders'), {
         userId: currentUser.uid,
         userEmail: currentUser.email || '',
@@ -520,6 +519,7 @@
         createdAt: serverTimestamp()
       });
 
+      // 5. Save transaction
       await addDoc(collection(db, 'transactions'), {
         userId: currentUser.uid,
         type: 'purchase',
@@ -530,6 +530,7 @@
         createdAt: serverTimestamp()
       });
 
+      // 6. Store active order for dashboard
       try {
         localStorage.setItem('activeOrder', JSON.stringify({
           orderId: orderRef.id,
@@ -545,6 +546,7 @@
         }));
       } catch (e) {}
 
+      // 7. Success — go to dashboard
       closeModal();
       window.location.href = 'dashboard.html';
 
@@ -552,6 +554,7 @@
       let msg = 'Something went wrong. Please try again.';
       if (err.message === 'OUT_OF_STOCK') msg = 'Number out of stock. Please try again later.';
       else if (err.message === 'INSUFFICIENT') msg = 'Insufficient wallet balance.';
+      else if (err.message.includes('permission')) msg = 'Account permission error. Please contact support.';
       else if (err.message) msg = err.message;
 
       openModal(`
