@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transactions — Arknet</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+  :root {
+    --brown-dark: #4a2c2a;
+    --brown: #6b4423;
+    --brown-light: #8b5e3c;
+    --pink: #ec4899;
+    --pink-light: #f9a8d4;
+    --pink-soft: #fdf2f8;
+    --white: #ffffff;
+    --cream: #fef9f5;
+    --green: #22c55e;
+    --red: #dc2626;
+    --sidebar-w: 260px;
+  }
+  body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
+
+  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--brown-dark); color: #e8d5cc; display: flex; flex-direction: column; z-index: 200; transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: 30px; }
+  .sidebar-brand { padding: 22px 20px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
+  .sidebar-brand .logo { font-size: 22px; font-weight: 800; color: white; }
+  .sidebar-brand .logo span { color: var(--pink-light); }
+  .sidebar-brand p { font-size: 11px; color: #b89b8f; margin-top: 3px; }
+  .side-user { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(249,168,212,0.15); flex-shrink: 0; }
+  .side-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--pink-light)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
+  .side-user-info { overflow: hidden; }
+  .side-user-name { font-size: 14px; font-weight: 700; color: white; }
+  .side-user-email { font-size: 11px; color: #b89b8f; }
+  .side-nav { padding: 12px 10px; flex: 1; }
+  .side-label { font-size: 10px; font-weight: 800; color: #b89b8f; text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px; }
+  .side-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 10px; color: #e8d5cc; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 2px; }
+  .side-item:hover { background: rgba(249,168,212,0.1); color: white; }
+  .side-item.active { background: var(--pink); color: white; }
+  .side-divider { height: 1px; background: rgba(249,168,212,0.15); margin: 10px 14px; }
+  .side-logout { color: #fca5a5 !important; }
+
+  .topbar { display: flex; background: var(--brown-dark); padding: 14px 20px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150; gap: 12px; }
+  .topbar-left { display: flex; align-items: center; gap: 14px; }
+  .menu-btn { background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; display: none; }
+  .topbar .logo { font-size: 20px; font-weight: 800; color: white; }
+  .topbar .logo span { color: var(--pink-light); }
+  .topbar-balance { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 999px; padding: 7px 16px; font-weight: 800; font-size: 15px; color: white; white-space: nowrap; }
+  .topbar-balance .b-val { color: var(--pink-light); }
+
+  .main { margin-left: var(--sidebar-w); padding: 22px 4% 120px; min-height: calc(100vh - 60px); }
+  .greeting { margin-bottom: 22px; }
+  .greeting h1 { font-size: 26px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
+  .greeting h1 span { color: var(--pink); }
+  .greeting p { color: var(--brown); font-size: 14px; }
+
+  .section { background: var(--white); border: 1px solid #f5e6e0; border-radius: 16px; padding: 22px; margin-bottom: 22px; }
+  .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+  .section-title { font-size: 16px; font-weight: 800; color: var(--brown-dark); display: flex; align-items: center; gap: 8px; }
+  .btn-refresh { background: var(--pink-soft); color: var(--pink); border: 1px solid var(--pink-light); padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .btn-refresh:hover { background: var(--pink); color: white; }
+
+  .list-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f5e6e0; gap: 12px; }
+  .list-row:last-child { border-bottom: none; }
+  .lr-left { display: flex; align-items: center; gap: 12px; }
+  .lr-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--pink-soft); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .lr-title { font-weight: 700; color: var(--brown-dark); font-size: 14px; }
+  .lr-sub { font-size: 12px; color: var(--brown-light); }
+  .lr-right { text-align: right; }
+  .lr-amount { font-weight: 800; font-size: 15px; }
+  .lr-amount.plus { color: var(--green); }
+  .lr-amount.minus { color: var(--red); }
+  .lr-date { font-size: 11px; color: var(--brown-light); margin-top: 2px; }
+
+  .empty { text-align: center; padding: 40px 20px; border: 2px dashed #f0dcd4; border-radius: 12px; }
+  .empty-icon { font-size: 46px; margin-bottom: 12px; }
+  .empty h3 { color: var(--brown-dark); font-size: 17px; margin-bottom: 6px; }
+  .empty p { color: var(--brown-light); font-size: 14px; }
+
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 190; }
+  .overlay.show { display: block; }
+
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); width: 280px; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 4% 60px; }
+    .menu-btn { display: block; }
+    body.sidebar-open { overflow: hidden; }
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">Arknet<span>SMS</span></div>
+    <p>Virtual numbers & accounts</p>
+  </div>
+  <div class="side-user">
+    <div class="side-avatar" id="sideAvatar">A</div>
+    <div class="side-user-info">
+      <div class="side-user-name" id="sideName">Loading...</div>
+      <div class="side-user-email" id="sideEmail">—</div>
+    </div>
+  </div>
+  <nav class="side-nav">
+    <div class="side-label">Main</div>
+    <a href="dashboard.html" class="side-item"><span class="si-icon">📊</span> Dashboard</a>
+    <a href="usa-numbers.html" class="side-item"><span class="si-icon">🇺🇸</span> USA Numbers</a>
+    <a href="countries.html" class="side-item"><span class="si-icon">🌍</span> All Countries</a>
+    <a href="social-logs.html" class="side-item"><span class="si-icon">📱</span> Social Media Logs</a>
+    <div class="side-divider"></div>
+    <div class="side-label">Account</div>
+    <a href="dashboard.html#profile" class="side-item"><span class="si-icon">👤</span> Profile</a>
+    <a href="wallet.html" class="side-item"><span class="si-icon">💰</span> Deposit Funds</a>
+    <a href="transactions.html" class="side-item active"><span class="si-icon">📜</span> Transactions</a>
+    <a href="dashboard.html#password" class="side-item"><span class="si-icon">🔒</span> Change Password</a>
+    <div class="side-item side-logout" id="logoutBtn"><span class="si-icon">🚪</span> Logout</div>
+  </nav>
+</aside>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="logo">Arknet<span>SMS</span></div>
+  </div>
+  <div class="topbar-balance">
+    <span class="b-icon">💰</span>
+    <span class="b-val" id="topBalance">₦0.00</span>
+  </div>
+</div>
+
+<main class="main">
+  <div class="greeting">
+    <h1>📜 Transaction <span>History</span></h1>
+    <p>All your deposits and purchases.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">🕐 All Transactions</div>
+      <button class="btn-refresh" id="refreshBtn">🔄 Refresh</button>
+    </div>
+    <div id="txList">
+      <div class="empty">
+        <div class="empty-icon">🧾</div>
+        <h3>No transactions yet</h3>
+        <p>When you deposit or buy something, it will show here.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
+    authDomain: "arknetsms-430ee.firebaseapp.com",
+    projectId: "arknetsms-430ee",
+    storageBucket: "arknetsms-430ee.firebasestorage.app",
+    messagingSenderId: "961504742152",
+    appId: "1:961504742152:web:a9ade98d13465bb3b8babd",
+    measurementId: "G-48V2T4CBJF"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const toast = document.getElementById('toast');
+  const showToast = (t, type='') => {
+    toast.textContent = t;
+    toast.className = 'toast show ' + type;
+    setTimeout(() => toast.className = 'toast ' + type, 2500);
+  };
+  const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const escapeHtml = (v) => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  let currentUser = null;
+
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    sidebar.classList.add('open'); overlay.classList.add('show');
+    document.body.classList.add('sidebar-open');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open'); overlay.classList.remove('show');
+    document.body.classList.remove('sidebar-open');
+  });
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth); window.location.replace('login.html');
+  });
+
+  async function loadTransactions() {
+    if (!currentUser) return;
+    const list = document.getElementById('txList');
+    try {
+      const q = query(collection(db, 'users', currentUser.uid, 'transactions'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if (snap.empty) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">🧾</div><h3>No transactions yet</h3><p>When you deposit or buy something, it will show here.</p></div>`;
+        return;
+      }
+      let html = '';
+      snap.forEach(d => {
+        const t = d.data();
+        const isPlus = t.type === 'deposit';
+        const date = t.createdAt?.toDate
+          ? t.createdAt.toDate().toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+          : 'Just now';
+        html += `
+          <div class="list-row">
+            <div class="lr-left">
+              <div class="lr-icon">${t.icon || '🧾'}</div>
+              <div>
+                <div class="lr-title">${escapeHtml(t.title || 'Transaction')}</div>
+                <div class="lr-sub">${escapeHtml(t.subtitle || '')}</div>
+              </div>
+            </div>
+            <div class="lr-right">
+              <div class="lr-amount ${isPlus ? 'plus' : 'minus'}">${isPlus ? '+' : '-'}${formatNGN(t.amount)}</div>
+              <div class="lr-date">${date}</div>
+            </div>
+          </div>`;
+      });
+      list.innerHTML = html;
+    } catch (e) {
+      list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Could not load transactions</h3></div>`;
+    }
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', async () => {
+    await loadTransactions();
+    showToast('✅ Refreshed', 'success');
+  });
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+    const name = user.displayName || 'User';
+    document.getElementById('sideName').textContent = name;
+    document.getElementById('sideEmail').textContent = user.email;
+    document.getElementById('sideAvatar').textContent = name.charAt(0).toUpperCase();
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        const balance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
+        document.getElementById('topBalance').textContent = formatNGN(balance);
+      }
+    } catch (e) {}
+    loadTransactions();
+  });
+</script>
+
+</body>
+</html>
