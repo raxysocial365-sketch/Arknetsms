@@ -141,9 +141,9 @@
 
   /* TABLE */
   .table-wrap { overflow-x: auto; }
-  table.act-table { width: 100%; border-collapse: collapse; min-width: 620px; }
+  table.act-table { width: 100%; border-collapse: collapse; min-width: 680px; }
   table.act-table th { text-align: left; font-size: 10px; font-weight: 800; color: var(--brown-light); text-transform: uppercase; letter-spacing: 0.6px; padding: 10px 10px; border-bottom: 2px solid #f5e6e0; }
-  table.act-table td { padding: 12px 10px; font-size: 12px; color: var(--brown-dark); border-bottom: 1px solid #f5e6e0; font-weight: 500; }
+  table.act-table td { padding: 12px 10px; font-size: 12px; color: var(--brown-dark); border-bottom: 1px solid #f5e6e0; font-weight: 500; vertical-align: middle; }
   table.act-table tr:last-child td { border-bottom: none; }
 
   .code-pill { background: var(--pink-soft); color: var(--pink); padding: 4px 9px; border-radius: 8px; font-weight: 800; font-size: 12px; letter-spacing: 1px; font-family: 'Consolas', monospace; }
@@ -154,6 +154,32 @@
   .status-pending { background: #fef3c7; color: #92400e; }
   .status-expired, .status-cancelled { background: #fee2e2; color: #991b1b; }
   .status-completed { background: #dbeafe; color: #1e40af; }
+
+  /* PHONE + COPY */
+  .phone-cell { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .phone-text {
+    font-family: 'Consolas', monospace;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--brown-dark);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .copy-btn {
+    background: var(--pink-soft);
+    color: var(--pink);
+    border: 1px solid var(--pink-light);
+    border-radius: 6px;
+    padding: 3px 7px;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1;
+    transition: 0.2s;
+  }
+  .copy-btn:hover { background: var(--pink); color: white; border-color: var(--pink); }
+  .copy-btn.copied { background: var(--green); color: white; border-color: var(--green); }
 
   .btn-cancel-row { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 5px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; margin-top: 6px; }
   .btn-cancel-row:hover { background: #dc2626; color: white; border-color: #dc2626; }
@@ -240,7 +266,6 @@
   <!-- DASHBOARD VIEW -->
   <div class="view active" id="view-dashboard">
 
-    <!-- HOW TO USE BUTTON -->
     <button class="how-btn" id="howToUseBtn">
       <div class="hb-icon">📖</div>
       <div class="hb-text">
@@ -250,7 +275,6 @@
       <div class="hb-arrow">›</div>
     </button>
 
-    <!-- QUICK ACTION CARDS -->
     <div class="quick-grid">
       <a href="#" class="quick-card" data-page="profile">
         <div class="qc-icon">👤</div>
@@ -270,7 +294,6 @@
       </a>
     </div>
 
-    <!-- MAIN ACTION CARDS -->
     <div class="actions-top">
       <a href="usa-numbers.html" class="action-card">
         <div class="ac-icon">🇺🇸</div>
@@ -284,7 +307,6 @@
       </a>
     </div>
 
-    <!-- RECENT ACTIVATIONS -->
     <div class="section">
       <div class="section-head">
         <div class="section-title">🕐 Recent Activations</div>
@@ -441,6 +463,77 @@
   const formatNGN = (n) => '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const formatNGNshort = (n) => '₦' + Number(n || 0).toLocaleString('en-NG');
 
+  /* ✅ Country code map — add more countries as needed */
+  const COUNTRY_DIAL = {
+    us: '1', usa: '1', 'united states': '1',
+    ca: '1', canada: '1',
+    gb: '44', uk: '44', 'united kingdom': '44',
+    ng: '234', nigeria: '234',
+    in: '91', india: '91',
+    de: '49', germany: '49',
+    fr: '33', france: '33',
+    es: '34', spain: '34',
+    it: '39', italy: '39',
+    ru: '7', russia: '7',
+    cn: '86', china: '86',
+    br: '55', brazil: '55',
+    mx: '52', mexico: '52',
+    za: '27', 'south africa': '27',
+    ke: '254', kenya: '254',
+    gh: '233', ghana: '233',
+    eg: '20', egypt: '20',
+    ae: '971', uae: '971',
+    sa: '966', 'saudi arabia': '966',
+    id: '62', indonesia: '62',
+    ph: '63', philippines: '63',
+    pk: '92', pakistan: '92',
+    bd: '880', bangladesh: '880',
+    vn: '84', vietnam: '84',
+    th: '66', thailand: '66',
+    tr: '90', turkey: '90',
+    pl: '48', poland: '48',
+    nl: '31', netherlands: '31',
+    be: '32', belgium: '32',
+    au: '61', australia: '61',
+    nz: '64', 'new zealand': '64',
+    my: '60', malaysia: '60',
+    sg: '65', singapore: '65'
+  };
+
+  function getDialCode(a) {
+    // Try country code first (us, uk, etc.)
+    if (a.countryCode) {
+      const key = String(a.countryCode).toLowerCase().trim();
+      if (COUNTRY_DIAL[key]) return COUNTRY_DIAL[key];
+    }
+    // Try country name
+    if (a.country) {
+      const key = String(a.country).toLowerCase().trim();
+      if (COUNTRY_DIAL[key]) return COUNTRY_DIAL[key];
+    }
+    return '';
+  }
+
+  /* ✅ Build full number with dial code prefix.
+     - If provider already returned number WITH +, keep it.
+     - Otherwise prepend +<dial> */
+  function buildFullNumber(a) {
+    const raw = String(a.number || '').trim();
+    if (!raw) return '';
+    // If already has + at start, leave alone
+    if (raw.startsWith('+')) return raw;
+    // Strip non-digits to check
+    const digits = raw.replace(/\D/g, '');
+    if (!digits) return raw;
+    const dial = getDialCode(a);
+    if (!dial) return raw;
+    // If number already starts with dial code, don't double-prefix
+    if (digits.startsWith(dial) && digits.length > dial.length + 4) {
+      return '+' + digits;
+    }
+    return '+' + dial + digits;
+  }
+
   let currentUser = null;
   let currentBalance = 0;
 
@@ -502,7 +595,6 @@
       const visible = [];
       snap.forEach(d => {
         const a = d.data();
-        // Hide cancelled activations older than 3 minutes
         if (a.status === 'cancelled' && a.cancelledAt?.toDate) {
           const age = (now - a.cancelledAt.toDate().getTime()) / 60000;
           if (age > 3) return;
@@ -533,6 +625,24 @@
         else if (a.code) codeCell = `<span class="code-pill">${a.code}</span>`;
         else codeCell = `<span class="code-pill pending">Waiting…</span>`;
 
+        // ✅ Build full number with country code + copy button
+        const fullNumber = buildFullNumber(a);
+        const rawNumber = String(a.number || '—');
+        const displayNumber = fullNumber || rawNumber;
+        const copyTarget = fullNumber || rawNumber;
+
+        let phoneCell;
+        if (rawNumber && rawNumber !== '—') {
+          phoneCell = `
+            <div class="phone-cell">
+              <span class="phone-text">${displayNumber}</span>
+              <button class="copy-btn" data-copy="${copyTarget}" title="Copy number">📋</button>
+            </div>
+          `;
+        } else {
+          phoneCell = `<span>—</span>`;
+        }
+
         const actionCell = canCancel
           ? `<button class="btn-cancel-row"
                 data-cancel-id="${id}"
@@ -547,7 +657,7 @@
 
         html += `<tr>
           <td>${a.flag ? a.flag + ' ' : ''}${a.service || '—'}</td>
-          <td>${a.number || '—'}</td>
+          <td>${phoneCell}</td>
           <td>${codeCell}</td>
           <td>${formatNGNshort(a.price)}</td>
           <td><span class="status-badge ${statusClass}">${a.status || 'pending'}</span></td>
@@ -555,12 +665,52 @@
         </tr>`;
       });
       tbody.innerHTML = html;
+
+      // Hook cancel buttons
       tbody.querySelectorAll('[data-cancel-id]').forEach(btn => {
         btn.addEventListener('click', () => cancelActivation(btn));
       });
+
+      // ✅ Hook copy buttons
+      tbody.querySelectorAll('[data-copy]').forEach(btn => {
+        btn.addEventListener('click', () => copyToClipboard(btn));
+      });
+
     } catch (e) {
       console.warn(e);
       tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><h3>No activations yet</h3></div></td></tr>`;
+    }
+  }
+
+  /* ✅ Copy helper */
+  async function copyToClipboard(btn) {
+    const text = btn.dataset.copy;
+    if (!text) return;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        // Fallback for older/insecure contexts
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      const orig = btn.textContent;
+      btn.textContent = '✅';
+      btn.classList.add('copied');
+      showToast('📋 Number copied!', 'success');
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.classList.remove('copied');
+      }, 1500);
+    } catch (err) {
+      showToast('❌ Copy failed', 'error');
     }
   }
 
