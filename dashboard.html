@@ -22,7 +22,7 @@
   }
   body { background: var(--cream); color: var(--brown-dark); min-height: 100vh; }
 
-  /* SIDEBAR */
+  /* SIDEBAR — FIXED SCROLL */
   .sidebar {
     position: fixed; top: 0; left: 0;
     width: var(--sidebar-w); height: 100vh;
@@ -32,6 +32,11 @@
     z-index: 200;
     transition: transform 0.3s ease;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-bottom: 30px;
+    box-sizing: border-box;
   }
   .sidebar-brand {
     padding: 22px 20px;
@@ -106,18 +111,8 @@
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
   /* ACTION CARDS */
-  .actions-top {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    margin-bottom: 14px;
-  }
-  .actions-mid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 30px;
-  }
+  .actions-top { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 14px; }
+  .actions-mid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 30px; }
 
   .action-card {
     background: var(--white); border: 1px solid #f5e6e0; border-radius: 22px;
@@ -285,6 +280,7 @@
     .main { margin-left: 0; padding: 20px 4% 120px; }
     .menu-btn { display: block; }
     .bottom-nav { display: block; }
+    body.sidebar-open { overflow: hidden; position: fixed; width: 100%; }
   }
   @media (max-width: 600px) {
     .actions-top, .actions-mid { gap: 10px; }
@@ -361,7 +357,6 @@
   <!-- ========== VIEW: DASHBOARD ========== -->
   <div class="view active" id="view-dashboard">
 
-    <!-- TOP ROW: USA · All Countries -->
     <div class="actions-top">
       <a href="usa-numbers.html" class="action-card">
         <div class="ac-icon">🇺🇸</div>
@@ -375,7 +370,6 @@
       </a>
     </div>
 
-    <!-- MIDDLE ROW: Gifts · Social · Boost -->
     <div class="actions-mid">
       <a href="gifts.html" class="action-card">
         <div class="ac-icon">🎁</div>
@@ -394,7 +388,6 @@
       </a>
     </div>
 
-    <!-- RECENT ACTIVATIONS -->
     <div class="section">
       <div class="section-head">
         <div class="section-title">🕐 Recent Activations</div>
@@ -525,16 +518,20 @@
 
   let currentUser = null;
 
-  /* MENU */
+  /* MENU — with body scroll lock */
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
+
   document.getElementById('menuBtn').addEventListener('click', () => {
     sidebar.classList.add('open');
     overlay.classList.add('show');
+    document.body.classList.add('sidebar-open');
   });
+
   overlay.addEventListener('click', () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
+    document.body.classList.remove('sidebar-open');
   });
 
   /* LOGOUT */
@@ -545,27 +542,25 @@
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
   document.getElementById('bnLogout').addEventListener('click', doLogout);
 
-  /* ============ VIEW SWITCHER ============ */
+  /* VIEW SWITCHER */
   function showView(page) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     const target = document.getElementById('view-' + page);
     if (target) target.classList.add('active');
 
-    // Sidebar highlight
     document.querySelectorAll('.side-item[data-page]').forEach(item => {
       item.classList.toggle('active', item.dataset.page === page);
     });
-    // Bottom nav highlight
     document.querySelectorAll('.bn-item[data-page]').forEach(item => {
       item.classList.toggle('active', item.dataset.page === page);
     });
 
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
+    document.body.classList.remove('sidebar-open');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Sidebar page items
   document.querySelectorAll('.side-item[data-page]').forEach(item => {
     item.addEventListener('click', (e) => {
       e.preventDefault();
@@ -573,7 +568,6 @@
     });
   });
 
-  // Bottom nav page items
   document.querySelectorAll('.bn-item[data-page]').forEach(item => {
     item.addEventListener('click', (e) => {
       e.preventDefault();
@@ -581,7 +575,6 @@
     });
   });
 
-  // Back buttons
   document.querySelectorAll('[data-back]').forEach(btn => {
     btn.addEventListener('click', () => showView('dashboard'));
   });
