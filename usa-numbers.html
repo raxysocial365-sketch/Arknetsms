@@ -59,15 +59,21 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .search-wrap input::placeholder { color: #b89b8f; }
 .search-wrap input:disabled { background: #f8f5f3; cursor: not-allowed; }
 .search-wrap .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--brown-light); font-size: 0.9rem; pointer-events: none; }
+.search-wrap .search-loading {
+    position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%);
+    color: var(--pink); font-size: 0.9rem; display: none;
+}
 
-.dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1.5px solid var(--pink); border-radius: 12px; box-shadow: 0 12px 30px rgba(236,72,153,0.15); max-height: 260px; overflow-y: auto; z-index: 100; display: none; }
+.dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1.5px solid var(--pink); border-radius: 12px; box-shadow: 0 12px 30px rgba(236,72,153,0.15); max-height: 320px; overflow-y: auto; z-index: 100; display: none; }
 .dropdown.active { display: block; }
 .dropdown-item { width: 100%; padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; cursor: pointer; border-bottom: 1px solid #f0dcd4; text-align: left; }
 .dropdown-item:last-child { border-bottom: none; }
 .dropdown-item:hover { background: var(--pink-soft); }
 .dropdown-item .dd-name { font-size: 0.88rem; font-weight: 600; color: var(--brown-dark); text-transform: capitalize; }
 .dropdown-item .dd-price { font-size: 0.88rem; font-weight: 800; color: var(--pink); flex-shrink: 0; }
+.dropdown-item .dd-price.loading { color: #b89b8f; font-weight: 500; font-size: 0.78rem; }
 .dropdown-empty { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
+.dropdown-loading { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--brown-light); }
 
 .selected-chip { background: var(--pink-soft); border-radius: 12px; padding: 0.8rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; border: 1px solid var(--pink-light); }
 .selected-chip .lbl { color: var(--brown-light); font-weight: 500; }
@@ -75,6 +81,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .price-card { background: linear-gradient(135deg, var(--pink-soft), #fce7f3); border-radius: 14px; padding: 1.2rem 1rem; text-align: center; margin: 1rem 0; }
 .price-card .price { font-size: 1.5rem; font-weight: 800; color: var(--pink); }
+.price-card .price-usd { font-size: 0.78rem; color: var(--brown-light); margin-top: 0.4rem; font-weight: 500; }
 .price-card .price-note { font-size: 0.78rem; color: var(--brown-light); margin-top: 0.3rem; }
 
 .action-btn { width: 100%; padding: 1rem; border-radius: 14px; background: var(--pink); color: #fff; font-size: 0.95rem; font-weight: 700; font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem; box-shadow: 0 10px 30px rgba(236,72,153,0.3); transition: 0.25s; }
@@ -140,6 +147,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="search-wrap">
             <i class="fas fa-search search-icon"></i>
             <input type="text" id="searchInput" placeholder="Loading services..." autocomplete="off" disabled>
+            <i class="fas fa-spinner fa-spin search-loading" id="searchLoading"></i>
             <div class="dropdown" id="dropdown"></div>
         </div>
         <p style="font-size:0.78rem;color:var(--brown-light);margin-top:-0.4rem;margin-bottom:1.2rem;">
@@ -153,6 +161,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
         <div class="price-card" id="priceCard" style="display:none;">
             <div class="price" id="selectedPrice">₦0</div>
+            <div class="price-usd" id="selectedPriceUSD"></div>
             <div class="price-note">Charged only when the number is issued</div>
         </div>
 
@@ -181,7 +190,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
     getFirestore, doc, getDoc, updateDoc, deleteField,
-    collection, getDocs, addDoc,
+    collection, addDoc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -201,31 +210,33 @@ const db = getFirestore(app);
 
 const USA_API = "/api/textverified-buy";
 
-/* ✅ YOUR PRICING FORMULA */
-let USD_TO_NGN = 1500;
-let PROFIT_NGN = 950;
-
-/* ✅ Default USD prices if no override exists */
-const DEFAULT_USD = 2; // $2 per service
+/* ✅ YOUR PRICING */
+const USD_TO_NGN = 1500;
+const PROFIT_NGN = 950;
 
 let currentUser = null;
 let userWallet = 0;
-let allServices = [];
+let allServices = [];               // full list of services from TextVerified
+let priceCache = {};                // { serviceName: priceNGN }
 let selectedService = null;
+let selectedPriceNGN = 0;
 
 const topBalance = document.getElementById('topBalance');
 const userFirstName = document.getElementById('userFirstName');
 const searchInput = document.getElementById('searchInput');
+const searchLoading = document.getElementById('searchLoading');
 const dropdown = document.getElementById('dropdown');
 const selectedChip = document.getElementById('selectedChip');
 const selectedName = document.getElementById('selectedName');
 const selectedPrice = document.getElementById('selectedPrice');
+const selectedPriceUSD = document.getElementById('selectedPriceUSD');
 const priceCard = document.getElementById('priceCard');
 const actionBtn = document.getElementById('actionBtn');
 const actionBtnText = document.getElementById('actionBtnText');
 const modalOverlay = document.getElementById('modalOverlay');
 const modalContent = document.getElementById('modalContent');
 
+/* ✅ Naira formatter */
 function fmtNaira(n) {
     return '₦' + Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -249,21 +260,11 @@ onAuthStateChanged(auth, async (user) => {
     const name = user.displayName || user.email.split('@')[0];
     userFirstName.textContent = capitalize(name.split(' ')[0]);
 
-    await loadPricingSettings();
     await loadWallet();
-    await loadServices();
+    await loadServiceList();       // just names, no prices
 });
 
-async function loadPricingSettings() {
-    try {
-        const snap = await getDoc(doc(db, 'usa_settings', 'pricing'));
-        if (snap.exists()) {
-            USD_TO_NGN = Number(snap.data().usdToNgn || 1500);
-            PROFIT_NGN = Number(snap.data().profitNgn || 950);
-        }
-    } catch (err) { console.warn('Pricing:', err.message); }
-}
-
+/* ✅ Load user's wallet */
 async function loadWallet() {
     try {
         const snap = await getDoc(doc(db, 'users', currentUser.uid));
@@ -275,53 +276,18 @@ async function loadWallet() {
     } catch (err) { console.warn('Wallet:', err.message); }
 }
 
-async function loadServices() {
+/* ✅ Load services (names only) */
+async function loadServiceList() {
     try {
-        console.log('Loading services from', USA_API);
         const res = await fetch(`${USA_API}?action=servicelist`);
         const data = await res.json();
-        console.log('API response:', data);
+        if (!data.success || !Array.isArray(data.services)) throw new Error('Failed');
 
-        if (!data.success || !Array.isArray(data.services)) {
-            throw new Error(data.error || 'Failed to load services');
-        }
-
-        const tvServices = data.services;
-        console.log('Got', tvServices.length, 'services from TextVerified');
-
-        /* ✅ Try to load price overrides, but don't fail if collection is missing */
-        let overrides = {};
-        try {
-            const overridesSnap = await getDocs(collection(db, 'usa_price_overrides'));
-            overridesSnap.forEach(d => {
-                const od = d.data();
-                overrides[od.serviceName || d.id] = od;
-            });
-            console.log('Loaded', Object.keys(overrides).length, 'price overrides');
-        } catch (overrideErr) {
-            console.warn('Could not load overrides:', overrideErr.message);
-        }
-
-        /* ✅ Build final service list */
-        allServices = tvServices.map(s => {
-            const o = overrides[s.name] || {};
-            const providerUSD = Number(o.providerUSD || DEFAULT_USD);
-            const enabled = o.enabled !== false;
-
-            /* ✅ Skip disabled services only if override exists and is disabled */
-            if (overrides[s.name] && !enabled) return null;
-
-            const finalPrice = Math.ceil((providerUSD * USD_TO_NGN) + PROFIT_NGN);
-
-            return {
-                id: s.name,
-                name: capitalize(s.name.replace(/[_-]/g, ' ')),
-                rawName: s.name,
-                price: finalPrice
-            };
-        }).filter(Boolean);
-
-        console.log('Final services:', allServices.length);
+        allServices = data.services.map(s => ({
+            id: s.id,
+            name: capitalize(s.name),
+            rawName: s.name
+        }));
 
         if (allServices.length === 0) {
             searchInput.placeholder = 'No services available';
@@ -329,23 +295,63 @@ async function loadServices() {
             return;
         }
 
-        searchInput.placeholder = `Search among ${allServices.length} services...`;
+        searchInput.placeholder = `🔍 Search among ${allServices.length} services...`;
         searchInput.disabled = false;
 
     } catch (err) {
-        console.error('Services load error:', err);
+        console.error('Services load:', err);
         searchInput.placeholder = 'Failed to load services';
         searchInput.disabled = true;
     }
 }
 
+/* ✅ Fetch price for a single service */
+async function fetchPriceForService(serviceName) {
+    // cache
+    if (priceCache[serviceName] !== undefined) return priceCache[serviceName];
+
+    try {
+        const res = await fetch(`${USA_API}?action=price&service=${encodeURIComponent(serviceName)}`);
+        const data = await res.json();
+
+        if (!data.success) {
+            priceCache[serviceName] = null;
+            return null;
+        }
+
+        const usd = Number(data.priceUSD || 0);
+        const ngn = Math.ceil((usd * USD_TO_NGN) + PROFIT_NGN);
+        priceCache[serviceName] = { usd, ngn };
+        return priceCache[serviceName];
+
+    } catch (err) {
+        console.warn('Price error:', serviceName, err.message);
+        priceCache[serviceName] = null;
+        return null;
+    }
+}
+
+/* ✅ Fetch prices for multiple services in parallel */
+async function fetchPricesForList(services) {
+    return Promise.all(
+        services.map(async s => {
+            const cached = priceCache[s.rawName];
+            if (cached !== undefined) return { ...s, priceData: cached };
+            const priceData = await fetchPriceForService(s.rawName);
+            return { ...s, priceData };
+        })
+    );
+}
+
+/* ✅ Input listener — search + fetch prices */
+let searchTimeout = null;
 searchInput.addEventListener('input', () => {
     const q = searchInput.value.trim().toLowerCase();
     if (!q) { dropdown.classList.remove('active'); return; }
 
     const matches = allServices
-        .filter(s => s.name.toLowerCase().includes(q) || s.rawName.toLowerCase().includes(q))
-        .slice(0, 10);
+        .filter(s => s.name.toLowerCase().includes(q))
+        .slice(0, 8);
 
     if (matches.length === 0) {
         dropdown.innerHTML = '<div class="dropdown-empty">No services found</div>';
@@ -353,43 +359,78 @@ searchInput.addEventListener('input', () => {
         return;
     }
 
-    dropdown.innerHTML = matches.map(s => `
-        <button class="dropdown-item" data-id="${s.id}">
-            <div><div class="dd-name">${s.name}</div></div>
-            <div class="dd-price">${fmtNaira(s.price)}</div>
-        </button>
-    `).join('');
+    // Show loading first
+    dropdown.innerHTML = '<div class="dropdown-loading">Loading prices...</div>';
     dropdown.classList.add('active');
 
-    dropdown.querySelectorAll('.dropdown-item').forEach(btn => {
-        btn.addEventListener('click', () => selectService(btn.dataset.id));
-    });
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+        const withPrices = await fetchPricesForList(matches);
+        renderDropdown(withPrices);
+    }, 250);
 });
+
+/* ✅ Render dropdown with prices */
+function renderDropdown(services) {
+    dropdown.innerHTML = services.map(s => {
+        const pd = s.priceData;
+        let priceText = '—';
+        let loadingClass = '';
+        if (pd === null) {
+            priceText = 'N/A';
+            loadingClass = ' loading';
+        } else if (pd) {
+            priceText = fmtNaira(pd.ngn);
+        }
+        return `
+            <button class="dropdown-item" data-id="${s.id}" ${pd === null ? 'disabled' : ''}>
+                <div><div class="dd-name">${s.name}</div></div>
+                <div class="dd-price${loadingClass}">${priceText}</div>
+            </button>
+        `;
+    }).join('');
+
+    dropdown.querySelectorAll('.dropdown-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.disabled) return;
+            selectService(btn.dataset.id);
+        });
+    });
+}
 
 document.addEventListener('click', (e) => {
     if (!e.target.closest('.search-wrap')) dropdown.classList.remove('active');
 });
 
+/* ✅ Select service */
 function selectService(id) {
     const svc = allServices.find(s => s.id === id);
     if (!svc) return;
 
+    const pd = priceCache[svc.rawName];
+    if (!pd) return;
+
     selectedService = svc;
+    selectedPriceNGN = pd.ngn;
+
     searchInput.value = svc.name;
     dropdown.classList.remove('active');
 
     selectedChip.style.display = 'flex';
     selectedName.textContent = svc.name;
-    selectedPrice.textContent = fmtNaira(svc.price);
+
+    selectedPrice.textContent = fmtNaira(pd.ngn);
+    selectedPriceUSD.textContent = `($${pd.usd.toFixed(2)} × 1500) + ₦950`;
     priceCard.style.display = 'block';
 
     actionBtn.disabled = false;
     actionBtnText.textContent = 'Rent USA Number';
 }
 
+/* ✅ Buy button */
 actionBtn.addEventListener('click', () => {
     if (!selectedService) return;
-    const price = Number(selectedService.price || 0);
+    const price = Number(selectedPriceNGN);
 
     if (userWallet < price) {
         const shortfall = price - userWallet;
@@ -431,11 +472,12 @@ actionBtn.addEventListener('click', () => {
     }
 });
 
+/* ✅ Process purchase */
 async function processPurchase() {
     const buyBtn = document.getElementById('mBuy');
     if (buyBtn) { buyBtn.disabled = true; buyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...'; }
 
-    const price = Number(selectedService.price);
+    const price = Number(selectedPriceNGN);
 
     try {
         const userRef = doc(db, 'users', currentUser.uid);
