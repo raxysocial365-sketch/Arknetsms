@@ -15,6 +15,7 @@
       --brown: #6b4423;
       --brown-light: #8b5e3c;
       --pink: #ec4899;
+      --pink-dark: #be185d;
       --pink-light: #f9a8d4;
       --pink-soft: #fdf2f8;
       --white: #ffffff;
@@ -41,15 +42,174 @@
     .page-title { font-size: 0.95rem; font-weight: 700; flex: 1; color: white; }
     .balance-chip { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.75rem; background: rgba(255,255,255,0.1); border: 1.5px solid var(--pink); border-radius: 10px; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; color: var(--pink-light); }
 
-    .container { max-width: 500px; margin: 0 auto; padding: 1.5rem 1rem 0; display: flex; flex-direction: column; gap: 1rem; }
-    .greeting { text-align: center; margin-bottom: 0.2rem; }
-    .greeting h2 { font-size: 1.2rem; font-weight: 700; }
-    .greeting h2 span { color: var(--pink); }
-    .subtitle { text-align: center; margin-bottom: 1rem; }
-    .subtitle .flag { font-size: 1.6rem; margin-bottom: 0.3rem; display: block; }
-    .subtitle h3 { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.02em; }
-    .subtitle p { font-size: 0.82rem; color: var(--brown-light); margin-top: 0.3rem; }
+    .container { max-width: 500px; margin: 0 auto; padding: 1rem 1rem 0; display: flex; flex-direction: column; gap: 1rem; }
 
+    /* ==========================================
+       NEW HERO HEADER
+       ========================================== */
+    .hero {
+      position: relative;
+      border-radius: 24px;
+      padding: 1.4rem 1.3rem 1.5rem;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(255,255,255,0.25) 0%, transparent 45%),
+        radial-gradient(circle at 10% 90%, rgba(255,255,255,0.15) 0%, transparent 40%),
+        linear-gradient(135deg, #ec4899 0%, #be185d 55%, #7f1d1d 130%);
+      box-shadow: 0 18px 40px -18px rgba(190, 24, 93, 0.65);
+      overflow: hidden;
+      color: white;
+    }
+
+    /* tiny decorative dots */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 18px; right: 70px;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      box-shadow:
+        20px 25px 0 rgba(255,255,255,0.2),
+        50px -5px 0 rgba(255,255,255,0.25),
+        80px 30px 0 rgba(255,255,255,0.15);
+      pointer-events: none;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-greet {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-greet strong {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .hero-wallet {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      backdrop-filter: blur(8px);
+    }
+    .hero-wallet i { font-size: 0.72rem; opacity: 0.9; }
+
+    .hero-main {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-flag {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.18);
+      border: 1.5px solid rgba(255,255,255,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      flex-shrink: 0;
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+    .hero-text { flex: 1; min-width: 0; }
+    .hero-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .live-pill {
+      font-size: 0.6rem;
+      font-weight: 800;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--pink-dark);
+      letter-spacing: 0.06em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .live-pill::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
+      animation: pulse 1.6s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+
+    .hero-sub {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.85);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 6px;
+      margin-top: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-stat {
+      flex: 1;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 10px;
+      padding: 7px 6px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+    .hero-stat .s-lbl {
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .hero-stat .s-val {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* ==========================================
+       MAIN CARD
+       ========================================== */
     .main-card { background: var(--white); border: 1px solid #f5e6e0; border-radius: 20px; padding: 1.4rem 1.2rem; box-shadow: 0 4px 20px rgba(74,44,42,0.06); }
     .field-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; display: block; }
     .field-label .req { color: var(--red); margin-left: 2px; }
@@ -83,9 +243,9 @@
     .action-btn:hover:not(:disabled) { background: var(--brown-dark); transform: translateY(-2px); }
     .action-btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
-    /* ============================================
-       BOTTOM NAV — matches dashboard style
-       ============================================ */
+    /* ==========================================
+       BOTTOM NAV (dashboard style)
+       ========================================== */
     .bottom-nav {
       position: fixed; bottom: 14px; left: 50%;
       transform: translateX(-50%);
@@ -117,7 +277,6 @@
     .bn-item.active .bn-icon { background: var(--pink-soft); color: var(--pink); }
     .bn-item.active .bn-icon svg { stroke: var(--pink); }
     .bn-item.logout { color: #dc2626; }
-    .bn-item.logout:hover { color: #b91c1c; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(74,44,42,0.7); backdrop-filter: blur(3px); display: none; align-items: flex-end; justify-content: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
@@ -161,16 +320,50 @@
 </header>
 
 <div class="container">
-  <div class="greeting">
-    <h2>Hi <span id="userFirstName">there</span> 👋</h2>
+
+  <!-- ============================
+       NEW HERO HEADER
+       ============================ -->
+  <div class="hero">
+    <div class="hero-top">
+      <div class="hero-greet">
+        <span>👋</span>
+        <span>Hi, <strong id="userFirstName">there</strong></span>
+      </div>
+      <div class="hero-wallet">
+        <i class="fas fa-wallet"></i>
+        <span id="heroBalance">₦0</span>
+      </div>
+    </div>
+
+    <div class="hero-main">
+      <div class="hero-flag">🇺🇸</div>
+      <div class="hero-text">
+        <div class="hero-title">
+          USA SMS Verification
+          <span class="live-pill">LIVE</span>
+        </div>
+        <div class="hero-sub">Real US SIM numbers. Fast &amp; reliable verification.</div>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="s-lbl">Speed</span>
+        <span class="s-val">Instant</span>
+      </div>
+      <div class="hero-stat">
+        <span class="s-lbl">Type</span>
+        <span class="s-val">Real SIM</span>
+      </div>
+      <div class="hero-stat">
+        <span class="s-lbl">Uptime</span>
+        <span class="s-val">99.9%</span>
+      </div>
+    </div>
   </div>
 
-  <div class="subtitle">
-    <span class="flag">🇺🇸</span>
-    <h3>USA SMS VERIFICATION</h3>
-    <p>Real US SIM numbers. Fast and reliable verification.</p>
-  </div>
-
+  <!-- MAIN CARD -->
   <div class="main-card">
     <label class="field-label" for="searchInput">Select Service <span class="req">*</span></label>
     <div class="search-wrap">
@@ -198,7 +391,7 @@
   </div>
 </div>
 
-<!-- BOTTOM NAV — dashboard style -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-inner">
     <a href="dashboard.html" class="bn-item">
@@ -264,6 +457,7 @@
   let selectedPriceNGN = 0;
 
   const topBalance = document.getElementById('topBalance');
+  const heroBalance = document.getElementById('heroBalance');
   const userFirstName = document.getElementById('userFirstName');
   const searchInput = document.getElementById('searchInput');
   const dropdown = document.getElementById('dropdown');
@@ -292,7 +486,6 @@
   }
   modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
 
-  /* Logout handler */
   document.getElementById('bnLogout').addEventListener('click', async () => {
     try { await signOut(auth); } catch (e) {}
     window.location.replace('login.html');
@@ -314,6 +507,7 @@
         const data = snap.data();
         userWallet = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
         topBalance.textContent = fmtNaira(userWallet);
+        heroBalance.textContent = fmtNaira(userWallet);
       }
     } catch (err) { console.warn('Wallet:', err.message); }
   }
@@ -442,7 +636,6 @@
     actionBtn.disabled = false;
   }
 
-  /* ✅ PURCHASE NOW — straight to processing, no confirm modal */
   actionBtn.addEventListener('click', async () => {
     if (!selectedService) return;
     const price = Number(selectedPriceNGN);
@@ -502,6 +695,7 @@
       });
       userWallet = newBalance;
       topBalance.textContent = fmtNaira(userWallet);
+      heroBalance.textContent = fmtNaira(userWallet);
 
       await addDoc(collection(db, 'users', currentUser.uid, 'activations'), {
         userId: currentUser.uid,
