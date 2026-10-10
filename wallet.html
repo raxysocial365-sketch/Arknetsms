@@ -156,7 +156,7 @@
   .btn-continue {
     width: 100%;
     padding: 16px;
-    background: var(--pink);
+    background: var(--brown-dark);
     color: white;
     border: none;
     border-radius: 12px;
@@ -169,10 +169,33 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 8px 20px rgba(236,72,153,0.3);
+    box-shadow: 0 8px 20px rgba(74,44,42,0.25);
+    margin-bottom: 12px;
   }
-  .btn-continue:hover { background: var(--brown-dark); transform: translateY(-2px); }
+  .btn-continue:hover { background: var(--pink); transform: translateY(-2px); }
   .btn-continue:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+  /* VIEW TRANSACTIONS BUTTON */
+  .btn-view-tx {
+    width: 100%;
+    padding: 16px;
+    background: var(--white);
+    color: var(--brown-dark);
+    border: 1.5px solid var(--brown-dark);
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    margin-bottom: 20px;
+  }
+  .btn-view-tx:hover { background: var(--brown-dark); color: white; transform: translateY(-2px); }
 
   /* INFO NOTE */
   .info-note {
@@ -185,7 +208,6 @@
     line-height: 1.5;
     display: flex;
     gap: 10px;
-    margin-top: 20px;
   }
   .info-note .in-icon { font-size: 18px; flex-shrink: 0; }
 
@@ -300,13 +322,11 @@
     <p>Add money to your Arknet wallet.</p>
   </div>
 
-  <!-- BALANCE HERO -->
   <div class="balance-hero">
     <div class="bh-label">Current Balance</div>
     <div class="bh-value" id="balanceDisplay">₦0.00</div>
   </div>
 
-  <!-- AMOUNT SECTION -->
   <div class="section">
     <div class="section-title">Choose Amount</div>
 
@@ -327,6 +347,10 @@
     <button class="btn-continue" id="continueBtn">
       Continue → 
     </button>
+
+    <a href="transactions.html" class="btn-view-tx">
+      📜 View Transactions History
+    </a>
 
     <div class="info-note">
       <div class="in-icon">ℹ️</div>
@@ -367,7 +391,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, updateDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBFm455uDjJ8z8mtMTHvas7ikT0zsS7Je8",
@@ -396,7 +420,6 @@
   let currentBalance = 0;
   let selectedAmount = 0;
 
-  /* MENU */
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   document.getElementById('menuBtn').addEventListener('click', () => {
@@ -411,7 +434,6 @@
   document.getElementById('logoutBtn').addEventListener('click', doLogout);
   document.getElementById('bnLogout').addEventListener('click', doLogout);
 
-  /* AMOUNT PICKER */
   const customInput = document.getElementById('customAmount');
 
   document.querySelectorAll('.amount-pick').forEach(btn => {
@@ -428,27 +450,26 @@
     selectedAmount = Number(customInput.value) || 0;
   });
 
-  /* CONTINUE BUTTON */
   document.getElementById('continueBtn').addEventListener('click', () => {
     let amount = selectedAmount;
-
-    // If custom input has value, use that instead
     if (customInput.value && Number(customInput.value) > 0) {
       amount = Number(customInput.value);
     }
-
-    // Validation
     if (!amount || amount < 100) {
       showToast('Minimum deposit is ₦100', 'error');
       return;
     }
 
-    // Flutterwave not configured yet
+    // ============================================================
+    // Flutterwave integration goes here when you have your account
+    // ============================================================
     showToast('⏳ Payment gateway coming soon!', 'error');
 
     // ============================================================
-    // TODO: WHEN YOU HAVE FLUTTERWAVE ACCOUNT:
-    // Replace the showToast above with this code:
+    // WHEN YOU HAVE FLUTTERWAVE:
+    // 1. Add <script src="https://checkout.flutterwave.com/v3.js"></script> in <head>
+    // 2. Delete the showToast line above
+    // 3. Uncomment the code below and replace the public key:
     // ============================================================
     //
     // const FLW_PUBLIC_KEY = "FLWPUBK_TEST-your-public-key-here";
@@ -467,12 +488,10 @@
     //   customizations: {
     //     title: 'Arknet SMS Wallet',
     //     description: 'Fund your Arknet wallet',
-    //     logo: 'https://your-logo-url.com/logo.png'
     //   },
     //   callback: function (response) {
-    //     // Called on successful payment
     //     if (response.status === 'successful') {
-    //       handleSuccessfulDeposit(amount, tx_ref, response);
+    //       handleSuccessfulDeposit(amount, tx_ref);
     //     }
     //   },
     //   onclose: function () {
@@ -481,43 +500,27 @@
     // });
   });
 
-  /* ============================================================
-     HANDLE SUCCESSFUL DEPOSIT (call this from Flutterwave callback)
-     ============================================================ */
-  async function handleSuccessfulDeposit(amount, tx_ref, response) {
+  async function handleSuccessfulDeposit(amount, tx_ref) {
     try {
-      // Add to wallet
       const userRef = doc(db, 'users', currentUser.uid);
       const snap = await getDoc(userRef);
       const data = snap.data() || {};
       const freshBalance = Number(data.wallet ?? data.walletBalance ?? data.balance ?? 0);
       const newBalance = freshBalance + Number(amount);
-
       await updateDoc(userRef, { wallet: newBalance });
-
-      // Log transaction
       await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-        type: 'deposit',
-        icon: '💰',
-        title: 'Wallet Deposit',
-        subtitle: `Ref: ${tx_ref}`,
-        amount: Number(amount),
-        createdAt: serverTimestamp()
+        type: 'deposit', icon: '💰',
+        title: 'Wallet Deposit', subtitle: `Ref: ${tx_ref}`,
+        amount: Number(amount), createdAt: serverTimestamp()
       });
-
       showToast(`✅ Deposit successful! +${formatNGN(amount)}`, 'success');
-
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 2000);
-
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 2000);
     } catch (err) {
       console.error('Deposit error:', err);
       showToast('❌ Deposit failed. Contact support.', 'error');
     }
   }
 
-  /* AUTH */
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
     currentUser = user;
