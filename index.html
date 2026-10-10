@@ -18,18 +18,17 @@
     --pink-light: #f9a8d4;
     --pink-soft: #fdf2f8;
     --blue: #2563eb;
-    --blue-light: #3b82f6;
+    --blue-2: #1d4ed8;
     --cyan: #22d3ee;
     --white: #ffffff;
-    --off-white: #fafafa;
     --cream: #fffbf8;
-    --brown-dark: #2a1a19;
     --brown: #4a2c2a;
-    --brown-light: #8b5e3c;
     --text: #0f172a;
     --text-mute: #64748b;
     --border: #e5e7eb;
     --green: #22c55e;
+    --green-soft: #f0fdf4;
+    --green-border: #bbf7d0;
   }
   body { background: var(--cream); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
   a { text-decoration: none; }
@@ -77,7 +76,7 @@
   .btn-signup:hover { background: var(--pink-dark); border-color: var(--pink-dark); transform: translateY(-1px); }
 
   /* ============================================
-     HERO — Dark navy
+     HERO — Dark navy, centered
      ============================================ */
   .hero {
     background:
@@ -88,38 +87,40 @@
     padding: 70px 5% 90px;
     position: relative;
     overflow: hidden;
+    text-align: center;
   }
   .hero-inner {
-    max-width: 1280px; margin: auto;
-    display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px;
+    max-width: 900px; margin: auto;
+    display: flex; flex-direction: column;
     align-items: center;
   }
   .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(34,211,238,0.12);
-    border: 1px solid rgba(34,211,238,0.4);
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(34,211,238,0.08);
+    border: 1px solid rgba(34,211,238,0.35);
     color: #a5f3fc;
-    padding: 7px 16px; border-radius: 999px;
-    font-size: 13px; font-weight: 600;
-    margin-bottom: 22px;
+    padding: 9px 20px; border-radius: 999px;
+    font-size: 14px; font-weight: 600;
+    margin-bottom: 30px;
   }
   .hero-badge::before {
     content: ''; width: 8px; height: 8px;
-    background: #22d3ee; border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(34,211,238,0.7);
+    background: #22c55e; border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
     animation: heroPulse 1.8s infinite;
   }
   @keyframes heroPulse {
-    0% { box-shadow: 0 0 0 0 rgba(34,211,238,0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(34,211,238,0); }
-    100% { box-shadow: 0 0 0 0 rgba(34,211,238,0); }
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
   }
 
   .hero h1 {
-    font-size: 54px; line-height: 1.05;
-    font-weight: 900; letter-spacing: -1.5px;
-    margin-bottom: 22px;
+    font-size: 60px; line-height: 1.05;
+    font-weight: 900; letter-spacing: -2px;
+    margin-bottom: 26px;
     color: #fff;
+    max-width: 780px;
   }
   .hero h1 .accent {
     color: #22d3ee;
@@ -128,42 +129,49 @@
   }
   .hero h1 .accent::after {
     content: '';
-    position: absolute; left: 0; bottom: -6px; right: 0;
-    height: 6px;
+    position: absolute; left: 0; bottom: -8px; right: 0;
+    height: 8px;
     background: #22d3ee;
     border-radius: 4px;
-    opacity: 0.6;
-    transform: rotate(-1deg);
+    opacity: 0.55;
+    transform: rotate(-1deg) skewX(-8deg);
   }
   .hero p.lead {
-    font-size: 17px; color: #94a3b8;
-    margin-bottom: 34px; max-width: 540px;
-    line-height: 1.65;
+    font-size: 18px; color: #94a3b8;
+    margin-bottom: 38px; max-width: 620px;
+    line-height: 1.6;
   }
-  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+  .hero-btns {
+    display: flex; gap: 14px;
+    flex-wrap: wrap; justify-content: center;
+    margin-bottom: 60px;
+  }
   .btn-hero-primary {
-    background: var(--pink);
+    background: var(--blue);
     color: white;
-    padding: 15px 32px;
+    padding: 16px 34px;
     border-radius: 12px;
-    font-weight: 700; font-size: 15px;
+    font-weight: 700; font-size: 15.5px;
     transition: 0.25s;
-    box-shadow: 0 12px 32px rgba(236,72,153,0.4);
+    box-shadow: 0 12px 32px rgba(37,99,235,0.4);
     display: inline-flex; align-items: center; gap: 8px;
   }
-  .btn-hero-primary:hover { background: var(--pink-dark); transform: translateY(-2px); }
+  .btn-hero-primary:hover { background: var(--blue-2); transform: translateY(-2px); box-shadow: 0 16px 40px rgba(37,99,235,0.5); }
   .btn-hero-outline {
     background: transparent; color: white;
-    padding: 15px 32px; border-radius: 12px;
-    font-weight: 700; font-size: 15px;
-    border: 1.5px solid rgba(255,255,255,0.3);
+    padding: 16px 34px; border-radius: 12px;
+    font-weight: 700; font-size: 15.5px;
+    border: 1.5px solid rgba(255,255,255,0.25);
     transition: 0.25s;
   }
   .btn-hero-outline:hover { background: rgba(255,255,255,0.08); border-color: white; }
 
+  /* Stats 2x2 grid */
   .hero-stats {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-    max-width: 460px;
+    max-width: 460px; width: 100%;
+    margin: 0 auto 60px;
+    text-align: left;
   }
   .hero-stat {
     background: rgba(255,255,255,0.05);
@@ -182,15 +190,14 @@
   .hero-stat-text { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.2; }
   .hero-stat-text small { display: block; font-size: 11px; color: #94a3b8; font-weight: 500; margin-top: 2px; }
 
-  /* HERO VISUAL */
-  .hero-visual { position: relative; padding: 20px; }
+  /* Live SMS Feed */
+  .hero-visual { position: relative; padding: 20px; max-width: 480px; width: 100%; margin: auto; }
   .live-feed {
     background: rgba(255,255,255,0.98);
     border-radius: 24px;
     padding: 26px 24px;
     box-shadow: 0 40px 80px rgba(0,0,0,0.4);
     position: relative; z-index: 2;
-    max-width: 440px; margin: auto;
   }
   .live-feed-head {
     display: flex; justify-content: space-between; align-items: center;
@@ -226,6 +233,7 @@
     margin-bottom: 10px;
     border-left: 4px solid var(--pink);
     display: flex; flex-direction: column; gap: 6px;
+    text-align: left;
   }
   .sms-item:last-child { margin-bottom: 0; }
   .sms-top { display: flex; justify-content: space-between; align-items: center; }
@@ -282,11 +290,13 @@
     line-height: 1.65;
   }
 
-  /* FEATURES */
+  /* FEATURES — 2x2 grid */
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 22px;
+    max-width: 900px;
+    margin: auto;
   }
   .feature-card {
     background: var(--white);
@@ -313,7 +323,7 @@
   }
   .feature-card p { color: var(--text-mute); font-size: 15px; line-height: 1.6; }
 
-  /* STATS */
+  /* STATS — dark navy */
   .stats-section {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 100%);
     color: white; position: relative; overflow: hidden;
@@ -349,11 +359,13 @@
   }
   .stat-label { font-size: 14px; color: #cbd5e1; font-weight: 500; }
 
-  /* HOW IT WORKS */
+  /* HOW IT WORKS — 2x2 */
   .steps-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 22px;
+    max-width: 900px;
+    margin: auto;
   }
   .step-card {
     background: var(--white);
@@ -380,64 +392,65 @@
   .step-card h3 { color: var(--navy); font-size: 19px; margin-bottom: 10px; font-weight: 800; }
   .step-card p { color: var(--text-mute); font-size: 14.5px; line-height: 1.6; }
 
-  /* SERVICES */
-  .services-grid {
+  /* ============================================
+     WHAT WE OFFER
+     ============================================ */
+  .offer-section { background: var(--white); }
+  .offer-section .section-head h2 { font-size: 44px; }
+  .offer-section .section-head h2 .blue { color: var(--blue); position: relative; display: inline-block; }
+  .offer-section .section-head h2 .blue::after {
+    content: '';
+    position: absolute; left: 0; bottom: -10px; right: 0;
+    height: 10px;
+    background: var(--blue);
+    border-radius: 5px;
+    opacity: 0.85;
+    transform: rotate(-1.5deg) skewX(-10deg);
+  }
+  .offer-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 28px 24px;
+    max-width: 820px;
+    margin: auto;
+  }
+  .offer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
   }
-  .service-card {
-    background: var(--white);
-    padding: 26px 16px;
+  .offer-tile {
+    position: relative;
+    background: var(--green-soft);
+    border: 1.5px solid var(--green-border);
     border-radius: 16px;
-    text-align: center;
-    border: 1px solid var(--border);
-    transition: 0.3s;
-  }
-  .service-card:hover {
-    background: var(--pink-soft);
-    border-color: var(--pink);
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(236,72,153,0.14);
-  }
-  .service-logo {
-    width: 52px; height: 52px;
-    margin: 0 auto 14px;
+    aspect-ratio: 1 / 1;
     display: flex; align-items: center; justify-content: center;
-  }
-  .service-logo svg { width: 100%; height: 100%; }
-  .service-card h4 { color: var(--navy); font-size: 15px; margin-bottom: 4px; font-weight: 800; }
-  .service-card p { color: var(--text-mute); font-size: 12px; font-weight: 500; }
-
-  /* COUNTRIES */
-  .countries-section { background: var(--pink-soft); }
-  .countries-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 14px; max-width: 900px; margin: auto;
-  }
-  .country-card {
-    background: var(--white);
-    padding: 16px 18px;
-    border-radius: 14px;
-    border: 1px solid #f5e6e0;
-    display: flex; align-items: center; gap: 14px;
+    padding: 18px;
     transition: 0.3s;
   }
-  .country-card:hover {
-    border-color: var(--pink);
+  .offer-tile:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 26px rgba(236,72,153,0.12);
+    box-shadow: 0 10px 24px rgba(34,197,94,0.18);
   }
-  .country-flag { font-size: 28px; line-height: 1; flex-shrink: 0; }
-  .country-name { font-weight: 800; color: var(--navy); font-size: 14px; }
-  .country-count { font-size: 12px; color: var(--pink); font-weight: 600; }
+  .offer-tile svg { width: 60%; height: 60%; }
+  .offer-check {
+    position: absolute;
+    top: -8px; right: -8px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 900;
+    box-shadow: 0 4px 10px rgba(34,197,94,0.35);
+    border: 2px solid white;
+  }
 
-  /* CTA */
+  /* CTA — Blue gradient */
   .cta-section {
-    background:
-      radial-gradient(circle at 20% 20%, rgba(236,72,153,0.35) 0%, transparent 45%),
-      radial-gradient(circle at 80% 80%, rgba(34,211,238,0.25) 0%, transparent 45%),
-      linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 100%);
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 40%, #06b6d4 100%);
     text-align: center;
     color: white;
     padding: 90px 5%;
@@ -445,68 +458,93 @@
     overflow: hidden;
   }
   .cta-section h2 {
-    font-size: 42px; margin-bottom: 18px;
-    font-weight: 900; letter-spacing: -1px;
+    font-size: 44px; margin-bottom: 20px;
+    font-weight: 900; letter-spacing: -1.2px;
     line-height: 1.15;
+    color: #fff;
   }
   .cta-section p {
-    font-size: 17px; margin-bottom: 34px;
-    color: #cbd5e1; max-width: 620px;
+    font-size: 18px; margin-bottom: 38px;
+    color: rgba(255,255,255,0.92);
+    max-width: 640px;
     margin-left: auto; margin-right: auto;
-    line-height: 1.65;
+    line-height: 1.6;
   }
-  .cta-section .btn-hero-primary {
-    box-shadow: 0 15px 40px rgba(236,72,153,0.5);
+  .btn-cta-white {
+    background: white;
+    color: var(--navy);
+    padding: 18px 46px;
+    border-radius: 999px;
+    font-weight: 800; font-size: 16px;
+    display: inline-block;
+    transition: 0.25s;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
   }
+  .btn-cta-white:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,0.25); }
 
-  /* FOOTER */
+  /* ============================================
+     FOOTER — brand only
+     ============================================ */
   footer {
-    background: #050d1c; color: #94a3b8;
+    background: #050d1c;
+    color: #94a3b8;
     padding: 60px 5% 30px;
   }
-  .footer-grid {
-    display: grid; grid-template-columns: 2fr 1fr 1fr;
-    gap: 40px; max-width: 1200px; margin: auto;
+  .footer-inner {
+    max-width: 1200px;
+    margin: auto;
+  }
+  .footer-brand-block {
+    display: flex; flex-direction: column;
+    gap: 14px;
     padding-bottom: 30px;
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-  .footer-brand h3 {
-    color: white; font-size: 22px;
-    margin-bottom: 14px; font-weight: 900;
-    display: flex; align-items: center; gap: 9px;
+  .footer-logo {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 24px; font-weight: 900;
+    color: #fff; letter-spacing: -0.5px;
   }
-  .footer-brand h3 span { color: var(--pink-light); }
-  .footer-brand p { font-size: 14px; max-width: 360px; line-height: 1.7; }
-  .footer-col h4 {
-    color: white; font-size: 14px;
-    margin-bottom: 16px; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 1px;
+  .footer-logo-mark {
+    width: 42px; height: 42px; border-radius: 11px;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--pink-dark) 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 22px; font-weight: 900;
+    box-shadow: 0 8px 20px rgba(236,72,153,0.35);
   }
-  .footer-col a {
-    display: block; color: #94a3b8;
-    font-size: 14px; margin-bottom: 10px;
-    transition: 0.2s;
+  .footer-logo span { color: var(--pink-light); }
+  .footer-tagline {
+    color: #94a3b8;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 620px;
   }
-  .footer-col a:hover { color: var(--pink-light); }
   .footer-bottom {
-    text-align: center; padding-top: 26px;
-    font-size: 13px; color: #64748b;
+    text-align: center;
+    padding-top: 26px;
+    font-size: 13.5px;
+    color: #64748b;
   }
 
   /* ============================================
      RESPONSIVE
      ============================================ */
   @media (max-width: 960px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 60px; text-align: center; }
-    .hero p.lead { margin-left: auto; margin-right: auto; }
-    .hero-btns { justify-content: center; }
-    .hero-stats { margin-left: auto; margin-right: auto; }
-    .hero h1 { font-size: 40px; }
+    .hero h1 { font-size: 42px; letter-spacing: -1.5px; }
+    .hero p.lead { font-size: 16px; }
     nav a.nav-link { display: none; }
     .section-head h2 { font-size: 32px; }
+    .offer-section .section-head h2 { font-size: 34px; }
     .cta-section h2 { font-size: 32px; }
-    .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+    .cta-section p { font-size: 16px; }
     section { padding: 60px 5%; }
+    .features-grid, .steps-grid { gap: 16px; }
+  }
+  @media (max-width: 700px) {
+    .offer-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .offer-box { padding: 18px 14px; border-radius: 18px; }
+    .offer-tile { padding: 12px; border-radius: 12px; }
+    .offer-check { width: 20px; height: 20px; font-size: 11px; top: -6px; right: -6px; }
   }
   @media (max-width: 560px) {
     header { padding: 12px 4%; gap: 8px; }
@@ -515,9 +553,10 @@
     nav { gap: 6px; }
     .btn-login, .btn-signup { padding: 8px 13px; font-size: 12px; }
     .hero { padding: 50px 5% 70px; }
+    .hero-badge { font-size: 12px; padding: 8px 14px; }
     .hero h1 { font-size: 32px; letter-spacing: -1px; }
     .hero p.lead { font-size: 15px; }
-    .hero-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 40px; }
     .hero-stat { padding: 12px 10px; gap: 8px; }
     .hero-stat-num { width: 30px; height: 30px; font-size: 13px; }
     .hero-stat-text { font-size: 12px; }
@@ -525,16 +564,17 @@
     .live-feed { padding: 20px 18px; }
     .floating-badge { display: none; }
     .section-head h2 { font-size: 26px; }
+    .offer-section .section-head h2 { font-size: 26px; }
     .section-head p { font-size: 14.5px; }
+    .features-grid, .steps-grid { grid-template-columns: 1fr; }
     .cta-section { padding: 65px 5%; }
     .cta-section h2 { font-size: 26px; }
-    .cta-section p { font-size: 15px; }
-    .countries-grid { gap: 10px; }
-    .country-card { padding: 12px 12px; gap: 10px; }
-    .country-flag { font-size: 22px; }
-    .country-name { font-size: 12.5px; }
-    .country-count { font-size: 10.5px; }
+    .cta-section p { font-size: 15px; margin-bottom: 30px; }
+    .btn-cta-white { padding: 15px 34px; font-size: 15px; }
     .btn-hero-primary, .btn-hero-outline { padding: 13px 24px; font-size: 14px; }
+    .footer-logo { font-size: 20px; }
+    .footer-logo-mark { width: 36px; height: 36px; font-size: 18px; }
+    .footer-tagline { font-size: 14px; }
   }
 </style>
 </head>
@@ -560,36 +600,37 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <div>
-      <div class="hero-badge">Receive SMS &amp; OTP from 1,900+ services</div>
-      <h1>Don't want to give out your phone number? No problem. Use <span class="accent">ours.</span></h1>
-      <p class="lead">Real US mobile numbers backed by physical SIMs — not VoIP. Verify on any platform anywhere, anytime. Protect your personal number from data breaches, spam, and resale.</p>
-      <div class="hero-btns">
-        <a href="signup.html" class="btn-hero-primary">Get started free →</a>
-        <a href="login.html" class="btn-hero-outline">Sign in</a>
-      </div>
+    <div class="hero-badge">Receive SMS &amp; OTP from 1,900+ services</div>
 
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num">1</div>
-          <div class="hero-stat-text">🇺🇸 USA Numbers<small>Instant delivery</small></div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">2</div>
-          <div class="hero-stat-text">🇬🇧 UK Numbers<small>Verified &amp; clean</small></div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">3</div>
-          <div class="hero-stat-text">🌍 175+ Countries<small>Global coverage</small></div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">4</div>
-          <div class="hero-stat-text">⚡ 24/7 Support<small>Always online</small></div>
-        </div>
+    <h1>Don't want to give out your phone number? No problem. Use <span class="accent">ours.</span></h1>
+
+    <p class="lead">Real US mobile numbers backed by physical SIMs — not VoIP. Verify on any platform anywhere, anytime. Protect your personal number from data breaches, spam, and resale.</p>
+
+    <div class="hero-btns">
+      <a href="signup.html" class="btn-hero-primary">Get started free →</a>
+      <a href="login.html" class="btn-hero-outline">Sign in</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">1</div>
+        <div class="hero-stat-text">🇺🇸 USA Numbers<small>Instant delivery</small></div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2</div>
+        <div class="hero-stat-text">🇬🇧 UK Numbers<small>Verified &amp; clean</small></div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-text">🌍 175+ Countries<small>Global coverage</small></div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-text">⚡ 24/7 Support<small>Always online</small></div>
       </div>
     </div>
 
-    <!-- LIVE SMS FEED -->
+    <!-- Live SMS Feed -->
     <div class="hero-visual">
       <div class="floating-badge fb-1">
         <div class="fb-icon">⚡</div>
@@ -663,7 +704,7 @@
   </div>
 </section>
 
-<!-- FEATURES -->
+<!-- WHY CHOOSE — 2x2 grid -->
 <section id="why">
   <div class="section-center">
     <div class="section-head">
@@ -727,7 +768,7 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<!-- HOW IT WORKS — 2x2 grid -->
 <section id="how">
   <div class="section-center">
     <div class="section-head">
@@ -759,26 +800,21 @@
   </div>
 </section>
 
-<!-- SERVICES -->
-<section>
+<!-- WHAT WE OFFER -->
+<section class="offer-section" id="offer">
   <div class="section-center">
     <div class="section-head">
-      <h2>Verification For <span>Any Platform</span></h2>
-      <p>Use Arknet SMS virtual numbers with your favourite online services.</p>
+      <h2>What we <span class="blue">offer.</span></h2>
+      <p>All our phone numbers are real US mobile lines — and you can buy and use them from anywhere in the world.</p>
     </div>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-logo">
-          <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </div>
-        <h4>Facebook</h4>
-        <p>SMS Verification</p>
-      </div>
-      <div class="service-card">
-        <div class="service-logo">
+    <div class="offer-box">
+      <div class="offer-grid">
+
+        <div class="offer-tile">
+          <div class="offer-check">✓</div>
           <svg viewBox="0 0 24 24">
             <defs>
-              <radialGradient id="igGradSvc" cx="30%" cy="107%" r="150%">
+              <radialGradient id="igOffer" cx="30%" cy="107%" r="150%">
                 <stop offset="0%" stop-color="#fdf497"/>
                 <stop offset="5%" stop-color="#fdf497"/>
                 <stop offset="45%" stop-color="#fd5949"/>
@@ -786,28 +822,48 @@
                 <stop offset="90%" stop-color="#285AEB"/>
               </radialGradient>
             </defs>
-            <path fill="url(#igGradSvc)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            <path fill="url(#igOffer)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
           </svg>
         </div>
-        <h4>Instagram</h4>
-        <p>SMS Verification</p>
-      </div>
-      <div class="service-card">
-        <div class="service-logo">
-          <svg viewBox="0 0 24 24" fill="#229ED9"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-        </div>
-        <h4>Telegram</h4>
-        <p>SMS Verification</p>
-      </div>
-      <div class="service-card">
-        <div class="service-logo">
+
+        <div class="offer-tile">
+          <div class="offer-check">✓</div>
           <svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         </div>
-        <h4>WhatsApp</h4>
-        <p>SMS Verification</p>
-      </div>
-      <div class="service-card">
-        <div class="service-logo">
+
+        <div class="offer-tile">
+          <div class="offer-check">✓</div>
+          <svg viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="tinderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FD267D"/>
+                <stop offset="100%" stop-color="#FF6036"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#tinderGrad)" d="M12.5 2c-1.3 1.7-4 4.9-4 8.3 0 2.3 1.6 4.2 3.6 4.2 1.7 0 3-1.2 3.4-2.8.2 1.7 1.5 3.6 1.5 5.6 0 2.7-2.4 4.7-5 4.7-3.2 0-5.5-2.4-5.5-5.5 0-3.2 2.5-5.5 5.5-7.5-.3 1.3-.9 2.5-1.6 3.6.6-.5 1.4-1.3 1.4-1.3s.1.5.5 1c.5-.6.7-1.3.7-1.3s.6.7 1 1.3c.6-1 .9-2 .7-3.2-.2-1.3-1-2.4-1.7-3.4-.2-.3-.5-.7-.5-1z"/>
+          </svg>
+        </div>
+
+        <div class="offer-tile">
+          <div class="offer-check">✓</div>
+          <svg viewBox="0 0 24 24">
+            <path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.77.77 0 0 1 .76-.649h6.823c2.187 0 3.84.44 4.88 1.318 1.093.92 1.55 2.28 1.354 4.045-.045.415-.115.813-.207 1.194-.115.47-.257.916-.423 1.34-.83 2.18-2.42 3.62-4.727 4.28-.87.247-1.83.372-2.855.372H8.94a.996.996 0 0 0-.985.84l-.063.36-.707 4.478-.03.242a.996.996 0 0 1-.985.84h-.09z"/>
+            <path fill="#009CDE" d="M21.26 8.532c-.025.163-.052.328-.083.497-.77 3.918-3.402 5.273-6.77 5.273h-1.71a.83.83 0 0 0-.82.7l-.94 5.916-.267 1.686a.43.43 0 0 0 .427.497h3.05a.73.73 0 0 0 .722-.615l.03-.155.574-3.617.037-.198a.73.73 0 0 1 .722-.617h.455c2.947 0 5.253-1.187 5.927-4.62.282-1.433.135-2.63-.61-3.47a2.9 2.9 0 0 0-.744-.537z"/>
+          </svg>
+        </div>
+
+        <div class="offer-tile">
+          <div class="offer-check">✓</div>
+          <svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        </div>
+
+        <div class="offer-tile">
+          <div class="offer-check">✓</div>
+          <svg viewBox="0 0 24 24" fill="#229ED9"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </div>
+
+        <div class="offer-tile">
+          <div class="offer-check">✓</div>
           <svg viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -815,57 +871,13 @@
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
           </svg>
         </div>
-        <h4>Google</h4>
-        <p>SMS Verification</p>
-      </div>
-      <div class="service-card">
-        <div class="service-logo">
-          <svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-        </div>
-        <h4>Discord</h4>
-        <p>SMS Verification</p>
-      </div>
-      <div class="service-card">
-        <div class="service-logo">
-          <svg viewBox="0 0 24 24" fill="#000000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </div>
-        <h4>Twitter / X</h4>
-        <p>SMS Verification</p>
-      </div>
-      <div class="service-card">
-        <div class="service-logo">
-          <svg viewBox="0 0 24 24" fill="#000000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-        </div>
-        <h4>TikTok</h4>
-        <p>SMS Verification</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- COUNTRIES -->
-<section class="countries-section" id="countries">
-  <div class="section-center">
-    <div class="section-head">
-      <h2>Available <span>Countries</span></h2>
-      <p>Choose from our extensive list of supported countries.</p>
-    </div>
-    <div class="countries-grid">
-      <div class="country-card"><div class="country-flag">🇺🇸</div><div><div class="country-name">United States</div><div class="country-count">50K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇬🇧</div><div><div class="country-name">United Kingdom</div><div class="country-count">30K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇩🇪</div><div><div class="country-name">Germany</div><div class="country-count">25K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇫🇷</div><div><div class="country-name">France</div><div class="country-count">20K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇳🇱</div><div><div class="country-name">Netherlands</div><div class="country-count">15K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇨🇦</div><div><div class="country-name">Canada</div><div class="country-count">18K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇦🇺</div><div><div class="country-name">Australia</div><div class="country-count">12K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇮🇳</div><div><div class="country-name">India</div><div class="country-count">40K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇧🇷</div><div><div class="country-name">Brazil</div><div class="country-count">22K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇵🇭</div><div><div class="country-name">Philippines</div><div class="country-count">28K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇮🇩</div><div><div class="country-name">Indonesia</div><div class="country-count">32K+ numbers</div></div></div>
-      <div class="country-card"><div class="country-flag">🇪🇸</div><div><div class="country-name">Spain</div><div class="country-count">18K+ numbers</div></div></div>
-    </div>
-    <div style="text-align:center; margin-top: 40px;">
-      <a href="signup.html" class="btn-hero-primary" style="display:inline-flex;">📍 View All 175+ Countries →</a>
+        <div class="offer-tile">
+          <div class="offer-check">✓</div>
+          <svg viewBox="0 0 24 24" fill="#000000"><path d="M.045 18.02c.072-.116.187-.124.348-.022 3.636 2.11 7.594 3.166 11.874 3.166 2.852 0 5.668-.533 8.447-1.598l.33-.116c.15-.04.322-.056.518-.05.195.006.322.038.38.098.06.06.04.145-.06.254l-.24.222c-.42.408-.94.79-1.56 1.148-1.7.98-3.56 1.616-5.585 1.905-.39.057-.786.084-1.186.084-.4 0-.8-.018-1.2-.057-1.74-.216-3.35-.702-4.83-1.458-1.48-.756-2.79-1.79-3.93-3.102l-.1-.116c-.1-.12-.145-.26-.135-.42.01-.16.06-.29.15-.39z"/><path fill="#FF9900" d="M21.894 2.05c.31 0 .555.146.735.438.18.292.24.628.18 1.008-.376 2.4-1.386 4.6-3.03 6.6-1.644 2-3.612 3.35-5.904 4.05-.502.15-1.026.24-1.572.27-.546.03-1.087-.003-1.623-.1-.15-.03-.24-.11-.27-.24-.03-.13.024-.235.162-.315.138-.08.3-.13.486-.15 2.436-.36 4.476-1.44 6.12-3.24 1.644-1.8 2.655-3.96 3.033-6.48.024-.16.073-.278.147-.354.074-.076.16-.114.258-.114.05 0 .1.007.15.021z"/></svg>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -874,30 +886,21 @@
 <section class="cta-section" id="get-started">
   <h2>Get started today</h2>
   <p>Sign-up is quick, free and easy. We respect your privacy. Your account will be ready to use within minutes.</p>
-  <a href="signup.html" class="btn-hero-primary">Sign up now →</a>
+  <a href="signup.html" class="btn-cta-white">Sign up now</a>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <h3><span style="display:inline-flex;width:30px;height:30px;background:linear-gradient(135deg,var(--pink),var(--pink-dark));border-radius:8px;align-items:center;justify-content:center;font-size:16px;">A</span> Arknet<span>SMS</span></h3>
-      <p>Instant virtual phone numbers for SMS verification. USA, Canada, UK and 175+ countries supported.</p>
+  <div class="footer-inner">
+    <div class="footer-brand-block">
+      <div class="footer-logo">
+        <div class="footer-logo-mark">A</div>
+        Arknet <span>SMS</span>
+      </div>
+      <p class="footer-tagline">Instant virtual phone numbers for SMS verification. USA, Canada, UK and 175+ countries supported.</p>
     </div>
-    <div class="footer-col">
-      <h4>Support</h4>
-      <a href="https://wa.me/2349168165484" target="_blank">WhatsApp Channel</a>
-      <a href="https://wa.me/2349168165484" target="_blank">Contact Us</a>
-      <a href="#">Help Center</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="#why">Why Us</a>
-      <a href="#countries">Countries</a>
-      <a href="#how">How It Works</a>
-    </div>
+    <div class="footer-bottom">© 2026 Arknet SMS. All Rights Reserved.</div>
   </div>
-  <div class="footer-bottom">© 2026 Arknet SMS. All Rights Reserved.</div>
 </footer>
 
 </body>
