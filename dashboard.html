@@ -40,7 +40,7 @@
     background: linear-gradient(135deg, var(--brown-dark), var(--brown));
     color: white;
     border-radius: 18px;
-    padding: 26px 24px;
+    padding: 24px 22px;
     margin-bottom: 22px;
     position: relative;
     overflow: hidden;
@@ -62,26 +62,19 @@
     border-radius: 50%;
   }
   .welcome h1 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
     line-height: 1.3;
     position: relative;
-    margin-bottom: 6px;
   }
   .welcome h1 span { color: var(--pink-light); }
-  .welcome p {
-    font-size: 13px;
-    color: #e8d5cc;
-    position: relative;
-    line-height: 1.5;
-  }
 
-  /* ACTION CARDS */
+  /* ACTION CARDS (3 in a row) */
   .actions-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
   }
 
   .action-card {
@@ -116,27 +109,66 @@
     letter-spacing: 0.5px; text-transform: uppercase;
   }
 
-  /* HOW TO USE SECTION */
-  .how-section {
+  /* HOW TO USE BUTTON */
+  .how-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1.5px solid #93c5fd;
+    border-radius: 16px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: 0.25s;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 22px;
+    width: 100%;
+    font-family: inherit;
+    text-align: left;
+  }
+  .how-btn:hover {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-color: #60a5fa;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.15);
+  }
+  .hb-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: var(--blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .hb-text { flex: 1; }
+  .hb-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1e40af;
+    margin-bottom: 3px;
+  }
+  .hb-sub {
+    font-size: 12px;
+    color: #1d4ed8;
+  }
+  .hb-arrow {
+    font-size: 22px;
+    color: #1d4ed8;
+    font-weight: 800;
+  }
+
+  /* HOW TO USE VIEW (expanded) */
+  .how-view {
     background: var(--white);
     border: 1px solid #f5e6e0;
     border-radius: 16px;
     padding: 22px 20px;
     margin-bottom: 22px;
-  }
-  .how-title {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--brown-dark);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-  .how-sub {
-    font-size: 12px;
-    color: var(--brown-light);
-    margin-bottom: 16px;
   }
   .how-item {
     display: flex;
@@ -151,22 +183,21 @@
   .how-item:last-child { border-bottom: none; }
   .how-item:hover {
     background: var(--pink-soft);
-    margin: 0 -12px;
-    padding-left: 12px;
-    padding-right: 12px;
+    margin: 0 -10px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 10px;
   }
   .hi-icon {
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     border-radius: 12px;
     background: linear-gradient(135deg, var(--pink-soft), #fce7f3);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 22px;
     flex-shrink: 0;
-    color: var(--pink);
   }
   .hi-text { flex: 1; }
   .hi-title {
@@ -180,58 +211,40 @@
     color: var(--brown-light);
   }
   .hi-arrow {
-    font-size: 18px;
+    font-size: 20px;
     color: var(--pink);
     font-weight: 800;
   }
 
   /* SUPPORT BUTTON */
-  .support-btn {
+  .support-item {
     display: flex;
     align-items: center;
     gap: 14px;
-    background: #ecfdf5;
-    border: 1.5px solid #a7f3d0;
-    border-radius: 16px;
-    padding: 18px 20px;
-    cursor: pointer;
-    transition: 0.25s;
+    padding: 14px 0;
     text-decoration: none;
     color: inherit;
-    margin-bottom: 22px;
+    transition: 0.2s;
+    border-bottom: none;
   }
-  .support-btn:hover {
-    background: #d1fae5;
-    border-color: #6ee7b7;
-    transform: translateY(-2px);
+  .support-item:hover {
+    background: #ecfdf5;
+    margin: 0 -10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
   }
-  .sb-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 14px;
+  .si-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
     background: #25D366;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-  }
-  .sb-text { flex: 1; }
-  .sb-title {
-    font-size: 15px;
-    font-weight: 800;
-    color: #065f46;
-    margin-bottom: 3px;
-  }
-  .sb-sub {
-    font-size: 12px;
-    color: #047857;
-  }
-  .sb-arrow {
     font-size: 22px;
-    color: #047857;
-    font-weight: 800;
+    flex-shrink: 0;
   }
 
   /* SECTION */
@@ -266,7 +279,7 @@
   .empty h3 { color: var(--brown-dark); font-size: 15px; margin-bottom: 6px; }
   .empty p { color: var(--brown-light); font-size: 13px; }
 
-  /* GREETING (for profile) */
+  /* GREETING (for profile / how view) */
   .greeting { margin-bottom: 20px; }
   .greeting h1 { font-size: 22px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px; }
   .greeting h1 span { color: var(--pink); }
@@ -323,8 +336,8 @@
   .bn-item.logout { color: #dc2626; }
 
   @media (max-width: 600px) {
-    .welcome { padding: 22px 20px; }
-    .welcome h1 { font-size: 20px; }
+    .welcome { padding: 20px 18px; }
+    .welcome h1 { font-size: 19px; }
     .actions-grid { gap: 10px; }
     .action-card { padding: 16px 6px 14px; border-radius: 16px; min-height: 118px; gap: 8px; }
     .action-card .ac-icon { width: 46px; height: 46px; font-size: 20px; border-radius: 14px; }
@@ -355,7 +368,6 @@
     <!-- WELCOME -->
     <div class="welcome">
       <h1>You're welcome, <span id="welcomeName">User</span> 👋</h1>
-      <p>We're glad to have you on Arknet SMS.</p>
     </div>
 
     <!-- 3 CARDS: USA · All Countries · Social Media -->
@@ -378,48 +390,15 @@
       </div>
     </div>
 
-    <!-- HOW TO USE -->
-    <div class="how-section">
-      <div class="how-title">📖 How to Use Our Website</div>
-      <div class="how-sub">Quick tutorials to get started</div>
-
-      <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="how-item" data-video="deposit">
-        <div class="hi-icon">💰</div>
-        <div class="hi-text">
-          <div class="hi-title">How to Deposit Funds</div>
-          <div class="hi-sub">Watch video tutorial</div>
-        </div>
-        <div class="hi-arrow">›</div>
-      </a>
-
-      <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="how-item" data-video="usa">
-        <div class="hi-icon">🇺🇸</div>
-        <div class="hi-text">
-          <div class="hi-title">How to Buy USA Numbers</div>
-          <div class="hi-sub">Watch video tutorial</div>
-        </div>
-        <div class="hi-arrow">›</div>
-      </a>
-
-      <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="how-item" data-video="countries">
-        <div class="hi-icon">🌍</div>
-        <div class="hi-text">
-          <div class="hi-title">How to Buy All Countries Numbers</div>
-          <div class="hi-sub">Watch video tutorial</div>
-        </div>
-        <div class="hi-arrow">›</div>
-      </a>
-    </div>
-
-    <!-- SUPPORT BUTTON -->
-    <a href="https://wa.me/2349168165484" target="_blank" rel="noopener" class="support-btn">
-      <div class="sb-icon">💬</div>
-      <div class="sb-text">
-        <div class="sb-title">Need Help? Contact Us</div>
-        <div class="sb-sub">Chat with us on WhatsApp</div>
+    <!-- HOW TO USE BUTTON -->
+    <button class="how-btn" id="howToUseBtn">
+      <div class="hb-icon">📖</div>
+      <div class="hb-text">
+        <div class="hb-title">How to Use Our Website</div>
+        <div class="hb-sub">Quick tutorials to get started</div>
       </div>
-      <div class="sb-arrow">›</div>
-    </a>
+      <div class="hb-arrow">›</div>
+    </button>
 
     <!-- RECENT ACTIVATIONS -->
     <div class="section">
@@ -443,6 +422,53 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <!-- ============ HOW TO USE VIEW ============ -->
+  <div class="view" id="view-howto">
+    <div class="greeting">
+      <h1>📖 How to <span>Use</span></h1>
+      <p>Quick video tutorials to get you started.</p>
+    </div>
+    <button class="back-btn" data-back>← Back to Dashboard</button>
+
+    <div class="how-view">
+      <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="how-item">
+        <div class="hi-icon">💰</div>
+        <div class="hi-text">
+          <div class="hi-title">How to Deposit Funds</div>
+          <div class="hi-sub">Watch video tutorial</div>
+        </div>
+        <div class="hi-arrow">›</div>
+      </a>
+
+      <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="how-item">
+        <div class="hi-icon">🇺🇸</div>
+        <div class="hi-text">
+          <div class="hi-title">How to Buy USA Numbers</div>
+          <div class="hi-sub">Watch video tutorial</div>
+        </div>
+        <div class="hi-arrow">›</div>
+      </a>
+
+      <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="how-item">
+        <div class="hi-icon">🌍</div>
+        <div class="hi-text">
+          <div class="hi-title">How to Buy All Countries Numbers</div>
+          <div class="hi-sub">Watch video tutorial</div>
+        </div>
+        <div class="hi-arrow">›</div>
+      </a>
+
+      <a href="https://wa.me/2349168165484" target="_blank" rel="noopener" class="support-item">
+        <div class="si-icon">💬</div>
+        <div class="hi-text">
+          <div class="hi-title" style="color: #065f46;">Need Help? Contact Us</div>
+          <div class="hi-sub" style="color: #047857;">Chat with us on WhatsApp</div>
+        </div>
+        <div class="hi-arrow" style="color: #047857;">›</div>
+      </a>
     </div>
   </div>
 
@@ -556,6 +582,9 @@
   document.querySelectorAll('[data-back]').forEach(btn => {
     btn.addEventListener('click', () => showView('dashboard'));
   });
+
+  // HOW TO USE button
+  document.getElementById('howToUseBtn').addEventListener('click', () => showView('howto'));
 
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login.html'; return; }
