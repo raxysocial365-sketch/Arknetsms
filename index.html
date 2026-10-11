@@ -27,14 +27,17 @@
     --green-border: #bbf7d0;
   }
   body { background: var(--cream); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  a { text-decoration: none; }
+  a { text-decoration: none; color: inherit; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-  /* HEADER */
+  /* ============================================
+     HEADER
+     ============================================ */
   header {
     background: var(--white);
     padding: 16px 5%;
     display: flex; justify-content: space-between; align-items: center;
-    position: sticky; top: 0; z-index: 100;
+    position: sticky; top: 0; z-index: 500;
     border-bottom: 1px solid var(--border);
     gap: 12px;
   }
@@ -51,25 +54,88 @@
     box-shadow: 0 6px 16px rgba(236,72,153,0.35);
   }
   .logo span { color: var(--pink); }
-  nav { display: flex; align-items: center; gap: 26px; }
+
+  nav { display: flex; align-items: center; gap: 26px; margin-left: auto; margin-right: 16px; }
   nav a.nav-link { color: var(--brown-dark); font-weight: 500; font-size: 14px; transition: color 0.2s; }
   nav a.nav-link:hover { color: var(--pink); }
-  .nav-btns { display: flex; gap: 10px; }
-  .btn-login {
-    padding: 10px 20px; border: 1.5px solid var(--brown-dark); border-radius: 10px;
-    color: var(--brown-dark); font-weight: 700; font-size: 13.5px;
-    transition: 0.2s; background: white; white-space: nowrap;
-  }
-  .btn-login:hover { background: var(--brown-dark); color: white; }
-  .btn-signup {
-    padding: 10px 20px; background: var(--pink); border-radius: 10px;
-    color: white; font-weight: 700; font-size: 13.5px;
-    transition: 0.2s; border: 1.5px solid var(--pink); white-space: nowrap;
-    box-shadow: 0 6px 16px rgba(236,72,153,0.28);
-  }
-  .btn-signup:hover { background: var(--pink-dark); border-color: var(--pink-dark); transform: translateY(-1px); }
 
-  /* HERO */
+  /* Hamburger button */
+  .menu-btn {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 5px; padding: 10px; cursor: pointer;
+    transition: 0.2s;
+    flex-shrink: 0;
+  }
+  .menu-btn:hover { background: var(--pink-soft); border-color: var(--pink-light); }
+  .menu-btn span {
+    display: block; width: 20px; height: 2px;
+    background: var(--brown-dark); border-radius: 2px;
+    transition: 0.25s;
+  }
+  .menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-btn.active span:nth-child(2) { opacity: 0; }
+  .menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Dropdown menu */
+  .mobile-menu {
+    position: fixed;
+    top: 78px; right: 16px;
+    width: 250px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(74,44,42,0.18);
+    padding: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: 0.25s;
+    z-index: 400;
+  }
+  .mobile-menu.show {
+    opacity: 1; pointer-events: auto; transform: translateY(0);
+  }
+  .mm-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    color: var(--brown-dark);
+    font-weight: 700; font-size: 14px;
+    transition: 0.2s;
+  }
+  .mm-item:hover { background: var(--pink-soft); color: var(--pink); }
+  .mm-icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    background: var(--pink-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .mm-divider {
+    height: 1px; background: var(--border);
+    margin: 6px 12px;
+  }
+
+  /* Overlay */
+  .menu-overlay {
+    position: fixed; inset: 0;
+    background: rgba(74,44,42,0.35);
+    backdrop-filter: blur(2px);
+    opacity: 0; pointer-events: none;
+    transition: 0.25s;
+    z-index: 399;
+  }
+  .menu-overlay.show { opacity: 1; pointer-events: auto; }
+
+  /* ============================================
+     HERO — Brown gradient
+     ============================================ */
   .hero {
     background:
       radial-gradient(circle at 80% 0%, rgba(236,72,153,0.28) 0%, transparent 55%),
@@ -149,7 +215,7 @@
   }
   .btn-hero-outline:hover { background: rgba(249,168,212,0.1); border-color: var(--pink-light); }
 
-  /* HERO STATS — 2x2 grid */
+  /* Stats 2x2 grid */
   .hero-stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -175,7 +241,7 @@
   .hero-stat-text { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.2; }
   .hero-stat-text small { display: block; font-size: 11px; color: #d4b5a8; font-weight: 500; margin-top: 2px; }
 
-  /* LIVE SMS FEED */
+  /* Live SMS Feed */
   .hero-visual { position: relative; padding: 20px; max-width: 480px; width: 100%; margin: auto; }
   .live-feed {
     background: var(--white);
@@ -254,7 +320,9 @@
     50% { transform: translateY(-8px); }
   }
 
-  /* SECTIONS */
+  /* ============================================
+     SECTIONS COMMON
+     ============================================ */
   section { padding: 80px 5%; }
   .section-center { max-width: 1200px; margin: auto; }
   .section-head { text-align: center; margin-bottom: 55px; }
@@ -270,7 +338,7 @@
     line-height: 1.65;
   }
 
-  /* FEATURES — 2x2 */
+  /* FEATURES — 2x2 grid */
   .features-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -311,7 +379,6 @@
   .stats-section .section-head h2 span { color: var(--pink-light); }
   .stats-section .section-head p { color: #d4b5a8; }
 
-  /* STATS CARDS — 2x2 grid */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -409,10 +476,7 @@
     padding: 18px;
     transition: 0.3s;
   }
-  .offer-tile:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 24px rgba(34,197,94,0.18);
-  }
+  .offer-tile:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(34,197,94,0.18); }
   .offer-tile svg { width: 60%; height: 60%; }
   .offer-check {
     position: absolute;
@@ -503,16 +567,14 @@
     section { padding: 60px 5%; }
     .features-grid, .steps-grid, .stats-grid { gap: 16px; }
   }
-
-  /* ============================================
-     MOBILE — all 4-box sections stay 2x2 (1-2 / 3-4)
-     ============================================ */
   @media (max-width: 560px) {
     header { padding: 12px 4%; gap: 8px; }
     .logo { font-size: 18px; }
     .logo-mark { width: 30px; height: 30px; font-size: 16px; }
-    nav { gap: 6px; }
-    .btn-login, .btn-signup { padding: 8px 13px; font-size: 12px; }
+    .menu-btn { width: 40px; height: 40px; padding: 9px; }
+    .menu-btn span { width: 18px; }
+    .mobile-menu { top: 68px; right: 12px; width: 230px; }
+
     .hero { padding: 50px 5% 70px; }
     .hero-badge { font-size: 12px; padding: 8px 14px; }
     .hero h1 { font-size: 32px; letter-spacing: -1px; }
@@ -531,50 +593,31 @@
     .footer-logo-mark { width: 36px; height: 36px; font-size: 18px; }
     .footer-tagline { font-size: 14px; }
 
-    /* ========== ALL 4-BOX GRIDS STAY 2x2 on mobile ========== */
-
-    /* 1. Hero stats — 1-2 / 3-4 */
-    .hero-stats {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 40px;
-    }
+    /* All 4-box grids stay 2x2 on mobile */
+    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 40px; }
     .hero-stat { padding: 10px 8px; gap: 7px; border-radius: 12px; }
     .hero-stat-num { width: 26px; height: 26px; font-size: 12px; border-radius: 7px; }
     .hero-stat-text { font-size: 11px; }
     .hero-stat-text small { font-size: 9.5px; }
 
-    /* 2. Why Choose (features) — 1-2 / 3-4 */
-    .features-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+    .features-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .feature-card { padding: 20px 16px; border-radius: 14px; }
     .feature-icon { width: 42px; height: 42px; font-size: 20px; border-radius: 11px; margin-bottom: 14px; }
     .feature-card h3 { font-size: 15px; margin-bottom: 8px; }
     .feature-card p { font-size: 12.5px; line-height: 1.5; }
 
-    /* 3. Stats — 1-2 / 3-4 */
-    .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .stat-card { padding: 24px 14px; border-radius: 16px; }
     .stat-icon { font-size: 30px; margin-bottom: 12px; }
     .stat-num { font-size: 28px; letter-spacing: -1px; margin-bottom: 4px; }
     .stat-label { font-size: 12.5px; }
 
-    /* 4. How It Works — 1-2 / 3-4 */
-    .steps-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .step-card { padding: 20px 16px; border-radius: 14px; }
     .step-num { font-size: 34px; margin-bottom: 10px; letter-spacing: -1.5px; }
     .step-card h3 { font-size: 15px; margin-bottom: 8px; }
     .step-card p { font-size: 12.5px; line-height: 1.5; }
 
-    /* 5. What we offer — 4 columns still (icons are small squares) */
     .offer-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
     .offer-box { padding: 16px 12px; border-radius: 16px; }
     .offer-tile { padding: 10px; border-radius: 11px; }
@@ -589,22 +632,38 @@
     <div class="logo-mark">A</div>
     Arknet<span>SMS</span>
   </div>
+
   <nav>
     <a href="#why" class="nav-link">Why Us</a>
     <a href="#stats" class="nav-link">Stats</a>
     <a href="#how" class="nav-link">How It Works</a>
     <a href="#countries" class="nav-link">Countries</a>
-    <div class="nav-btns">
-      <a href="login.html" class="btn-login">Sign in</a>
-      <a href="signup.html" class="btn-signup">Create Account</a>
-    </div>
   </nav>
+
+  <button class="menu-btn" id="menuBtn" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </header>
+
+<!-- MOBILE MENU DROPDOWN -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="login.html" class="mm-item">
+    <span class="mm-icon">🔐</span>
+    <span>Login Account</span>
+  </a>
+  <a href="signup.html" class="mm-item">
+    <span class="mm-icon">✨</span>
+    <span>Create Account</span>
+  </a>
+</div>
+<div class="menu-overlay" id="menuOverlay"></div>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-badge">Receive SMS &amp; OTP from 3,650+ services</div>
+    <div class="hero-badge">Receive SMS &amp; OTP from 1,900+ services</div>
 
     <h1>Don't want to give out your phone number? No problem. Use <span class="accent">ours.</span></h1>
 
@@ -749,23 +808,23 @@
     <div class="stats-grid">
       <div class="stat-card">
         <span class="stat-icon">👤</span>
-        <div class="stat-num">100K+</div>
+        <div class="stat-num">150K+</div>
         <div class="stat-label">Active Users</div>
       </div>
       <div class="stat-card">
         <span class="stat-icon">💬</span>
-        <div class="stat-num">5.5M+</div>
+        <div class="stat-num">1.2M+</div>
         <div class="stat-label">SMS Verified</div>
       </div>
       <div class="stat-card">
         <span class="stat-icon">🌐</span>
-        <div class="stat-num">138+</div>
+        <div class="stat-num">175+</div>
         <div class="stat-label">Countries</div>
       </div>
       <div class="stat-card">
         <span class="stat-icon">⭐</span>
-        <div class="stat-num">4.9</div>
-        <div class="stat-label">Site Rating</div>
+        <div class="stat-num">4.8</div>
+        <div class="stat-label">App Rating</div>
       </div>
     </div>
   </div>
@@ -900,11 +959,28 @@
         <div class="footer-logo-mark">A</div>
         Arknet <span>SMS</span>
       </div>
-      <p class="footer-tagline">Instant virtual phone numbers for SMS verification. USA, Canada, UK and 138+ countries supported.</p>
+      <p class="footer-tagline">Instant virtual phone numbers for SMS verification. USA, Canada, UK and 175+ countries supported.</p>
     </div>
     <div class="footer-bottom">© 2026 Arknet SMS. All Rights Reserved.</div>
   </div>
 </footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+
+  menuBtn.addEventListener('click', () => {
+    menuBtn.classList.toggle('active');
+    mobileMenu.classList.toggle('show');
+    menuOverlay.classList.toggle('show');
+  });
+  menuOverlay.addEventListener('click', () => {
+    menuBtn.classList.remove('active');
+    mobileMenu.classList.remove('show');
+    menuOverlay.classList.remove('show');
+  });
+</script>
 
 </body>
 </html>
